@@ -115,7 +115,7 @@ CHAPTERS.push(
 },
 {
   id: "grk-persia", set: "ancient-greece", act: "Persia", title: "Persia Comes West", era: "499 – 479 BC", minutes: 7,
-  unlocksSets: ["persia"],
+  revealsSets: ["persia"],
   intro: "Why the largest empire on earth twice sent armies against a few hundred quarrelling towns — and what surviving did to them.",
   beats: [
     { title: "The Ionian Revolt",

@@ -43,7 +43,7 @@ const CHAPTER_SPANS = {
 
 /* ------------------------------ save --------------------------------- */
 const SAVE_KEY = "codex-antiquus-save-v3";
-const BLANK_SAVE = { chaptersDone: {}, beatMax: {}, bookmark: null, recentKeys: [], keyCount: 0 };
+const BLANK_SAVE = { chaptersDone: {}, beatMax: {}, bookmark: null, recentKeys: [], keyCount: 0, patron: null };
 
 function loadSave() {
   try {
@@ -58,7 +58,7 @@ function persist(save) {
 
 /* ---------------------------- unlocking ------------------------------ */
 // A tier is minted only when EVERY chapter it requires is complete.
-function computeCards(chaptersDone) {
+function computeCards(chaptersDone, patron) {
   const out = {};
   for (const id of ALL_CHARACTER_IDS) {
     const c = CHARACTERS[id];
@@ -70,15 +70,67 @@ function computeCards(chaptersDone) {
     }
     if (earned) out[id] = earned;
   }
+  /* The patron of the Set you chose to begin with is granted at Bronze.
+     It is the one card in the app that is given rather than earned, once
+     per playthrough, and it is deliberate: choosing where to start should
+     feel like taking someone's side. A card already earned higher keeps
+     its tier. */
+  if (patron && SETS[patron] && SETS[patron].patron && !out[SETS[patron].patron])
+    out[SETS[patron].patron] = "bronze";
   return out;
 }
 
+/* Every Set whose opening chapter stands on its own is a `foundation` and
+   needs no unlock at all. History is not a tree with Rome at the root —
+   that was an accident of which Set happened to be written first.
+
+   `revealsSets` is a signpost, not a gate: finishing "Rome Meets Carthage"
+   marks Carthage as somewhere you have now encountered, but Carthage was
+   always open. Genuine prerequisites use `requiresSets`, and there are
+   very few of them — the Roman Empire needs the Republic, and that is
+   about the size of it. */
 function unlockedSets(chaptersDone) {
-  const out = { "roman-republic": true, wars: true };
+  const out = { wars: true };
+  for (const id of Object.keys(SETS)) if (SETS[id].foundation) out[id] = true;
   for (const ch of CHAPTERS) {
-    if (chaptersDone[ch.id] && ch.unlocksSets) ch.unlocksSets.forEach((s) => { out[s] = true; });
+    if (!chaptersDone[ch.id]) continue;
+    (ch.revealsSets || []).forEach((s) => { out[s] = true; });
+  }
+  for (const id of Object.keys(SETS)) {
+    const req = SETS[id].requiresSets;
+    if (req && !req.every((r) => setProgress(r, chaptersDone).pct === 100)) delete out[id];
   }
   return out;
+}
+
+/* Which Sets you have merely been pointed at, and by what. */
+function revealedBy(setId, chaptersDone) {
+  return CHAPTERS.filter((c) => chaptersDone[c.id] && (c.revealsSets || []).includes(setId));
+}
+
+/* ------------------------- order within a Set ------------------------ */
+/* The real risk of muddling was never which civilisation you pick, it is
+   reading a society's end before its beginning. So order is enforced
+   here, by act, rather than between Sets. Finish an act to open the next;
+   within an act, read in whatever order you like. */
+
+function actsOf(setId) {
+  const out = [];
+  for (const c of CHAPTERS_BY_SET[setId] || []) if (!out.includes(c.act)) out.push(c.act);
+  return out;
+}
+
+function actOpen(setId, act, chaptersDone) {
+  const acts = actsOf(setId);
+  const i = acts.indexOf(act);
+  if (i <= 0) return true;
+  const prev = acts[i - 1];
+  return (CHAPTERS_BY_SET[setId] || []).filter((c) => c.act === prev).every((c) => chaptersDone[c.id]);
+}
+
+function chapterOpen(ch, chaptersDone) {
+  if (ch.kind === "war") return warGate(ch, chaptersDone).open;
+  return actOpen(ch.set, ch.act, chaptersDone);
 }
 
 function setProgress(setId, chaptersDone) {
@@ -100,7 +152,13 @@ function warGate(war, chaptersDone) {
 
 function displayName(c, tier) { return tier === "gold" && c.goldName ? c.goldName : c.name; }
 function initials(name) {
-  return name.replace(/[^A-Za-z& ]/g, "").split(" ").filter(Boolean).map((w) => w[0]).slice(0, 2).join("");
+  /* Drop punctuation, then lower-case connectives ("the", "of") and lone
+     numerals, so "Cyrus the Great" reads CG rather than Ct and
+     "Ptolemy I Soter" reads PS rather than PI. */
+  const words = name.replace(/[^A-Za-z ]/g, " ").split(" ").filter((w) => w.length > 1);
+  const strong = words.filter((w) => w[0] === w[0].toUpperCase());
+  const use = strong.length ? strong : words;
+  return use.map((w) => w[0]).slice(0, 2).join("") || name.slice(0, 1).toUpperCase();
 }
 
 function nextTierInfo(c, cards, chaptersDone) {

@@ -1,5 +1,58 @@
 /* =========================== SCREENS ================================ */
 
+/* ======================= WHERE TO BEGIN ============================= */
+/* Shown once, from a blank save. History has no single starting point,
+   so the app stopped pretending Rome was it. Every foundation Set opens
+   on its own terms; picking one grants its patron at Bronze. */
+
+function BeginScreen({ onChoose }) {
+  const foundations = Object.keys(SETS).filter((id) => SETS[id].foundation && (CHAPTERS_BY_SET[id] || []).length);
+
+  return <div className="max-w-3xl mx-auto px-4 py-10 hcg-fade">
+    <div className="hcg-tab mb-2" style={{ color: "var(--bronze-glow)" }}>BEGIN</div>
+    <h1 className="hcg-display mb-2" style={{ fontSize: 28 }}>Whose side are you on?</h1>
+    <p style={{ color: "var(--parchment-dim)", marginBottom: 6, maxWidth: "44rem" }}>
+      Pick the society you want to start with. This is not a difficulty setting and it closes nothing off —
+      every one of these stands on its own, and you can open any of the others whenever you like.
+    </p>
+    <p style={{ color: "var(--parchment-dim)", marginBottom: 22, maxWidth: "44rem" }}>
+      What it does decide is <i>whose account you hear first</i>, which in this period matters more than it sounds.
+      Read Carthage before Rome and the Punic Wars are a different story.
+    </p>
+
+    <div className="flex flex-col gap-3">
+      {foundations.map((id) => {
+        const s = SETS[id], a = SET_ATLAS[id], p = CHARACTERS[s.patron];
+        const n = (CHAPTERS_BY_SET[id] || []).length;
+        return <button key={id} onClick={() => onChoose(id)}
+          className="hcg-panel rounded-lg p-5 text-left hover:brightness-110">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="hcg-display" style={{ fontSize: 19 }}>{s.name}</span>
+            <span className="hcg-mono" style={{ fontSize: 10, color: "var(--parchment-dim)" }}>
+              {yearLabel(a.from)} – {yearLabel(a.to)} · {n} chapters
+            </span>
+          </div>
+          <div style={{ fontSize: 14, color: "var(--parchment-dim)", marginTop: 4 }}>{s.tagline}</div>
+          <div className="flex items-center gap-2.5 mt-3.5">
+            <Medallion tier="bronze" label={initials(p.name)} size={34} mythic={p.mythic} />
+            <div>
+              <div className="hcg-mono" style={{ fontSize: 9, color: "var(--bronze-glow)" }}>YOUR PATRON</div>
+              <div style={{ fontSize: 14 }}>{p.name} <span style={{ color: "var(--parchment-dim)" }}>joins you at Bronze</span></div>
+            </div>
+            <ChevRight size={16} color="var(--parchment-dim)" style={{ marginLeft: "auto" }} />
+          </div>
+        </button>;
+      })}
+    </div>
+
+    <p className="hcg-mono" style={{ fontSize: 10.5, color: "var(--parchment-dim)", marginTop: 20 }}>
+      Wars stay sealed until you have studied both sides, whichever order you meet them in.
+    </p>
+  </div>;
+}
+
+
+
 function ResumeRibbon({ save, onResume }) {
   if (!save.bookmark) return null;
   const ch = CHAPTER_BY_ID[save.bookmark.chapterId];
@@ -126,14 +179,23 @@ function SetScreen({ setId, save, cards, onHome, onWorld, onOpenChapter, onResum
 
     <ResumeRibbon save={save} onResume={onResume} />
 
-    {Object.keys(acts).map((act) => <div key={act} className="mb-7">
-      <div className="hcg-tab mb-3" style={{ color: "var(--bronze-glow)" }}>{act.toUpperCase()}</div>
+    {Object.keys(acts).map((act, ai) => {
+      const openAct = actOpen(setId, act, save.chaptersDone);
+      const prevAct = Object.keys(acts)[ai - 1];
+      return <div key={act} className="mb-7">
+      <div className="flex items-center gap-2 mb-3">
+        <div className="hcg-tab" style={{ color: openAct ? "var(--bronze-glow)" : "var(--locked)" }}>{act.toUpperCase()}</div>
+        {!openAct && <span className="hcg-mono" style={{ fontSize: 9, color: "var(--parchment-dim)" }}>
+          FINISH {prevAct.toUpperCase()} FIRST</span>}
+      </div>
       <div className="flex flex-col gap-2">
         {acts[act].map((ch) => {
           const done = !!save.chaptersDone[ch.id];
           const partway = !done && save.beatMax[ch.id] !== undefined;
           const bm = save.bookmark && save.bookmark.chapterId === ch.id;
-          return <button key={ch.id} onClick={() => onOpenChapter(ch)} className="hcg-panel rounded-lg p-4 text-left flex items-center gap-3 hover:brightness-110">
+          return <button key={ch.id} disabled={!openAct} onClick={() => openAct && onOpenChapter(ch)}
+            className={`rounded-lg p-4 text-left flex items-center gap-3 ${openAct ? "hcg-panel hover:brightness-110" : "hcg-lockedcard"}`}
+            style={{ opacity: openAct ? 1 : .55, cursor: openAct ? "pointer" : "default" }}>
             <div style={{ width: 26, height: 26, borderRadius: 999, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center",
               background: done ? "var(--verdigris)" : "transparent", border: done ? "none" : "1px solid var(--hair)" }}>
               {done ? <CheckIcon size={14} color="#1B1710" /> : bm ? <BookmarkIcon size={12} filled color="var(--gold-glow)" /> : <span className="hcg-mono" style={{ fontSize: 10, color: "var(--parchment-dim)" }}>{chs.indexOf(ch) + 1}</span>}
@@ -141,14 +203,15 @@ function SetScreen({ setId, save, cards, onHome, onWorld, onOpenChapter, onResum
             <div className="flex-1 min-w-0">
               <div style={{ fontSize: 15.5 }}>{ch.title}</div>
               <div className="hcg-mono" style={{ fontSize: 10.5, color: "var(--parchment-dim)", marginTop: 2 }}>
-                {ch.era} · {ch.minutes} min{partway ? ` · part ${save.beatMax[ch.id] + 1} of ${ch.beats.length}` : ""}{ch.unlocksSets ? " · opens a new Set" : ""}
+                {ch.era} · {ch.minutes} min{partway ? ` · part ${save.beatMax[ch.id] + 1} of ${ch.beats.length}` : ""}{ch.revealsSets ? " · points somewhere new" : ""}
               </div>
             </div>
-            <ChevRight size={16} color="var(--parchment-dim)" />
+            {openAct ? <ChevRight size={16} color="var(--parchment-dim)" /> : <Lock size={14} color="var(--locked)" />}
           </button>;
         })}
       </div>
-    </div>)}
+    </div>;
+    })}
 
     <div className="hcg-tab mb-3" style={{ color: "var(--parchment-dim)" }}>FIGURES IN THIS SET · {roster.filter((id) => cards[id]).length}/{roster.length}</div>
     <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5">

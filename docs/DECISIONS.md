@@ -47,6 +47,41 @@ can wait.
 
 ## Content rules that shaped the structure
 
+### There is no single starting point
+History is not a tree, and for a while this app pretended it was one with Rome
+at the root. That was an accident of which Set happened to be written first,
+not a teaching decision, and it meant someone interested in Egypt had to read
+21 chapters of Rome to reach it — a problem that would have become indefensible
+the moment Ancient China or Mesoamerica was written.
+
+Sets whose opening chapter stands on its own are now marked `foundation` and
+need no unlock at all. The test is easy to apply honestly: Carthage opens in
+814 BC with its own founding, Persia with Cyrus, Greece with what a polis was.
+Only sequels — the Roman Empire needs the Republic — get a `requiresSets`.
+
+`unlocksSets` was doing two jobs at once and has been split. It is now
+`revealsSets`: a signpost saying *Rome met these people in 264 BC*, not a
+grant of permission, because Carthage was open all along.
+
+**What actually prevents muddling is the war gate, not Set gating.** Forcing
+two societies up to the same date before their war opens is the real
+safeguard, and it works whatever order you meet them in. Which civilisation
+you pick first is a matter of taste; Herodotus did not need to read Livy.
+
+### Order lives inside a Set, by act
+The genuine risk was never which society you choose, it was reading a
+society's end before its beginning — and until now nothing stopped you opening
+Actium before the Kings. Acts gate: finish one to open the next, and read
+freely within it. Structure without single-file progress through 21 chapters.
+
+### The patron is the one card that is given
+Choosing a foundation Set grants its patron at Bronze — Elissa for Carthage,
+Cyrus for Persia, Solon for Greece. This bends the rule that cards are
+expensive on purpose, deliberately and exactly once per playthrough, because
+choosing where to start should feel like taking someone's side rather than
+picking from a menu. A card already earned higher keeps its tier, and the
+validator asserts that choosing a Set grants its patron **and nothing else**.
+
 ### Wars are gated on both sides
 From the brief: you cannot open the First Punic War until you have studied Rome
 *and* Carthage up to 264 BC. This is implemented as `gate`, an array naming one

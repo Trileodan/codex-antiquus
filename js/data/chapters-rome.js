@@ -211,7 +211,7 @@ const CHAPTERS = [
 },
 {
   id: "punic-3", set: "roman-republic", act: "Expansion", title: "Zama and the End of Carthage", era: "209 – 146 BC", minutes: 8,
-  unlocksSets: ["carthage"],
+  revealsSets: ["carthage"],
   intro: "Rome finally produced a general who could think like Hannibal — and then, sixty years later, decided winning was not enough.",
   beats: [
     { title: "The young man nobody wanted to send",
@@ -242,7 +242,7 @@ const CHAPTERS = [
 },
 {
   id: "greece", set: "roman-republic", act: "Expansion", title: "Rome Turns East", era: "200 – 146 BC", minutes: 7,
-  unlocksSets: ["ancient-greece"],
+  revealsSets: ["ancient-greece"],
   intro: "Rome went east claiming to liberate Greece. It stayed as its owner — and came home culturally conquered.",
   beats: [
     { title: "Alexander's leftovers",
@@ -491,7 +491,7 @@ const CHAPTERS = [
 },
 {
   id: "egypt", set: "roman-republic", act: "Caesar", title: "Alexandria", era: "48 – 46 BC", minutes: 8,
-  unlocksSets: ["ptolemaic-egypt"],
+  revealsSets: ["ptolemaic-egypt"],
   intro: "Caesar arrives chasing a dead rival and stays for a war he did not plan, over a throne that was not his.",
   beats: [
     { title: "A Greek kingdom on the Nile",

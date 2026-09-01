@@ -4,7 +4,10 @@
 
 function App() {
   const [save, setSave] = useState(loadSave);
-  const [screen, setScreen] = useState("home");
+  const [screen, setScreen] = useState(() => {
+    const s = loadSave();
+    return (!s.patron && !Object.keys(s.chaptersDone || {}).length) ? "begin" : "home";
+  });
   const [setId, setSetId] = useState(null);
   const [chapter, setChapter] = useState(null);
   const [startBeat, setStartBeat] = useState(0);
@@ -13,7 +16,7 @@ function App() {
   const [toast, setToast] = useState(null);
   const toastT = useRef(null);
 
-  const cards = useMemo(() => computeCards(save.chaptersDone), [save.chaptersDone]);
+  const cards = useMemo(() => computeCards(save.chaptersDone, save.patron), [save.chaptersDone, save.patron]);
   useEffect(() => { persist(save); }, [save]);
 
   function fireToast(msg) { setToast(msg); clearTimeout(toastT.current); toastT.current = setTimeout(() => setToast(null), 3000); }
@@ -77,17 +80,17 @@ function App() {
     setScreen(backTarget(ch));
 
     if (newWars.length) fireToast(`War unlocked: ${newWars.map((w) => w.title).join(", ")} — both sides now studied.`);
-    else if (ch.unlocksSets) fireToast(`New Set opened: ${ch.unlocksSets.map((x) => SETS[x].name).join(", ")}`);
+    else if (ch.revealsSets) fireToast(`Discovered: ${ch.revealsSets.map((x) => SETS[x].name).join(", ")}`);
 
     if (newMints.length) setMints(newMints);
-    else if (!newWars.length && !ch.unlocksSets) fireToast("Chapter complete. No card yet — keep going.");
+    else if (!newWars.length && !ch.revealsSets) fireToast("Chapter complete. No card yet — keep going.");
   }
 
   function goChapterFromCard(ch) { setOpenChar(null); openChapter(ch); }
 
   function resetAll() {
     if (!window.confirm("Wipe all progress, cards and bookmarks?")) return;
-    setSave({ ...BLANK_SAVE }); setScreen("home"); fireToast("Progress cleared.");
+    setSave({ ...BLANK_SAVE }); setScreen("begin"); fireToast("Progress cleared.");
   }
 
   const NAV = [
@@ -105,7 +108,7 @@ function App() {
 
     <div className="px-4 py-3" style={{ borderBottom: "1px solid var(--hair)" }}>
       <div className="flex items-center justify-between gap-3 max-w-3xl mx-auto">
-        <button onClick={() => setScreen("home")} className="flex items-center gap-2" style={{ color: "var(--gold-glow)" }}>
+        <button onClick={() => screen !== "begin" && setScreen("home")} className="flex items-center gap-2" style={{ color: "var(--gold-glow)" }}>
           <HomeIcon size={15} /><span className="hcg-display" style={{ fontSize: 13.5 }}>CODEX ANTIQUUS</span></button>
         <div className="flex items-center gap-3">
           {save.bookmark && screen !== "reader" && <button onClick={() => setScreen("resume")} title="Bookmarked chapter" aria-label="Bookmarked chapter">
@@ -114,7 +117,7 @@ function App() {
           <button onClick={resetAll} className="hcg-mono" style={{ fontSize: 10, color: "var(--hair)" }} title="Reset progress">RESET</button>
         </div>
       </div>
-      {screen !== "reader" && <div className="flex gap-1 mt-2 max-w-3xl mx-auto overflow-x-auto">
+      {screen !== "reader" && screen !== "begin" && <div className="flex gap-1 mt-2 max-w-3xl mx-auto overflow-x-auto">
         {NAV.map((n) => <button key={n.id} onClick={() => setScreen(n.id)}
           className="hcg-tab flex items-center gap-1.5 px-3 py-1.5 rounded whitespace-nowrap"
           style={{ color: screen === n.id ? "#1B1710" : "var(--parchment-dim)",
@@ -127,6 +130,12 @@ function App() {
       onEnterWorld={() => setScreen("world")} onResume={() => setScreen("resume")}
       onCollection={() => setScreen("collection")} onWars={() => setScreen("wars")}
       onAtlas={() => setScreen("atlas")} onProgress={() => setScreen("progress")} />}
+
+    {screen === "begin" && <BeginScreen onChoose={(id) => {
+      setSave((s) => ({ ...s, patron: id }));
+      setSetId(id); setScreen("set");
+      fireToast(`${CHARACTERS[SETS[id].patron].name} joins your collection.`);
+    }} />}
 
     {screen === "world" && <WorldScreen save={save} onHome={() => setScreen("home")} onResume={() => setScreen("resume")}
       onEnterSet={(id) => { setSetId(id); setScreen("set"); }} />}

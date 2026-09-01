@@ -103,6 +103,11 @@ Africanus. Handled by `goldName`.
 
 ---
 
+**Entry model.** There is no longer a single starting point. Five foundation
+Sets are open from a blank save and the player chooses one, which grants its
+patron at Bronze. Order is enforced inside a Set by act, and between societies
+by the war gate — see *There is no single starting point* in `DECISIONS.md`.
+
 ## Open questions Mark hasn't answered
 
 1. **Alexander's card.** He still unlocks at Bronze through Egypt alone. The

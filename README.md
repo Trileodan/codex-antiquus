@@ -170,6 +170,12 @@ would run ahead of every Babel-transformed one and break the order.
 
 - **Chapters** are one 5–10 minute sitting: 3–7 parts, each ending in a key
   point, then a checkpoint quiz. You need two-thirds to pass.
+- **Starting** is a choice, not a fixed path. Every Set whose opening chapter
+  stands on its own is a `foundation` and is open from the first run; you pick
+  one to begin and its patron joins your collection at Bronze. `revealsSets`
+  points you at societies a chapter just met — it does not gate them.
+- **Chapters** are ordered by act within a Set: finish an act to open the next,
+  and read freely inside it.
 - **Cards** mint only when *every* chapter a tier requires is complete. Most
   need two or more, and higher tiers usually need a different Set. Fourteen of
   the 38 study chapters mint nothing at all — deliberately.
@@ -207,7 +213,7 @@ Add an object to the relevant `js/data/chapters-*.js` file:
     { q: "Question?", options: ["A", "B", "C", "D"], correct: 1,
       explain: "Why that answer is right." },
   ],
-  unlocksSets: ["carthage"],   // optional
+  revealsSets: ["carthage"],   // optional
 }
 ```
 

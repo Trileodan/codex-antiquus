@@ -64,6 +64,7 @@ if (errors.length) { report(); process.exit(1); }
 const NAMES = ["CHAPTERS", "CHARACTERS", "SETS", "SOURCES", "WORLDS", "TIER_ORDER",
   "STAT_KEYS", "CHAPTER_SPANS", "CHAPTER_BY_ID", "PENDING_WARS", "SET_ATLAS",
   "PLACES", "COASTLINE", "PLACE_TONE", "COASTLINE_SOURCE",
+  "actsOf", "actOpen", "chapterOpen", "CHAPTERS_BY_SET",
   "REGIONS", "ERAS", "CLASS_COLOR",
   "computeCards", "unlockedSets", "warGate", "setProgress", "buildProgress", "BLANK_SAVE"];
 const data = vm.runInContext(`({ ${NAMES.map((n) => `${n}: typeof ${n} === "undefined" ? undefined : ${n}`).join(", ")} })`, sandbox);
@@ -74,6 +75,7 @@ const {
   CHAPTERS, CHARACTERS, SETS, SOURCES, WORLDS, TIER_ORDER, STAT_KEYS,
   CHAPTER_SPANS, CHAPTER_BY_ID, PENDING_WARS, SET_ATLAS, REGIONS, ERAS, CLASS_COLOR,
   PLACES, COASTLINE, PLACE_TONE, COASTLINE_SOURCE,
+  actsOf, actOpen, chapterOpen, CHAPTERS_BY_SET,
   computeCards, unlockedSets, warGate, setProgress, buildProgress, BLANK_SAVE,
 } = data;
 
@@ -109,8 +111,8 @@ for (const c of CHAPTERS) {
     if (!q.explain) warn(`${where}: question ${i + 1} has no explanation`);
   });
 
-  (c.unlocksSets || []).forEach((s) => {
-    if (!SETS[s]) fail(`${where}: unlocksSets names "${s}", which is not in SETS`);
+  (c.revealsSets || []).forEach((s) => {
+    if (!SETS[s]) fail(`${where}: revealsSets names "${s}", which is not in SETS`);
   });
 
   if (!CHAPTER_SPANS[c.id])
@@ -133,14 +135,19 @@ for (const id of Object.keys(CHAPTER_SPANS))
    and no Atlas geography, and unlockedSets() always returns it as open. */
 const SYSTEM_SETS = new Set(["wars"]);
 
-const reachableSets = new Set(["roman-republic", ...SYSTEM_SETS]);
+const reachableSets = new Set([...SYSTEM_SETS]);
+for (const id of Object.keys(SETS)) if (SETS[id].foundation) reachableSets.add(id);
 let grew = true;
 while (grew) {
   grew = false;
   for (const c of CHAPTERS) {
     if (!reachableSets.has(c.set)) continue;
-    for (const s of c.unlocksSets || []) if (!reachableSets.has(s)) { reachableSets.add(s); grew = true; }
+    for (const s of c.revealsSets || []) if (!reachableSets.has(s)) { reachableSets.add(s); grew = true; }
   }
+}
+for (const id of Object.keys(SETS)) {
+  const req = SETS[id].requiresSets || [];
+  for (const r of req) if (!SETS[r]) fail(`set "${id}": requiresSets names "${r}", which is not in SETS`);
 }
 const reachableChapters = new Set(CHAPTERS.filter((c) => reachableSets.has(c.set) || c.kind === "war").map((c) => c.id));
 
@@ -280,6 +287,47 @@ for (const p of PENDING_WARS || []) {
 }
 
 /* ------------------------------------------------------------------ */
+/* Foundations and patrons                                             */
+/* ------------------------------------------------------------------ */
+
+const foundations = Object.keys(SETS).filter((id) => SETS[id].foundation);
+if (!foundations.length) fail("no Set is marked `foundation` — nothing would be playable from a blank save");
+
+for (const id of foundations) {
+  const where = `foundation Set "${id}"`;
+  const chs = CHAPTERS_BY_SET[id] || [];
+  if (!chs.length) fail(`${where}: marked as an entry point but has no chapters`);
+  if (SETS[id].sealedHint) fail(`${where}: has a sealedHint, but a foundation is never sealed`);
+  if (SETS[id].status !== "open") fail(`${where}: status is "${SETS[id].status}" — a foundation must be open`);
+
+  const patron = SETS[id].patron;
+  if (!patron) { fail(`${where}: no patron card to grant when it is chosen`); continue; }
+  if (!CHARACTERS[patron]) { fail(`${where}: patron "${patron}" is not a card`); continue; }
+  if (!(CHARACTERS[patron].sets || []).includes(id))
+    fail(`${where}: patron "${patron}" does not belong to this Set`);
+  if (!CHARACTERS[patron].requires.bronze)
+    fail(`${where}: patron "${patron}" has no bronze tier to be granted at`);
+}
+
+/* Granting a patron must not hand out anything beyond that one card. */
+for (const id of foundations) {
+  const granted = computeCards({}, id);
+  const ids = Object.keys(granted);
+  if (ids.length !== 1 || ids[0] !== SETS[id].patron || granted[ids[0]] !== "bronze")
+    fail(`choosing "${id}" from a blank save grants ${JSON.stringify(granted)} — it should grant exactly its patron at bronze`);
+}
+
+/* Act order must not strand anything: the first act of every Set has to be
+   open from cold, or that Set can never be started. */
+for (const id of Object.keys(SETS)) {
+  const acts = actsOf(id);
+  if (!acts.length) continue;
+  if (!actOpen(id, acts[0], {})) fail(`set "${id}": its first act "${acts[0]}" is not open from a blank save`);
+  for (const a of acts.slice(1))
+    if (actOpen(id, a, {})) warn(`set "${id}": act "${a}" is open from a blank save — act order may not be doing anything`);
+}
+
+/* ------------------------------------------------------------------ */
 /* Globe hotspots                                                      */
 /* ------------------------------------------------------------------ */
 /* A pin whose ref no longer resolves navigates nowhere and says
@@ -347,16 +395,15 @@ let playthrough = "not run";
   let pass = 0;
   for (;;) {
     pass += 1;
-    if (pass > 50) { fail("playthrough did not settle after 50 passes — check unlocksSets for a cycle"); break; }
+    if (pass > 50) { fail("playthrough did not settle after 50 passes — check revealsSets for a cycle"); break; }
 
     const open = unlockedSets(done);
     let studied = 0;
 
     for (const ch of CHAPTERS) {
       if (done[ch.id]) continue;
-      if (ch.kind === "war") {
-        if (!warGate(ch, done).open) continue;
-      } else if (!open[ch.set]) continue;
+      if (ch.kind !== "war" && !open[ch.set]) continue;
+      if (!chapterOpen(ch, done)) continue;      /* act order, and war gates */
       done[ch.id] = true;
       studied += 1;
     }
@@ -424,6 +471,7 @@ const unused = 0;
 console.log(`\nCodex Antiquus — ${stats}`);
 console.log(`Playthrough    — ${playthrough}`);
 console.log(`Diagrams       — ${diagLine}`);
+console.log(`Entry          — ${foundations.length} foundation Sets: ${foundations.map((f) => SETS[f].name).join(", ")}`);
 console.log(`Globe          — ${PLACES.length} hotspots, ${COASTLINE.land.length} landmasses (${COASTLINE_SOURCE || "schematic"})\n`);
 report();
 

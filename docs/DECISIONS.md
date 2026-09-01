@@ -152,8 +152,15 @@ follows the same rule: it inlines whatever is in `vendor/` and leaves a CDN tag
 for whatever is not, and says which at the end of the run.
 
 They are not committed because the repo should not carry 3 MB of minified
-third-party JavaScript that a one-line script can fetch. If this ever needs to
-build with no network at all, commit them and delete the fallback lines.
+third-party JavaScript that a one-line script can fetch.
+
+**Before deploying, commit them anyway.** GitHub Pages serves the repo as-is —
+there is no build step to run the fetch script — so an empty `vendor/` means
+every visitor's browser requests three files that 404 and then falls back to
+cdnjs. It works, but it puts three errors in the console of a public site and
+makes the page depend on a third party staying up. Run `tools/fetch-vendor.ps1`
+before the first push; `.gitignore` does not exclude them, so they go in with
+the next commit.
 
 **Remaining network dependency:** the Google Fonts stylesheet for Cinzel,
 Crimson Pro and Space Mono. Vendoring those means committing woff2 files and

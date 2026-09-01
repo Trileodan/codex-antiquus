@@ -117,7 +117,16 @@ for (const c of CHAPTERS) {
 
   /* Reading time drifts as prose is expanded. ~170 wpm for dense narrative
      history, plus a minute for the checkpoint. */
-  const words = (c.beats || []).reduce((n, b) => n + (b.text || []).join(" ").split(/\s+/).length, 0);
+  /* A war beat's forces / tactics / lineage blocks are prose the reader reads
+     on the same screen as text[], so they count. Leaving them out made every
+     war entry look half its real length. */
+  const prose = (b) => [
+    ...(b.text || []),
+    b.forces || "",
+    b.tactics || "",
+    ...(b.lineage || []).map((l) => `${l.who || ""} ${l.what || ""} ${l.note || ""}`),
+  ].join(" ");
+  const words = (c.beats || []).reduce((n, b) => n + prose(b).trim().split(/\s+/).filter(Boolean).length, 0);
   const expect = Math.max(3, Math.round(words / 170) + 1);
   if (Math.abs((c.minutes || 0) - expect) > 2)
     warn(`${where}: says ${c.minutes} min but reads as about ${expect} (${words} words)`);

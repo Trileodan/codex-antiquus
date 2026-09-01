@@ -115,6 +115,13 @@ for (const c of CHAPTERS) {
     if (!SETS[s]) fail(`${where}: revealsSets names "${s}", which is not in SETS`);
   });
 
+  /* Reading time drifts as prose is expanded. ~170 wpm for dense narrative
+     history, plus a minute for the checkpoint. */
+  const words = (c.beats || []).reduce((n, b) => n + (b.text || []).join(" ").split(/\s+/).length, 0);
+  const expect = Math.max(3, Math.round(words / 170) + 1);
+  if (Math.abs((c.minutes || 0) - expect) > 2)
+    warn(`${where}: says ${c.minutes} min but reads as about ${expect} (${words} words)`);
+
   if (!CHAPTER_SPANS[c.id])
     fail(`${where}: no CHAPTER_SPANS entry — it will not count toward coverage on the Progress screen`);
   else {

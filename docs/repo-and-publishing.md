@@ -14,10 +14,12 @@ GitHub-ready files live in `Desktop\History CCG`.
 | `js/data/chapters-carthage.js` | Carthage — 9 chapters |
 | `js/data/chapters-egypt.js` | Ptolemaic Egypt — 8 chapters |
 | `js/data/chapters-greece.js` | Ancient Greece — 10 chapters |
+| `js/data/chapters-persia.js` | Persia — 10 chapters |
 | `js/data/wars.js` | War entries: battles, tactics, tactical lineage |
 | `js/data/characters.js` | 21 cards |
 | `js/data/characters-extra.js` | 7 more from the Carthage/Egypt/Wars syllabi |
 | `js/data/characters-greece.js` | 8 more from the Greece syllabus |
+| `js/data/characters-persia.js` | 7 more from the Persia syllabus |
 | `js/data/atlas.js` | Regions, eras, Set geography and date ranges |
 | `js/engine.js` | Save, unlock rules, war gating, progress metrics |
 | `js/icons.js` | Inline SVG icons (no icon library) |
@@ -96,9 +98,9 @@ points learned.
 
 ## Current state
 
-52 chapters (48 study + 4 wars), 191 parts, 135 questions, 36 cards, 177 sourced
-claims, ~31,000 words, ~7 hours of reading. Four Sets written; eleven more
-mapped on the Atlas as *Planned* with real date ranges.
+62 chapters (58 study + 4 wars), 221 parts, 165 questions, 43 cards, 218 sourced
+claims, ~38,000 words, ~8.5 hours of reading. Five Sets written; ten more mapped
+on the Atlas as *Planned* with real date ranges.
 
 Adding a set = a new `chapters-*.js` file, its `<script>` tag in `index.html`
 before `engine.js`, a `SETS` entry, a `SET_ATLAS` entry, and spans in

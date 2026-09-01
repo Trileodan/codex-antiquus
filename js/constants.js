@@ -36,6 +36,12 @@ const SOURCES = {
   plato: "Plato, Apology, Crito and Phaedo",
   demosthenes: "Demosthenes, The Philippics and On the Crown",
   diodorus: "Diodorus Siculus, Bibliotheca Historica",
+  ctesias: "Ctesias, Persica (surviving in summary and quotation)",
+  arrian: "Arrian, Anabasis of Alexander",
+  behistun: "The Behistun inscription of Darius I",
+  "cyrus-cylinder": "The Cyrus Cylinder and the Nabonidus Chronicle",
+  pft: "The Persepolis Fortification Tablets",
+  "hebrew-bible": "The Hebrew Bible (Ezra, Isaiah, Chronicles)",
   cah: "Cambridge Ancient History (2nd edn)",
   arch: "Archaeological survey and material evidence",
 };
@@ -62,8 +68,9 @@ const SETS = {
     sealedHint: "Opens when Rome turns east." },
   "roman-empire": { id: "roman-empire", world: "ancient", name: "Roman Empire", status: "locked",
     tagline: "From Princeps to Dominate." },
-  "persia": { id: "persia", world: "ancient", name: "Persia", status: "locked",
-    tagline: "The great rival empire to the east." },
+  "persia": { id: "persia", world: "ancient", name: "Persia", status: "sealed",
+    tagline: "559 – 330 BC. The largest empire the world had yet seen, described almost entirely by its enemies.",
+    sealedHint: "Opens when Greece meets Persia." },
 };
 
 /* --------------------------------------------------------------------

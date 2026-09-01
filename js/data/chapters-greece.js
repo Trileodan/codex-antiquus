@@ -115,6 +115,7 @@ CHAPTERS.push(
 },
 {
   id: "grk-persia", set: "ancient-greece", act: "Persia", title: "Persia Comes West", era: "499 – 479 BC", minutes: 7,
+  unlocksSets: ["persia"],
   intro: "Why the largest empire on earth twice sent armies against a few hundred quarrelling towns — and what surviving did to them.",
   beats: [
     { title: "The Ionian Revolt",
@@ -123,8 +124,8 @@ CHAPTERS.push(
       key: "Athenian help for the Ionian Revolt gave Persia a reason to deal with mainland Greece — invasions followed in 490 and 480 BC." },
     { title: "Where the battles are",
       text: ["**Marathon**, **Thermopylae**, **Artemisium**, **Salamis** and **Plataea** are not described here. In this app battles live in war entries, so that a war is told once from both sides rather than twice from neither.",
-        "The **Greco-Persian Wars** entry exists and is specified, and it is sealed — because a war opens only when both societies have been studied up to the year it began, and there is no Persia Set yet. You are reading one half of a war. The app would rather show you the shape of the missing half than quietly hand you the Greek version and call it the whole thing."],
-      key: "The battles belong to the Greco-Persian Wars entry, sealed until Persia has a Set — a war is told from both sides or not at all." },
+        "The **Greco-Persian Wars** entry is specified and sealed, because a war opens only when both societies have been studied up to the year it began. The **Persia** Set now exists — this chapter unlocks it — so the other half of this war is written and waiting. Read it, and notice how different the same events look from Susa."],
+      key: "The battles belong to the Greco-Persian Wars entry; the Persia Set unlocks from here, and is the other half of this war." },
     { title: "Herodotus, and a source worth arguing with",
       text: ["Nearly everything we know about these wars comes from **Herodotus**, writing a generation later. He is the first person we know of to investigate the past systematically and say where his information came from — his word for the enquiry, *historia*, is where *history* comes from.",
         "He is also a Greek writing about a Persian war for a Greek audience, and he reports things he was told without always believing them, sometimes saying so. His Persian troop numbers — over a million — are certainly impossible; modern estimates run to a fraction of that and remain **Contested**. He is neither a liar nor a reliable narrator. He is a source, and the habit of asking who told him and why is the habit this whole app is built on.",

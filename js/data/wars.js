@@ -239,5 +239,5 @@ const PENDING_WARS = [
     blockedBy: "Requires Macedon and the Seleucid Empire. Currently only Ptolemaic Egypt is available." },
   { id: "war-greco-persian", name: "The Greco-Persian Wars", era: "499 – 449 BC",
     sides: ["Ancient Greece", "Persia"],
-    blockedBy: "Half of this war is now written: the Ancient Greece Set covers the Ionian Revolt and what survival did to Athens. It stays sealed because there is no Persia Set, and a war opens only when both sides have been studied." },
+    blockedBy: "Both societies are now written — the Ancient Greece and Persia Sets each cover the run-up from their own side. This entry is still specified rather than built: promoting it into a full war chapter with Marathon, Thermopylae, Salamis and Plataea, with tactics and tactical lineage, is the next job." },
 ];

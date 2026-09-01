@@ -32,6 +32,10 @@ const CHAPTER_SPANS = {
   "grk-athens-reform": [-594, -508], "grk-persia": [-499, -479], "grk-empire": [-478, -431],
   "grk-pericles": [-461, -429], "grk-pelop": [-431, -404], "grk-socrates": [-399, -399],
   "grk-philip": [-359, -338],
+  "per-cyrus": [-559, -530], "per-babylon": [-539, -539], "per-cambyses": [-530, -522],
+  "per-darius": [-522, -486], "per-empire": [-522, -486], "per-religion": [-550, -330],
+  "per-persepolis": [-518, -330], "per-west": [-499, -479], "per-after": [-479, -359],
+  "per-fall": [-334, -330],
   "war-punic-1": [-264, -241], "war-punic-2": [-218, -201], "war-punic-3": [-149, -146],
   "war-actium": [-32, -30],
 };

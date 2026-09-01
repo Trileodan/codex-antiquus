@@ -7,8 +7,8 @@ world in short chapters; character cards are minted from what you finish and
 can demonstrate, not from names you skim past.
 
 Currently built: **the Roman Republic, Carthage, Ptolemaic Egypt, Ancient
-Greece** and four **wars**, with 36 character cards. Roughly 31,000 words of
-source-classified content.
+Greece, Persia** and four **wars**, with 43 character cards. Roughly 38,000
+words of source-classified content.
 
 ---
 
@@ -135,10 +135,12 @@ History CCG/
     │   ├── chapters-carthage.js  Carthage, 9 chapters
     │   ├── chapters-egypt.js     Ptolemaic Egypt, 8 chapters
     │   ├── chapters-greece.js    Ancient Greece, 10 chapters
+    │   ├── chapters-persia.js    Persia, 10 chapters
     │   ├── wars.js               War entries, battles, tactics, lineage
     │   ├── characters.js         21 cards
     │   ├── characters-extra.js   7 more from the Carthage/Egypt/Wars syllabi
     │   ├── characters-greece.js  8 more from the Greece syllabus
+    │   ├── characters-persia.js  7 more from the Persia syllabus
     │   └── atlas.js              Regions, eras, Set geography and periods
     ├── engine.js                 Save, unlock rules, war gating, metrics
     ├── icons.js                  Inline SVG icon set (no icon dependency)

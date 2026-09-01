@@ -19,10 +19,12 @@ const LOAD_ORDER = [
   "js/data/chapters-carthage.js",
   "js/data/chapters-egypt.js",
   "js/data/chapters-greece.js",
+  "js/data/chapters-persia.js",
   "js/data/wars.js",
   "js/data/characters.js",
   "js/data/characters-extra.js",
   "js/data/characters-greece.js",
+  "js/data/characters-persia.js",
   "js/data/atlas.js",
   "js/engine.js",
 ];

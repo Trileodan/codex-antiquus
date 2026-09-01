@@ -46,6 +46,27 @@ def inline_css(m):
 
 out = re.sub(r'<link rel="stylesheet" href="([^"]+)" />', inline_css, SRC)
 
+# --- favicons --------------------------------------------------------------
+# The standalone build is one file that may be opened from anywhere, so the
+# small icons become data URIs and the manifest link is dropped. The
+# apple-touch-icon link is kept pointing at the real path: iOS refuses a data
+# URI there, and a dead link is no worse than no link at all.
+
+def inline_icon(m):
+    href = m.group(2)
+    path = ROOT / href
+    if not path.exists():
+        return m.group(0)
+    import base64
+    b64 = base64.b64encode(path.read_bytes()).decode()
+    mime = "image/x-icon" if href.endswith(".ico") else "image/png"
+    print(f"  + {href}")
+    return m.group(0).replace(f'href="{href}"', f'href="data:{mime};base64,{b64}"')
+
+
+out = re.sub(r'<link rel="icon"([^>]*?)href="([^"]+)"([^>]*)/>', inline_icon, out)
+out = re.sub(r'<link rel="manifest" href="[^"]+" />\n', "", out)
+
 # --- vendored libraries ----------------------------------------------------
 # Each library is a local <script src="vendor/x.js"> followed by a
 # document.write CDN fallback. If the local file exists, inline it and drop the

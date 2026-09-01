@@ -446,11 +446,11 @@ function Reader({ chapter, save, startBeat, onExit, onBookmark, onBeat, onComple
             </div>)}
           </div>
         </div>}
-        <div className="hcg-panel-2 rounded p-3 mt-5 flex gap-2.5 items-start">
-          <Star size={13} color="var(--gold-glow)" style={{ marginTop: 3 }} />
-          <div><div className="hcg-tab" style={{ color: "var(--gold-glow)", marginBottom: 2 }}>KEY POINT</div>
-            <div style={{ fontSize: 14, color: "var(--parchment-dim)" }}>{beat.key}</div></div>
-        </div>
+        {/* The key point is no longer shown here. It restated the paragraph
+            you had just read, which taught nothing and made the prose feel
+            like a summary of itself. It is still recorded on completion and
+            still surfaces on the Progress screen and when lifting a
+            bookmark, where recall is the actual job. */}
         <button onClick={advance} className="hcg-btn mt-6 w-full text-sm px-4 py-3 rounded" style={{ background: "var(--bronze)", color: "#1B1710" }}>
           {i + 1 < total ? "Continue" : "Go to checkpoint"} <ChevRight size={14} style={{ marginLeft: 4 }} />
         </button>

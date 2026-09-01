@@ -111,6 +111,32 @@ function AtlasScreen({ save, cards, onHome, onEnterSet, onOpenChapter, onOpenCha
     return { ...p, locked, reason };
   }), [kinds, save.chaptersDone, cards, open]);
 
+  /* What Set does this belong to, and what is it? Derived where the app
+     already knows — a card carries its own Set and label, a war its intro —
+     and stated explicitly only for the places that have no entry of their
+     own. Nothing is duplicated into places.js that the data already holds. */
+  function context(p) {
+    if (!p) return null;
+    let setId = p.set || null, line = p.blurb || "", sub = "";
+    if (p.ref && p.ref.set) { setId = p.ref.set; line = line || SETS[p.ref.set].tagline; }
+    else if (p.ref && p.ref.char) {
+      const c = CHARACTERS[p.ref.char];
+      setId = setId || (c.sets || [])[0];
+      const t = c.tiers[TIER_ORDER.find((x) => c.tiers[x])];
+      sub = t ? t.label : "";
+      line = line || (c.note || (t && t.blurb) || "");
+    } else if (p.ref && p.ref.chapter) {
+      const ch = CHAPTER_BY_ID[p.ref.chapter];
+      if (ch) {
+        setId = setId || (ch.kind === "war" ? null : ch.set);
+        sub = ch.kind === "war" ? ch.title : `In: ${ch.title}`;
+        line = line || ch.intro;
+      }
+    }
+    return { setName: setId && SETS[setId] ? SETS[setId].name : (p.kind === "war" || p.kind === "battle" ? "Wars" : null),
+             line: (line || "").split(". ").slice(0, 2).join(". ").replace(/\.?$/, "."), sub };
+  }
+
   function go(p) {
     if (p.locked || !p.ref) return;
     if (p.ref.set) onEnterSet(p.ref.set);
@@ -124,6 +150,35 @@ function AtlasScreen({ save, cards, onHome, onEnterSet, onOpenChapter, onOpenCha
     <Crumbs items={[{ label: "Home", onClick: onHome }, { label: "Atlas" }]} />
     <h1 className="hcg-display mt-3 mb-1" style={{ fontSize: 26 }}>Atlas</h1>
     <p style={{ color: "var(--parchment-dim)", marginBottom: 18 }}>Spin the globe and scrub time. Everything is placed by real latitude and longitude, and appears only while it existed.</p>
+
+    {picked ? (() => { const cx = context(picked); return (
+      <div className="hcg-panel-2 rounded-lg p-4 mb-3" style={{ borderColor: PLACE_TONE[picked.kind] }}>
+        <div className="flex items-center gap-2 flex-wrap mb-1">
+          <span className="hcg-mono" style={{ fontSize: 9.5, color: PLACE_TONE[picked.kind] }}>{PLACE_KIND_LABEL[picked.kind].toUpperCase()}</span>
+          {cx.setName && <span className="hcg-mono" style={{ fontSize: 9.5, color: "var(--parchment-dim)" }}>· {cx.setName.toUpperCase()}</span>}
+          {picked.approx && <span className="hcg-mono" style={{ fontSize: 9, padding: "1px 5px", borderRadius: 3,
+            color: "var(--parchment-dim)", border: "1px solid var(--hair)" }}>LOCATION DISPUTED</span>}
+        </div>
+        <div className="hcg-display" style={{ fontSize: 19 }}>{picked.name}</div>
+        {cx.sub && <div style={{ fontSize: 12.5, color: "var(--bronze-glow)", fontStyle: "italic", marginTop: 1 }}>{cx.sub}</div>}
+        {cx.line && <p className="hcg-prose" style={{ fontSize: 14.5, marginTop: 6, marginBottom: 0 }}>{cx.line}</p>}
+        <div className="hcg-mono" style={{ fontSize: 10.5, color: "var(--parchment-dim)", marginTop: 7 }}>
+          {Math.abs(picked.lat).toFixed(2)}°{picked.lat >= 0 ? "N" : "S"} {Math.abs(picked.lon).toFixed(2)}°{picked.lon >= 0 ? "E" : "W"}
+          {" · "}{yearLabel(picked.from)}{picked.from !== picked.to ? ` – ${yearLabel(picked.to)}` : ""}
+        </div>
+        {picked.ref && (picked.locked
+          ? <div className="mt-2.5" style={{ fontSize: 13.5, color: "var(--parchment-dim)" }}>Sealed — {picked.reason}.</div>
+          : <button onClick={() => go(picked)} className="hcg-btn mt-3 text-sm px-4 py-2 rounded"
+                    style={{ background: "var(--bronze)", color: "#1B1710" }}>
+              {picked.ref.char ? "Open the card" : picked.ref.set ? "Open the Set" : "Read the chapter"}
+              <ChevRight size={13} style={{ marginLeft: 4 }} />
+            </button>)}
+      </div>); })() : (
+      <div className="hcg-panel-2 rounded-lg p-4 mb-3" style={{ borderStyle: "dashed" }}>
+        <div className="hcg-mono" style={{ fontSize: 10.5, color: "var(--parchment-dim)" }}>
+          Tap a pin to see what it is and where it belongs.
+        </div>
+      </div>)}
 
     <div className="hcg-panel rounded-lg p-4 mb-4">
       <Globe year={year} places={places} selected={picked && picked.id} onPick={setPicked} />
@@ -141,26 +196,6 @@ function AtlasScreen({ save, cards, onHome, onEnterSet, onOpenChapter, onOpenCha
         Drag to spin, pinch or ⌘-scroll to zoom. Coastlines only — no borders, because coastlines have barely moved since 500 BC and borders have changed completely.
       </div>
     </div>
-
-    {picked && <div className="hcg-panel-2 rounded-lg p-4 mb-4" style={{ borderColor: PLACE_TONE[picked.kind] }}>
-      <div className="flex items-center gap-2 flex-wrap mb-1">
-        <span className="hcg-mono" style={{ fontSize: 9.5, color: PLACE_TONE[picked.kind] }}>{PLACE_KIND_LABEL[picked.kind].toUpperCase()}</span>
-        <span className="hcg-display" style={{ fontSize: 18 }}>{picked.name}</span>
-        {picked.approx && <span className="hcg-mono" style={{ fontSize: 9, padding: "1px 5px", borderRadius: 3,
-          color: "var(--parchment-dim)", border: "1px solid var(--hair)" }}>LOCATION DISPUTED</span>}
-      </div>
-      <div className="hcg-mono" style={{ fontSize: 11, color: "var(--parchment-dim)" }}>
-        {picked.lat.toFixed(2)}°{picked.lat >= 0 ? "N" : "S"} {Math.abs(picked.lon).toFixed(2)}°{picked.lon >= 0 ? "E" : "W"}
-        {" · "}{yearLabel(picked.from)}{picked.from !== picked.to ? ` – ${yearLabel(picked.to)}` : ""}
-      </div>
-      {picked.ref && (picked.locked
-        ? <div className="mt-2" style={{ fontSize: 13.5, color: "var(--parchment-dim)" }}>Sealed — {picked.reason}.</div>
-        : <button onClick={() => go(picked)} className="hcg-btn mt-3 text-sm px-4 py-2 rounded"
-                  style={{ background: "var(--bronze)", color: "#1B1710" }}>
-            Open <ChevRight size={13} style={{ marginLeft: 4 }} />
-          </button>)}
-      {!picked.ref && <div className="mt-2" style={{ fontSize: 13.5, color: "var(--parchment-dim)" }}>A place the syllabus visits. No entry of its own yet.</div>}
-    </div>}
 
     <div className="hcg-panel rounded-lg p-4 mb-6">
       <div className="flex items-baseline justify-between mb-3">

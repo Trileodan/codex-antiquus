@@ -1,0 +1,134 @@
+/* =====================================================================
+   PLACES — everything the globe can put a pin in
+
+   Real latitude and longitude, so a hotspot sits where the thing
+   happened rather than where a diagram would like it to be. Each entry
+   is live only between `from` and `to`, which is what ties the globe to
+   the Atlas time slider.
+
+   `ref` points at something the app already holds — a Set, a chapter,
+   a card — and the validator checks every one of them resolves, so a
+   renamed chapter cannot leave a pin that goes nowhere.
+
+   Sites whose location is disputed carry `approx: true`. Zama is the
+   clearest case: the battle that ended the Second Punic War has no
+   agreed location, and three candidate sites are argued for.
+   ===================================================================== */
+
+const PLACE_TONE = {
+  set: "var(--gold-glow)", war: "var(--rust)", battle: "var(--rust)",
+  person: "var(--silver-glow)", place: "var(--verdigris)",
+};
+const PLACE_KIND_LABEL = {
+  set: "Set", war: "War", battle: "Battle", person: "Card", place: "Place",
+};
+
+const PLACES = [
+  /* --- Sets, at their principal city ------------------------------- */
+  { id: "pl-rome", name: "Rome", kind: "set", lon: 12.5, lat: 41.9, from: -800, to: -27, ref: { set: "roman-republic" } },
+  { id: "pl-carthage", name: "Carthage", kind: "set", lon: 10.32, lat: 36.85, from: -814, to: -146, ref: { set: "carthage" } },
+  { id: "pl-alexandria", name: "Alexandria", kind: "set", lon: 29.9, lat: 31.2, from: -331, to: -30, ref: { set: "ptolemaic-egypt" } },
+  { id: "pl-athens", name: "Athens", kind: "set", lon: 23.73, lat: 37.98, from: -800, to: -338, ref: { set: "ancient-greece" } },
+  { id: "pl-persepolis-set", name: "Persepolis", kind: "set", lon: 52.89, lat: 29.94, from: -559, to: -330, ref: { set: "persia" } },
+
+  /* --- Wars ---------------------------------------------------------- */
+  { id: "pl-w-punic1", name: "First Punic War", kind: "war", lon: 14.0, lat: 37.6, from: -264, to: -241, ref: { chapter: "war-punic-1" } },
+  { id: "pl-w-punic2", name: "Second Punic War", kind: "war", lon: 14.5, lat: 41.5, from: -218, to: -201, ref: { chapter: "war-punic-2" } },
+  { id: "pl-w-punic3", name: "Third Punic War", kind: "war", lon: 10.32, lat: 36.85, from: -149, to: -146, ref: { chapter: "war-punic-3" } },
+  { id: "pl-w-actium", name: "The War of Actium", kind: "war", lon: 20.76, lat: 38.94, from: -32, to: -30, ref: { chapter: "war-actium" } },
+  { id: "pl-w-gp", name: "The Greco-Persian Wars", kind: "war", lon: 23.5, lat: 38.4, from: -499, to: -449, ref: { chapter: "war-greco-persian" } },
+
+  /* --- Battles ------------------------------------------------------- */
+  { id: "pl-b-mylae", name: "Mylae, 260 BC", kind: "battle", lon: 15.23, lat: 38.22, from: -260, to: -260, ref: { chapter: "war-punic-1" } },
+  { id: "pl-b-tunis", name: "Tunis, 255 BC", kind: "battle", lon: 10.18, lat: 36.8, from: -255, to: -255, ref: { chapter: "war-punic-1" } },
+  { id: "pl-b-drepana", name: "Drepana, 249 BC", kind: "battle", lon: 12.53, lat: 38.02, from: -249, to: -249, ref: { chapter: "war-punic-1" } },
+  { id: "pl-b-trebia", name: "The Trebia, 218 BC", kind: "battle", lon: 9.7, lat: 45.0, from: -218, to: -218, ref: { chapter: "war-punic-2" } },
+  { id: "pl-b-trasimene", name: "Lake Trasimene, 217 BC", kind: "battle", lon: 12.1, lat: 43.15, from: -217, to: -217, ref: { chapter: "war-punic-2" } },
+  { id: "pl-b-cannae", name: "Cannae, 216 BC", kind: "battle", lon: 16.13, lat: 41.3, from: -216, to: -216, ref: { chapter: "war-punic-2" } },
+  { id: "pl-b-zama", name: "Zama, 202 BC", kind: "battle", lon: 9.5, lat: 36.3, from: -202, to: -202, approx: true, ref: { chapter: "war-punic-2" } },
+  { id: "pl-b-carthage", name: "The Siege of Carthage, 146 BC", kind: "battle", lon: 10.32, lat: 36.85, from: -147, to: -146, ref: { chapter: "war-punic-3" } },
+  { id: "pl-b-actium", name: "Actium, 31 BC", kind: "battle", lon: 20.76, lat: 38.94, from: -31, to: -31, ref: { chapter: "war-actium" } },
+  { id: "pl-b-marathon", name: "Marathon, 490 BC", kind: "battle", lon: 23.96, lat: 38.15, from: -490, to: -490, ref: { chapter: "war-greco-persian" } },
+  { id: "pl-b-thermopylae", name: "Thermopylae, 480 BC", kind: "battle", lon: 22.54, lat: 38.8, from: -480, to: -480, ref: { chapter: "war-greco-persian" } },
+  { id: "pl-b-salamis", name: "Salamis, 480 BC", kind: "battle", lon: 23.5, lat: 37.96, from: -480, to: -480, ref: { chapter: "war-greco-persian" } },
+  { id: "pl-b-plataea", name: "Plataea, 479 BC", kind: "battle", lon: 23.27, lat: 38.22, from: -479, to: -479, ref: { chapter: "war-greco-persian" } },
+
+  /* --- People, at the place they are most associated with ------------ */
+  { id: "pl-p-romulus", name: "Romulus and Remus", kind: "person", lon: 12.48, lat: 41.89, from: -800, to: -716, ref: { char: "romulus-remus" } },
+  { id: "pl-p-tarquin", name: "Tarquinius Superbus", kind: "person", lon: 12.48, lat: 41.89, from: -534, to: -509, ref: { char: "tarquinius" } },
+  { id: "pl-p-brutus", name: "Lucius Junius Brutus", kind: "person", lon: 12.48, lat: 41.89, from: -509, to: -509, ref: { char: "l-brutus" } },
+  { id: "pl-p-dido", name: "Queen Elissa", kind: "person", lon: 10.32, lat: 36.85, from: -814, to: -800, ref: { char: "dido" } },
+  { id: "pl-p-hanno", name: "Hanno the Navigator", kind: "person", lon: -5.5, lat: 35.9, from: -505, to: -495, ref: { char: "hanno" } },
+  { id: "pl-p-hamilcar", name: "Hamilcar Barca", kind: "person", lon: -5.99, lat: 37.39, from: -237, to: -228, ref: { char: "hamilcar" } },
+  { id: "pl-p-hannibal", name: "Hannibal Barca", kind: "person", lon: 16.13, lat: 41.3, from: -218, to: -183, ref: { char: "hannibal" } },
+  { id: "pl-p-scipio", name: "Scipio Africanus", kind: "person", lon: 9.5, lat: 36.3, from: -210, to: -183, ref: { char: "scipio" } },
+  { id: "pl-p-masinissa", name: "Masinissa", kind: "person", lon: 6.6, lat: 36.4, from: -206, to: -148, ref: { char: "masinissa" } },
+  { id: "pl-p-gracchus", name: "Tiberius Gracchus", kind: "person", lon: 12.48, lat: 41.89, from: -133, to: -133, ref: { char: "tiberius-gracchus" } },
+  { id: "pl-p-marius", name: "Marius", kind: "person", lon: 12.48, lat: 41.89, from: -107, to: -86, ref: { char: "marius" } },
+  { id: "pl-p-sulla", name: "Sulla", kind: "person", lon: 12.48, lat: 41.89, from: -88, to: -78, ref: { char: "sulla" } },
+  { id: "pl-p-spartacus", name: "Spartacus", kind: "person", lon: 14.43, lat: 40.82, from: -73, to: -71, ref: { char: "spartacus" } },
+  { id: "pl-p-pompey", name: "Pompey", kind: "person", lon: 12.48, lat: 41.89, from: -70, to: -48, ref: { char: "pompey" } },
+  { id: "pl-p-crassus", name: "Crassus", kind: "person", lon: 12.48, lat: 41.89, from: -71, to: -53, ref: { char: "crassus" } },
+  { id: "pl-p-cicero", name: "Cicero", kind: "person", lon: 12.48, lat: 41.89, from: -63, to: -43, ref: { char: "cicero" } },
+  { id: "pl-p-cato", name: "Cato the Younger", kind: "person", lon: 12.48, lat: 41.89, from: -63, to: -46, ref: { char: "cato" } },
+  { id: "pl-p-caesar", name: "Julius Caesar", kind: "person", lon: 12.48, lat: 41.89, from: -100, to: -44, ref: { char: "caesar" } },
+  { id: "pl-p-vercingetorix", name: "Vercingetorix", kind: "person", lon: 4.29, lat: 47.54, from: -52, to: -46, ref: { char: "vercingetorix" } },
+  { id: "pl-p-antony", name: "Mark Antony", kind: "person", lon: 20.76, lat: 38.94, from: -44, to: -30, ref: { char: "antony" } },
+  { id: "pl-p-mbrutus", name: "Marcus Junius Brutus", kind: "person", lon: 12.48, lat: 41.89, from: -49, to: -42, ref: { char: "m-brutus" } },
+  { id: "pl-p-octavian", name: "Octavian", kind: "person", lon: 12.48, lat: 41.89, from: -44, to: -27, ref: { char: "octavian" } },
+  { id: "pl-p-agrippa", name: "Agrippa", kind: "person", lon: 20.76, lat: 38.94, from: -36, to: -27, ref: { char: "agrippa" } },
+  { id: "pl-p-cleopatra", name: "Cleopatra VII", kind: "person", lon: 29.9, lat: 31.2, from: -51, to: -30, ref: { char: "cleopatra" } },
+  { id: "pl-p-ptolemy13", name: "Ptolemy XIII", kind: "person", lon: 29.9, lat: 31.2, from: -51, to: -47, ref: { char: "ptolemy13" } },
+  { id: "pl-p-ptolemy1", name: "Ptolemy I Soter", kind: "person", lon: 29.9, lat: 31.2, from: -323, to: -282, ref: { char: "ptolemy1" } },
+  { id: "pl-p-ptolemy2", name: "Ptolemy II", kind: "person", lon: 29.9, lat: 31.2, from: -282, to: -246, ref: { char: "ptolemy2" } },
+  { id: "pl-p-alexander", name: "Alexander the Great", kind: "person", lon: 29.9, lat: 31.2, from: -336, to: -323, ref: { char: "alexander" } },
+  { id: "pl-p-solon", name: "Solon", kind: "person", lon: 23.73, lat: 37.98, from: -594, to: -560, ref: { char: "solon" } },
+  { id: "pl-p-kleisthenes", name: "Kleisthenes", kind: "person", lon: 23.73, lat: 37.98, from: -508, to: -500, ref: { char: "kleisthenes" } },
+  { id: "pl-p-herodotos", name: "Herodotus", kind: "person", lon: 27.42, lat: 37.04, from: -484, to: -425, ref: { char: "herodotos" } },
+  { id: "pl-p-themistokles", name: "Themistokles", kind: "person", lon: 23.63, lat: 37.94, from: -493, to: -459, ref: { char: "themistokles" } },
+  { id: "pl-p-perikles", name: "Perikles", kind: "person", lon: 23.73, lat: 37.98, from: -461, to: -429, ref: { char: "perikles" } },
+  { id: "pl-p-thucydides", name: "Thucydides", kind: "person", lon: 23.84, lat: 40.82, from: -431, to: -400, ref: { char: "thucydides" } },
+  { id: "pl-p-sokrates", name: "Socrates", kind: "person", lon: 23.73, lat: 37.98, from: -470, to: -399, ref: { char: "sokrates" } },
+  { id: "pl-p-leonidas", name: "Leonidas", kind: "person", lon: 22.43, lat: 37.07, from: -489, to: -480, ref: { char: "leonidas" } },
+  { id: "pl-p-philip2", name: "Philip II of Macedon", kind: "person", lon: 22.52, lat: 40.72, from: -359, to: -336, ref: { char: "philip2" } },
+  { id: "pl-p-cyrus", name: "Cyrus the Great", kind: "person", lon: 53.18, lat: 30.2, from: -559, to: -530, ref: { char: "cyrus" } },
+  { id: "pl-p-cambyses", name: "Cambyses II", kind: "person", lon: 31.25, lat: 29.85, from: -530, to: -522, ref: { char: "cambyses" } },
+  { id: "pl-p-darius1", name: "Darius I", kind: "person", lon: 47.44, lat: 34.39, from: -522, to: -486, ref: { char: "darius1" } },
+  { id: "pl-p-atossa", name: "Atossa", kind: "person", lon: 48.25, lat: 32.19, from: -522, to: -475, ref: { char: "atossa" } },
+  { id: "pl-p-xerxes", name: "Xerxes I", kind: "person", lon: 52.89, lat: 29.94, from: -486, to: -465, ref: { char: "xerxes" } },
+  { id: "pl-p-artaxerxes2", name: "Artaxerxes II", kind: "person", lon: 48.25, lat: 32.19, from: -404, to: -358, ref: { char: "artaxerxes2" } },
+  { id: "pl-p-artemisia", name: "Artemisia I", kind: "person", lon: 27.42, lat: 37.04, from: -484, to: -475, ref: { char: "artemisia" } },
+  { id: "pl-p-darius3", name: "Darius III", kind: "person", lon: 43.25, lat: 36.36, from: -336, to: -330, ref: { char: "darius3" } },
+
+  /* --- Places the syllabus visits without giving them a card --------- */
+  { id: "pl-x-delphi", name: "Delphi", kind: "place", lon: 22.5, lat: 38.48, from: -800, to: -30 },
+  { id: "pl-x-sparta", name: "Sparta", kind: "place", lon: 22.43, lat: 37.07, from: -800, to: -338 },
+  { id: "pl-x-corinth", name: "Corinth", kind: "place", lon: 22.93, lat: 37.94, from: -800, to: -146 },
+  { id: "pl-x-thebes", name: "Thebes", kind: "place", lon: 23.32, lat: 38.32, from: -800, to: -335 },
+  { id: "pl-x-chaeronea", name: "Chaeronea, 338 BC", kind: "place", lon: 22.85, lat: 38.49, from: -338, to: -338 },
+  { id: "pl-x-miletus", name: "Miletus", kind: "place", lon: 27.28, lat: 37.53, from: -600, to: -449 },
+  { id: "pl-x-sardis", name: "Sardis", kind: "place", lon: 28.04, lat: 38.48, from: -600, to: -330 },
+  { id: "pl-x-delos", name: "Delos", kind: "place", lon: 25.27, lat: 37.39, from: -478, to: -454 },
+  { id: "pl-x-syracuse", name: "Syracuse", kind: "place", lon: 15.29, lat: 37.07, from: -733, to: -212 },
+  { id: "pl-x-massalia", name: "Massalia", kind: "place", lon: 5.37, lat: 43.3, from: -600, to: -30 },
+  { id: "pl-x-byzantion", name: "Byzantion", kind: "place", lon: 28.98, lat: 41.01, from: -657, to: -30 },
+  { id: "pl-x-babylon", name: "Babylon", kind: "place", lon: 44.42, lat: 32.54, from: -800, to: -300 },
+  { id: "pl-x-susa", name: "Susa", kind: "place", lon: 48.25, lat: 32.19, from: -559, to: -330 },
+  { id: "pl-x-ecbatana", name: "Ecbatana", kind: "place", lon: 48.5, lat: 34.8, from: -700, to: -330 },
+  { id: "pl-x-behistun", name: "Behistun", kind: "place", lon: 47.44, lat: 34.39, from: -520, to: -486 },
+  { id: "pl-x-pasargadae", name: "Pasargadae", kind: "place", lon: 53.18, lat: 30.2, from: -546, to: -330 },
+  { id: "pl-x-gaugamela", name: "Gaugamela, 331 BC", kind: "place", lon: 43.25, lat: 36.36, from: -331, to: -331 },
+  { id: "pl-x-issus", name: "Issus, 333 BC", kind: "place", lon: 36.2, lat: 36.85, from: -333, to: -333 },
+  { id: "pl-x-granicus", name: "The Granicus, 334 BC", kind: "place", lon: 27.3, lat: 40.2, from: -334, to: -334 },
+  { id: "pl-x-siwa", name: "Siwa", kind: "place", lon: 25.52, lat: 29.2, from: -331, to: -331 },
+  { id: "pl-x-memphis", name: "Memphis", kind: "place", lon: 31.25, lat: 29.85, from: -800, to: -30 },
+  { id: "pl-x-pelusium", name: "Pelusium, 525 BC", kind: "place", lon: 32.55, lat: 31.04, from: -525, to: -525 },
+  { id: "pl-x-tyre", name: "Tyre", kind: "place", lon: 35.2, lat: 33.27, from: -814, to: -332 },
+  { id: "pl-x-alesia", name: "Alesia, 52 BC", kind: "place", lon: 4.5, lat: 47.54, from: -52, to: -52 },
+  { id: "pl-x-cirta", name: "Cirta", kind: "place", lon: 6.6, lat: 36.4, from: -203, to: -146 },
+  { id: "pl-x-saguntum", name: "Saguntum, 219 BC", kind: "place", lon: -0.27, lat: 39.68, from: -219, to: -219 },
+  { id: "pl-x-newcarthage", name: "New Carthage", kind: "place", lon: -0.98, lat: 37.6, from: -228, to: -206 },
+  { id: "pl-x-pharsalus", name: "Pharsalus, 48 BC", kind: "place", lon: 22.38, lat: 39.29, from: -48, to: -48 },
+  { id: "pl-x-philippi", name: "Philippi, 42 BC", kind: "place", lon: 24.29, lat: 41.01, from: -42, to: -42 },
+  { id: "pl-x-rubicon", name: "The Rubicon, 49 BC", kind: "place", lon: 12.4, lat: 44.09, from: -49, to: -49 },
+];

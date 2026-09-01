@@ -146,10 +146,13 @@ History CCG/
     │   ├── characters-extra.js   7 more from the Carthage/Egypt/Wars syllabi
     │   ├── characters-greece.js  8 more from the Greece syllabus
     │   ├── characters-persia.js  7 more from the Persia syllabus
-    │   └── atlas.js              Regions, eras, Set geography and periods
+    │   ├── atlas.js              Regions, eras, Set geography and periods
+    │   ├── coastline.js          World outline in [lon, lat] for the globe
+    │   └── places.js             Globe hotspots — Sets, wars, battles, people
     ├── engine.js                 Save, unlock rules, war gating, metrics
     ├── icons.js                  Inline SVG icon set (no icon dependency)
     ├── ui.js                     Shared components, card modal, chapter reader
+    ├── globe.js                  Orthographic projection and the globe itself
     ├── screens.js                Home, World, Set, Collection
     ├── screens-new.js            Wars, Atlas, Progress
     └── app.js                    Root state machine and routing
@@ -259,6 +262,22 @@ along them automatically.
 
 These are schematics and the panel says so. They show the shape of an idea,
 not the ground.
+
+### A globe hotspot
+
+Add to `PLACES` in `js/data/places.js`:
+
+```js
+{ id: "pl-b-cannae", name: "Cannae, 216 BC", kind: "battle",
+  lon: 16.13, lat: 41.3, from: -216, to: -216,
+  ref: { chapter: "war-punic-2" } },
+```
+
+`kind` is `set` / `war` / `battle` / `person` / `place`. `from` and `to` are
+the years it is live between — that is what ties it to the time slider. `ref`
+takes one of `set`, `chapter` or `char`, and the validator checks it resolves,
+so a renamed chapter cannot leave a pin that goes nowhere. Add `approx: true`
+where the location is disputed and the globe says so on the card.
 
 ### A new war
 

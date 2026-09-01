@@ -26,6 +26,8 @@ const LOAD_ORDER = [
   "js/data/characters-greece.js",
   "js/data/characters-persia.js",
   "js/data/atlas.js",
+  "js/data/coastline.js",
+  "js/data/places.js",
   "js/engine.js",
 ];
 
@@ -61,6 +63,7 @@ if (errors.length) { report(); process.exit(1); }
    scope, not on the sandbox object, so hand the bindings out explicitly. */
 const NAMES = ["CHAPTERS", "CHARACTERS", "SETS", "SOURCES", "WORLDS", "TIER_ORDER",
   "STAT_KEYS", "CHAPTER_SPANS", "CHAPTER_BY_ID", "PENDING_WARS", "SET_ATLAS",
+  "PLACES", "COASTLINE", "PLACE_TONE", "COASTLINE_SOURCE",
   "REGIONS", "ERAS", "CLASS_COLOR",
   "computeCards", "unlockedSets", "warGate", "setProgress", "buildProgress", "BLANK_SAVE"];
 const data = vm.runInContext(`({ ${NAMES.map((n) => `${n}: typeof ${n} === "undefined" ? undefined : ${n}`).join(", ")} })`, sandbox);
@@ -70,6 +73,7 @@ if (errors.length) { report(); process.exit(1); }
 const {
   CHAPTERS, CHARACTERS, SETS, SOURCES, WORLDS, TIER_ORDER, STAT_KEYS,
   CHAPTER_SPANS, CHAPTER_BY_ID, PENDING_WARS, SET_ATLAS, REGIONS, ERAS, CLASS_COLOR,
+  PLACES, COASTLINE, PLACE_TONE, COASTLINE_SOURCE,
   computeCards, unlockedSets, warGate, setProgress, buildProgress, BLANK_SAVE,
 } = data;
 
@@ -276,6 +280,43 @@ for (const p of PENDING_WARS || []) {
 }
 
 /* ------------------------------------------------------------------ */
+/* Globe hotspots                                                      */
+/* ------------------------------------------------------------------ */
+/* A pin whose ref no longer resolves navigates nowhere and says
+   nothing about why, so every reference is checked here. */
+
+const PLACE_KINDS = Object.keys(PLACE_TONE);
+const seenPlace = new Set();
+for (const pl of PLACES) {
+  const where = `place "${pl.id}"`;
+  if (seenPlace.has(pl.id)) fail(`${where}: duplicate id`);
+  seenPlace.add(pl.id);
+  if (!pl.name) fail(`${where}: no name`);
+  if (!PLACE_KINDS.includes(pl.kind)) fail(`${where}: unknown kind "${pl.kind}"`);
+  if (!Number.isFinite(pl.lon) || pl.lon < -180 || pl.lon > 180) fail(`${where}: longitude ${pl.lon} out of range`);
+  if (!Number.isFinite(pl.lat) || pl.lat < -90 || pl.lat > 90) fail(`${where}: latitude ${pl.lat} out of range`);
+  if (!Number.isFinite(pl.from) || !Number.isFinite(pl.to)) fail(`${where}: from/to must be years`);
+  else if (pl.from > pl.to) fail(`${where}: lifespan runs backwards (${pl.from} → ${pl.to})`);
+  if (pl.ref) {
+    if (pl.ref.set && !SETS[pl.ref.set]) fail(`${where}: refers to Set "${pl.ref.set}", which does not exist`);
+    if (pl.ref.chapter && !CHAPTER_BY_ID[pl.ref.chapter]) fail(`${where}: refers to chapter "${pl.ref.chapter}", which does not exist`);
+    if (pl.ref.char && !CHARACTERS[pl.ref.char]) fail(`${where}: refers to card "${pl.ref.char}", which does not exist`);
+  }
+}
+for (const c of Object.keys(CHARACTERS))
+  if (!PLACES.some((p) => p.ref && p.ref.char === c)) warn(`card "${c}" has no hotspot on the globe`);
+for (const w of CHAPTERS.filter((c) => c.kind === "war"))
+  if (!PLACES.some((p) => p.kind === "war" && p.ref && p.ref.chapter === w.id)) fail(`war "${w.id}" has no hotspot on the globe`);
+
+/* Coastline sanity: a stray coordinate pair puts a continent inside out. */
+for (const [n, ring] of (COASTLINE.land || []).concat(COASTLINE.seas || []).entries()) {
+  if (ring.length < 3) fail(`coastline ring ${n} has fewer than 3 points`);
+  for (const [lon, lat] of ring)
+    if (!Number.isFinite(lon) || !Number.isFinite(lat) || Math.abs(lon) > 180 || Math.abs(lat) > 90)
+      fail(`coastline ring ${n} has an out-of-range point [${lon}, ${lat}]`);
+}
+
+/* ------------------------------------------------------------------ */
 /* Atlas                                                               */
 /* ------------------------------------------------------------------ */
 
@@ -382,7 +423,8 @@ const unused = 0;
 
 console.log(`\nCodex Antiquus — ${stats}`);
 console.log(`Playthrough    — ${playthrough}`);
-console.log(`Diagrams       — ${diagLine}\n`);
+console.log(`Diagrams       — ${diagLine}`);
+console.log(`Globe          — ${PLACES.length} hotspots, ${COASTLINE.land.length} landmasses (${COASTLINE_SOURCE || "schematic"})\n`);
 report();
 
 if (errors.length) {

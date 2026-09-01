@@ -98,7 +98,31 @@ tells you where you have actually been rather than how obedient you have been.
 
 ## Known gaps
 
-### The globe is a flat map
+### The globe (no three.js)
+An orthographic projection is about twenty lines of trigonometry, so the globe
+is written out in `js/globe.js` rather than imported. Pulling in three.js to
+draw a rotating sphere would have added roughly 600 KB to a repo that had just
+been made offline-capable, and reintroduced a build-shaped dependency to a
+project whose whole architecture is *no build step*.
+
+The hard part was never the projection, it was the horizon. A ring that leaves
+the visible hemisphere has to be closed *along the limb*, or Eurasia grows a
+straight chord to the far edge of the sphere every time you spin it away. Rings
+are resampled, cut where they cross the horizon, and rejoined by walking the
+circle's edge.
+
+**Coastlines only, never borders.** Coastlines have barely moved since 500 BC.
+Borders have changed completely, and drawing a modern one on a globe used to
+navigate the ancient world would be exactly the sort of quiet anachronism this
+app exists to refuse.
+
+`js/data/coastline.js` currently holds a hand-drawn schematic outline — good
+enough to read as Earth, with the Mediterranean and Near East drawn more
+carefully because that is where every hotspot sits. `tools/fetch-map.ps1`
+replaces it with Natural Earth's surveyed public-domain 110m coastline in one
+run; the globe reads whichever is there, and `COASTLINE_SOURCE` records which.
+
+### The Atlas used to be a flat map
 The brief asks for a spinnable globe. The Atlas screen implements the same
 navigation model — pick a region, scrub time from 3000 BC to 2026, see what
 covers that moment — with an abstract SVG region map instead of a 3D globe.

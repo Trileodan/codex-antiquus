@@ -84,42 +84,83 @@ const REGION_SHAPES = {
   "americas":     "M 60 96 L 140 88 L 164 140 L 140 232 L 84 236 L 52 168 Z",
 };
 
-function AtlasScreen({ save, onHome, onEnterSet }) {
-  const [year, setYear] = useState(-250);
-  const [region, setRegion] = useState(null);
+function AtlasScreen({ save, cards, onHome, onEnterSet, onOpenChapter, onOpenChar }) {
+  const [year, setYear] = useState(-450);
+  const [picked, setPicked] = useState(null);
+  const [kinds, setKinds] = useState({ set: true, war: true, battle: true, person: true, place: true });
   const open = unlockedSets(save.chaptersDone);
   const era = eraAt(year);
-  const visible = setsAt(year, region);
-  const regionProgress = useMemo(() => buildProgress(save, {}).regions, [save.chaptersDone]);
+  const visible = setsAt(year, null);
+
+  /* A hotspot for content you have not reached is shown, not hidden —
+     hollow and unclickable, with the reason given. Same rule as the
+     sealed wars and the Planned Sets. */
+  const places = useMemo(() => PLACES.filter((p) => kinds[p.kind]).map((p) => {
+    let locked = false, reason = "";
+    if (p.ref && p.ref.set) {
+      const built = (CHAPTERS_BY_SET[p.ref.set] || []).length > 0;
+      locked = !built || !open[p.ref.set];
+      reason = !built ? "Set not written yet" : locked ? SETS[p.ref.set].sealedHint || "Not unlocked yet" : "";
+    } else if (p.ref && p.ref.chapter) {
+      const ch = CHAPTER_BY_ID[p.ref.chapter];
+      if (ch && ch.kind === "war") { const g = warGate(ch, save.chaptersDone); locked = !g.open; reason = locked ? "Both sides must be studied" : ""; }
+    } else if (p.ref && p.ref.char) {
+      locked = !cards[p.ref.char];
+      reason = locked ? "Card not minted yet" : "";
+    }
+    return { ...p, locked, reason };
+  }), [kinds, save.chaptersDone, cards, open]);
+
+  function go(p) {
+    if (p.locked || !p.ref) return;
+    if (p.ref.set) onEnterSet(p.ref.set);
+    else if (p.ref.chapter) onOpenChapter(CHAPTER_BY_ID[p.ref.chapter]);
+    else if (p.ref.char) onOpenChar(p.ref.char);
+  }
+
+  const KIND_ORDER = ["set", "war", "battle", "person", "place"];
 
   return <div className="max-w-3xl mx-auto px-4 py-8 hcg-fade">
     <Crumbs items={[{ label: "Home", onClick: onHome }, { label: "Atlas" }]} />
     <h1 className="hcg-display mt-3 mb-1" style={{ fontSize: 26 }}>Atlas</h1>
-    <p style={{ color: "var(--parchment-dim)", marginBottom: 18 }}>Pick a part of the world, then scrub time. Whatever was happening there and then appears below.</p>
+    <p style={{ color: "var(--parchment-dim)", marginBottom: 18 }}>Spin the globe and scrub time. Everything is placed by real latitude and longitude, and appears only while it existed.</p>
 
-    <div className="hcg-panel rounded-lg p-4 mb-5">
-      <svg viewBox="0 0 720 280" style={{ width: "100%", height: "auto" }} role="img" aria-label="Region selector">
-        <rect x="0" y="0" width="720" height="280" fill="#1B1710" rx="6" />
-        {[...Array(9)].map((_, i) => <line key={i} x1="0" y1={i * 35} x2="720" y2={i * 35} stroke="#2B241B" strokeWidth="1" />)}
-        {[...Array(21)].map((_, i) => <line key={i} x1={i * 36} y1="0" x2={i * 36} y2="280" stroke="#2B241B" strokeWidth="1" />)}
-        {REGIONS.map((r) => {
-          const sel = region === r.id;
-          const touched = (regionProgress[r.id] || {}).done > 0;
-          return <g key={r.id} onClick={() => setRegion(sel ? null : r.id)} style={{ cursor: "pointer" }}>
-            <path d={REGION_SHAPES[r.id]} fill={sel ? "var(--bronze)" : touched ? "#4A3E2C" : "#2F281E"}
-              stroke={sel ? "var(--gold-glow)" : "#4A4133"} strokeWidth={sel ? 2.5 : 1.5} />
-          </g>;
-        })}
-        {REGIONS.map((r) => {
-          const m = REGION_SHAPES[r.id].match(/M (\d+) (\d+)/);
-          return <text key={r.id} x={Number(m[1]) + 34} y={Number(m[2]) + 46} fontFamily="Space Mono" fontSize="11"
-            fill={region === r.id ? "#F6DE7C" : "#8b8371"} pointerEvents="none">{r.name}</text>;
-        })}
-      </svg>
-      <div className="hcg-mono mt-2" style={{ fontSize: 11, color: "var(--parchment-dim)" }}>
-        {region ? REGIONS.find((r) => r.id === region).blurb : "Showing every region — tap one to filter."}
+    <div className="hcg-panel rounded-lg p-4 mb-4">
+      <Globe year={year} places={places} selected={picked && picked.id} onPick={setPicked} />
+      <div className="flex gap-1.5 mt-3 flex-wrap">
+        {KIND_ORDER.map((k) => <button key={k} onClick={() => setKinds({ ...kinds, [k]: !kinds[k] })}
+          className="hcg-mono px-2 py-1 rounded flex items-center gap-1.5" style={{ fontSize: 9.5,
+            color: kinds[k] ? "var(--parchment)" : "var(--parchment-dim)",
+            background: kinds[k] ? "var(--panel-2)" : "transparent", border: "1px solid var(--hair)" }}>
+          <span style={{ width: 7, height: 7, borderRadius: "50%", display: "inline-block",
+            background: kinds[k] ? PLACE_TONE[k] : "transparent", border: `1px solid ${PLACE_TONE[k]}` }} />
+          {PLACE_KIND_LABEL[k].toUpperCase()}S
+        </button>)}
+      </div>
+      <div className="hcg-mono mt-2" style={{ fontSize: 10, color: "var(--parchment-dim)" }}>
+        Drag to spin. Coastlines only — no borders, because coastlines have barely moved since 500 BC and borders have changed completely.
       </div>
     </div>
+
+    {picked && <div className="hcg-panel-2 rounded-lg p-4 mb-4" style={{ borderColor: PLACE_TONE[picked.kind] }}>
+      <div className="flex items-center gap-2 flex-wrap mb-1">
+        <span className="hcg-mono" style={{ fontSize: 9.5, color: PLACE_TONE[picked.kind] }}>{PLACE_KIND_LABEL[picked.kind].toUpperCase()}</span>
+        <span className="hcg-display" style={{ fontSize: 18 }}>{picked.name}</span>
+        {picked.approx && <span className="hcg-mono" style={{ fontSize: 9, padding: "1px 5px", borderRadius: 3,
+          color: "var(--parchment-dim)", border: "1px solid var(--hair)" }}>LOCATION DISPUTED</span>}
+      </div>
+      <div className="hcg-mono" style={{ fontSize: 11, color: "var(--parchment-dim)" }}>
+        {picked.lat.toFixed(2)}°{picked.lat >= 0 ? "N" : "S"} {Math.abs(picked.lon).toFixed(2)}°{picked.lon >= 0 ? "E" : "W"}
+        {" · "}{yearLabel(picked.from)}{picked.from !== picked.to ? ` – ${yearLabel(picked.to)}` : ""}
+      </div>
+      {picked.ref && (picked.locked
+        ? <div className="mt-2" style={{ fontSize: 13.5, color: "var(--parchment-dim)" }}>Sealed — {picked.reason}.</div>
+        : <button onClick={() => go(picked)} className="hcg-btn mt-3 text-sm px-4 py-2 rounded"
+                  style={{ background: "var(--bronze)", color: "#1B1710" }}>
+            Open <ChevRight size={13} style={{ marginLeft: 4 }} />
+          </button>)}
+      {!picked.ref && <div className="mt-2" style={{ fontSize: 13.5, color: "var(--parchment-dim)" }}>A place the syllabus visits. No entry of its own yet.</div>}
+    </div>}
 
     <div className="hcg-panel rounded-lg p-4 mb-6">
       <div className="flex items-baseline justify-between mb-3">
@@ -138,10 +179,10 @@ function AtlasScreen({ save, onHome, onEnterSet }) {
     </div>
 
     <div className="hcg-tab mb-3" style={{ color: "var(--parchment-dim)" }}>
-      {visible.length} {visible.length === 1 ? "SET" : "SETS"} COVER {yearLabel(year)}{region ? ` IN ${REGIONS.find((r) => r.id === region).name.toUpperCase()}` : ""}
+      {visible.length} {visible.length === 1 ? "SET" : "SETS"} COVER {yearLabel(year)}
     </div>
     {visible.length === 0 && <div className="hcg-panel-2 rounded-lg p-5 text-center" style={{ color: "var(--parchment-dim)", fontSize: 14 }}>
-      Nothing covers this moment yet. The app currently runs from 814 BC to 27 BC around the Mediterranean; the rest of the map is scaffolding.
+      Nothing covers this moment yet. The app currently runs from 814 BC to 27 BC around the Mediterranean and the Near East; the rest of the globe is scaffolding.
     </div>}
     <div className="flex flex-col gap-2">
       {visible.map((sid) => {
@@ -154,24 +195,25 @@ function AtlasScreen({ save, onHome, onEnterSet }) {
           style={{ opacity: isOpen ? 1 : .62, cursor: isOpen ? "pointer" : "default" }}>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="hcg-display" style={{ fontSize: 15.5 }}>{s.name}</span>
-              {!built && <span className="hcg-mono" style={{ fontSize: 9, color: "var(--parchment-dim)", border: "1px solid var(--hair)", borderRadius: 3, padding: "1px 5px" }}>PLANNED</span>}
-              {built && !open[sid] && <span className="hcg-mono" style={{ fontSize: 9, color: "var(--parchment-dim)" }}>SEALED</span>}
+              <span className="hcg-display" style={{ fontSize: 16 }}>{s.name}</span>
+              <span className="hcg-mono" style={{ fontSize: 10, color: "var(--parchment-dim)" }}>
+                {yearLabel(a.from)} – {yearLabel(a.to)}
+              </span>
+              {!built && <span className="hcg-mono" style={{ fontSize: 9, padding: "1px 5px", borderRadius: 3,
+                color: "var(--parchment-dim)", border: "1px solid var(--hair)" }}>PLANNED</span>}
             </div>
-            <div className="hcg-mono" style={{ fontSize: 10.5, color: "var(--parchment-dim)", marginTop: 3 }}>
-              {yearLabel(a.from)} – {yearLabel(a.to)}{built ? ` · ${p.done}/${p.total} chapters` : ""}
-            </div>
+            <div style={{ fontSize: 13.5, color: "var(--parchment-dim)", marginTop: 3 }}>{s.tagline}</div>
+            {built && <div className="hcg-mono" style={{ fontSize: 10.5, color: "var(--bronze-glow)", marginTop: 4 }}>
+              {p.done} / {p.total} chapters</div>}
           </div>
           {isOpen && <ChevRight size={16} color="var(--parchment-dim)" />}
+          {!isOpen && <Lock size={14} color="var(--locked)" />}
         </button>;
       })}
     </div>
   </div>;
 }
 
-/* ----------------------------- PROGRESS ------------------------------ */
-/* Not a path. Coverage: which centuries and which parts of the world you
-   have actually been through, plus what it earned you. */
 function ProgressScreen({ save, cards, onHome, onOpenChar }) {
   const p = buildProgress(save, cards);
   const CENT_FROM = -900, CENT_TO = 100;

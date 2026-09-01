@@ -139,10 +139,10 @@ Africanus. Handled by `goldName`.
    animated schematic. Format documented in `README.md`; validated by
    `tools/validate.js`, which checks unit references, tones and label lengths.
 
-3. **The globe.** The brief asked for a spinnable globe you pick a region from.
-   The Atlas implements exactly that navigation model — region, then a time
-   slider from 3000 BC to 2026 — using a flat SVG region map. A real globe is
-   `three.js` plus boundary data sitting on top of the same data model.
+3. **The globe.** ~~Not built.~~ **Done.** The Atlas is now a draggable
+   orthographic globe with 98 hotspots placed by real latitude and longitude
+   and filtered by the time slider. No three.js. Run `tools/fetch-map.ps1` to
+   swap the hand-drawn outline for Natural Earth's surveyed one.
 4. **Spaced repetition.** Chapters can be re-read but mint nothing new. Genuine
    retention needs review scheduling that resurfaces key points from chapters
    finished weeks ago. `recentKeys` and `keyCount` in the save file are the

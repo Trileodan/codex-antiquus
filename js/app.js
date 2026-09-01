@@ -137,8 +137,9 @@ function App() {
 
     {screen === "wars" && <WarsScreen save={save} onHome={() => setScreen("home")} onOpenChapter={openChapter} />}
 
-    {screen === "atlas" && <AtlasScreen save={save} onHome={() => setScreen("home")}
-      onEnterSet={(id) => { setSetId(id); setScreen("set"); }} />}
+    {screen === "atlas" && <AtlasScreen save={save} cards={cards} onHome={() => setScreen("home")}
+      onEnterSet={(id) => { setSetId(id); setScreen("set"); }}
+      onOpenChapter={openChapter} onOpenChar={setOpenChar} />}
 
     {screen === "progress" && <ProgressScreen save={save} cards={cards} onHome={() => setScreen("home")} onOpenChar={setOpenChar} />}
 

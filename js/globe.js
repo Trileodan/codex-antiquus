@@ -112,36 +112,72 @@ function graticule(rotLon, rotLat) {
   return out.filter(Boolean);
 }
 
-/* Drag to spin. Pointer events cover mouse and touch together, and the
-   globe is keyboard-operable because a map you can only use by dragging
-   is a map some people cannot use at all. */
-function useDragRotation(initial) {
+/* Drag to spin, pinch to zoom. Pointer events cover mouse and touch
+   together, and the globe is keyboard- and button-operable because a map
+   you can only use by dragging is a map some people cannot use at all.
+
+   Direction: you are grabbing the globe, not steering a camera. Drag
+   right and the land under your finger goes right, which means the
+   centre longitude decreases. Drag down and the north pole comes
+   towards you, which means the centre latitude increases. */
+
+const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+const pointerDist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+const ZOOM_MIN = 1, ZOOM_MAX = 6;
+
+function useGlobeControls(initial) {
   const [rot, setRot] = useState(initial);
-  const drag = useRef(null);
+  const [zoom, setZoom] = useState(1);
+  const pointers = useRef(new Map());
+  const gesture = useRef(null);
+
+  function beginGesture() {
+    const pts = [...pointers.current.values()];
+    if (pts.length === 1) gesture.current = { mode: "rotate", x: pts[0].x, y: pts[0].y, lon: rot.lon, lat: rot.lat };
+    else if (pts.length >= 2) gesture.current = { mode: "pinch", dist: pointerDist(pts[0], pts[1]) || 1, zoom };
+    else gesture.current = null;
+  }
 
   const onDown = (e) => {
-    drag.current = { x: e.clientX, y: e.clientY, lon: rot.lon, lat: rot.lat };
     if (e.currentTarget.setPointerCapture) e.currentTarget.setPointerCapture(e.pointerId);
+    pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    beginGesture();
   };
   const onMove = (e) => {
-    if (!drag.current) return;
-    const dx = e.clientX - drag.current.x, dy = e.clientY - drag.current.y;
-    setRot({
-      lon: drag.current.lon + dx * 0.45,
-      lat: Math.max(-85, Math.min(85, drag.current.lat - dy * 0.45)),
-    });
+    if (!pointers.current.has(e.pointerId)) return;
+    pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    const pts = [...pointers.current.values()], g = gesture.current;
+    if (!g) return;
+    if (g.mode === "pinch" && pts.length >= 2) {
+      setZoom(clamp(g.zoom * (pointerDist(pts[0], pts[1]) / g.dist), ZOOM_MIN, ZOOM_MAX));
+    } else if (g.mode === "rotate" && pts.length === 1) {
+      const dx = pts[0].x - g.x, dy = pts[0].y - g.y;
+      const k = 0.45 / zoom;               /* finer control the closer you are */
+      setRot({ lon: g.lon - dx * k, lat: clamp(g.lat + dy * k, -85, 85) });
+    }
   };
-  const onUp = () => { drag.current = null; };
-  const nudge = (dLon, dLat) => setRot((r) => ({
-    lon: r.lon + dLon, lat: Math.max(-85, Math.min(85, r.lat + dLat)),
-  }));
+  const onUp = (e) => { pointers.current.delete(e.pointerId); beginGesture(); };
 
-  return { rot, setRot, nudge, handlers: { onPointerDown: onDown, onPointerMove: onMove,
-                                           onPointerUp: onUp, onPointerCancel: onUp } };
+  /* A trackpad pinch arrives as a wheel event with ctrlKey set. A plain
+     two-finger scroll is left alone so the page still scrolls. */
+  const onWheel = (e) => {
+    if (!e.ctrlKey) return;
+    e.preventDefault();
+    setZoom((z) => clamp(z * (e.deltaY > 0 ? 0.92 : 1.08), ZOOM_MIN, ZOOM_MAX));
+  };
+
+  const nudge = (dLon, dLat) => setRot((r) => ({
+    lon: r.lon + dLon, lat: clamp(r.lat + dLat, -85, 85),
+  }));
+  const stepZoom = (f) => setZoom((z) => clamp(z * f, ZOOM_MIN, ZOOM_MAX));
+
+  return { rot, setRot, zoom, setZoom, nudge, stepZoom,
+           handlers: { onPointerDown: onDown, onPointerMove: onMove,
+                       onPointerUp: onUp, onPointerCancel: onUp, onWheel } };
 }
 
 function Globe({ year, places, onPick, selected }) {
-  const { rot, setRot, nudge, handlers } = useDragRotation({ lon: 25, lat: 28 });
+  const { rot, setRot, zoom, setZoom, nudge, stepZoom, handlers } = useGlobeControls({ lon: 25, lat: 28 });
   const grat = useMemo(() => graticule(rot.lon, rot.lat), [rot.lon, rot.lat]);
 
   const shown = places.filter((p) => year >= p.from && year <= p.to);
@@ -164,19 +200,20 @@ function Globe({ year, places, onPick, selected }) {
           </clipPath>
         </defs>
 
+        <g transform={`translate(${GLOBE_C * (1 - zoom)} ${GLOBE_C * (1 - zoom)}) scale(${zoom})`}>
         <circle cx={GLOBE_C} cy={GLOBE_C} r={GLOBE_R} fill="url(#globe-shade)"
-                stroke="var(--hair)" strokeWidth=".5" />
+                stroke="var(--hair)" strokeWidth=".5" vectorEffect="non-scaling-stroke" />
         <g clipPath="url(#globe-clip)">
-        {grat.map((d, i) => <path key={`g${i}`} d={d} fill="none" stroke="#312A20" strokeWidth=".25" />)}
+        {grat.map((d, i) => <path key={`g${i}`} d={d} fill="none" stroke="#312A20" strokeWidth=".25" vectorEffect="non-scaling-stroke" />)}
 
         {COASTLINE.land.map((ring, i) => (
           <path key={`l${i}`} d={ringPath(ring, rot.lon, rot.lat, true)}
                 fill="rgba(176,141,87,.20)" stroke="var(--bronze)" strokeWidth=".35"
-                strokeLinejoin="round" />
+                strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
         ))}
         {COASTLINE.seas.map((ring, i) => (
           <path key={`s${i}`} d={ringPath(ring, rot.lon, rot.lat, true)}
-                fill="#1D1913" stroke="var(--bronze)" strokeWidth=".25" />
+                fill="#1D1913" stroke="var(--bronze)" strokeWidth=".25" vectorEffect="non-scaling-stroke" />
         ))}
         </g>
 
@@ -186,13 +223,15 @@ function Globe({ year, places, onPick, selected }) {
           return (
             <g key={p.id} onPointerDown={(e) => e.stopPropagation()}
                onClick={() => onPick(p)} style={{ cursor: "pointer" }}>
-              {on && <circle cx={xy[0]} cy={xy[1]} r="3.4" fill="none" stroke={c} strokeWidth=".4" opacity=".8" />}
-              <circle cx={xy[0]} cy={xy[1]} r={on ? 1.5 : p.kind === "set" ? 1.25 : 0.95}
-                      fill={p.locked ? "transparent" : c} stroke={c} strokeWidth=".4" />
+              {on && <circle cx={xy[0]} cy={xy[1]} r={3.4 / zoom} fill="none" stroke={c} strokeWidth=".4" vectorEffect="non-scaling-stroke" opacity=".8" />}
+              <circle cx={xy[0]} cy={xy[1]} r={(on ? 1.5 : p.kind === "set" ? 1.25 : 0.95) / zoom}
+                      fill={p.locked ? "transparent" : c} stroke={c} strokeWidth=".4"
+                      vectorEffect="non-scaling-stroke" />
               <title>{p.name}</title>
             </g>
           );
         })}
+        </g>
       </svg>
 
       <div className="flex items-center gap-2 mt-2 flex-wrap">
@@ -200,7 +239,13 @@ function Globe({ year, places, onPick, selected }) {
         <button onClick={() => nudge(0, 12)} className="hcg-btn hcg-panel text-xs px-2.5 py-1 rounded" aria-label="Rotate north">↑</button>
         <button onClick={() => nudge(0, -12)} className="hcg-btn hcg-panel text-xs px-2.5 py-1 rounded" aria-label="Rotate south">↓</button>
         <button onClick={() => nudge(25, 0)} className="hcg-btn hcg-panel text-xs px-2.5 py-1 rounded" aria-label="Rotate east">→</button>
-        <button onClick={() => setRot({ lon: 25, lat: 28 })} className="hcg-btn hcg-panel text-xs px-3 py-1 rounded">Recentre</button>
+        <button onClick={() => { setRot({ lon: 25, lat: 28 }); setZoom(1); }} className="hcg-btn hcg-panel text-xs px-3 py-1 rounded">Recentre</button>
+        <span style={{ width: 8 }} />
+        <button onClick={() => stepZoom(1 / 1.4)} disabled={zoom <= ZOOM_MIN}
+                className="hcg-btn hcg-panel text-xs px-2.5 py-1 rounded" aria-label="Zoom out">−</button>
+        <button onClick={() => stepZoom(1.4)} disabled={zoom >= ZOOM_MAX}
+                className="hcg-btn hcg-panel text-xs px-2.5 py-1 rounded" aria-label="Zoom in">+</button>
+        {zoom > 1.02 && <span className="hcg-mono" style={{ fontSize: 10, color: "var(--parchment-dim)" }}>×{zoom.toFixed(1)}</span>}
         <span className="hcg-mono" style={{ fontSize: 10, color: "var(--parchment-dim)", marginLeft: "auto" }}>
           {plotted.length} of {shown.length} on this face
         </span>

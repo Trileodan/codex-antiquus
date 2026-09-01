@@ -138,7 +138,7 @@ function AtlasScreen({ save, cards, onHome, onEnterSet, onOpenChapter, onOpenCha
         </button>)}
       </div>
       <div className="hcg-mono mt-2" style={{ fontSize: 10, color: "var(--parchment-dim)" }}>
-        Drag to spin. Coastlines only — no borders, because coastlines have barely moved since 500 BC and borders have changed completely.
+        Drag to spin, pinch or ⌘-scroll to zoom. Coastlines only — no borders, because coastlines have barely moved since 500 BC and borders have changed completely.
       </div>
     </div>
 

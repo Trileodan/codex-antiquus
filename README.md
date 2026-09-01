@@ -84,33 +84,27 @@ they are the one remaining network dependency.
 
 ---
 
-## Deploying to GitHub Pages
+## Live site
 
-1. Create a repository on GitHub and push this folder to it:
+**https://trileodan.github.io/codex-antiquus/**
 
-   ```bash
-   cd "History CCG"
-   git init
-   git add .
-   git commit -m "Codex Antiquus prototype"
-   git branch -M main
-   git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPO.git
-   git push -u origin main
-   ```
+Repository: **https://github.com/Trileodan/codex-antiquus**
 
-2. On GitHub: **Settings → Pages → Build and deployment**. Set Source to
-   *Deploy from a branch*, branch `main`, folder `/ (root)`. Save.
+GitHub Pages serves `index.html` — the multi-file version — from `main` at the
+repository root. Pages needs no build step because there isn't one: the browser
+loads the modules and transforms the JSX itself.
 
-3. Wait a minute or two. The site appears at
-   `https://YOUR-USERNAME.github.io/YOUR-REPO/`.
+To publish a change: commit and push to `main`. The site rebuilds in a minute
+or two. `.nojekyll` stops GitHub's Jekyll processor from ignoring the `js/`
+directory.
 
-The `.nojekyll` file is already present, which stops GitHub's Jekyll processor
-from ignoring directories and mangling the asset paths.
+Two things that work locally and break on Pages, worth remembering when adding
+files:
 
-Tailwind is a static stylesheet in `vendor/`, so nothing is generated at
-runtime and there is no console warning. React, ReactDOM and Babel are loaded
-from `vendor/` too **if they are there**, and fall back to their CDNs if they
-are not — see *Vendored libraries* below.
+- **Pages is case-sensitive, Windows is not.** A `<script src="js/Screens.js">`
+  against a file named `screens.js` works on your machine and 404s live.
+- **Paths must stay relative.** The site is served from `/codex-antiquus/`, so
+  a leading slash resolves to the wrong place.
 
 ---
 

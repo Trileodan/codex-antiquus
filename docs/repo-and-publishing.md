@@ -26,7 +26,8 @@ GitHub-ready files live in `Desktop\History CCG`.
 | `tools/validate.js` | Data integrity check + simulated playthrough — run after any content edit |
 | `tools/fetch-vendor.ps1` / `.sh` | One-time download of React, ReactDOM and Babel into `vendor/` |
 | `tools/tailwind.config.js`, `tools/tailwind-input.css` | Inputs for the static Tailwind build |
-| `vendor/tailwind.css` | Tailwind 3.4 compiled against this repo — committed |
+| `vendor/tailwind.css` | Tailwind 3.4 compiled against this repo |
+| `vendor/*.js` | React 18.2.0, ReactDOM 18.2.0, Babel Standalone 7.23.5 |
 | `build.py` | Bundles everything into one double-clickable file |
 | `docs/DECISIONS.md` | Architecture decisions and known gaps |
 | `docs/HANDOFF.md` | Read first when picking the project up fresh |
@@ -53,8 +54,9 @@ Re-run it after content edits; `dist/` is gitignored.
 
 ## Publishing
 
-New public repo (e.g. `history-ccg`) → push the folder → Settings → Pages →
-Deploy from a branch, `main`, `/ (root)`. URL: `https://<user>.github.io/history-ccg/`.
+Published at **https://trileodan.github.io/codex-antiquus/** from
+**https://github.com/Trileodan/codex-antiquus**, `main` branch, `/ (root)`,
+Deploy from a branch. Push to `main` to update it.
 
 No service worker any more, so no cache version to bump. Tailwind is a
 committed static stylesheet. React, ReactDOM and Babel come from `vendor/` if

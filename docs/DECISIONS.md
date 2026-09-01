@@ -130,16 +130,16 @@ Editor pipeline. All content here was written by hand to those standards, and
 the data structures match what such a pipeline would emit — claims carry
 classification, sources and dates. Automating it is a separate project.
 
-### Vendoring is half done
+### Vendoring (done)
 `vendor/tailwind.css` is committed: Tailwind 3.4 compiled against this repo's
 markup. That replaced `cdn.tailwindcss.com`, which shipped a 120 KB script that
 regenerated the same CSS in the browser on every load and printed a production
 warning to the console. The static sheet is 17 KB and covers all 99 utility
 classes the app uses; `tools/tailwind.config.js` rebuilds it.
 
-React, ReactDOM and Babel are **not** committed. `tools/fetch-vendor.ps1` (and
-`.sh`) downloads them into `vendor/` in one step, and until someone runs it
-`index.html` falls back to cdnjs:
+React, ReactDOM and Babel are now committed too — `tools/fetch-vendor.ps1`
+fetched them at first publish. The fallback in `index.html` stays, because it
+costs nothing and keeps a fresh clone working if `vendor/` is ever emptied:
 
 ```html
 <script src="vendor/react.production.min.js"></script>
@@ -154,13 +154,16 @@ for whatever is not, and says which at the end of the run.
 They are not committed because the repo should not carry 3 MB of minified
 third-party JavaScript that a one-line script can fetch.
 
-**Before deploying, commit them anyway.** GitHub Pages serves the repo as-is —
-there is no build step to run the fetch script — so an empty `vendor/` means
-every visitor's browser requests three files that 404 and then falls back to
-cdnjs. It works, but it puts three errors in the console of a public site and
-makes the page depend on a third party staying up. Run `tools/fetch-vendor.ps1`
-before the first push; `.gitignore` does not exclude them, so they go in with
-the next commit.
+They are committed rather than fetched at deploy time because GitHub Pages
+serves the repo as-is — there is no build step to run the fetch script. An
+empty `vendor/` would mean every visitor's browser requesting three files that
+404 before falling back to cdnjs: three console errors on a public site, and a
+page that depends on a third party staying up.
+
+The cost is ~3 MB in the repo, almost all of it `babel.min.js`. That is the
+price of having no build step; compiling the JSX ahead of time would remove
+both the 2.8 MB dependency and the transform-on-every-load, and is the main
+argument for the Vite migration.
 
 **Remaining network dependency:** the Google Fonts stylesheet for Cinzel,
 Crimson Pro and Space Mono. Vendoring those means committing woff2 files and

@@ -42,6 +42,9 @@ with real date ranges — Ancient Egypt, Persia, Archaic and Classical Greece,
 the Hellenistic world, the Roman Empire, Ancient Britain, Mesopotamia, the
 Indus Valley, Ancient India, Ancient China, Mesoamerica.
 
+Live at **https://trileodan.github.io/codex-antiquus/**, from
+**https://github.com/Trileodan/codex-antiquus**.
+
 Everything validates: `node tools/validate.js` passes, and its simulated
 playthrough reaches all 42 chapters and mints all 28 cards in 3 unlock passes.
 
@@ -111,17 +114,9 @@ Africanus. Handled by `goldName`.
 
 ## Next steps, roughly in order of value
 
-0. **Finish the vendoring — one command.** Tailwind is done: `vendor/tailwind.css`
-   is a real 17 KB stylesheet compiled from this repo, replacing the runtime CDN
-   script and its production warning. React, ReactDOM and Babel still need
-   fetching once:
-
-   ```powershell
-   powershell -ExecutionPolicy Bypass -File tools\fetch-vendor.ps1
-   ```
-
-   Until then `index.html` falls back to cdnjs and the app works normally, it
-   just needs a connection. See *Vendoring is half done* in `DECISIONS.md`.
+0. ~~Vendor the CDN dependencies.~~ **Done.** Tailwind is a static 17 KB
+   sheet compiled from this repo; React, ReactDOM and Babel are in `vendor/`.
+   The app needs no network except the Google Fonts stylesheet.
 1. **Write more Sets.** Ancient Greece already unlocks from the Rome syllabus
    but has no chapters — it currently reads "Discovered — chapters in
    development," which is honest but unsatisfying. Ancient Egypt and Persia

@@ -227,6 +227,49 @@ for (const w of CHAPTERS.filter((c) => c.kind === "war")) {
   if (gateSets.size < 2) fail(`${where}: gate covers only ${gateSets.size} Set(s) — a war must be gated on both sides`);
 }
 
+/* Battle diagrams: a phase that names a unit which does not exist renders
+   nothing at all and says nothing about it, so check every reference. */
+const DIAG_TONES = ["gold", "silver", "rust", "verdigris", "bronze", "dim"];
+const TERRAIN_TONES = ["sea", "high", "ground"];
+
+for (const w of CHAPTERS.filter((c) => c.kind === "war")) {
+  for (const b of w.beats || []) {
+    if (!b.diagram) continue;
+    const where = `war "${w.id}" battle "${b.title || b.name}" diagram`;
+    const d = b.diagram;
+
+    if (!Array.isArray(d.units) || !d.units.length) { fail(`${where}: no units`); continue; }
+    if (!Array.isArray(d.phases) || !d.phases.length) { fail(`${where}: no phases`); continue; }
+
+    const ids = new Set();
+    for (const u of d.units) {
+      if (!u.id) fail(`${where}: a unit has no id`);
+      else if (ids.has(u.id)) fail(`${where}: duplicate unit id "${u.id}"`);
+      ids.add(u.id);
+      if (!DIAG_TONES.includes(u.tone)) fail(`${where}: unit "${u.id}" has unknown tone "${u.tone}"`);
+      for (const k of ["x", "y", "w", "h"])
+        if (!Number.isFinite(u[k])) fail(`${where}: unit "${u.id}" has no numeric ${k}`);
+      // Labels are drawn centred inside the block and do not wrap or clip.
+      if (u.label && u.label.length > 12)
+        fail(`${where}: unit "${u.id}" label "${u.label}" is ${u.label.length} chars — over 12 overflows the block`);
+    }
+
+    for (const t of d.terrain || []) {
+      if (!TERRAIN_TONES.includes(t.tone)) fail(`${where}: terrain has unknown tone "${t.tone}"`);
+      if (t.label && t.label.length > 26)
+        fail(`${where}: terrain label "${t.label}" is ${t.label.length} chars — over 26 collides with units`);
+    }
+
+    d.phases.forEach((ph, n) => {
+      if (!ph.caption) fail(`${where}: phase ${n + 1} has no caption`);
+      for (const id of Object.keys(ph.at || {}))
+        if (!ids.has(id)) fail(`${where}: phase ${n + 1} moves unit "${id}", which is not in units`);
+      for (const a of ph.arrows || [])
+        if (!a.d) fail(`${where}: phase ${n + 1} has an arrow with no path`);
+    });
+  }
+}
+
 for (const p of PENDING_WARS || []) {
   if (!p.blockedBy) fail(`pending war "${p.name || p.id}": no blockedBy — the Wars screen would show it sealed with no explanation`);
   if (!Array.isArray(p.sides) || p.sides.length < 2) fail(`pending war "${p.name || p.id}": needs at least two sides`);
@@ -332,8 +375,14 @@ const stats = CHAPTERS.length
     `${Object.values(CHARACTERS).reduce((n, c) => n + (c.claims || []).length, 0)} claims`
   : "no chapters";
 
+const battles = CHAPTERS.filter((c) => c.kind === "war").flatMap((c) => c.beats || []).filter((b) => b.name);
+const diagrammed = battles.filter((b) => b.diagram).length;
+const diagLine = `${diagrammed}/${battles.length} battles have a diagram`;
+const unused = 0;
+
 console.log(`\nCodex Antiquus — ${stats}`);
-console.log(`Playthrough    — ${playthrough}\n`);
+console.log(`Playthrough    — ${playthrough}`);
+console.log(`Diagrams       — ${diagLine}\n`);
 report();
 
 if (errors.length) {

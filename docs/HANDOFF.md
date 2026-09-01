@@ -135,15 +135,19 @@ Africanus. Handled by `goldName`.
    **Macedon**. **Ancient Egypt** unseals nothing but is the most-requested
    period in the app's own Atlas and the obvious companion to Ptolemaic Egypt.
 
-2. **The globe.** The brief asked for a spinnable globe you pick a region from.
+2. **Battle animations.** ~~Not built.~~ **Done** — all 13 battles carry an
+   animated schematic. Format documented in `README.md`; validated by
+   `tools/validate.js`, which checks unit references, tones and label lengths.
+
+3. **The globe.** The brief asked for a spinnable globe you pick a region from.
    The Atlas implements exactly that navigation model — region, then a time
    slider from 3000 BC to 2026 — using a flat SVG region map. A real globe is
    `three.js` plus boundary data sitting on top of the same data model.
-3. **Spaced repetition.** Chapters can be re-read but mint nothing new. Genuine
+4. **Spaced repetition.** Chapters can be re-read but mint nothing new. Genuine
    retention needs review scheduling that resurfaces key points from chapters
    finished weeks ago. `recentKeys` and `keyCount` in the save file are the
    beginning of the data this needs.
-4. **Migrate off in-browser Babel** if content volume makes transformation slow.
+5. **Migrate off in-browser Babel** if content volume makes transformation slow.
    Vite; the data files port unchanged because they're plain objects.
 
 ---

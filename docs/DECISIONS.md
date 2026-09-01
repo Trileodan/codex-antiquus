@@ -178,6 +178,21 @@ order preserves the rendering the app was built against. Reversing it is safe
 in principle and would change nothing visible today, but it is not worth
 finding out during a content change.
 
+### Battle diagrams are declarative, not drawn
+A battle's `diagram` is data: units with positions, and phases that state only
+what moves. The component tweens between them with a CSS transform, so there
+is no animation library, no sprite sheet and no image — inline SVG that works
+offline and scales to any width.
+
+The alternative was hand-drawing each battle as an illustration. Data means
+the validator can check it (a phase naming a unit that does not exist would
+otherwise render nothing and say nothing about it), a diagram diffs readably
+in git, and a new battle needs no new code.
+
+The panel is labelled *schematic, not to scale* in every case, because these
+are diagrams of an idea rather than maps of ground. Cannae's box did not have
+square corners.
+
 ### Validation covers data and rules, not UI
 `node tools/validate.js` loads the data layer inside a `vm` context with a React
 stub, then checks structure — chapter references, tier/`requires` symmetry,

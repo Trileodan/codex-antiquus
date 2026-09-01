@@ -236,6 +236,142 @@ function MintModal({ mints, cards, onClose, onOpen }) {
   </div>;
 }
 
+/* ====================== BATTLE DIAGRAM ============================== */
+/* An animated schematic of a battle's tactic. Declarative: a battle beat
+   adds an optional `diagram` and this renders it. Units carry a base
+   position; each phase supplies deltas that persist forward, so a phase
+   only states what changes. Movement is a CSS transform transition, and
+   the whole thing is inline SVG — no dependency, no images, works offline.
+
+   These are schematics, not maps. They show the shape of an idea, and the
+   caption says so. Real battles were messier than any diagram. */
+
+const DIAG_TONE = {
+  gold: "var(--gold-glow)", silver: "var(--silver-glow)", rust: "var(--rust)",
+  verdigris: "var(--verdigris)", bronze: "var(--bronze-glow)", dim: "var(--locked)",
+};
+const DIAG_TERRAIN = {
+  sea: { fill: "rgba(124,154,133,.10)", stroke: "rgba(124,154,133,.35)" },
+  high: { fill: "rgba(58,50,38,.75)", stroke: "var(--hair)" },
+  ground: { fill: "rgba(43,36,27,.55)", stroke: "var(--hair)" },
+};
+
+function unitStateAt(diagram, unit, upto) {
+  const st = { x: unit.x, y: unit.y, w: unit.w, h: unit.h, rot: unit.rot || 0, o: 1 };
+  for (let i = 0; i <= upto; i++) {
+    const d = (diagram.phases[i] && diagram.phases[i].at && diagram.phases[i].at[unit.id]) || null;
+    if (d) Object.assign(st, d);
+  }
+  return st;
+}
+
+function BattleDiagram({ diagram }) {
+  const [i, setI] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  const last = diagram.phases.length - 1;
+  const reduce = typeof window !== "undefined" && window.matchMedia
+    ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : false;
+
+  useEffect(() => {
+    if (!playing) return;
+    if (i >= last) { setPlaying(false); return; }
+    const t = setTimeout(() => setI((n) => n + 1), 2100);
+    return () => clearTimeout(t);
+  }, [playing, i, last]);
+
+  const [vw, vh] = diagram.view || [100, 62];
+  const phase = diagram.phases[i];
+
+  return (
+    <div className="hcg-panel-2 rounded p-4 mb-4" style={{ borderColor: "var(--bronze)" }}>
+      <div className="flex items-center justify-between gap-2 mb-3 flex-wrap">
+        <div className="hcg-tab" style={{ color: "var(--bronze-glow)" }}>HOW IT WORKED</div>
+        <div className="hcg-mono" style={{ fontSize: 10, color: "var(--parchment-dim)" }}>SCHEMATIC · NOT TO SCALE</div>
+      </div>
+
+      <svg viewBox={`0 0 ${vw} ${vh}`} className="hcg-diagram" role="img"
+           aria-label={`Diagram: ${phase.caption}`} style={{ width: "100%", display: "block" }}>
+        {(diagram.terrain || []).map((t, n) => {
+          const tone = DIAG_TERRAIN[t.tone] || DIAG_TERRAIN.ground;
+          return <path key={n} d={t.d} fill={tone.fill} stroke={tone.stroke} strokeWidth=".3" />;
+        })}
+        {(diagram.terrain || []).filter((t) => t.label).map((t, n) => (
+          <text key={`tl${n}`} x={t.lx} y={t.ly} className="hcg-diagram-terrain-label"
+                textAnchor="middle">{t.label}</text>
+        ))}
+
+        {(phase.arrows || []).map((a, n) => (
+          <g key={`${i}-a${n}`} className="hcg-diagram-arrow">
+            <defs>
+              <marker id={`ah-${i}-${n}`} markerWidth="4" markerHeight="4" refX="3" refY="2" orient="auto">
+                <path d="M0 0 L4 2 L0 4 z" fill={DIAG_TONE[a.tone] || "var(--parchment-dim)"} />
+              </marker>
+            </defs>
+            <path d={a.d} fill="none" strokeWidth={a.w || .9} strokeDasharray="2 1.6"
+                  stroke={DIAG_TONE[a.tone] || "var(--parchment-dim)"}
+                  markerEnd={`url(#ah-${i}-${n})`} />
+          </g>
+        ))}
+
+        {diagram.units.map((u) => {
+          const st = unitStateAt(diagram, u, i);
+          const tone = DIAG_TONE[u.tone] || "var(--parchment-dim)";
+          return (
+            <g key={u.id} className={reduce ? "" : "hcg-diagram-unit"}
+               style={{ transform: `translate(${st.x}px, ${st.y}px) rotate(${st.rot}deg)`,
+                        /* local space: the rect is drawn at 0,0 and translated,
+                           so the pivot is its own centre, not its page position */
+                        transformOrigin: `${st.w / 2}px ${st.h / 2}px`,
+                        opacity: st.o }}>
+              <rect width={st.w} height={st.h} rx=".8"
+                    fill={tone} fillOpacity={u.hollow ? .12 : .34}
+                    stroke={tone} strokeWidth=".45" />
+              {u.label && (st.h > st.w * 1.6
+                ? /* a tall narrow block: run the label along it rather than
+                     letting it spill sideways over whatever is next to it */
+                  <text x={st.w / 2} y={st.h / 2} textAnchor="middle" dominantBaseline="middle"
+                        transform={`rotate(-90 ${st.w / 2} ${st.h / 2})`}
+                        className="hcg-diagram-label">{u.label}</text>
+                : <text x={st.w / 2} y={st.h / 2 + 1.1} textAnchor="middle"
+                        className="hcg-diagram-label">{u.label}</text>)}
+            </g>
+          );
+        })}
+      </svg>
+
+      <div style={{ minHeight: 42, marginTop: 10, fontSize: 14.5, color: "var(--parchment)" }}>
+        <span className="hcg-mono" style={{ fontSize: 10, color: "var(--bronze-glow)", marginRight: 8 }}>
+          {i + 1}/{diagram.phases.length}
+        </span>
+        <RichText text={phase.caption} />
+      </div>
+
+      <div className="flex items-center gap-2 mt-3 flex-wrap">
+        <button onClick={() => { setPlaying(false); setI(Math.max(0, i - 1)); }} disabled={i === 0}
+                className="hcg-btn text-xs px-3 py-1.5 rounded hcg-panel" aria-label="Previous step">
+          <ChevLeft size={13} />
+        </button>
+        <button onClick={() => { if (i >= last) setI(0); setPlaying(!playing); }}
+                className="hcg-btn text-xs px-3 py-1.5 rounded"
+                style={{ background: "var(--bronze)", color: "#1B1710", minWidth: 74 }}>
+          {playing ? "Pause" : i >= last ? "Replay" : "Play"}
+        </button>
+        <button onClick={() => { setPlaying(false); setI(Math.min(last, i + 1)); }} disabled={i === last}
+                className="hcg-btn text-xs px-3 py-1.5 rounded hcg-panel" aria-label="Next step">
+          <ChevRight size={13} />
+        </button>
+        <div className="flex gap-1.5 items-center" style={{ marginLeft: 6 }}>
+          {diagram.phases.map((_, n) => (
+            <button key={n} onClick={() => { setPlaying(false); setI(n); }}
+                    aria-label={`Step ${n + 1}`} className="hcg-diagram-dot"
+                    style={{ background: n === i ? "var(--gold-glow)" : "var(--hair)" }} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ========================= CHAPTER READER =========================== */
 function Reader({ chapter, save, startBeat, onExit, onBookmark, onBeat, onComplete }) {
   const total = chapter.beats.length;
@@ -290,6 +426,7 @@ function Reader({ chapter, save, startBeat, onExit, onBookmark, onBeat, onComple
           <div className="hcg-tab mb-2" style={{ color: "var(--verdigris)" }}>THE TACTIC</div>
           <p className="hcg-prose" style={{ fontSize: 16 }}><RichText text={beat.tactics} /></p>
         </div>}
+        {beat.diagram && <BattleDiagram key={`${chapter.id}-${i}`} diagram={beat.diagram} />}
         {beat.lineage && <div className="mb-4">
           <div className="hcg-tab mb-2" style={{ color: "var(--bronze-glow)" }}>ECHOES — WHO USED THIS AGAIN</div>
           <div className="flex flex-col gap-2">

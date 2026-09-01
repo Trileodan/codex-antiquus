@@ -232,6 +232,34 @@ Every tier listed in `tiers` needs a matching entry in `requires`, and vice
 versa. Stats run 1–100 and should use the full range: don't inflate them
 because someone is famous.
 
+### A battle diagram
+
+A battle beat can carry an optional `diagram`, rendered as an animated
+schematic under its tactic. Units have a base position; each phase supplies
+only what changes, and those deltas persist forward:
+
+```js
+diagram: {
+  view: [100, 62],
+  terrain: [{ d: "M0 0 H100 V20 H0 Z", tone: "sea", label: "The strait", lx: 50, ly: 10 }],
+  units: [{ id: "g", tone: "silver", label: "GREEKS", x: 12, y: 20, w: 9, h: 8 }],
+  phases: [
+    { caption: "What is happening, in one sentence. **Bold** works.",
+      at: { g: { x: 30 } },
+      arrows: [{ d: "M22 24 H30", tone: "silver" }] },
+  ],
+}
+```
+
+Unit tones: `gold` `silver` `rust` `verdigris` `bronze` `dim`. Terrain tones:
+`sea` `high` `ground`. Keep unit labels to 12 characters and terrain labels to
+26 — the validator enforces both, because labels are drawn inside their block
+and neither wrap nor clip. Tall narrow blocks get their label rotated to run
+along them automatically.
+
+These are schematics and the panel says so. They show the shape of an idea,
+not the ground.
+
 ### A new war
 
 Add to `js/data/wars.js` with `kind: "war"`, a `sides` array, and a `gate`

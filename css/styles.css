@@ -40,3 +40,18 @@ html,body{ margin:0; padding:0; background:var(--ink); }
   .hcg-fade,.hcg-pop,.hcg-toast,.hcg-mint{ animation:none !important; }
 }
 :focus-visible{ outline:2px solid var(--gold-glow); outline-offset:2px; }
+
+/* --- battle diagrams ------------------------------------------------- */
+.hcg-diagram{ background:#1B1710; border:1px solid var(--hair); border-radius:4px; }
+.hcg-diagram-unit{ transition:transform .85s cubic-bezier(.4,0,.2,1), opacity .5s ease; }
+.hcg-diagram-label{ font-family:'Space Mono',monospace; font-size:2.1px; fill:var(--parchment);
+  letter-spacing:.02em; pointer-events:none; }
+.hcg-diagram-terrain-label{ font-family:'Space Mono',monospace; font-size:2.3px;
+  fill:var(--parchment-dim); letter-spacing:.06em; }
+.hcg-diagram-arrow{ animation:hcg-arrow-in .5s ease both; }
+@keyframes hcg-arrow-in{ from{ opacity:0 } to{ opacity:.95 } }
+.hcg-diagram-dot{ width:7px; height:7px; border-radius:50%; border:none; padding:0; cursor:pointer; }
+@media (prefers-reduced-motion: reduce){
+  .hcg-diagram-unit{ transition:none; }
+  .hcg-diagram-arrow{ animation:none; }
+}

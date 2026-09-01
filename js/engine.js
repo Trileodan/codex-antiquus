@@ -28,6 +28,10 @@ const CHAPTER_SPANS = {
   "egy-alexander": [-332, -331], "egy-ptolemy1": [-323, -282], "egy-ptolemy2": [-282, -246],
   "egy-syrian-wars": [-274, -168], "egy-canopus-rosetta": [-238, -196],
   "egy-rome-protector": [-168, -51], "egy-cleopatra-caesar": [-51, -44], "egy-end": [-44, -30],
+  "grk-polis": [-800, -700], "grk-colonies": [-750, -580], "grk-sparta": [-700, -500],
+  "grk-athens-reform": [-594, -508], "grk-persia": [-499, -479], "grk-empire": [-478, -431],
+  "grk-pericles": [-461, -429], "grk-pelop": [-431, -404], "grk-socrates": [-399, -399],
+  "grk-philip": [-359, -338],
   "war-punic-1": [-264, -241], "war-punic-2": [-218, -201], "war-punic-3": [-149, -146],
   "war-actium": [-32, -30],
 };

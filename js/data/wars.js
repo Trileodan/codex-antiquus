@@ -238,6 +238,6 @@ const PENDING_WARS = [
     sides: ["Macedon", "Ptolemaic Egypt", "Seleucid Empire", "Antigonids"],
     blockedBy: "Requires Macedon and the Seleucid Empire. Currently only Ptolemaic Egypt is available." },
   { id: "war-greco-persian", name: "The Greco-Persian Wars", era: "499 – 449 BC",
-    sides: ["Archaic Greece", "Persia"],
-    blockedBy: "Requires the Archaic Greece and Persia Sets, both in development." },
+    sides: ["Ancient Greece", "Persia"],
+    blockedBy: "Half of this war is now written: the Ancient Greece Set covers the Ionian Revolt and what survival did to Athens. It stays sealed because there is no Persia Set, and a war opens only when both sides have been studied." },
 ];

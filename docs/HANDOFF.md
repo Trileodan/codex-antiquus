@@ -27,20 +27,22 @@ applies.
 
 | | |
 | --- | --- |
-| Chapters | 42 — 38 study, 4 wars |
-| Parts (beats) | 161 |
-| Checkpoint questions | 105 |
-| Character cards | 28 |
-| Sourced claims | 139 |
-| Words of content | ~25,000 |
-| Reading time | ~5.5 hours |
+| Chapters | 52 — 48 study, 4 wars |
+| Parts (beats) | 191 |
+| Checkpoint questions | 135 |
+| Character cards | 36 |
+| Sourced claims | 177 |
+| Words of content | ~31,000 |
+| Reading time | ~7 hours |
 
-**Sets written:** Roman Republic (21 chapters), Carthage (9), Ptolemaic Egypt (8).
+**Sets written:** Roman Republic (21 chapters), Carthage (9), Ptolemaic Egypt (8),
+Ancient Greece (10).
 **Wars written:** First, Second and Third Punic Wars, and Actium.
-**Sets mapped but not written:** thirteen more, visible on the Atlas as *Planned*
-with real date ranges — Ancient Egypt, Persia, Archaic and Classical Greece,
-the Hellenistic world, the Roman Empire, Ancient Britain, Mesopotamia, the
-Indus Valley, Ancient India, Ancient China, Mesoamerica.
+**Sets mapped but not written:** eleven more, visible on the Atlas as *Planned*
+with real date ranges — Ancient Egypt, Persia, the Hellenistic world, the Roman
+Empire, Ancient Britain, Mesopotamia, the Indus Valley, Ancient India, Ancient
+China, Mesoamerica. The separate *Archaic Greece* and *Classical Greece*
+placeholders were removed when the Ancient Greece Set was written to cover both.
 
 Live at **https://trileodan.github.io/codex-antiquus/**, from
 **https://github.com/Trileodan/codex-antiquus**.
@@ -101,11 +103,14 @@ Africanus. Handled by `goldName`.
 
 ## Open questions Mark hasn't answered
 
-1. **Alexander's card.** He currently unlocks at Bronze through Egypt alone,
-   with a note saying a fuller card arrives with the Macedon and Persia Sets.
-   This is a pattern decision that will repeat for every figure spanning
-   multiple Sets — it may be better to keep such figures locked until their own
-   Set exists. Not yet decided.
+1. **Alexander's card.** He still unlocks at Bronze through Egypt alone. The
+   Greece Set has now made this sharper rather than resolving it: Philip II has
+   a card, Chaeronea is written, and Alexander commands on the wing that breaks
+   Thebes — so there is an obvious Silver tier requiring `grk-philip`. It was
+   deliberately **not** added, because this is the pattern decision for every
+   figure spanning multiple Sets and it is yours to make. The same question
+   applies to a Leonidas card, which was left out for the related reason that
+   his substance is a battle the sealed war entry owns.
 2. **Romulus and Remus.** Mark said the shared mythic card felt strange and
    *"I may change it into something else in future."*
 3. **Whether the Atlas should become a real globe.** See below.
@@ -117,10 +122,13 @@ Africanus. Handled by `goldName`.
 0. ~~Vendor the CDN dependencies.~~ **Done.** Tailwind is a static 17 KB
    sheet compiled from this repo; React, ReactDOM and Babel are in `vendor/`.
    The app needs no network except the Google Fonts stylesheet.
-1. **Write more Sets.** Ancient Greece already unlocks from the Rome syllabus
-   but has no chapters — it currently reads "Discovered — chapters in
-   development," which is honest but unsatisfying. Ancient Egypt and Persia
-   would each unlock a sealed war.
+1. **Write more Sets.** **Persia** is now the highest-value one by some way: it
+   is the only thing standing between the app and its first fully gated war.
+   The Greco-Persian Wars entry is specified, and the Greek half is written —
+   the Ionian Revolt, why Persia came west, and an explicit hand-off saying the
+   battles live in the war entry. Writing Persia opens all of it. Ancient Egypt
+   would do the same for nothing yet, and the Seleucids would unseal the Syrian
+   Wars and the Diadochi.
 2. **The globe.** The brief asked for a spinnable globe you pick a region from.
    The Atlas implements exactly that navigation model — region, then a time
    slider from 3000 BC to 2026 — using a flat SVG region map. A real globe is

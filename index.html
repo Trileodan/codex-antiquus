@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Codex Antiquus — a history learning and collectible card game</title>
+<meta name="description" content="Learn the ancient world in short chapters and earn character cards from what you can actually prove." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- css/styles.css first, vendor/tailwind.css second. The Tailwind play CDN
+     used to inject its stylesheet at runtime, which put it last in the
+     cascade; keeping that order preserves which rule wins on a tie. -->
+<link rel="stylesheet" href="css/styles.css" />
+<link rel="stylesheet" href="vendor/tailwind.css" />
+
+<!-- Each vendored library is tried locally first and falls back to its CDN if
+     vendor/ is empty, so a fresh clone runs before anyone fetches anything.
+     Run tools/fetch-vendor.ps1 (or .sh) once to make the app offline-capable;
+     see docs/DECISIONS.md. -->
+<script src="vendor/react.production.min.js"></script>
+<script>window.React || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js">\x3C/script>');</script>
+<script src="vendor/react-dom.production.min.js"></script>
+<script>window.ReactDOM || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js">\x3C/script>');</script>
+<script src="vendor/babel.min.js"></script>
+<script>window.Babel || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js">\x3C/script>');</script>
+</head>
+<body>
+<div id="root">
+  <noscript style="color:#EFE4CC;font-family:sans-serif;padding:2rem;display:block">
+    This app needs JavaScript enabled.
+  </noscript>
+</div>
+
+
+<!-- Load order matters: constants, then data, then engine, then UI, then app.
+     Every module is text/babel so Babel executes them in document order.
+     A new data file goes in before js/engine.js. -->
+<script type="text/babel" data-presets="react" src="js/constants.js"></script>
+<script type="text/babel" data-presets="react" src="js/data/chapters-rome.js"></script>
+<script type="text/babel" data-presets="react" src="js/data/chapters-carthage.js"></script>
+<script type="text/babel" data-presets="react" src="js/data/chapters-egypt.js"></script>
+<script type="text/babel" data-presets="react" src="js/data/wars.js"></script>
+<script type="text/babel" data-presets="react" src="js/data/characters.js"></script>
+<script type="text/babel" data-presets="react" src="js/data/characters-extra.js"></script>
+<script type="text/babel" data-presets="react" src="js/data/atlas.js"></script>
+<script type="text/babel" data-presets="react" src="js/engine.js"></script>
+<script type="text/babel" data-presets="react" src="js/icons.js"></script>
+<script type="text/babel" data-presets="react" src="js/ui.js"></script>
+<script type="text/babel" data-presets="react" src="js/screens.js"></script>
+<script type="text/babel" data-presets="react" src="js/screens-new.js"></script>
+<script type="text/babel" data-presets="react" src="js/app.js"></script>
+
+<!-- Opened by double-clicking? This page loads its JavaScript from sibling
+     files, which every browser blocks over file:// — the result is a blank
+     screen with a CORS error in the console and no clue why. Say so instead.
+
+     The check looks for a js/ script tag, which only the multi-file version
+     has, so this is inert inside the bundle build.py produces.
+
+     It must stay AFTER the module tags: it looks for them in the DOM, and
+     anything earlier in the document runs before they have been parsed. -->
+<script>
+(function () {
+  if (location.protocol !== "file:") return;
+  if (!document.querySelector('script[src^="js/"]')) return;
+  // Paint our own colours: css/styles.css may not have loaded either, and a
+  // parchment message on a default white page is unreadable.
+  document.documentElement.style.background = "#161310";
+  document.body.style.background = "#161310";
+  document.body.style.margin = "0";
+  document.getElementById("root").innerHTML =
+    '<div style="max-width:44rem;margin:0 auto;padding:12vh 2rem;color:#EFE4CC;' +
+    'font-family:Georgia,\'Times New Roman\',serif;line-height:1.7;font-size:17px">' +
+    '<h1 style="font-size:1.5rem;letter-spacing:.04em;color:#F6DE7C;margin:0 0 1.5rem">' +
+    'This file needs a web server</h1>' +
+    '<p>You have opened <code>index.html</code> directly from disk. It loads its ' +
+    'JavaScript from fourteen separate files, and browsers refuse to do that over ' +
+    '<code>file://</code> — so nothing runs. This is a browser security rule, not ' +
+    'a fault in the app.</p>' +
+    '<p style="margin-top:1.75rem"><b style="color:#F6DE7C">To just read it:</b> open ' +
+    '<code>dist/codex-antiquus.html</code> instead. Everything is inlined into that ' +
+    'one file, so it opens straight from disk. Re-run <code>python3 build.py</code> ' +
+    'if it is out of date.</p>' +
+    '<p style="margin-top:1.25rem"><b style="color:#F6DE7C">To edit and reload:</b> ' +
+    'double-click <code>serve.bat</code> in this folder, or run ' +
+    '<code>python3 -m http.server 8000</code> here and open ' +
+    '<code>http://localhost:8000</code>.</p>' +
+    '<p style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid #3A3226;' +
+    'color:#B5A788;font-size:.95rem">See README.md ' +
+    '&rarr; Running it.</p></div>';
+})();
+</script>
+
+</body>
+</html>

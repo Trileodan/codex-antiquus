@@ -1,0 +1,50 @@
+name: validate
+
+# Content edits are the thing most likely to break this project, and they break
+# it quietly — a card requiring a chapter that no longer exists still renders,
+# it just never mints. So the validator runs on every push rather than relying
+# on anyone remembering.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Check the data layer and simulate a full playthrough
+        run: node tools/validate.js
+
+      - name: Check every path index.html references
+        # The runner is Linux and therefore case-sensitive, exactly like GitHub
+        # Pages. Windows is not, so a src="js/Screens.js" against screens.js
+        # works locally and 404s on the live site. This catches that.
+        run: |
+          fail=0
+          for f in $(grep -o 'src="[^"h][^"]*"\|href="[^"h][^"]*"' index.html \
+                     | sed 's/.*="//;s/"$//'); do
+            if [ ! -e "$f" ]; then
+              echo "::error file=index.html::index.html references '$f', which does not exist (check the capitalisation)"
+              fail=1
+            fi
+          done
+          if grep -q 'src="/\|href="/' index.html; then
+            echo "::error file=index.html::index.html contains an absolute path; Pages serves this site from a subdirectory, so paths must be relative"
+            fail=1
+          fi
+          [ -f .nojekyll ] || { echo "::error::.nojekyll is missing — Jekyll will ignore the js/ directory"; fail=1; }
+          exit $fail
+
+      - name: Check the single-file build still assembles
+        run: |
+          python3 build.py
+          test -s dist/codex-antiquus.html

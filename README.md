@@ -1,5 +1,7 @@
 # Codex Antiquus
 
+[![validate](https://github.com/Trileodan/codex-antiquus/actions/workflows/validate.yml/badge.svg)](https://github.com/Trileodan/codex-antiquus/actions/workflows/validate.yml)
+
 A history-learning and collectible-card web app. You work through the ancient
 world in short chapters; character cards are minted from what you finish and
 can demonstrate, not from names you skim past.
@@ -263,7 +265,14 @@ Playthrough — 3 unlock passes, all 42 chapters reachable, 28 cards minted (14 
 ```
 
 Run it after any content change. It takes under a second and exits non-zero on
-any error, so it works as a pre-commit hook or a CI step.
+any error.
+
+It also runs automatically on every push, via `.github/workflows/validate.yml`
+— which additionally checks that every path `index.html` references exists with
+exactly the right capitalisation (the runner is Linux, like Pages; Windows is
+not), that no path is absolute, that `.nojekyll` is present, and that
+`build.py` still assembles. Those are the four ways this site can break on
+Pages while working perfectly on your machine.
 
 ---
 

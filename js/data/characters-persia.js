@@ -144,6 +144,28 @@ Object.assign(CHARACTERS, {
   connections: [ { charId: "xerxes", relation: "descendant of" }, { charId: "darius3", relation: "dynasty of" }, { name: "The King's Peace", type: "event" }, { name: "Susa", type: "place" } ],
 },
 
+"artemisia": {
+  id: "artemisia", name: "Artemisia I of Halicarnassus", years: "fl. 480 BC", sets: ["persia", "ancient-greece"],
+  note: "Also withheld until the war entry existed. She sits in the Persia Set rather than the Greek one because that is where she fought — which is the most interesting fact about her.",
+  requires: { bronze: ["war-greco-persian", "per-west"], silver: ["war-greco-persian", "per-west", "grk-persia"] },
+  tiers: {
+    bronze: { label: "The Greek Who Fought for Persia", when: "480 BC",
+      blurb: "Ruler of Halicarnassus, a Greek city that was a Persian subject, and commander of her own squadron in Xerxes' fleet. She advised against fighting at Salamis, was overruled, fought anyway, and got out. Xerxes is said to have remarked that his men had become women and his women men.",
+      stats: { power: 66, intellect: 88, influence: 70, creativity: 84, wealth: 72, fame: 64 } },
+    silver: { label: "The Inconvenient Witness", when: "Read against the sources",
+      blurb: "She is a problem for the story everyone tells about this war. A Greek, ruling a Greek city, commanding Greek ships for the Great King — because plenty of Greeks were Persian subjects and did not experience 480 BC as a fight for freedom. Herodotus was born in her city a few years later and plainly admires her, which is worth weighing in both directions.",
+      stats: { power: 68, intellect: 90, influence: 74, creativity: 86, wealth: 72, fame: 70 } },
+  },
+  claims: [
+    { text: "Artemisia ruled Halicarnassus as a Persian subject and commanded ships in Xerxes' fleet at Salamis.", classification: "Established", sources: ["herodotus"], date: "480 BC", at: "bronze" },
+    { text: "She advised Xerxes against fighting at Salamis and was overruled.", classification: "Probable", sources: ["herodotus"], date: "480 BC", at: "bronze" },
+    { text: "Herodotus reports Xerxes saying his men had become women and his women men.", classification: "Traditional / Legendary", sources: ["herodotus"], date: "480 BC", at: "bronze" },
+    { text: "Herodotus was born in Halicarnassus within a few years of her rule, and writes of her admiringly.", classification: "Established", sources: ["herodotus", "cah"], date: "5th c. BC", at: "silver" },
+    { text: "Many Greek cities of Asia fought on the Persian side, as subjects rather than as traitors.", classification: "Established", sources: ["herodotus", "cah"], date: "480 BC", at: "silver" },
+  ],
+  connections: [ { charId: "xerxes", relation: "served" }, { charId: "herodotos", relation: "from her city" }, { charId: "themistokles", relation: "opposed at Salamis" }, { name: "Halicarnassus", type: "place" }, { name: "Salamis", type: "event" } ],
+},
+
 "darius3": {
   id: "darius3", name: "Darius III", years: "c. 380 – 330 BC", sets: ["persia"],
   requires: { bronze: ["per-fall"], silver: ["per-fall", "per-after", "grk-philip"] },

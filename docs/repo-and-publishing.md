@@ -98,8 +98,8 @@ points learned.
 
 ## Current state
 
-62 chapters (58 study + 4 wars), 221 parts, 165 questions, 43 cards, 218 sourced
-claims, ~38,000 words, ~8.5 hours of reading. Five Sets written; ten more mapped
+63 chapters (58 study + 5 wars), 229 parts, 169 questions, 45 cards, 228 sourced
+claims, ~40,000 words, ~9 hours of reading. Five Sets written; ten more mapped
 on the Atlas as *Planned* with real date ranges.
 
 Adding a set = a new `chapters-*.js` file, its `<script>` tag in `index.html`

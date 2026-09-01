@@ -151,6 +151,28 @@ Object.assign(CHARACTERS, {
   connections: [ { charId: "perikles", relation: "contemporary" }, { charId: "thucydides", relation: "contemporary" }, { name: "Athens", type: "place" }, { name: "The Thirty Tyrants", type: "event" }, { name: "The Socratic problem", type: "concept" } ],
 },
 
+"leonidas": {
+  id: "leonidas", name: "Leonidas", years: "d. 480 BC", sets: ["ancient-greece"],
+  note: "Deliberately withheld from the Greece Set until the Greco-Persian Wars entry existed. His substance is a battle, and battles live in war entries — a card for him before that would have been a famous name with nothing behind it.",
+  requires: { bronze: ["war-greco-persian", "grk-sparta"], silver: ["war-greco-persian", "grk-sparta", "per-west"] },
+  tiers: {
+    bronze: { label: "The Rearguard", when: "480 BC",
+      blurb: "Held a defile between mountain and sea for two days against an army of a size nobody can agree on, then — once a mountain path had been betrayed and the position was lost — sent most of the allied army away and stayed with a rearguard to cover its withdrawal. The Thespians stayed too, in comparable numbers, and are almost never mentioned.",
+      stats: { power: 82, intellect: 68, influence: 62, creativity: 58, wealth: 44, fame: 92 } },
+    silver: { label: "What the Story Is For", when: "The afterlife",
+      blurb: "No stand has been retold more or more usefully. The epitaph at the pass is real and restrained. Almost everything built on it since has not been: Göring invoked the three hundred by name to recast an army destroyed by its own command at Stalingrad as noble sacrifice. The battle was a defeat that bought a fleet time to fight at Salamis. That is a smaller and better claim than the one usually made for it.",
+      stats: { power: 82, intellect: 70, influence: 74, creativity: 58, wealth: 44, fame: 98 } },
+  },
+  claims: [
+    { text: "Leonidas commanded the Greek force holding the pass at Thermopylae in 480 BC and died there.", classification: "Established", sources: ["herodotus"], date: "480 BC", at: "bronze" },
+    { text: "The position was turned by a mountain path shown to the Persians by a local man, Ephialtes.", classification: "Probable", sources: ["herodotus"], date: "480 BC", at: "bronze" },
+    { text: "Roughly 700 Thespians and 400 Thebans remained with the Spartan rearguard.", classification: "Established", sources: ["herodotus"], date: "480 BC", at: "bronze" },
+    { text: "Herodotus' figure of over a million Persians is impossible; modern estimates are a fraction of it.", classification: "Contested", sources: ["herodotus", "cah"], date: "480 BC", at: "bronze" },
+    { text: "Göring publicly compared the encircled 6th Army at Stalingrad to Leonidas' three hundred.", classification: "Established", sources: ["cah"], date: "1943", at: "silver" },
+  ],
+  connections: [ { charId: "themistokles", relation: "fought the same war" }, { charId: "xerxes", relation: "opposed" }, { name: "Thermopylae", type: "place" }, { name: "Sparta", type: "place" } ],
+},
+
 "philip2": {
   id: "philip2", name: "Philip II of Macedon", years: "382 – 336 BC", sets: ["ancient-greece"],
   requires: { bronze: ["grk-philip"], silver: ["grk-philip", "grk-sparta", "grk-pelop"] },

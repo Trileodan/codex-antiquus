@@ -36,6 +36,7 @@ const CHAPTER_SPANS = {
   "per-darius": [-522, -486], "per-empire": [-522, -486], "per-religion": [-550, -330],
   "per-persepolis": [-518, -330], "per-west": [-499, -479], "per-after": [-479, -359],
   "per-fall": [-334, -330],
+  "war-greco-persian": [-499, -449],
   "war-punic-1": [-264, -241], "war-punic-2": [-218, -201], "war-punic-3": [-149, -146],
   "war-actium": [-32, -30],
 };

@@ -7,8 +7,13 @@ world in short chapters; character cards are minted from what you finish and
 can demonstrate, not from names you skim past.
 
 Currently built: **the Roman Republic, Carthage, Ptolemaic Egypt, Ancient
-Greece, Persia** and four **wars**, with 43 character cards. Roughly 38,000
+Greece, Persia** and five **wars**, with 45 character cards. Roughly 40,000
 words of source-classified content.
+
+The **Greco-Persian Wars** entry is the first war gated on two fully written
+societies — it opens only once you have studied both Greece and Persia up to
+480 BC, and it exists because reading that war from one side gives you a
+different event.
 
 ---
 

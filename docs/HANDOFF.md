@@ -27,17 +27,19 @@ applies.
 
 | | |
 | --- | --- |
-| Chapters | 62 — 58 study, 4 wars |
-| Parts (beats) | 221 |
-| Checkpoint questions | 165 |
-| Character cards | 43 |
-| Sourced claims | 218 |
-| Words of content | ~38,000 |
-| Reading time | ~8.5 hours |
+| Chapters | 63 — 58 study, 5 wars |
+| Parts (beats) | 229 |
+| Checkpoint questions | 169 |
+| Character cards | 45 |
+| Sourced claims | 228 |
+| Words of content | ~40,000 |
+| Reading time | ~9 hours |
 
 **Sets written:** Roman Republic (21 chapters), Carthage (9), Ptolemaic Egypt (8),
 Ancient Greece (10), Persia (10).
-**Wars written:** First, Second and Third Punic Wars, and Actium.
+**Wars written:** First, Second and Third Punic Wars, Actium, and the
+Greco-Persian Wars — the last of these the first war gated on two fully
+written societies, which is the mechanic the whole design was built around.
 **Sets mapped but not written:** ten more, visible on the Atlas as *Planned*
 with real date ranges — Ancient Egypt, the Hellenistic world, the Roman
 Empire, Ancient Britain, Mesopotamia, the Indus Valley, Ancient India, Ancient
@@ -122,17 +124,16 @@ Africanus. Handled by `goldName`.
 0. ~~Vendor the CDN dependencies.~~ **Done.** Tailwind is a static 17 KB
    sheet compiled from this repo; React, ReactDOM and Babel are in `vendor/`.
    The app needs no network except the Google Fonts stylesheet.
-1. **Build the Greco-Persian Wars entry.** This is now the highest-value job in
-   the project and everything it needs is in place. Both societies are written,
-   each briefing the war from its own side and explicitly handing off — see
-   `grk-persia` and `per-west`. The entry is still only a `PENDING_WARS` stub in
-   `js/data/wars.js`; promoting it means writing it as a real war chapter with
-   `kind: "war"`, a `gate` naming one chapter per side, and battle beats for
-   Marathon, Thermopylae, Artemisium, Salamis and Plataea with `tactics` and
-   `lineage[]`. It would be the app's first war gated on two fully written
-   societies, which is the mechanic the whole design was built around. Cards for
-   **Leonidas** and **Artemisia** were deliberately withheld from the Greece and
-   Persia Sets and belong with it.
+1. ~~Build the Greco-Persian Wars entry.~~ **Done.** Marathon, Thermopylae,
+   Salamis and Plataea, with tactics and tactical lineage, gated on
+   `grk-persia` and `per-west`. Leonidas and Artemisia arrived with it.
+
+   **Next Sets, by what they unseal.** Two wars remain sealed in `PENDING_WARS`
+   and both are blocked by the same gap: there is no **Seleucid** Set. Writing
+   one opens the Syrian Wars (against Ptolemaic Egypt, already written) and
+   takes the Wars of the Diadochi most of the way there — that one also wants
+   **Macedon**. **Ancient Egypt** unseals nothing but is the most-requested
+   period in the app's own Atlas and the obvious companion to Ptolemaic Egypt.
 
 2. **The globe.** The brief asked for a spinnable globe you pick a region from.
    The Atlas implements exactly that navigation model — region, then a time

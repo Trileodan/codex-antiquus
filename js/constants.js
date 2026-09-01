@@ -36,6 +36,7 @@ const SOURCES = {
   plato: "Plato, Apology, Crito and Phaedo",
   demosthenes: "Demosthenes, The Philippics and On the Crown",
   diodorus: "Diodorus Siculus, Bibliotheca Historica",
+  aeschylus: "Aeschylus, The Persians (staged 472 BC, by a veteran of the war)",
   ctesias: "Ctesias, Persica (surviving in summary and quotation)",
   arrian: "Arrian, Anabasis of Alexander",
   behistun: "The Behistun inscription of Darius I",

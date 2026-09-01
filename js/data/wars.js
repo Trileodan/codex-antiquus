@@ -226,6 +226,91 @@ CHAPTERS.push(
       explain: "Agrippa won by supply and position; the battle of 2 September confirmed a result already reached." },
   ],
 },
+{
+  id: "war-greco-persian", set: "wars", kind: "war", act: "Greece vs Persia", title: "The Greco-Persian Wars", era: "499 – 449 BC", minutes: 13,
+  sides: [{ set: "ancient-greece", label: "Greece" }, { set: "persia", label: "Persia" }],
+  gate: [{ chapter: "grk-persia", side: "Greece" }, { chapter: "per-west", side: "Persia" }],
+  intro: "You have now read the run-up from both sides, and they barely look like the same event. Here is the war itself.",
+  beats: [
+    { title: "Two accounts of one quarrel",
+      text: ["From Athens this was a war of survival against a despotism that meant to erase Greek freedom, and it became the founding story of everything Greece did afterwards. From Susa it was a punitive operation on the north-western frontier, following a provincial revolt that two outside cities had meddled in — the kind of thing the empire handled routinely in Babylon and Egypt.",
+        "Both descriptions fit the evidence. Neither is the war. Reading only one is how the same fifty years become either a defence of civilisation or a border expedition, and this entry exists so you get them at once.",
+        "One asymmetry you cannot read around: **Herodotus** is essentially the only narrative source, he is Greek, he wrote a generation later, and he was working from oral testimony given by the winners' descendants. There is no Persian narrative to check him against, and no Achaemenid royal inscription commemorates the campaign at all. Every number below should be read in that light."],
+      key: "A war of survival from Athens, a frontier operation from Susa — both fit the evidence, and Herodotus is nearly the only narrative source." },
+
+    { name: "Battle of Marathon", year: "490 BC", title: "Marathon", place: "Bay of Marathon, north-east Attica",
+      forces: "About 10,000 Athenians and 1,000 Plataeans under Miltiades and the polemarch Callimachus, against a Persian landing force whose size is disputed — Herodotus gives no figure, and modern estimates run from 15,000 to 25,000. Athenian victory. Herodotus reports 192 Athenian dead against 6,400 Persian, figures nobody takes at face value.",
+      text: ["Darius sent a seaborne expedition to punish Athens and Eretria for their part in the Ionian Revolt. Eretria was taken and its people deported. The force then landed at Marathon, on a plain chosen because it suited cavalry.",
+        "The Athenians marched out and sat facing them for days. Then, for reasons Herodotus does not adequately explain — possibly because part of the Persian force, including the cavalry, had re-embarked to sail round to an undefended Athens — **Miltiades** attacked."],
+      tactics: "Miltiades had to cover a front as wide as a much larger army without being outflanked, so he **deliberately thinned his own centre to a few ranks and massed the depth on both wings**. The weakened centre gave ground, as it was bound to, and the Persian centre pushed into the gap. The reinforced Greek wings broke the lighter troops opposite them, then turned inward on the Persians who had advanced — an envelopment produced by accepting weakness in the middle. The Greeks also closed the last stretch at a run, cutting the time spent under archery, which Herodotus says astonished the Persians. That men in some 30 kg of equipment ran the full eight stades is **Contested**; a final rapid closing is plausible, the full distance is not.",
+      lineage: [
+        { who: "Hannibal Barca", when: "216 BC", what: "Built the double envelopment at Cannae on a centre designed to give way.", cited: false, note: "The mechanism is the same and Marathon was famous. But no source records Hannibal naming it, and a yielding centre is a solution an able commander can reach independently. Influence, not acknowledgement." },
+        { who: "Alexander the Great", when: "334 – 331 BC", what: "Closed fast to negate Persian missile superiority and win by shock.", cited: false, note: "The general lesson of Marathon — that Persian infantry could not hold against heavy close-order troops who reached them quickly — became Macedonian doctrine." },
+      ],
+      key: "At Marathon in 490 BC Miltiades deliberately thinned his centre so his strengthened wings could envelop — and closed fast to cut time under archery." },
+
+    { title: "The run that probably did not happen",
+      text: ["The story that a runner carried news of the victory to Athens and died on delivering it is not in Herodotus, who instead has a professional runner named **Pheidippides** sent to Sparta *before* the battle — about 240 km, which is a genuine and far more impressive feat, and which trained ultrarunners repeat annually.",
+        "The dying messenger appears centuries later, in Plutarch and Lucian, with the runner's name given differently in different versions. The modern marathon distance was fixed in 1908 to suit the route in London, not by anything Greek. The app classifies the dying-runner story as **Traditional / Legendary** — which takes nothing away from the battle, and is worth stating because this is probably the single best-known thing anyone believes about ancient Greece."],
+      key: "The dying marathon runner is Traditional / Legendary; Herodotus has Pheidippides running to Sparta before the battle instead." },
+
+    { name: "Battle of Thermopylae", year: "480 BC", title: "Thermopylae", place: "A coastal defile in central Greece",
+      forces: "Around 7,000 Greeks under Leonidas of Sparta initially, reduced on the final day to roughly 300 Spartiates, 700 Thespians and 400 Thebans. Against Xerxes' invasion army — Herodotus says over a million; modern estimates range from 70,000 to 300,000. Persian victory; the position was turned and the rearguard destroyed.",
+      text: ["Xerxes returned in 480 BC with an army that crossed the Hellespont on pontoon bridges of lashed ships, accompanied by a fleet. The Greek allies chose to hold a defile between mountain and sea where the road narrowed, while their fleet held the strait at **Artemisium** alongside it — the two positions were one plan, and each was useless without the other.",
+        "The Greeks held for two days. Then a local man, **Ephialtes**, showed the Persians a mountain track around the pass. Leonidas dismissed most of the army and stayed with a rearguard to cover the withdrawal."],
+      tactics: "**Terrain as a force multiplier.** In a defile only as many men can engage as the width allows, so an army of any size fights in frontages of a few hundred — and numerical superiority, cavalry and massed archery all become irrelevant at once. Heavier armour, longer spears and close-order drill then decide every individual exchange, and the Greeks rotated fresh units through the line. The position had one flaw, the mountain path, and the whole plan rested on it staying unknown. Any position that must be held everywhere can be turned somewhere.",
+      lineage: [
+        { who: "Henry V at Agincourt", when: "1415", what: "Fought on a narrow front between woods so a far larger French army could not deploy or outflank.", cited: false, note: "Same principle of denying an enemy his numbers by choosing the frontage. No evidence Henry was thinking of Thermopylae." },
+        { who: "The Swiss at Morgarten", when: "1315", what: "Ambushed an Austrian column in a defile between mountain and lake.", cited: false, note: "Infantry defeating a supposedly superior force by refusing it room — a repeated medieval pattern with no need of a classical model." },
+        { who: "Hermann Göring", when: "1943", what: "Publicly compared the encircled German 6th Army at Stalingrad to Leonidas' three hundred.", cited: true, note: "Not a tactic — a use. Göring named Thermopylae explicitly in a broadcast speech, recasting an army being destroyed by its own command's refusal to withdraw as a noble sacrifice. Recorded here because the political afterlife of this battle is part of its history, and because it shows what the story is good for." },
+      ],
+      key: "Thermopylae's defile made numbers, cavalry and archery irrelevant — until a mountain path turned the one position it all depended on." },
+
+    { name: "Battle of Salamis", year: "480 BC", title: "Salamis", place: "The straits between Salamis and the Attic coast",
+      forces: "Around 370 Greek triremes, over half Athenian, under Spartan nominal command with Themistokles directing. Against a Persian fleet Herodotus puts at over 1,200 and modern estimates at perhaps 600–800. Decisive Greek victory.",
+      text: ["Thermopylae opened central Greece. Athens was evacuated to Salamis and the city burned. The allied fleet was on the point of dispersing to defend the Peloponnese, which would have ended the war.",
+        "**Themistokles** kept it together by a threat and a trick: he warned that Athens would sail away and settle in Italy with its 180 ships, and he sent a message to Xerxes claiming the Greeks were about to flee and could be trapped if he blocked both ends of the strait. Xerxes did exactly that, and had a throne set up on the shore to watch. **Aeschylus**, who fought in the war, staged the battle eight years later in front of an Athenian audience — a primary source that is also a tragedy written for the winners.",
+        "Whether the false message was a genuine deception or a hedge by a man keeping options open with both sides is **Contested**; both Herodotus and Plutarch report versions of it, and Themistokles ended his life in Persian service."],
+      tactics: "**Fight where the enemy cannot use his numbers, and make him come to you.** In the narrow strait the Persian fleet could deploy only a fraction of its line, lost the manoeuvring room its better crews depended on, and had its rear ranks pressing the front ranks into a crush they could not back out of. The heavier, slower Greek ships wanted exactly that fight. Blocking both exits — which Xerxes did believing he was sealing a trap — removed his own fleet's ability to withdraw and reform.",
+      lineage: [
+        { who: "Adherbal at Drepana", when: "249 BC", what: "Won the open water and pinned a Roman fleet against its own coastline.", cited: false, note: "The same principle inverted: deny the enemy sea room, whether by geography or by position. Described in the First Punic War entry." },
+        { who: "Yi Sun-sin at Myeongnyang", when: "1597", what: "Held a narrow strait with a tiny squadron against a vastly larger Japanese fleet, using the channel and its currents.", cited: false, note: "One of the closest tactical parallels in history to Salamis, arrived at independently on the other side of the world." },
+      ],
+      key: "At Salamis the strait stripped Persia of its numbers and its sea room — and Xerxes sealed both exits believing he was closing a trap." },
+
+    { name: "Battle of Plataea", year: "479 BC", title: "Plataea", place: "Boeotia, below Mount Cithaeron",
+      forces: "The largest Greek army yet assembled — Herodotus says about 40,000 hoplites plus light troops, under the Spartan regent Pausanias — against Mardonius' force, left behind by Xerxes and put by Herodotus at 300,000, by modern estimates at perhaps 70,000–120,000. Decisive Greek victory; Mardonius killed.",
+      text: ["Xerxes went home after Salamis with much of the army, leaving **Mardonius** to finish the war. Through 479 BC the two armies faced each other in Boeotia for weeks without engaging, because each wanted ground that suited it and neither would take the other's.",
+        "Persian cavalry harried the Greek supply lines and fouled the springs. A Greek night withdrawal to a better water position went badly wrong in the dark and left the army split into three groups at dawn. Mardonius saw a disordered retreat and attacked."],
+      tactics: "The two systems could not both get the battle they wanted. Persia's strength was **cavalry, archery and mobility**, which needed open ground and time; Greece's was **heavy close-order infantry**, which needed to close and stay closed. Mardonius attacking a supposedly broken enemy handed the Greeks the one thing they required — a stand-up infantry fight at spear length. Persian infantry fought hard and were, by Herodotus' own account, not short of courage; they were more lightly armoured, carried shorter spears and wicker shields, and had no answer at contact. The lesson both sides drew was the same one, from opposite ends: **whoever chooses the range wins**.",
+      lineage: [
+        { who: "Xenophon and the Ten Thousand", when: "401 – 399 BC", what: "Marched a Greek mercenary army out of the middle of the Persian empire, relying on the same infantry advantage.", cited: true, note: "Xenophon wrote it down himself in the Anabasis, arguing explicitly that Persian troops could not stand against Greek heavy infantry at close quarters — and that the empire's weakness was therefore reachable. Demonstrably drawn from the principle, by the man who applied it." },
+        { who: "Philip II and Alexander", when: "359 – 330 BC", what: "Kept the heavy infantry line and added the cavalry and reach it had lacked.", cited: false, note: "The Macedonian answer was not to abandon the phalanx but to make it longer, and to supply the shock arm Greece never had. Xenophon's argument was widely read in the Macedonian court, but the connection is inference." },
+      ],
+      key: "At Plataea each side needed different ground; Mardonius attacked what looked like a rout and gave Greece the close infantry fight it wanted." },
+
+    { title: "What each side actually lost",
+      text: ["Persia lost a frontier campaign. No core territory was touched, Xerxes reigned another fifteen years and built at Persepolis, and the empire continued for another century and a half — during which it funded both sides of the Peloponnesian War, bought Sparta the fleet that beat Athens, and in 387 BC dictated the terms of the Greek political order from Susa. On the Ionian question, which is what the fighting had been about, Persia eventually got what it wanted by cheque.",
+        "Greece got something it had not had: proof that the coalition worked, and an Athenian fleet with nothing left to do. The alliance formed to continue the war became the **Delian League**, and the league became an empire that its members could not leave. The war of liberation produced, within thirty years, a state that besieged Naxos for trying to withdraw.",
+        "Fighting sputtered on until about 449 BC and a possible negotiated settlement, the **Peace of Callias**, whose very existence is **Contested** — no contemporary text records it, and it may be a fourth-century invention."],
+      key: "Persia lost a frontier campaign and later won the Ionian question with money; Greece won and turned its alliance into an empire." },
+
+    { title: "Why this entry is gated",
+      text: ["This is the first war in the app that required two fully written societies before it would open, which is the mechanic the whole design was built around. The point is now visible: the Greek chapter and the Persian chapter both describe 480 BC honestly and produce different events, and neither is dishonest.",
+        "It also shows what the rule costs. This entry sat sealed and unreadable for a long time while only one side existed, because a war told from one side is not a shorter version of the war — it is a different claim about what happened."],
+      key: "The gate exists because a war told from one side is not a shorter version of the war but a different claim about it." },
+  ],
+  check: [
+    { q: "What did Miltiades do with his line at Marathon?", options: ["Deepened the centre", "Deliberately thinned the centre so the strengthened wings could envelop", "Attacked in column", "Held a defensive position"], correct: 1,
+      explain: "The weak centre gave ground by design; the wings broke through and turned inward on the Persians who had advanced." },
+    { q: "Why did the defile at Thermopylae matter so much?", options: ["It was easy to supply", "Only a narrow frontage could engage, so numbers, cavalry and archery all became irrelevant", "It was close to Athens", "It protected the fleet"], correct: 1,
+      explain: "And it had exactly one flaw — a mountain path — which is what a position held everywhere always has somewhere." },
+    { q: "How did Xerxes contribute to his own defeat at Salamis?", options: ["He withdrew too early", "He blocked both ends of the strait, removing his own fleet's room to withdraw and reform", "He divided his fleet", "He fought at night"], correct: 1,
+      explain: "He did it believing Themistokles' message that he was sealing a trap on a fleet about to flee." },
+    { q: "How does the app describe what Persia lost?", options: ["Its empire", "A frontier campaign — and it later won the Ionian question with money instead", "Its fleet permanently", "Egypt"], correct: 1,
+      explain: "No core territory was touched; by 387 BC a Persian king was dictating the terms of the Greek political order." },
+  ],
+},
 );
 
 /* Wars that are specified but correctly sealed, because the app will not
@@ -237,7 +322,4 @@ const PENDING_WARS = [
   { id: "war-diadochi", name: "The Wars of the Diadochi", era: "322 – 275 BC",
     sides: ["Macedon", "Ptolemaic Egypt", "Seleucid Empire", "Antigonids"],
     blockedBy: "Requires Macedon and the Seleucid Empire. Currently only Ptolemaic Egypt is available." },
-  { id: "war-greco-persian", name: "The Greco-Persian Wars", era: "499 – 449 BC",
-    sides: ["Ancient Greece", "Persia"],
-    blockedBy: "Both societies are now written — the Ancient Greece and Persia Sets each cover the run-up from their own side. This entry is still specified rather than built: promoting it into a full war chapter with Marathon, Thermopylae, Salamis and Plataea, with tactics and tactical lineage, is the next job." },
 ];

@@ -6,8 +6,19 @@ from the learning app at runtime and the learning app does not know it
 exists, so it can be developed and broken without risk to the 63 chapters
 next door.
 
-    serve.bat            (in the project root)
-    http://localhost:8000/battle/
+## Launching it
+
+Double-click **`play-battle.bat`** in the project root. It starts a local
+server and opens the game. Leave the black console window open while you
+play — closing it stops the server.
+
+`serve.bat` still opens the learning app; it now takes an optional path,
+and `play-battle.bat` is a one-line wrapper that calls it with `battle/`.
+Either way the address is `http://localhost:8000/battle/`.
+
+This page cannot be opened by double-clicking `battle/index.html`.
+Babel fetches the module scripts over XHR and browsers block that on
+`file://` — the page detects it and says so rather than failing silently.
 
     node battle/tools/test-battle.js     75 rules tests + 200 playouts
 

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Bundle Codex Antiquus into one double-clickable file.
+"""Bundle Codex Antiquus into double-clickable single files.
 
-    python3 build.py            ->  dist/codex-antiquus.html
+    python3 build.py     ->  dist/codex-antiquus.html   (the learning app)
+                             dist/field-of-battle.html  (the battle game)
 
 Browsers refuse to load sibling scripts over file://, so the multi-file tree
 needs a server. This inlines the CSS and every JS module into a single
@@ -12,111 +13,106 @@ Anything present in vendor/ is inlined too. Whatever is missing keeps its CDN
 parts that were not vendored. Run tools/fetch-vendor.ps1 (or .sh) first for a
 genuinely offline file.
 
+Every href is resolved relative to the page being bundled, so battle/index.html
+reaching back to ../vendor/ and ../css/ works the same way as the root page.
+
 dist/ is gitignored. Re-run this after any content change.
 """
 
 import re
-import shutil
 from pathlib import Path
 
 ROOT = Path(__file__).parent
 DIST = ROOT / "dist"
-OUT = DIST / "codex-antiquus.html"
 
-SRC = (ROOT / "index.html").read_text(encoding="utf-8")
-
-
-def read(rel):
-    return (ROOT / rel).read_text(encoding="utf-8").strip("\n")
-
-
-# --- stylesheets -----------------------------------------------------------
-# <link rel="stylesheet" href="x.css"> -> <style> ... </style>, in place, so
-# the cascade order of the source document is preserved exactly.
-
-def inline_css(m):
-    href = m.group(1)
-    path = ROOT / href
-    if not path.exists():
-        print(f"  ! {href} missing, left as a link")
-        return m.group(0)
-    print(f"  + {href}")
-    return f"<style>\n/* ==== {href} ==== */\n{read(href)}\n</style>"
-
-
-out = re.sub(r'<link rel="stylesheet" href="([^"]+)" />', inline_css, SRC)
-
-# --- favicons --------------------------------------------------------------
-# The standalone build is one file that may be opened from anywhere, so the
-# small icons become data URIs and the manifest link is dropped. The
-# apple-touch-icon link is kept pointing at the real path: iOS refuses a data
-# URI there, and a dead link is no worse than no link at all.
-
-def inline_icon(m):
-    href = m.group(2)
-    path = ROOT / href
-    if not path.exists():
-        return m.group(0)
-    import base64
-    b64 = base64.b64encode(path.read_bytes()).decode()
-    mime = "image/x-icon" if href.endswith(".ico") else "image/png"
-    print(f"  + {href}")
-    return m.group(0).replace(f'href="{href}"', f'href="data:{mime};base64,{b64}"')
-
-
-out = re.sub(r'<link rel="icon"([^>]*?)href="([^"]+)"([^>]*)/>', inline_icon, out)
-out = re.sub(r'<link rel="manifest" href="[^"]+" />\n', "", out)
-
-# --- vendored libraries ----------------------------------------------------
-# Each library is a local <script src="vendor/x.js"> followed by a
-# document.write CDN fallback. If the local file exists, inline it and drop the
-# fallback. If it does not, drop the dead local tag and keep the CDN one.
-
+CSS = re.compile(r'<link rel="stylesheet" href="([^"]+)" />')
 VENDOR = re.compile(
-    r'<script src="(vendor/[^"]+)"></script>\n'
+    r'<script src="((?:\.\./)?vendor/[^"]+)"></script>\n'
     r'<script>window\.\w+ \|\| document\.write\(\'(<script src="[^"]+">)\\x3C/script>\'\);</script>'
 )
-
-
-def inline_vendor(m):
-    href, cdn_tag = m.group(1), m.group(2)
-    path = ROOT / href
-    if path.exists():
-        print(f"  + {href}")
-        return f"<script>\n/* ==== {href} ==== */\n{read(href)}\n</script>"
-    print(f"  ! {href} missing, falling back to the CDN")
-    return f"{cdn_tag}</script>"
-
-
-out = VENDOR.sub(inline_vendor, out)
-
-# --- application modules ---------------------------------------------------
-# Every js module collapses into one text/babel block, keeping the
-# /* ==== path ==== */ markers so the bundle can always be split apart again.
-
+ICON = re.compile(r'<link rel="icon"([^>]*?)href="([^"]+)"([^>]*)/>')
+MANIFEST = re.compile(r'<link rel="manifest" href="[^"]+" />\n')
 MODULE = re.compile(r'<script type="text/babel" data-presets="react" src="(js/[^"]+)"></script>')
-modules = MODULE.findall(out)
-if not modules:
-    raise SystemExit("no js modules found in index.html — has the script tag format changed?")
 
-blocks = []
-for rel in modules:
-    print(f"  + {rel}")
-    blocks.append(f"/* ==== {rel} ==== */\n{read(rel)}")
 
-bundle = '<script type="text/babel" data-presets="react">\n' + "\n\n".join(blocks) + "\n</script>"
+def bundle(page_rel, out_name):
+    page = ROOT / page_rel
+    base = page.parent
+    src = page.read_text(encoding="utf-8")
+    print(f"\n{page_rel}")
 
-first = MODULE.search(out)
-out = out[: first.start()] + bundle + MODULE.sub("", out[first.start():]).lstrip("\n")
-out = re.sub(r"\n{3,}", "\n\n", out)
+    def read(href):
+        return (base / href).resolve().read_text(encoding="utf-8").strip("\n")
 
-# --- write -----------------------------------------------------------------
-DIST.mkdir(exist_ok=True)
-OUT.write_text(out, encoding="utf-8", newline="\n")
+    def exists(href):
+        return (base / href).resolve().exists()
 
-kb = len(out.encode("utf-8")) / 1024
-print(f"\n{OUT.relative_to(ROOT)}  —  {kb:.0f} KB, {len(out.splitlines())} lines")
-if 'src="https://' in out:
-    print("Still loading some libraries from a CDN. Run tools/fetch-vendor.sh (or .ps1) to vendor them.")
+    # --- stylesheets: inlined in place, so cascade order is preserved -------
+    def inline_css(m):
+        href = m.group(1)
+        if not exists(href):
+            print(f"  ! {href} missing, left as a link")
+            return m.group(0)
+        print(f"  + {href}")
+        return f"<style>\n/* ==== {href} ==== */\n{read(href)}\n</style>"
+
+    out = CSS.sub(inline_css, src)
+
+    # --- favicons: data URIs, since the file may be opened from anywhere ----
+    def inline_icon(m):
+        href = m.group(2)
+        if not exists(href):
+            return m.group(0)
+        import base64
+        data = (base / href).resolve().read_bytes()
+        mime = "image/x-icon" if href.endswith(".ico") else "image/png"
+        print(f"  + {href}")
+        return m.group(0).replace(f'href="{href}"',
+                                  f'href="data:{mime};base64,{base64.b64encode(data).decode()}"')
+
+    out = ICON.sub(inline_icon, out)
+    out = MANIFEST.sub("", out)
+
+    # --- vendored libraries: inline the local copy, drop the CDN fallback ---
+    def inline_vendor(m):
+        href, cdn_tag = m.group(1), m.group(2)
+        if exists(href):
+            print(f"  + {href}")
+            return f"<script>\n/* ==== {href} ==== */\n{read(href)}\n</script>"
+        print(f"  ! {href} missing, falling back to the CDN")
+        return f"{cdn_tag}</script>"
+
+    out = VENDOR.sub(inline_vendor, out)
+
+    # --- application modules: one text/babel block, markers kept so the -----
+    #     bundle can always be split back apart
+    modules = MODULE.findall(out)
+    if not modules:
+        raise SystemExit(f"no js modules found in {page_rel} — has the script tag format changed?")
+    blocks = []
+    for rel in modules:
+        print(f"  + {rel}")
+        blocks.append(f"/* ==== {rel} ==== */\n{read(rel)}")
+    block = '<script type="text/babel" data-presets="react">\n' + "\n\n".join(blocks) + "\n</script>"
+    first = MODULE.search(out)
+    out = out[: first.start()] + block + MODULE.sub("", out[first.start():]).lstrip("\n")
+    out = re.sub(r"\n{3,}", "\n\n", out)
+
+    DIST.mkdir(exist_ok=True)
+    target = DIST / out_name
+    target.write_text(out, encoding="utf-8", newline="\n")
+    kb = len(out.encode("utf-8")) / 1024
+    cdn = 'src="https://' in out
+    print(f"  -> dist/{out_name}  {kb:.0f} KB, {len(out.splitlines())} lines"
+          + ("  (some libraries still load from a CDN)" if cdn else ""))
+    return cdn
+
+
+any_cdn = bundle("index.html", "codex-antiquus.html")
+any_cdn |= bundle("battle/index.html", "field-of-battle.html")
+
+print()
+if any_cdn:
+    print("Run tools/fetch-vendor.sh (or .ps1) to vendor the remaining libraries.")
 else:
-    print("Fully self-contained apart from the Google Fonts stylesheet.")
+    print("Both files are self-contained apart from the Google Fonts stylesheet.")

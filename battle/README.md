@@ -8,8 +8,14 @@ next door.
 
 ## Launching it
 
-Double-click **`play-battle.bat`** in the project root. It starts a local
-server and opens the game. Leave the black console window open while you
+**The simple way, no server needed:** double-click
+**`dist/field-of-battle.html`**. `build.py` inlines the CSS, the vendored
+libraries and every module into that one file, so it opens straight from
+disk like any web page. Re-run `python3 build.py` after changing anything.
+
+**The developer way:** double-click **`play-battle.bat`** in the project
+root. It starts a local server and opens the game, so edits show up on
+refresh without rebuilding. Leave the black console window open while you
 play — closing it stops the server.
 
 `serve.bat` still opens the learning app; it now takes an optional path,

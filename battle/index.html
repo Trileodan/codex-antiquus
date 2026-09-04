@@ -42,10 +42,10 @@
 <script type="text/babel" data-presets="react" src="js/ui/app.js"></script>
 
 <!-- Babel fetches the module scripts over XHR, which browsers refuse on
-     file://. Same guard as the main app: run serve.bat and open through
-     http://localhost. -->
+     file://. Same guard as the main app, and inert inside the single-file
+     build: it looks for a js/ script tag, which only this version has. -->
 <script>
-if (location.protocol === "file:") {
+if (location.protocol === "file:" && document.querySelector('script[src^="js/"]')) {
   document.getElementById("battle-root").innerHTML =
     '<div style="max-width:640px;margin:14vh auto;padding:24px;border:1px solid #3A3226;border-radius:8px;' +
     'background:#231E17;color:#EFE4CC;font-family:system-ui,sans-serif;line-height:1.6">' +

@@ -19,10 +19,11 @@ const NAMES = ["TERRAIN","STATUSES","ABILITIES","BATTLE_CARDS","BATTLEFIELDS","D
   "sideFacing","dirBetween","inBounds","terrainAt","unitAt","fortressAt","cardOf","livingCommanders",
   "effectiveStats","commandCap","deployCost","createBattle","validateDeck","decodeBattlefield",
   "legalCommanderSquares","placeCommander","legalMoves","doMove","legalAttacks","previewAttack","doAttack",
-  "canCapture","doCapture","legalDeploys","doDeploy","doSpecial","doAbility","triggeredAbilities",
+  "canCapture","doCapture","legalDeploys","doDeploy","doSpecial","doAbility","triggeredAbilities","canRotate","doRotate",
   "endTurn","beginTurn","checkVictory","spawn","damageUnit","hasLineOfSight","DECK_RULES","shuffle"];
 const E = vm.runInContext(`({${NAMES.map(n=>`${n}: typeof ${n}==="undefined"?undefined:${n}`).join(",")}})`, sandbox);
 
+function beginTurnSafe(s) { for (const u of Object.values(s.units)) { u.actionsLeft = s.rules.actionsPerTurn; u.movedThisTurn = false; u.sick = false; } }
 let pass = 0, fail = 0;
 const ok = (cond, msg) => { if (cond) { pass++; } else { fail++; console.log("  FAIL  " + msg); } };
 const section = (t) => console.log("\n" + t);
@@ -135,6 +136,22 @@ ok(!s.units[target.uid], "the second hit does");
 ok(s.winner === null, "one Commander down is not a loss");
 E.damageUnit(s, Object.values(s.units).find((u) => u.cardId === "alexander"), 2, null);
 ok(s.winner === 0 && s.winBy === "commanders", "losing both Commanders loses the battle immediately");
+
+section("Turning on the spot");
+s = fresh();
+const turner = Object.values(s.units).find((u) => u.cardId === "caesar");
+s.current = 0; beginTurnSafe(s);
+ok(E.canRotate(s, turner.uid), "a Commander with Actions left may turn");
+ok(E.doRotate(s, turner.uid, "S").ok === false, "turning to the way you already face is refused");
+const acts0 = turner.actionsLeft;
+ok(E.doRotate(s, turner.uid, "E").ok, "turning to a new direction succeeds");
+ok(turner.facing === "E", "the facing changed");
+ok(turner.actionsLeft === acts0 - 1, "turning cost one Action");
+ok(turner.movedThisTurn === false, "turning is not a Move, so the Move is still available");
+ok(E.legalMoves(s, turner.uid).length > 0, "…and the unit can still move afterwards");
+E.doMove(s, turner.uid, E.legalMoves(s, turner.uid)[0].x, E.legalMoves(s, turner.uid)[0].y, "N");
+ok(turner.actionsLeft === 0, "move then turn uses both Actions");
+ok(!E.canRotate(s, turner.uid), "with no Actions left a unit cannot turn");
 
 /* ---------- ranged ---------- */
 section("Ranged attacks and line of sight");

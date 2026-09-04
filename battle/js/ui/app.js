@@ -47,6 +47,11 @@ function BattleApp() {
   const [discards, setDiscards] = React.useState([]);
   const [discarding, setDiscarding] = React.useState(false);
   const [debug, setDebug] = React.useState(false);
+  /* Drag state lives with the other hooks: React requires every hook to run
+     on every render, and this component returns early for the setup screen. */
+  const dragRef = React.useRef(null);
+  const overRef = React.useRef(null);
+  const [dragOver, setDragOver] = React.useState(null);
 
   const refresh = () => { bump(); };
   const say = (t) => { setMsg(t); if (t) setTimeout(() => setMsg(""), 3200); };
@@ -83,7 +88,54 @@ function BattleApp() {
     if (!marks[k] && u.owner === me && st.phase === "main") marks[k] = "";
   }
 
-  function onSquare(x, y) {
+  /* Interaction: a tap opens a card, a drag acts with it.
+       tap a card              -> select it, showing stats and abilities
+       drag a card to a square -> move there, then choose a facing
+       drag a card onto an enemy -> attack it
+     Pointer capture is released on pointerdown so that pointerup lands on
+     the square under the finger rather than the one it started on, which
+     is what touch would otherwise do. */
+  function onDown(x, y, e) {
+    if (st.phase !== "main" || pending) return;
+    try { e.currentTarget.releasePointerCapture(e.pointerId); } catch (_) {}
+    const u = unitAt(st, x, y);
+    dragRef.current = { x, y, uid: u && u.owner === me ? u.uid : null, moved: false };
+    overRef.current = null; setDragOver(null);
+  }
+
+  function onEnter(x, y) {
+    const d = dragRef.current;
+    if (!d || !d.uid) return;
+    if (x === d.x && y === d.y) { overRef.current = null; setDragOver(null); return; }
+    d.moved = true; overRef.current = { x, y }; setDragOver({ x, y });
+  }
+
+  function onUp(x, y) {
+    const d = dragRef.current; dragRef.current = null;
+    const over = overRef.current; overRef.current = null; setDragOver(null);
+    if (!d) { handleTap(x, y); return; }
+    const dest = (d.moved && over) ? over : { x, y };
+    if (dest.x === d.x && dest.y === d.y) { handleTap(x, y); return; }
+    if (!d.uid) { handleTap(dest.x, dest.y); return; }
+    resolveDrag(d.uid, dest.x, dest.y);
+  }
+
+  function resolveDrag(uid, x, y) {
+    setSel(uid); setMode(null);
+    const atk = legalAttacks(st, uid).find((a) => a.x === x && a.y === y);
+    if (atk) {
+      const r = doAttack(st, uid, atk.targetUid);
+      if (!r.ok) say(r.error);
+      else say(`${r.damage ? "Hit" : "Blocked"} — attack ${atk.attack} against ${atk.defenceSide} defence ${atk.defence}.`);
+      refresh(); return;
+    }
+    if (legalMoves(st, uid).some((m) => m.x === x && m.y === y)) {
+      setPending({ kind: "move", uid, x, y }); return;
+    }
+    say("That card cannot reach or attack there.");
+  }
+
+  function handleTap(x, y) {
     if (st.phase === "over") return;
     const u = unitAt(st, x, y);
 
@@ -93,8 +145,6 @@ function BattleApp() {
       const r = placeCommander(st, p, cardId, x, y);
       if (!r.ok) say(r.error); refresh(); return;
     }
-    if (pending) return;
-
     if (mode && mode.kind === "deploy") {
       if (marks[`${x},${y}`] === "dep") setPending({ kind: "deploy", handIndex: mode.handIndex, x, y });
       return;
@@ -105,20 +155,15 @@ function BattleApp() {
       if (!r.ok) say(r.error); else clear();
       refresh(); return;
     }
-    const mk = marks[`${x},${y}`];
-    if (mk === "atk") {
-      const r = doAttack(st, sel, u.uid);
-      if (!r.ok) say(r.error); else say(r.damage ? "Hit." : "Blocked.");
-      refresh(); return;
-    }
-    if (mk === "move") { setPending({ kind: "move", uid: sel, x, y }); return; }
-    if (u && u.owner === me) { setSel(u.uid); setMode(null); return; }
-    setSel(u ? u.uid : null);
+    if (u) { setSel(u.uid); setMode(null); return; }
+    if (sel && marks[`${x},${y}`] === "move") { setPending({ kind: "move", uid: sel, x, y }); return; }
+    setSel(null);
   }
 
   function commitFacing(dir) {
     let r;
     if (pending.kind === "move") r = doMove(st, pending.uid, pending.x, pending.y, dir);
+    else if (pending.kind === "rotate") r = doRotate(st, pending.uid, dir);
     else r = doDeploy(st, pending.handIndex, pending.x, pending.y, dir);
     if (!r.ok) say(r.error);
     setPending(null); setMode(null); refresh();
@@ -177,7 +222,16 @@ function BattleApp() {
 
     <div className="bt-grid2">
       <div>
-        <Board state={st} viewer={me} selected={sel} marks={marks} onSquare={onSquare} />
+        <Board state={st} viewer={me} selected={sel} marks={marks}
+               rosette={pending ? { x: pending.x, y: pending.y } : null}
+               onDown={onDown} onEnter={onEnter} onUp={onUp}
+               onFacing={commitFacing} onCancelFacing={() => setPending(null)}
+               dragOver={dragOver} />
+        {st.phase === "main" && <div className="bt-mono" style={{ color: "var(--parchment-dim)", fontSize: 11.5, marginTop: 8, lineHeight: 1.6 }}>
+          Tap a card to see its stats and abilities · drag it onto a square to move, or onto an enemy to attack ·
+          the bright edge of a card is its front · the two numbers on each edge are that edge's
+          <b style={{ color: "var(--gold-glow)" }}> attack</b> and <b style={{ color: "#9FD4C0" }}>defence</b>
+        </div>}
         {st.phase === "deploy" && <div className="bt-panel" style={{ marginTop: 10 }}>
           <div className="bt-label">Deployment</div>
           <div style={{ marginTop: 4 }}>
@@ -191,9 +245,11 @@ function BattleApp() {
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        {pending && <div className="bt-panel">
-          <DirPad label={pending.kind === "move" ? "Face which way after moving?" : "Face which way on arrival?"} onPick={commitFacing} />
-          <button className="bt-btn sm" style={{ marginTop: 8 }} onClick={() => setPending(null)}>Cancel</button>
+        {pending && <div className="bt-panel" style={{ borderColor: "var(--gold)" }}>
+          <div className="bt-label">
+            {pending.kind === "rotate" ? "Turning on the spot" : pending.kind === "move" ? "Moving" : "Deploying"}
+          </div>
+          <div style={{ marginTop: 4, fontSize: 13 }}>Choose a facing using the arrows on the highlighted square.</div>
         </div>}
 
         {mode && mode.kind === "target" && <div className="bt-panel" style={{ borderColor: "var(--silver-glow)" }}>
@@ -214,6 +270,8 @@ function BattleApp() {
           <CardDetail state={st} unit={selUnit} />
           {selUnit.owner === me && st.phase === "main" && <div style={{ marginTop: 10, display: "flex", gap: 6, flexWrap: "wrap" }}>
             {canCapture(st, sel) && <button className="bt-btn sm" onClick={() => { const r = doCapture(st, sel); if (!r.ok) say(r.error); refresh(); }}>Capture fortress</button>}
+            {canRotate(st, sel) && <button className="bt-btn sm"
+              onClick={() => setPending({ kind: "rotate", uid: sel, x: selUnit.x, y: selUnit.y })}>Turn to face…</button>}
             {triggeredAbilities(st, sel).map((a) =>
               <button key={a.id} className="bt-btn sm" disabled={!a.ready} onClick={() => useAbility(a.id)}>
                 {a.name}{a.cooldown ? ` (${a.cooldown})` : ""}

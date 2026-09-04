@@ -14,10 +14,12 @@ const SQ_TONE = {
   river: "var(--sq-river)", bridge: "var(--sq-bridge)",
 };
 
+const ARROW = { N: "▲", E: "▶", S: "▼", W: "◀" };
+
 function FortressMark({ owner }) {
   const c = owner == null ? "#5A5344" : owner === 0 ? "var(--p0)" : "var(--p1)";
   return <div className="bt-fort">
-    <svg width="70%" height="70%" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="1.6">
+    <svg width="66%" height="66%" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="1.6">
       <path d="M4 20V9l3-2 2 2 3-3 3 3 2-2 3 2v11z" />
       <path d="M4 20h16" strokeWidth="2" />
     </svg>
@@ -30,16 +32,34 @@ function initialsOf(name) {
   return (strong.length ? strong : w).map((s) => s[0]).slice(0, 2).join("") || name[0];
 }
 
+/* Attack and Defence for each edge, rotated into BOARD space.
+   The number on the north edge is the value that applies to an attack
+   arriving from the north — no mental rotation required to work out
+   whether a fight is worth taking. */
+function EdgeStats({ state, unit }) {
+  const st = effectiveStats(state, unit);
+  return DIRS.map((d) => {
+    const side = sideFacing(unit.facing, d);
+    return <span key={d} className={`bt-edge ${d}`} title={`${side}: attack ${st.attack[side]}, defence ${st.defence[side]}`}>
+      <b>{st.attack[side]}</b><i>{st.defence[side]}</i>
+    </span>;
+  });
+}
+
 function UnitToken({ state, unit, hiddenToViewer }) {
   const card = BATTLE_CARDS[unit.cardId];
-  const cmdr = card.type === "commander";
   if (hiddenToViewer) {
-    return <div className={`bt-unit ${unit.owner === 0 ? "p0" : "p1"}`} style={{ opacity: .35, borderStyle: "dashed" }}>?</div>;
+    return <div className={`bt-unit ${unit.owner === 0 ? "p0" : "p1"}`}
+                style={{ opacity: .35, borderStyle: "dashed" }}>?</div>;
   }
-  return <div className={`bt-unit ${unit.owner === 0 ? "p0" : "p1"} ${cmdr ? "cmdr" : ""} ${unit.sick ? "sick" : ""}`}
-              title={`${card.name} — ${unit.lives}/${unit.maxLives} Lives`}>
-    <div className={`bt-face ${unit.facing}`} />
-    <div>{initialsOf(card.name)}</div>
+  const cls = [
+    "bt-unit", unit.owner === 0 ? "p0" : "p1",
+    card.type === "commander" ? "cmdr" : "",
+    unit.sick ? "sick" : "", `face-${unit.facing}`,
+  ].join(" ");
+  return <div className={cls} title={`${card.name} — ${unit.lives}/${unit.maxLives} Lives, ${unit.actionsLeft} actions`}>
+    <EdgeStats state={state} unit={unit} />
+    <div className="nm">{initialsOf(card.name)}</div>
     <div className="pips">
       {Array.from({ length: unit.maxLives }, (_, i) =>
         <div key={i} className={`pip ${i >= unit.lives ? "lost" : ""}`} />)}
@@ -47,7 +67,19 @@ function UnitToken({ state, unit, hiddenToViewer }) {
   </div>;
 }
 
-function Board({ state, viewer, selected, marks, onSquare }) {
+/* The facing chooser sits ON the square being decided, not in a panel. */
+function FacingRosette({ onPick, onCancel }) {
+  const stop = (e) => { e.stopPropagation(); };
+  return <div className="bt-rosette" onPointerDown={stop} onPointerUp={stop}>
+    {DIRS.map((d) =>
+      <button key={d} className={`ro ${d}`} title={`Face ${d}`}
+              onPointerUp={(e) => { e.stopPropagation(); onPick(d); }}>{ARROW[d]}</button>)}
+    <button className="ro c" title="Cancel"
+            onPointerUp={(e) => { e.stopPropagation(); onCancel(); }}>×</button>
+  </div>;
+}
+
+function Board({ state, viewer, selected, marks, rosette, onDown, onEnter, onUp, onFacing, onCancelFacing, dragOver }) {
   const cells = [];
   for (let y = 0; y < state.height; y++) {
     for (let x = 0; x < state.width; x++) {
@@ -57,17 +89,24 @@ function Board({ state, viewer, selected, marks, onSquare }) {
       const key = `${x},${y}`;
       const m = marks[key];
       const hide = u && !isVisibleTo(state, u, viewer);
+      const isOver = dragOver && dragOver.x === x && dragOver.y === y;
+      const terr = TERRAIN[t];
       cells.push(
         <div key={key}
-             className={`bt-sq ${m || ""} ${m ? "clickable" : ""} ${selected && u && u.uid === selected ? "sel" : ""}`}
+             className={`bt-sq ${m || ""} ${m ? "clickable" : ""} ${isOver ? "over" : ""} ${selected && u && u.uid === selected ? "sel" : ""}`}
              style={{ background: SQ_TONE[t] }}
-             title={`${sq(x, y)} — ${TERRAIN[t].name}${TERRAIN[t].move == null ? " (impassable)" : ` (move ${TERRAIN[t].move}${TERRAIN[t].defence ? `, defence ${TERRAIN[t].defence > 0 ? "+" : ""}${TERRAIN[t].defence}` : ""})`}`}
-             onClick={() => onSquare(x, y)}>
-          {TERR_MARK[t] && <span className="terr">{TERR_MARK[t]}</span>}
+             title={`${sq(x, y)} — ${terr.name}${terr.move == null ? " (impassable)"
+               : ` (move ${terr.move}${terr.defence ? `, defence ${terr.defence > 0 ? "+" : ""}${terr.defence}` : ""})`}`}
+             onPointerDown={(e) => onDown(x, y, e)}
+             onPointerEnter={() => onEnter(x, y)}
+             onPointerUp={(e) => onUp(x, y, e)}>
           {x === 0 && <span className="coord">{y + 1}</span>}
           {y === 0 && x > 0 && <span className="coord">{String.fromCharCode(65 + x)}</span>}
+          {TERR_MARK[t] && <span className="terr">{TERR_MARK[t]}</span>}
           {f && <FortressMark owner={f.owner} />}
           {u && <UnitToken state={state} unit={u} hiddenToViewer={hide} />}
+          {rosette && rosette.x === x && rosette.y === y &&
+            <FacingRosette onPick={onFacing} onCancel={onCancelFacing} />}
         </div>);
     }
   }
@@ -75,24 +114,13 @@ function Board({ state, viewer, selected, marks, onSquare }) {
   return <div>
     <div className="bt-board" style={{ gridTemplateColumns: `repeat(${state.width}, 1fr)` }}>{cells}</div>
     <div className="bt-legend">
+      <span className="it"><b className="k a">3</b><b className="k d">2</b> attack / defence on that edge</span>
       {used.map((t) => <span key={t} className="it">
         <span className="sw" style={{ background: SQ_TONE[t] }} />
         {TERRAIN[t].name}
         {TERRAIN[t].move == null ? " — impassable"
           : ` — move ${TERRAIN[t].move}${TERRAIN[t].defence ? `, def ${TERRAIN[t].defence > 0 ? "+" : ""}${TERRAIN[t].defence}` : ""}`}
       </span>)}
-    </div>
-  </div>;
-}
-
-function DirPad({ onPick, label }) {
-  return <div>
-    {label && <div className="bt-label" style={{ marginBottom: 6 }}>{label}</div>}
-    <div className="bt-dirpad">
-      <span /><button onClick={() => onPick("N")}>▲</button><span />
-      <button onClick={() => onPick("W")}>◀</button><span />
-      <button onClick={() => onPick("E")}>▶</button>
-      <span /><button onClick={() => onPick("S")}>▼</button><span />
     </div>
   </div>;
 }
@@ -116,6 +144,7 @@ function CardDetail({ state, unit, cardId }) {
     <div className="hcg-display" style={{ fontSize: 15, color: "var(--gold-glow)" }}>{card.name}</div>
     <div className="bt-mono" style={{ color: "var(--parchment-dim)", marginBottom: 6 }}>
       {card.type.toUpperCase()} · {card.era}{card.unique ? " · UNIQUE" : ""}
+      {unit ? ` · facing ${unit.facing}` : ""}
     </div>
     {card.type !== "special" && <div style={{ marginBottom: 6 }}>
       {dirRow("Attack", card.attack, st && st.attack)}

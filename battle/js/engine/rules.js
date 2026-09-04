@@ -183,6 +183,28 @@ function doMove(s, uid, x, y, facing) {
 
 const sq = (x, y) => `${String.fromCharCode(65 + x)}${y + 1}`;
 
+/* ---------------- rotation ----------------------------------------
+   Turning on the spot is its own Action. It is not a Move, so a unit that
+   has already moved can still turn to face a threat, and a unit that turns
+   first can still move afterwards.
+   ------------------------------------------------------------------- */
+
+function canRotate(s, uid) {
+  const u = s.units[uid];
+  if (!u || u.owner !== s.current || u.sick || u.actionsLeft < 1) return false;
+  return !effectiveStats(s, u).noActions;
+}
+
+function doRotate(s, uid, facing) {
+  const u = s.units[uid];
+  if (!canRotate(s, uid)) return { ok: false, error: "That card cannot turn right now." };
+  if (!DIRS.includes(facing)) return { ok: false, error: "Not a direction." };
+  if (u.facing === facing) return { ok: false, error: "Already facing that way." };
+  u.facing = facing; u.actionsLeft -= 1;
+  logMsg(s, `${cardOf(u).name} turns to face ${facing}.`);
+  return { ok: true };
+}
+
 /* ---------------- combat ------------------------------------------ */
 
 function hasLineOfSight(s, ax, ay, bx, by) {

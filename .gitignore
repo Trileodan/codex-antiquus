@@ -6,3 +6,4 @@ Thumbs.db
 # One-shot publishing helper and its log — local, not part of the project
 publish-to-github.bat
 publish-log.txt
+tools/_cards.json

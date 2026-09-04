@@ -48,9 +48,19 @@ the bottom of `js/ui/app.js`. Nothing else has to change.
 
 A history character card carries six scholarly attributes on a 0–99 scale
 — power, intellect, influence, creativity, wealth, fame. A battle card
-needs Speed, Lives and directional Attack/Defence on a 0–5 scale. Neither
-can be derived from the other, and §31 of the brief is explicit that
-military fame must not simply become higher statistics.
+needs Speed, Lives, one Attack power, the arcs it can attack through, and
+per-edge Defence, all on a 0–5 scale. Neither can be derived from the
+other, and §31 of the brief is explicit that military fame must not
+simply become higher statistics.
+
+**Attack is a single number; direction lives in `arcs`.** A card hits just
+as hard whichever way it strikes — what differs is which edges it can
+strike through at all. A legionary is `["front"]`. A Scythian horse archer
+is all four. A ship of the line would be `["left","right"]` and nothing
+fore or aft; a tank would be all four. Defence stays per-edge, because
+being caught from behind has to hurt. On the board the arcs are drawn as
+red lines along those edges, so a glance tells you where a card is
+dangerous and where it is not.
 
 The two are joined by `charId`. A battle card names the history character
 it represents; when that character is unlocked in the learning app, the

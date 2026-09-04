@@ -15,6 +15,11 @@ const PRESET_DECKS = {
     cards: ["cleopatra","leonidas","spartan-hoplite","spartan-hoplite","immortal","immortal","phalangite","cretan-archer","legionnaire","nightingale","archimedes","cicero"] },
 };
 
+/* front / left / right / rear — "rear" takes B for back, because R is
+   already right and the two are the ones you must not confuse. */
+const ARC_LETTER = { front: "F", left: "L", right: "R", rear: "B" };
+const arcLetters = (arcs) => (arcs || ["front"]).map((a) => ARC_LETTER[a] || "?").join("");
+
 function needsTarget(ab) {
   return (ab.effects || []).some((e) =>
     ["enemyUnit", "friendlyDamaged", "friendlyUnit", "friendlyInRange"].includes(e.target));
@@ -229,8 +234,10 @@ function BattleApp() {
                dragOver={dragOver} />
         {st.phase === "main" && <div className="bt-mono" style={{ color: "var(--parchment-dim)", fontSize: 11.5, marginTop: 8, lineHeight: 1.6 }}>
           Tap a card to see its stats and abilities · drag it onto a square to move, or onto an enemy to attack ·
-          the bright edge of a card is its front · the two numbers on each edge are that edge's
-          <b style={{ color: "var(--gold-glow)" }}> attack</b> and <b style={{ color: "#9FD4C0" }}>defence</b>
+          the bright edge of a card is its front ·
+          <b style={{ color: "#E05A3C" }}> red lines</b> are the edges it can attack through,
+          <b style={{ color: "#9FD4C0" }}> green digits</b> are its defence on that edge,
+          and the <b style={{ color: "var(--gold-glow)" }}>gold number</b> is its attack power
         </div>}
         {st.phase === "deploy" && <div className="bt-panel" style={{ marginTop: 10 }}>
           <div className="bt-label">Deployment</div>
@@ -356,7 +363,7 @@ function HandRow({ st, pl, me, playHand, mode, over, discards, setDiscards, disc
           <div className="nm">{c.name}</div>
           <div className="ty">{c.type} · {cost} cmd</div>
           {c.type !== "special" && <div className="ty" style={{ marginTop: 3 }}>
-            spd {c.speed} · atk {c.attack.front} · def {c.defence.front}/{c.defence.rear}
+            spd {c.speed} · atk {c.attack} {arcLetters(c.arcs)} · def {c.defence.front}/{c.defence.rear}
           </div>}
         </div>;
       })}

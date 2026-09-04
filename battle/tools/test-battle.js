@@ -110,7 +110,8 @@ const def = E.spawn(s, 1, "legionnaire", 3, 4, "N", { sick: false });
 s.current = 0; atk.actionsLeft = 2; atk.sick = false;
 let prev = E.previewAttack(s, atk, def);
 ok(prev.attackSide === "front" && prev.defenceSide === "front", "head-on is front vs front");
-ok(prev.attack === 2 && prev.defence === 2, "Legionnaire front 2 attack vs front 2 defence");
+ok(prev.attack === 2 && prev.defence === 2, "Legionnaire attack 2 against front defence 2");
+ok(prev.inArc === true, "a front-armed card attacking straight ahead is in arc");
 ok(prev.damage === 0, "equal values are blocked — attack must exceed defence");
 
 def.facing = "S";
@@ -136,6 +137,28 @@ ok(!s.units[target.uid], "the second hit does");
 ok(s.winner === null, "one Commander down is not a loss");
 E.damageUnit(s, Object.values(s.units).find((u) => u.cardId === "alexander"), 2, null);
 ok(s.winner === 0 && s.winBy === "commanders", "losing both Commanders loses the battle immediately");
+
+section("Attack arcs");
+/* One attack power, and the edges it may strike through. */
+s = fresh();
+const front = E.spawn(s, 0, "legionnaire", 3, 3, "S", { sick: false });   // arcs ["front"]
+const side = E.spawn(s, 1, "legionnaire", 4, 3, "N", { sick: false });    // to its LEFT
+s.current = 0; front.actionsLeft = 2;
+let pv = E.previewAttack(s, front, side);
+ok(pv.attackSide === "left", "the target sits off the attacker's left");
+ok(pv.inArc === false, "a front-only card cannot strike through its left");
+ok(pv.damage === 0, "…so no damage is possible");
+ok(!E.legalAttacks(s, front.uid).some((a) => a.targetUid === side.uid),
+   "and the attack is never offered in the first place");
+
+const allround = E.spawn(s, 0, "scythian-archer", 3, 5, "S", { sick: false });  // arcs: all four
+allround.actionsLeft = 2;
+const mark2 = E.spawn(s, 1, "legionnaire", 4, 5, "N", { sick: false });
+pv = E.previewAttack(s, allround, mark2);
+ok(pv.attackSide === "left" && pv.inArc === true, "a card armed on all four edges can strike sideways");
+ok(E.effectiveStats(s, allround).arcs.length === 4, "its arcs come from the card, not from the engine");
+ok(typeof E.effectiveStats(s, allround).attack === "number", "attack is a single number now");
+ok(E.effectiveStats(s, front).arcs.join() === "front", "a legionary is armed to the front only");
 
 section("Turning on the spot");
 s = fresh();

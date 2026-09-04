@@ -233,7 +233,9 @@ function legalAttacks(s, uid) {
     if (dist > st.range) continue;
     if (dist > 1 && !hasLineOfSight(s, u.x, u.y, t.x, t.y)) continue;
     if (dist === 1 && terrainAt(s, t.x, t.y).move == null) continue;
-    out.push(previewAttack(s, u, t));
+    const p = previewAttack(s, u, t);
+    if (!p.inArc) continue;          // the card cannot strike through that edge
+    out.push(p);
   }
   return out;
 }
@@ -244,11 +246,12 @@ function previewAttack(s, u, t) {
   const attackSide = sideFacing(u.facing, dirToTarget);
   const incoming = dirBetween(t.x, t.y, u.x, u.y);
   const defenceSide = sideFacing(t.facing, incoming);
-  const attack = aStats.attack[attackSide], defence = dStats.defence[defenceSide];
+  const inArc = aStats.arcs.includes(attackSide);
+  const attack = aStats.attack, defence = dStats.defence[defenceSide];
   return {
     targetUid: t.uid, x: t.x, y: t.y,
-    attackSide, defenceSide, attack, defence,
-    damage: attack > defence ? 1 : 0,
+    attackSide, defenceSide, attack, defence, inArc,
+    damage: inArc && attack > defence ? 1 : 0,
   };
 }
 
@@ -258,7 +261,7 @@ function doAttack(s, uid, targetUid) {
   if (!p) return { ok: false, error: "No legal attack on that unit." };
   const t = s.units[targetUid];
   u.actionsLeft -= 1;
-  logMsg(s, `${cardOf(u).name} attacks ${cardOf(t).name} (${p.attackSide} ${p.attack} vs ${p.defenceSide} ${p.defence}).`);
+  logMsg(s, `${cardOf(u).name} attacks ${cardOf(t).name} through its ${p.attackSide} — attack ${p.attack} against ${p.defenceSide} defence ${p.defence}.`);
   if (!p.damage) { logMsg(s, `The attack is blocked.`); return { ok: true, damage: 0 }; }
   const killed = damageUnit(s, t, 1, u);
   return { ok: true, damage: 1, killed };

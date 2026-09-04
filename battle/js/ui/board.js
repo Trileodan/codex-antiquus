@@ -32,17 +32,21 @@ function initialsOf(name) {
   return (strong.length ? strong : w).map((s) => s[0]).slice(0, 2).join("") || name[0];
 }
 
-/* Attack and Defence for each edge, rotated into BOARD space.
-   The number on the north edge is the value that applies to an attack
-   arriving from the north — no mental rotation required to work out
-   whether a fight is worth taking. */
-function EdgeStats({ state, unit }) {
+/* Edges, rotated into BOARD space, so nothing needs rotating in your head:
+     a red line   = this card can attack through that edge
+     a green digit = the Defence that applies to an attack arriving there
+   Attack itself is one number for the whole card, shown in the middle. */
+function EdgeInfo({ state, unit }) {
   const st = effectiveStats(state, unit);
   return DIRS.map((d) => {
     const side = sideFacing(unit.facing, d);
-    return <span key={d} className={`bt-edge ${d}`} title={`${side}: attack ${st.attack[side]}, defence ${st.defence[side]}`}>
-      <b>{st.attack[side]}</b><i>{st.defence[side]}</i>
-    </span>;
+    const armed = st.arcs.includes(side);
+    return <React.Fragment key={d}>
+      {armed && <span className={`bt-arc ${d}`} title={`Can attack through its ${side}`} />}
+      <span className={`bt-edge ${d}`} title={`Defence ${st.defence[side]} against an attack from the ${d}`}>
+        {st.defence[side]}
+      </span>
+    </React.Fragment>;
   });
 }
 
@@ -57,9 +61,11 @@ function UnitToken({ state, unit, hiddenToViewer }) {
     card.type === "commander" ? "cmdr" : "",
     unit.sick ? "sick" : "", `face-${unit.facing}`,
   ].join(" ");
-  return <div className={cls} title={`${card.name} — ${unit.lives}/${unit.maxLives} Lives, ${unit.actionsLeft} actions`}>
-    <EdgeStats state={state} unit={unit} />
+  const st = effectiveStats(state, unit);
+  return <div className={cls} title={`${card.name} — attack ${st.attack}, ${unit.lives}/${unit.maxLives} Lives, ${unit.actionsLeft} actions`}>
+    <EdgeInfo state={state} unit={unit} />
     <div className="nm">{initialsOf(card.name)}</div>
+    <div className="atk" title={`Attack ${st.attack}`}>{st.attack}</div>
     <div className="pips">
       {Array.from({ length: unit.maxLives }, (_, i) =>
         <div key={i} className={`pip ${i >= unit.lives ? "lost" : ""}`} />)}
@@ -114,7 +120,9 @@ function Board({ state, viewer, selected, marks, rosette, onDown, onEnter, onUp,
   return <div>
     <div className="bt-board" style={{ gridTemplateColumns: `repeat(${state.width}, 1fr)` }}>{cells}</div>
     <div className="bt-legend">
-      <span className="it"><b className="k a">3</b><b className="k d">2</b> attack / defence on that edge</span>
+      <span className="it"><span className="sw arc" /> can attack through that edge</span>
+      <span className="it"><b className="k d">2</b> defence against an attack from there</span>
+      <span className="it"><b className="k a">3</b> attack power, anywhere it can reach</span>
       {used.map((t) => <span key={t} className="it">
         <span className="sw" style={{ background: SQ_TONE[t] }} />
         {TERRAIN[t].name}
@@ -147,7 +155,13 @@ function CardDetail({ state, unit, cardId }) {
       {unit ? ` · facing ${unit.facing}` : ""}
     </div>
     {card.type !== "special" && <div style={{ marginBottom: 6 }}>
-      {dirRow("Attack", card.attack, st && st.attack)}
+      <div className="bt-mono" style={{ display: "flex", gap: 8 }}>
+        <span style={{ width: 58, color: "var(--parchment-dim)" }}>Attack</span>
+        <b style={{ color: "var(--gold-glow)" }}>{st ? st.attack : card.attack}</b>
+        <span style={{ color: "var(--parchment-dim)" }}>
+          through its {(st ? st.arcs : card.arcs || ["front"]).join(", ")}
+        </span>
+      </div>
       {dirRow("Defence", card.defence, st && st.defence)}
       <div className="bt-mono" style={{ color: "var(--parchment-dim)", marginTop: 3 }}>
         Speed {st ? st.speed : card.speed} · Range {st ? st.range : card.range} · Lives {unit ? `${unit.lives}/${unit.maxLives}` : card.lives}

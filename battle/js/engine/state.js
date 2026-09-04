@@ -51,7 +51,11 @@ function effectiveStats(s, u) {
   const out = {
     speed: c.speed || 0,
     range: c.range || 1,
-    attack: Object.assign({ front: 0, left: 0, right: 0, rear: 0 }, c.attack),
+    /* Attack is a single power. `arcs` is which edges it may strike
+       through, relative to facing — that is what makes a phalanx different
+       from a horse archer without needing four separate numbers. */
+    attack: c.attack || 0,
+    arcs: (c.arcs || ["front"]).slice(),
     defence: Object.assign({ front: 0, left: 0, right: 0, rear: 0 }, c.defence),
     ignoreTerrain: false, canHide: true, noMove: false, noActions: false, hidden: false,
   };
@@ -60,6 +64,7 @@ function effectiveStats(s, u) {
     if (spec.all != null) SIDES.forEach((k) => { obj[k] += spec.all; });
     SIDES.forEach((k) => { if (spec[k] != null) obj[k] += spec[k]; });
   };
+  const addArcs = (list) => { for (const a of list || []) if (!out.arcs.includes(a)) out.arcs.push(a); };
 
   /* terrain the unit is standing on */
   const t = terrainAt(s, u.x, u.y);
@@ -69,7 +74,8 @@ function effectiveStats(s, u) {
   for (const st of u.statuses || []) {
     const def = STATUSES[st.id];
     if (!def) continue;
-    if (def.attack) SIDES.forEach((k) => { out.attack[k] += def.attack; });
+    if (def.attack) out.attack += def.attack;
+    if (def.arcs) addArcs(def.arcs);
     if (def.defence) SIDES.forEach((k) => { out.defence[k] += def.defence; });
     if (def.noMove) out.noMove = true;
     if (def.noActions) out.noActions = true;
@@ -89,7 +95,12 @@ function effectiveStats(s, u) {
           const f = fortressAt(s, u.x, u.y);
           ok = !!f && f.owner === u.owner;
         }
-        if (ok) { bump(out.defence, e.defence); bump(out.attack, e.attack); if (e.speed) out.speed += e.speed; }
+        if (ok) {
+          bump(out.defence, e.defence);
+          if (e.attack) out.attack += e.attack;
+          addArcs(e.arcs);
+          if (e.speed) out.speed += e.speed;
+        }
       }
     }
   }
@@ -105,12 +116,15 @@ function effectiveStats(s, u) {
         if (f.type && cardOf(u).type !== f.type) continue;
         if (f.minSpeed != null && (cardOf(u).speed || 0) < f.minSpeed) continue;
         if (e.speed) out.speed += e.speed;
-        bump(out.defence, e.defence); bump(out.attack, e.attack);
+        if (e.attack) out.attack += e.attack;
+        addArcs(e.arcs);
+        bump(out.defence, e.defence);
       }
     }
   }
 
   SIDES.forEach((k) => { out.defence[k] = Math.max(0, out.defence[k]); });
+  out.attack = Math.max(0, out.attack);
   return out;
 }
 

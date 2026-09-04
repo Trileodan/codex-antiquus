@@ -1,0 +1,76 @@
+/* Battle game styling. Tokens come from ../css/styles.css so the module
+   looks like the rest of Codex Antiquus without duplicating a palette. */
+
+:root{
+  --sq-plains:#2B2A1D; --sq-desert:#453718; --sq-forest:#1B3320;
+  --sq-swamp:#20342E; --sq-hills:#4A3A22; --sq-mountain:#100E0B;
+  --sq-river:#16324B; --sq-bridge:#5A4527;
+  --p0:#C9A227; --p1:#7FA7C4;
+}
+.bt-root{ background:var(--ink); color:var(--parchment); font-family:'Crimson Pro',serif; min-height:100vh; }
+.bt-wrap{ max-width:1180px; margin:0 auto; padding:18px 16px 48px; }
+
+.bt-board{ display:grid; gap:2px; background:var(--hair); padding:2px; border:1px solid var(--hair); border-radius:6px; touch-action:manipulation; }
+.bt-sq{ position:relative; aspect-ratio:1/1; display:flex; align-items:center; justify-content:center;
+        cursor:default; user-select:none; transition:box-shadow .12s ease; }
+.bt-sq.clickable{ cursor:pointer; }
+.bt-sq .coord{ position:absolute; left:2px; top:1px; font-size:8px; color:#6b6252; font-family:'Space Mono',monospace; }
+.bt-sq.move{ box-shadow: inset 0 0 0 2px var(--verdigris); }
+.bt-sq.atk{ box-shadow: inset 0 0 0 2px var(--rust); }
+.bt-sq.dep{ box-shadow: inset 0 0 0 2px var(--gold); }
+.bt-sq.sel{ box-shadow: inset 0 0 0 3px var(--gold-glow); }
+.bt-sq.tgt{ box-shadow: inset 0 0 0 2px var(--silver-glow); }
+
+.bt-fort{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none; }
+.bt-fort svg{ opacity:.9; }
+
+.bt-unit{ position:relative; width:78%; height:78%; border-radius:5px; display:flex; flex-direction:column;
+          align-items:center; justify-content:center; border:1.5px solid; font-family:'Cinzel',serif;
+          font-size:11px; letter-spacing:.03em; }
+.bt-unit.p0{ background:#3A3018; border-color:var(--p0); color:#F3E3B4; }
+.bt-unit.p1{ background:#1F2C36; border-color:var(--p1); color:#DDEAF3; }
+.bt-unit.cmdr{ border-width:2.5px; }
+.bt-unit.sick{ opacity:.55; }
+.bt-unit .pips{ display:flex; gap:2px; margin-top:2px; }
+.bt-unit .pip{ width:5px; height:5px; border-radius:50%; background:currentColor; }
+.bt-unit .pip.lost{ opacity:.25; }
+.bt-face{ position:absolute; width:0; height:0; }
+.bt-face.N{ top:-1px; left:50%; transform:translateX(-50%); border-left:5px solid transparent; border-right:5px solid transparent; border-bottom:6px solid currentColor; }
+.bt-face.S{ bottom:-1px; left:50%; transform:translateX(-50%); border-left:5px solid transparent; border-right:5px solid transparent; border-top:6px solid currentColor; }
+.bt-face.W{ left:-1px; top:50%; transform:translateY(-50%); border-top:5px solid transparent; border-bottom:5px solid transparent; border-right:6px solid currentColor; }
+.bt-face.E{ right:-1px; top:50%; transform:translateY(-50%); border-top:5px solid transparent; border-bottom:5px solid transparent; border-left:6px solid currentColor; }
+
+.bt-panel{ background:var(--panel); border:1px solid var(--hair); border-radius:6px; padding:12px; }
+.bt-label{ font-family:'Cinzel',serif; font-size:11px; letter-spacing:.08em; color:var(--parchment-dim); text-transform:uppercase; }
+.bt-btn{ font-family:'Cinzel',serif; font-size:12px; letter-spacing:.05em; padding:7px 12px; border-radius:4px;
+         border:1px solid var(--hair); background:var(--panel-2); color:var(--parchment); cursor:pointer; }
+.bt-btn:hover:not(:disabled){ border-color:var(--gold); color:var(--gold-glow); }
+.bt-btn:disabled{ opacity:.35; cursor:not-allowed; }
+.bt-btn.primary{ border-color:var(--gold); color:var(--gold-glow); }
+.bt-btn.sm{ padding:4px 8px; font-size:11px; }
+
+.bt-hand{ display:flex; gap:8px; flex-wrap:wrap; }
+.bt-card{ width:132px; border:1px solid var(--hair); border-radius:6px; background:var(--panel-2); padding:8px; cursor:pointer; }
+.bt-card:hover{ border-color:var(--gold); }
+.bt-card.on{ border-color:var(--gold-glow); box-shadow:0 0 0 1px var(--gold-glow); }
+.bt-card.unaffordable{ opacity:.45; }
+.bt-card .nm{ font-family:'Cinzel',serif; font-size:11.5px; line-height:1.25; }
+.bt-card .ty{ font-family:'Space Mono',monospace; font-size:9px; color:var(--parchment-dim); }
+
+.bt-log{ font-size:12.5px; line-height:1.5; max-height:210px; overflow:auto; }
+.bt-log div{ padding:1px 0; border-bottom:1px solid rgba(255,255,255,.03); }
+.bt-mono{ font-family:'Space Mono',monospace; font-size:11px; }
+.bt-grid2{ display:grid; grid-template-columns:1fr 340px; gap:16px; align-items:start; }
+@media (max-width: 900px){ .bt-grid2{ grid-template-columns:1fr; } }
+.bt-dirpad{ display:grid; grid-template-columns:repeat(3,26px); grid-template-rows:repeat(3,26px); gap:2px; }
+.bt-dirpad button{ background:var(--panel-2); border:1px solid var(--hair); color:var(--parchment); border-radius:3px; cursor:pointer; font-size:11px; }
+.bt-dirpad button:hover{ border-color:var(--gold); color:var(--gold-glow); }
+.bt-chip{ display:inline-block; font-family:'Space Mono',monospace; font-size:10px; padding:1px 6px; border-radius:9px; border:1px solid var(--hair); margin:1px 2px 1px 0; }
+
+/* Terrain needs to be readable at a glance, so each type carries a mark
+   as well as a colour — colour alone fails for a lot of people. */
+.bt-sq .terr{ position:absolute; right:3px; bottom:1px; font-size:9px; letter-spacing:.05em;
+              font-family:'Space Mono',monospace; color:rgba(239,228,204,.42); pointer-events:none; }
+.bt-legend{ display:flex; gap:10px; flex-wrap:wrap; margin-top:8px; }
+.bt-legend .it{ display:flex; align-items:center; gap:5px; font-size:11px; color:var(--parchment-dim); }
+.bt-legend .sw{ width:14px; height:14px; border-radius:3px; border:1px solid var(--hair); }

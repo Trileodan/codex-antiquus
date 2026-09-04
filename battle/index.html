@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Field of Battle — Codex Antiquus</title>
+<meta name="description" content="A deterministic tactical card battle on an 8x8 field, played with the historical figures you have unlocked." />
+
+<link rel="icon" href="../favicon.ico" sizes="any" />
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png" />
+<meta name="theme-color" content="#161310" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- The learning app's tokens first, so the battle module inherits one
+     palette rather than defining a second. -->
+<link rel="stylesheet" href="../css/styles.css" />
+<link rel="stylesheet" href="css/battle.css" />
+
+<script src="../vendor/react.production.min.js"></script>
+<script>window.React || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js">\x3C/script>');</script>
+<script src="../vendor/react-dom.production.min.js"></script>
+<script>window.ReactDOM || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js">\x3C/script>');</script>
+<script src="../vendor/babel.min.js"></script>
+<script>window.Babel || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js">\x3C/script>');</script>
+</head>
+<body>
+<div id="battle-root"></div>
+
+<!-- Load order: data, then engine, then UI. Engine files never reference
+     the UI, which is what keeps a headless test run possible. -->
+<script type="text/babel" data-presets="react" src="js/data/terrain.js"></script>
+<script type="text/babel" data-presets="react" src="js/data/statuses.js"></script>
+<script type="text/babel" data-presets="react" src="js/data/abilities.js"></script>
+<script type="text/babel" data-presets="react" src="js/data/cards.js"></script>
+<script type="text/babel" data-presets="react" src="js/data/battlefields.js"></script>
+<script type="text/babel" data-presets="react" src="js/engine/state.js"></script>
+<script type="text/babel" data-presets="react" src="js/engine/rules.js"></script>
+<script type="text/babel" data-presets="react" src="js/ui/board.js"></script>
+<script type="text/babel" data-presets="react" src="js/ui/app.js"></script>
+
+<!-- Babel fetches the module scripts over XHR, which browsers refuse on
+     file://. Same guard as the main app: run serve.bat and open through
+     http://localhost. -->
+<script>
+if (location.protocol === "file:") {
+  document.getElementById("battle-root").innerHTML =
+    '<div style="max-width:640px;margin:14vh auto;padding:24px;border:1px solid #3A3226;border-radius:8px;' +
+    'background:#231E17;color:#EFE4CC;font-family:system-ui,sans-serif;line-height:1.6">' +
+    '<h1 style="margin:0 0 10px;font-size:19px">Open this through a local server</h1>' +
+    '<p style="margin:0 0 10px;color:#B5A788">This page is being viewed from the file system. Browsers block the ' +
+    'script loading it needs when a page is opened that way.</p>' +
+    '<p style="margin:0;color:#B5A788">Double-click <b style="color:#EFE4CC">serve.bat</b> in the project folder, ' +
+    'then open <b style="color:#EFE4CC">http://localhost:8000/battle/</b>.</p></div>';
+}
+</script>
+</body>
+</html>

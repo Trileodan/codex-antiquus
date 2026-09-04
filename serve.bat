@@ -14,11 +14,6 @@ REM ---------------------------------------------------------------------
 cd /d "%~dp0"
 set PORT=8000
 
-REM  Optional first argument: the path to open in the browser.
-REM  serve.bat            opens the learning app
-REM  serve.bat battle/    opens the battle game
-set OPENPATH=%~1
-
 py --version >nul 2>&1
 if %errorlevel% equ 0 goto usepy
 
@@ -47,12 +42,12 @@ goto done
 
 :banner
 echo.
-echo   Codex Antiquus is serving this folder at http://localhost:%PORT%/%OPENPATH%
+echo   Codex Antiquus is serving this folder at http://localhost:%PORT%/
 echo.
 echo   Leave this window open. Close it to stop the server.
 echo   If the browser shows an error, give it a second and refresh.
 echo.
-start "" http://localhost:%PORT%/%OPENPATH%
+start "" http://localhost:%PORT%/
 goto :eof
 
 :nothing

@@ -218,6 +218,15 @@ s.players[0].hand = ["legionnaire", "nightingale"];
 const spots = E.legalDeploys(s, "legionnaire");
 ok(spots.some((c) => c.y === 0), "the home row is a legal deployment zone");
 ok(spots.some((c) => c.x === 2 && c.y === 1), "so is a square adjacent to a living Commander");
+/* A captured fortress is worth points and position, not reinforcement. */
+s.fortresses[3].owner = 0;                       // a fortress far from either Commander
+const ff = s.fortresses[3];
+ok(!E.legalDeploys(s, "legionnaire").some((c) => Math.abs(c.x - ff.x) + Math.abs(c.y - ff.y) === 1),
+   "a square beside a fortress you hold is NOT a deployment zone");
+s.rules.deployFrom = ["home", "commander", "fortress"];
+ok(E.legalDeploys(s, "legionnaire").some((c) => Math.abs(c.x - ff.x) + Math.abs(c.y - ff.y) === 1),
+   "…unless the ruleset asks for it, because the zones are data");
+s.rules.deployFrom = ["home", "commander"];
 ok(E.legalDeploys(s, "nightingale").length === 0, "Specials never enter the battlefield");
 const d = E.doDeploy(s, 0, 7, 0, "S");            // home row, away from either Commander
 ok(d.ok, "deploy succeeds: " + (d.error || ""));

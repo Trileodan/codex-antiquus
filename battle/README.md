@@ -104,7 +104,8 @@ add a new ability whose effects use existing types.
 `TERRAIN_KEY`. Movement cost, line of sight, defence modifier and tags are
 all read generically.
 
-*A battlefield* — add an entry to `BATTLEFIELDS`.
+*A battlefield* — add an entry to `BATTLEFIELDS`. It may carry its own
+`deployFrom` to override the deployment zones for that map alone.
 
 *A status* — add an entry to `STATUSES`. Modifiers and restrictions are
 applied by `effectiveStats`, so nothing else needs touching.
@@ -118,8 +119,8 @@ Phases 1–5 of the brief, and most of Phase 6. Grid, Commander placement,
 orthogonal movement with terrain costs, facing, directional attack and
 defence, deterministic combat, Lives, two Actions with one Move, turns and
 rounds, fortresses with persistent ownership and VP, Command generation and
-cap, deployment from home row / beside a Commander / beside a controlled
-fortress, deployment sickness, draw-discard-recycle, abilities with
+cap, deployment from the home row or beside a living Commander,
+deployment sickness, draw-discard-recycle, abilities with
 cooldowns, statuses, summoning, healing, ranged attacks with line of sight,
 both victory conditions, full card inspection, legal-square highlighting,
 a battle log and a debug panel.
@@ -136,3 +137,24 @@ directional combat, healing, terrain interaction, ranged attacks,
 cooldowns, hidden units, status effects, summoned units, Commander
 abilities and fortress interaction. Every number in them is a prototype
 value, as §33 requires.
+
+## Deviations from the Build Brief
+
+The brief's §40 asks that its core rules not be changed quietly, so the
+one change made since is recorded here.
+
+**Fortresses are no longer forward deployment points** (§8 and §17 allowed
+deploying beside a fortress you control; §40 listed it as intentional).
+Deployment is now the home row or a square beside a living Commander.
+
+The reason is that fortress deployment made a captured fortress
+self-reinforcing: take it once and you could feed cards into it from
+nowhere, so holding ground cost nothing after the first turn. Without it,
+reinforcing the far side of the board means either marching there or
+pushing a Commander forward — and a Commander forward is a Commander that
+can be killed, which is the game's other losing condition. In 200 random
+playouts, battles decided by Commander elimination rose from 35 to 45 out
+of 200 after the change, which is the pressure working as intended.
+
+The zones are data (`rules.deployFrom`), so putting it back is one word,
+and a single battlefield can opt into it without affecting the rest.

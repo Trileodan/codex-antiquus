@@ -92,6 +92,7 @@ function decodeBattlefield(def) {
     id: def.id, name: def.name, blurb: def.blurb, width, height, terrain,
     fortresses: def.fortresses.map((f) => ({ x: f.x, y: f.y })),
     deployRows: def.deployRows || [0, height - 1],
+    deployFrom: def.deployFrom || null,
     tags: def.tags || [],
   };
 }

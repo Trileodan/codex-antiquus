@@ -312,10 +312,17 @@ function legalDeploys(s, cardId) {
     if (unitAt(s, x, y)) return;
     ok[`${x},${y}`] = { x, y };
   };
-  const row = s.deployRows[p];
-  for (let x = 0; x < s.width; x++) add(x, row);
-  for (const u of livingCommanders(s, p)) for (const d of DIRS) add(u.x + DELTA[d][0], u.y + DELTA[d][1]);
-  for (const f of s.fortresses) if (f.owner === p) for (const d of DIRS) add(f.x + DELTA[d][0], f.y + DELTA[d][1]);
+  const from = s.rules.deployFrom || ["home", "commander"];
+  if (from.includes("home")) {
+    const row = s.deployRows[p];
+    for (let x = 0; x < s.width; x++) add(x, row);
+  }
+  if (from.includes("commander")) {
+    for (const u of livingCommanders(s, p)) for (const d of DIRS) add(u.x + DELTA[d][0], u.y + DELTA[d][1]);
+  }
+  if (from.includes("fortress")) {
+    for (const f of s.fortresses) if (f.owner === p) for (const d of DIRS) add(f.x + DELTA[d][0], f.y + DELTA[d][1]);
+  }
   return Object.values(ok);
 }
 

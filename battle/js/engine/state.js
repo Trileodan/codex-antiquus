@@ -172,6 +172,12 @@ function isVisibleTo(s, u, viewer) {
 const DEFAULT_RULES = {
   handSize: 4, openingHand: 4, drawPerTurn: 1, maxHand: 4,
   commandCap: 8, commandEarly: 1, commandLate: 2, lateFromRound: 6,
+  /* Where Troops may enter the battlefield. "fortress" is deliberately not
+     in this list: a fortress you have taken is worth points and position,
+     but it does not let you reinforce it out of thin air — you have to
+     march, or push a Commander forward and risk him. A battlefield may
+     override this for a map-specific rule. */
+  deployFrom: ["home", "commander"],
   secondPlayerBonusCommand: 1,
   actionsPerTurn: 2, movesPerTurn: 1,
   vpToWin: 20, vpPerFortress: 1,
@@ -184,6 +190,7 @@ function createBattle(battlefieldId, deckA, deckB, opts) {
   opts = opts || {};
   const bf = decodeBattlefield(BATTLEFIELDS[battlefieldId]);
   const rules = Object.assign({}, DEFAULT_RULES, opts.rules || {});
+  if (bf.deployFrom) rules.deployFrom = bf.deployFrom;   // battlefield-specific rule
   const state = {
     battlefieldId: bf.id, battlefieldName: bf.name,
     width: bf.width, height: bf.height, terrain: bf.terrain,

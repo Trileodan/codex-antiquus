@@ -1,26 +1,30 @@
 # Field of Battle
 
 A deterministic tactical card battle, built to the Tactical Battle Game
-Build Brief. It lives here as a self-contained module: it reads nothing
-from the learning app at runtime and the learning app does not know it
-exists, so it can be developed and broken without risk to the 63 chapters
-next door.
+Build Brief. It lives in its own folder and runs in two places: as the
+**Battle** tab of the learning app, where it can see your collection, and
+as a standalone page here, where it cannot. The same files serve both.
 
 ## Launching it
 
-**The simple way, no server needed:** double-click
+**Inside the app:** open Codex Antiquus and press **Battle** in the
+navigation. This is the real one — the deck builder shows what you have
+unlocked and locks the rest.
+
+**On its own, no server needed:** double-click
 **`dist/field-of-battle.html`**. `build.py` inlines the CSS, the vendored
 libraries and every module into that one file, so it opens straight from
 disk like any web page. Re-run `python3 build.py` after changing anything.
+Every card is available there, because there is no save to read.
 
 **The developer way:** double-click **`play-battle.bat`** in the project
 root. It starts a local server and opens the game, so edits show up on
 refresh without rebuilding. Leave the black console window open while you
 play — closing it stops the server.
 
-`serve.bat` still opens the learning app; it now takes an optional path,
-and `play-battle.bat` is a one-line wrapper that calls it with `battle/`.
-Either way the address is `http://localhost:8000/battle/`.
+`serve.bat` opens the learning app at `http://localhost:8000`, where the
+Battle tab is the mounted version. `play-battle.bat` serves the standalone
+page at `http://localhost:8000/battle/`.
 
 This page cannot be opened by double-clicking `battle/index.html`.
 Babel fetches the module scripts over XHR and browsers block that on
@@ -38,11 +42,22 @@ added to it is loaded by every reader who only wanted to read about Cato.
 
 So the split is by *runtime*, not by repository. This module shares the
 design tokens (`../css/styles.css`), the vendored React and Babel
-(`../vendor/`), the favicon and the no-build architecture. What it does
-not share is a page. Mounting it into the main app later means adding its
-script tags to a route that only loads when a player opens the battle
-screen, and rendering `<BattleApp />` instead of calling `createRoot` at
-the bottom of `js/ui/app.js`. Nothing else has to change.
+(`../vendor/`), the favicon and the no-build architecture.
+
+**It is now mounted.** `index.html` loads these same eleven files after
+its own and before `js/app.js`, which renders `<BattleApp />` for the
+`battle` screen. Two lines made that possible:
+
+  * `js/ui/app.js` calls `createRoot` only if a `#battle-root` element
+    exists. The standalone page has one; the learning app does not, so the
+    module waits to be rendered as a child.
+  * `css/battle.css` drops `min-height:100vh` and its own background under
+    `.hcg-root`, because inside the app the shell owns the page.
+
+The module still reads nothing from the learning app *directly*. The one
+seam is `js/data/collection.js`, which looks for `CHARACTERS`,
+`computeCards` and `loadSave` at call time and reports `"collection"` or
+`"sandbox"` accordingly. Everything downstream asks it, not the app.
 
 ## Card data is a separate layer, deliberately
 

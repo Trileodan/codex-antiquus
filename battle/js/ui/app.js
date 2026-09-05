@@ -584,7 +584,22 @@ function SetupScreen({ bf, setBf, deckA, setDeckA, deckB, setDeckB, start, choic
       <button className="bt-btn primary" onClick={start}>Begin the battle</button>
       <button className="bt-btn" onClick={onBuild}>Build a deck</button>
     </div>
+    {/* Said plainly, because the difference is not obvious from the list: the
+        three ready-made decks exist so a first game needs no preparation, and
+        they draw on the whole roster. Only a deck you build yourself is
+        limited to the people you have actually unlocked. */}
+    <div className="bt-mono" style={{ color: "var(--parchment-dim)", marginTop: 10, maxWidth: 640, lineHeight: 1.6 }}>
+      The three ready-made decks use the whole roster, so you can play at once.
+      A deck you build yourself uses only the people you have unlocked.
+    </div>
   </div></div>;
 }
 
-ReactDOM.createRoot(document.getElementById("battle-root")).render(<BattleApp />);
+/* The standalone page has a #battle-root and wants the module to mount
+   itself. Inside the learning app there is no such element: index.html loads
+   these same files and js/app.js renders <BattleApp /> as an ordinary child,
+   which is what puts the module in collection mode. One file, two homes. */
+(function () {
+  const host = document.getElementById("battle-root");
+  if (host) ReactDOM.createRoot(host).render(<BattleApp />);
+})();

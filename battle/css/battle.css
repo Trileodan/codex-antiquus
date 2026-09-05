@@ -8,6 +8,10 @@
   --p0:#C9A227; --p1:#7FA7C4; --arc:#E05A3C;
 }
 .bt-root{ background:var(--ink); color:var(--parchment); font-family:'Crimson Pro',serif; min-height:100vh; }
+/* Mounted inside the learning app the module is a panel, not a page: the
+   shell already paints the background and owns the scroll height. */
+.hcg-root .bt-root{ min-height:0; background:transparent; }
+.hcg-root .bt-wrap{ padding:4px 0 24px; }
 .bt-wrap{ max-width:1240px; margin:0 auto; padding:18px 16px 48px; }
 
 .bt-board{ display:grid; gap:2px; background:var(--hair); padding:2px; border:1px solid var(--hair); border-radius:6px; touch-action:manipulation; }

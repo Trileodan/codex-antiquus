@@ -66,6 +66,42 @@ const tiered = Object.values(E.BATTLE_CARDS).filter((c) => c.charId);
 ok(tiered.every((c) => c.tier), "every card with a charId also names a tier");
 ok(tiered.length >= 25, `${tiered.length} battle cards are linked to the collection`);
 
+section("Two homes: the standalone page and the Battle tab");
+/* The module mounts itself on battle/index.html and is rendered as a child by
+   the learning app. Both halves of that contract are invisible at runtime --
+   breaking either one shows a blank screen, not an exception -- so they are
+   checked here against the source. */
+const uiApp = fs.readFileSync(path.join(ROOT, "js", "ui", "app.js"), "utf8");
+ok(/getElementById\("battle-root"\)/.test(uiApp) && /if \(host\) ReactDOM\.createRoot/.test(uiApp),
+   "js/ui/app.js mounts itself only when a #battle-root element exists");
+ok(/^function BattleApp\(/m.test(uiApp), "BattleApp is a global function the learning app can render");
+
+const indexHtml = fs.readFileSync(path.join(ROOT, "..", "index.html"), "utf8");
+const battleTags = [...indexHtml.matchAll(/src="battle\/(js\/[^"]+)"/g)].map((m) => m[1]);
+const ownTags = [...fs.readFileSync(path.join(ROOT, "index.html"), "utf8")
+                    .matchAll(/src="(js\/[^"]+)"/g)].map((m) => m[1]);
+ok(battleTags.join("|") === ownTags.join("|"),
+   `index.html loads the same battle modules, in the same order, as battle/index.html` +
+   (battleTags.join("|") === ownTags.join("|") ? "" : `\n      app: ${battleTags}\n      own: ${ownTags}`));
+ok(indexHtml.indexOf('src="battle/js/ui/app.js"') < indexHtml.indexOf('src="js/app.js"'),
+   "the battle module loads before js/app.js, which renders it");
+ok(/<BattleApp \/>/.test(fs.readFileSync(path.join(ROOT, "..", "js", "app.js"), "utf8")),
+   "js/app.js renders <BattleApp />");
+ok(/\.hcg-root \.bt-root/.test(fs.readFileSync(path.join(ROOT, "css", "battle.css"), "utf8")),
+   "battle.css stops claiming the whole page when embedded");
+
+/* React requires every hook to run on every render. BattleApp returns early
+   for the setup and deck-builder screens, so a hook added below those returns
+   blanks the app the moment a battle starts. */
+const battleAppBody = uiApp.slice(uiApp.indexOf("function BattleApp("));
+const nextComponent = battleAppBody.indexOf("\nfunction ", 1);
+const bodyAfterReturns = battleAppBody
+  .slice(0, nextComponent === -1 ? undefined : nextComponent)
+  .slice(battleAppBody.indexOf("if (screen === \"decks\""));
+const strayHooks = [...bodyAfterReturns.matchAll(/React\.use[A-Z]\w*/g)].map((m) => m[0]);
+ok(strayHooks.length === 0,
+   `no hooks below BattleApp's early returns${strayHooks.length ? ` (found ${strayHooks.join(", ")})` : ""}`);
+
 section("A person may appear in a deck only once");
 const twoCaesars = ["caesar-gold", "leonidas-silver", "legionnaire", "legionnaire", "legionnaire",
                     "phalangite", "velite", "numidian-cavalry", "spartan-hoplite", "nightingale",

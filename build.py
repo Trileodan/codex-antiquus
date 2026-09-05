@@ -32,7 +32,9 @@ VENDOR = re.compile(
 )
 ICON = re.compile(r'<link rel="icon"([^>]*?)href="([^"]+)"([^>]*)/>')
 MANIFEST = re.compile(r'<link rel="manifest" href="[^"]+" />\n')
-MODULE = re.compile(r'<script type="text/babel" data-presets="react" src="(js/[^"]+)"></script>')
+# text/babel is unique to the application's own modules, so the src can be any
+# path: index.html loads js/ and battle/js/, battle/index.html only js/.
+MODULE = re.compile(r'<script type="text/babel" data-presets="react" src="([^"]+)"></script>')
 
 
 def bundle(page_rel, out_name):

@@ -41,6 +41,8 @@ const CHAPTER_SPANS = {
   "war-actium": [-32, -30],
   "brit-stones": [-4000, -1500], "brit-metal": [-2200, -700], "brit-hillforts": [-800, -100],
   "brit-pytheas": [-450, -325], "brit-druids": [-300, 61],
+  "brit-tribes": [-150, 43], "brit-oppida": [-100, 43],
+  "brit-caesar": [-55, -54], "brit-claudius": [43, 47], "brit-caratacus": [43, 51],
 };
 
 /* ------------------------------ save --------------------------------- */

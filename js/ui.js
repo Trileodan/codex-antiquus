@@ -400,8 +400,8 @@ function Reader({ chapter, save, startBeat, onExit, onBookmark, onBeat, onComple
           style={{ fontSize: 11, color: "var(--gold-glow)", border: "1px solid var(--hair)" }}><BookmarkIcon size={13} /> Bookmark &amp; stop</button>}
       </div>
 
-      <div className="hcg-mono mb-1" style={{ fontSize: 11, color: chapter.kind === "war" ? "var(--rust)" : "var(--bronze-glow)" }}>
-        {chapter.kind === "war" ? "WAR · " : ""}{chapter.era} · {chapter.minutes} min read</div>
+      <div className="hcg-mono mb-1" style={{ fontSize: 11, color: isGated(chapter) ? "var(--rust)" : "var(--bronze-glow)" }}>
+        {chapter.kind === "war" ? "WAR · " : chapter.kind === "crisis" ? "CRISIS · " : ""}{chapter.era} · {chapter.minutes} min read</div>
       <h1 className="hcg-display" style={{ fontSize: 25, marginBottom: 6 }}>{chapter.title}</h1>
       {chapter.sides && <div className="hcg-mono mb-2" style={{ fontSize: 11.5, color: "var(--parchment-dim)" }}>
         {chapter.sides.map((s) => s.label).join("  vs  ")}</div>}

@@ -19,12 +19,12 @@ const LOAD_ORDER = [
   "js/data/chapters-carthage.js",
   "js/data/chapters-egypt.js",
   "js/data/chapters-greece.js",
-  "js/data/chapters-persia.js", "js/data/chapters-britain.js", "js/data/chapters-empire.js",
+  "js/data/chapters-persia.js", "js/data/chapters-britain.js", "js/data/chapters-empire.js", "js/data/chapters-egypt-ancient.js",
   "js/data/wars.js",
   "js/data/characters.js",
   "js/data/characters-extra.js",
   "js/data/characters-greece.js",
-  "js/data/characters-persia.js", "js/data/characters-britain.js", "js/data/characters-empire.js",
+  "js/data/characters-persia.js", "js/data/characters-britain.js", "js/data/characters-empire.js", "js/data/characters-egypt-ancient.js",
   "js/data/atlas.js",
   "js/data/coastline.js",
   "js/data/places.js",
@@ -165,7 +165,7 @@ for (const id of Object.keys(SETS)) {
   const req = SETS[id].requiresSets || [];
   for (const r of req) if (!SETS[r]) fail(`set "${id}": requiresSets names "${r}", which is not in SETS`);
 }
-const reachableChapters = new Set(CHAPTERS.filter((c) => reachableSets.has(c.set) || c.kind === "war").map((c) => c.id));
+const reachableChapters = new Set(CHAPTERS.filter((c) => reachableSets.has(c.set) || isGated(c)).map((c) => c.id));
 
 for (const setId of Object.keys(SETS)) {
   if (SYSTEM_SETS.has(setId)) continue;
@@ -240,8 +240,11 @@ for (const [id, c] of Object.entries(CHARACTERS)) {
 /* Wars                                                                */
 /* ------------------------------------------------------------------ */
 
-for (const w of CHAPTERS.filter((c) => c.kind === "war")) {
-  const where = `war "${w.id}"`;
+const GATED_KINDS = ["war", "crisis"];
+const isGated = (c) => GATED_KINDS.includes(c.kind);
+
+for (const w of CHAPTERS.filter(isGated)) {
+  const where = `${w.kind} "${w.id}"`;
   if (!Array.isArray(w.sides) || w.sides.length < 2) fail(`${where}: needs at least two sides`);
   if (!Array.isArray(w.gate) || !w.gate.length) { fail(`${where}: no gate — it would open immediately`); continue; }
 
@@ -251,7 +254,7 @@ for (const w of CHAPTERS.filter((c) => c.kind === "war")) {
     if (!reachableChapters.has(g.chapter)) fail(`${where}: gate needs chapter "${g.chapter}", in a Set nothing unlocks`);
     gateSets.add(CHAPTER_BY_ID[g.chapter].set);
   }
-  if (gateSets.size < 2) fail(`${where}: gate covers only ${gateSets.size} Set(s) — a war must be gated on both sides`);
+  if (gateSets.size < 2) fail(`${where}: gate covers only ${gateSets.size} Set(s) — a shared entry must be gated on every side`);
 }
 
 /* Battle diagrams: a phase that names a unit which does not exist renders
@@ -259,7 +262,7 @@ for (const w of CHAPTERS.filter((c) => c.kind === "war")) {
 const DIAG_TONES = ["gold", "silver", "rust", "verdigris", "bronze", "dim"];
 const TERRAIN_TONES = ["sea", "high", "ground"];
 
-for (const w of CHAPTERS.filter((c) => c.kind === "war")) {
+for (const w of CHAPTERS.filter(isGated)) {
   for (const b of w.beats || []) {
     if (!b.diagram) continue;
     const where = `war "${w.id}" battle "${b.title || b.name}" diagram`;
@@ -369,8 +372,9 @@ for (const pl of PLACES) {
 }
 for (const c of Object.keys(CHARACTERS))
   if (!PLACES.some((p) => p.ref && p.ref.char === c)) warn(`card "${c}" has no hotspot on the globe`);
-for (const w of CHAPTERS.filter((c) => c.kind === "war"))
-  if (!PLACES.some((p) => p.kind === "war" && p.ref && p.ref.chapter === w.id)) fail(`war "${w.id}" has no hotspot on the globe`);
+for (const w of CHAPTERS.filter(isGated))
+  if (!PLACES.some((p) => (p.kind === "war" || p.kind === "crisis") && p.ref && p.ref.chapter === w.id))
+    fail(`${w.kind} "${w.id}" has no hotspot on the globe`);
 
 /* Coastline sanity: a stray coordinate pair puts a continent inside out. */
 for (const [n, ring] of (COASTLINE.land || []).concat(COASTLINE.seas || []).entries()) {
@@ -440,7 +444,7 @@ let playthrough = "not run";
     else if (cards[id] !== top) fail(`card "${id}" tops out at ${cards[id]} but defines a ${top} tier`);
   }
 
-  for (const w of CHAPTERS.filter((c) => c.kind === "war"))
+  for (const w of CHAPTERS.filter(isGated))
     if (!warGate(w, done).open) fail(`war "${w.id}" never opens, even with every chapter complete`);
 
   // The metrics behind the Progress screen must survive both extremes.
@@ -472,14 +476,14 @@ function report() {
 }
 
 const stats = CHAPTERS.length
-  ? `${CHAPTERS.length} chapters (${CHAPTERS.filter((c) => c.kind !== "war").length} study, ${CHAPTERS.filter((c) => c.kind === "war").length} wars), ` +
+  ? `${CHAPTERS.length} chapters (${CHAPTERS.filter((c) => !isGated(c)).length} study, ${CHAPTERS.filter(isGated).length} crossings), ` +
     `${CHAPTERS.reduce((n, c) => n + (c.beats || []).length, 0)} parts, ` +
     `${CHAPTERS.reduce((n, c) => n + (c.check || []).length, 0)} questions, ` +
     `${Object.keys(CHARACTERS).length} cards, ` +
     `${Object.values(CHARACTERS).reduce((n, c) => n + (c.claims || []).length, 0)} claims`
   : "no chapters";
 
-const battles = CHAPTERS.filter((c) => c.kind === "war").flatMap((c) => c.beats || []).filter((b) => b.name);
+const battles = CHAPTERS.filter(isGated).flatMap((c) => c.beats || []).filter((b) => b.name);
 const diagrammed = battles.filter((b) => b.diagram).length;
 const diagLine = `${diagrammed}/${battles.length} battles have a diagram`;
 const unused = 0;

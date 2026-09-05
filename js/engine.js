@@ -8,13 +8,27 @@
 const ALL_CHARACTER_IDS = Object.keys(CHARACTERS);
 const CHAPTER_BY_ID = CHAPTERS.reduce((a, c) => { a[c.id] = c; return a; }, {});
 const CHAPTERS_BY_SET = CHAPTERS.reduce((a, c) => { (a[c.set] = a[c.set] || []).push(c); return a; }, {});
-const WAR_CHAPTERS = CHAPTERS.filter((c) => c.kind === "war");
+/* Entries that belong to no single Set and are gated on several.
+   A war is one kind; a collapse that ended half a dozen civilisations at
+   once is another, and the gating, the screen and the reader are the
+   same for both. GATED_KINDS is the list; everything else keys off it so
+   that adding a third kind is one line. */
+const GATED_KINDS = ["war", "crisis"];
+const isGated = (c) => GATED_KINDS.includes(c.kind);
+const WAR_CHAPTERS = CHAPTERS.filter(isGated);
 const STUDY_CHAPTERS = CHAPTERS.filter((c) => c.kind !== "war");
 
 /* Explicit time spans, used for the coverage timeline on the Progress
    screen. Kept as data rather than parsed out of the era strings, which
    are written for humans and not for regexes. */
 const CHAPTER_SPANS = {
+  "egy-predynastic": [-5000, -3100], "egy-menes": [-3150, -3050], "egy-writing": [-3200, -2600],
+  "egy-pyramids": [-2670, -2500], "egy-oldkingdom": [-2686, -2181], "egy-first-intermediate": [-2181, -2055],
+  "egy-middle-kingdom": [-2055, -1650], "egy-life": [-2000, -1100],
+  "egy-hyksos": [-1650, -1550], "egy-empire": [-1479, -1425], "egy-akhenaten": [-1353, -1323],
+  "egy-kadesh": [-1274, -1258], "egy-sea-peoples": [-1200, -1150], "egy-decline": [-1150, -1069],
+  "egy-kushites": [-1069, -656], "egy-saite": [-664, -525], "egy-persia": [-525, -332],
+  "grk-mycenae": [-1600, -800], "crisis-bronze-age": [-1200, -1150],
   "emp-principate": [-27, 14], "emp-army": [-27, 200], "emp-cult": [-27, 250],
   "emp-julio-claudians": [14, 68], "emp-69": [68, 69], "emp-flavians": [69, 96],
   "emp-adoptive": [96, 180], "emp-trajan": [98, 117], "emp-hadrian": [117, 138],
@@ -145,7 +159,7 @@ function actOpen(setId, act, chaptersDone) {
 }
 
 function chapterOpen(ch, chaptersDone) {
-  if (ch.kind === "war") return warGate(ch, chaptersDone).open;
+  if (isGated(ch)) return warGate(ch, chaptersDone).open;
   return actOpen(ch.set, ch.act, chaptersDone);
 }
 
@@ -155,9 +169,10 @@ function setProgress(setId, chaptersDone) {
   return { done, total: chs.length, pct: chs.length ? Math.round((done / chs.length) * 100) : 0 };
 }
 
-/* War gating: a war opens only when BOTH sides have been studied up to
-   the war's start date. This is the rule from the brief, applied
-   without exception — including where it seals content already written. */
+/* Gating: a shared entry opens only when EVERY side has been studied up
+   to the point the entry begins. This is the rule from the brief,
+   applied without exception — including where it seals content already
+   written. The name is historical; it governs crises too. */
 function warGate(war, chaptersDone) {
   const items = (war.gate || []).map((g) => {
     const ch = CHAPTER_BY_ID[g.chapter];

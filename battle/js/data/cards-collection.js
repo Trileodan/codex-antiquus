@@ -398,3 +398,136 @@ Object.assign(BATTLE_CARDS, {
 },
 
 });
+
+/* ---- Ancient Egypt --------------------------------------------------
+   Egypt's cards are slow and very hard to move, which is what three
+   thousand years of the same institutions looks like in numbers. The
+   exceptions are the chariot arm the Hyksos brought and the Kushite
+   king who came north fast.
+   -------------------------------------------------------------------- */
+
+Object.assign(BATTLE_CARDS, {
+
+"thutmose3-bronze": {
+  id: "thutmose3-bronze", name: "Thutmose III", type: "commander", charId: "thutmose3", tier: "bronze",
+  era: "c. 1457 BC", tags: ["egypt", "empire", "conqueror"], unique: true,
+  cost: 0, speed: 3, lives: 2, range: 1, attack: 3, arcs: ["front", "left", "right"],
+  defence: { front: 2, left: 1, right: 1, rear: 0 },
+  abilities: ["chariot-corps"],
+  description: "Seventeen campaigns in twenty years, and a battle plan that took the road nobody expected. Fast, hits on three edges, nothing behind him, and every rider on the field moves a square further.",
+},
+
+"hatshepsut-silver": {
+  id: "hatshepsut-silver", name: "Hatshepsut", type: "commander", charId: "hatshepsut", tier: "silver",
+  era: "c. 1473 BC", tags: ["egypt", "empire"], unique: true,
+  cost: 0, speed: 2, lives: 2, range: 1, attack: 2, arcs: ["front"],
+  defence: { front: 3, left: 2, right: 2, rear: 1 },
+  abilities: ["divine-kingship"],
+  description: "Twenty years of prosperity, a fleet to Punt, and no wars worth carving. Everything of yours standing near her is harder to kill, which is what a reign spent building rather than fighting is worth.",
+},
+
+"ramesses2-silver": {
+  id: "ramesses2-silver", name: "Ramesses II", type: "commander", charId: "ramesses2", tier: "silver",
+  era: "1274 BC", tags: ["egypt", "empire"], unique: true,
+  cost: 0, speed: 2, lives: 2, range: 1, attack: 3, arcs: ["front"],
+  defence: { front: 4, left: 1, right: 1, rear: 0 },
+  abilities: ["the-erasure"],
+  description: "Enormous from the front and paper everywhere else, which is a fair summary of the Kadesh inscriptions. Marks one enemy as Exposed, because what he was actually best at was deciding how things got recorded.",
+},
+
+"akhenaten-silver": {
+  id: "akhenaten-silver", name: "Akhenaten", type: "commander", charId: "akhenaten", tier: "silver",
+  era: "c. 1348 BC", tags: ["egypt", "amarna"], unique: true,
+  cost: 0, speed: 1, lives: 2, range: 1, attack: 1, arcs: ["front"],
+  defence: { front: 2, left: 2, right: 2, rear: 2 },
+  abilities: ["the-tetrarchy"],
+  description: "Bad at every part of the job except changing what everyone had to believe. Slow, feeble, armoured evenly on all four sides, and the largest Command pool available — a king who spent his reign building rather than campaigning.",
+},
+
+"piye-bronze": {
+  id: "piye-bronze", name: "Piye", type: "commander", charId: "piye", tier: "bronze",
+  era: "c. 727 BC", tags: ["kush", "egypt"], unique: true,
+  cost: 0, speed: 3, lives: 2, range: 1, attack: 3, arcs: ["front", "left"],
+  defence: { front: 3, left: 1, right: 1, rear: 1 },
+  abilities: ["the-inundation"],
+  description: "Came the length of the Nile and took the country, pausing for festivals on the way. Ignores terrain entirely, because the river was the road and he owned all of it.",
+},
+
+"khufu-silver": {
+  id: "khufu-silver", name: "Khufu", type: "commander", charId: "khufu", tier: "silver",
+  era: "c. 2560 BC", tags: ["egypt", "old-kingdom"], unique: true,
+  cost: 0, speed: 1, lives: 2, range: 1, attack: 1, arcs: ["front"],
+  defence: { front: 4, left: 3, right: 3, rear: 2 },
+  abilities: ["frontier-works"],
+  description: "The hardest thing on the board to shift and almost no threat to anybody. Two and a half million blocks of not moving, and everything next to him is harder to kill too.",
+},
+
+/* ---- Troops ---------------------------------------------------------- */
+
+"egyptian-chariot": {
+  id: "egyptian-chariot", name: "Chariot Squadron", type: "troop", charId: null,
+  era: "New Kingdom", tags: ["egypt", "chariot"], maxCopies: 3,
+  cost: 3, speed: 4, lives: 1, range: 1, attack: 3, arcs: ["front"],
+  defence: { front: 1, left: 0, right: 0, rear: 0 },
+  abilities: [],
+  description: "The fastest thing in the set and made of wickerwork. Egypt learned to build these from the people it expelled, and then built them better than anyone for four hundred years.",
+},
+
+"medjay-scout": {
+  id: "medjay-scout", name: "Medjay", type: "troop", charId: null,
+  era: "New Kingdom", tags: ["egypt", "nubia", "scout"], maxCopies: 3,
+  cost: 2, speed: 3, lives: 1, range: 2, attack: 2, arcs: ["front", "left", "right"],
+  defence: { front: 1, left: 1, right: 1, rear: 0 },
+  abilities: ["melt-away"],
+  description: "Nubian troops who became Egypt's desert police and border scouts. Reach, speed, and the ability to disappear when something serious arrives.",
+},
+
+"nile-levy": {
+  id: "nile-levy", name: "Nile Levy", type: "troop", charId: null,
+  era: "Egypt", tags: ["egypt", "levy"], maxCopies: 3,
+  cost: 1, speed: 2, lives: 1, range: 1, attack: 1, arcs: ["front"],
+  defence: { front: 2, left: 1, right: 1, rear: 0 },
+  abilities: [],
+  description: "Farmers called up between the flood and the harvest, which is when Egypt did all its building and all its fighting. The cheapest body on the board.",
+},
+
+"sea-peoples-raiders": {
+  id: "sea-peoples-raiders", name: "Sea Peoples", type: "troop", charId: null,
+  era: "c. 1177 BC", tags: ["sea-peoples", "raider"], maxCopies: 3,
+  cost: 3, speed: 3, lives: 1, range: 1, attack: 4, arcs: ["front", "left", "right"],
+  defence: { front: 1, left: 0, right: 0, rear: 0 },
+  abilities: [],
+  description: "Hits harder than anything at the price and dies to a stiff breeze. A migration under arms with nothing to go back to, which is exactly how it fights.",
+},
+
+/* ---- Specials -------------------------------------------------------- */
+
+"merer-bronze": {
+  id: "merer-bronze", name: "Merer", type: "special", charId: "merer", tier: "bronze",
+  era: "c. 2562 BC", tags: ["egypt", "logistics"],
+  cost: 2, abilities: ["the-logbook"],
+  description: "An inspector who wrote down where every boatload of stone went. See what they are holding, and draw.",
+},
+
+"imhotep-bronze": {
+  id: "imhotep-bronze", name: "Imhotep", type: "special", charId: "imhotep", tier: "bronze",
+  era: "c. 2670 BC", tags: ["egypt", "architect"],
+  cost: 3, abilities: ["field-hospital"],
+  description: "Architect of the first stone building in the world, and worshipped two thousand years later as a god of medicine. Restores a lost Life.",
+},
+
+"udjahorresnet-bronze": {
+  id: "udjahorresnet-bronze", name: "Udjahorresnet", type: "special", charId: "udjahorresnet", tier: "bronze",
+  era: "525 BC", tags: ["egypt", "persia"],
+  cost: 3, abilities: ["changed-sides"],
+  description: "Commanded an Egyptian fleet, went over to the Persians, and wrote his own version on a statue. You see their hand and take two cards.",
+},
+
+"narmer-silver": {
+  id: "narmer-silver", name: "Narmer", type: "special", charId: "narmer", tier: "silver",
+  era: "c. 3100 BC", tags: ["egypt", "founder"],
+  cost: 3, abilities: ["res-gestae"],
+  description: "The founding image of Egyptian kingship, and a pose still being carved for Roman emperors three thousand years later. One enemy is Exposed for three rounds.",
+},
+
+});

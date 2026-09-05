@@ -1,12 +1,53 @@
 /* =====================================================================
-   ANCIENT GREECE — Archaic and Classical, c. 800 – 338 BC
+   ANCIENT GREECE — Bronze Age to Chaeronea, c. 1600 – 338 BC
    Unlocked by the Roman Republic chapter "Rome Turns East".
+
+   The Set used to open at 800 BC with the four preceding centuries
+   dismissed in a clause. That was a hole: the polis is a response to
+   what the Mycenaean palaces were and to their disappearance, and a
+   reader who has not met the palaces cannot see what the polis is not.
+   "Before the Polis" fills it, and gives the Bronze Age Collapse entry
+   a Greek side to be gated on.
 
    Battles are briefed here and handed off, as in the Rome and Carthage
    syllabi. Marathon, Thermopylae, Salamis and Plataea belong to the
    Greco-Persian Wars entry, which stays sealed until Persia has a Set
    of its own — the gating rule applied even where it is inconvenient.
    ===================================================================== */
+
+CHAPTERS.push(
+{
+  id: "grk-mycenae", set: "ancient-greece", act: "Before the Polis", title: "The Palaces, and the Four Centuries of Silence", era: "c. 1600 – 800 BC", minutes: 7,
+  intro: "Greece had kings, palaces, tax records and writing five hundred years before the polis. All of it ended, and the Greeks who came after had no idea any of it had happened.",
+  beats: [
+    { title: "Not Greeks as the classical world knew them",
+      text: ["From roughly 1600 BC, mainland Greece was organised around a set of fortified palace centres — **Mycenae**, **Pylos**, **Tiryns**, **Thebes**, and others — with walls of stone blocks so large that later Greeks assumed giants had built them and called the style *Cyclopean*.",
+        "These were not city-states. They were redistributive palace economies of the Near Eastern type: a ruler called the ***wanax***, a bureaucracy, and a system in which produce and craft goods flowed into the palace, were recorded, and were issued out again. Much closer in structure to Bronze Age Ugarit or Hattusa than to anything in classical Greece.",
+        "They were also international. Mycenaean pottery turns up across the eastern Mediterranean and in Italy; the **Uluburun shipwreck** off southern Turkey, from around 1300 BC, carried ten tonnes of Cypriot copper, tin, Canaanite jars, ebony, ivory, and Mycenaean drinking vessels — one ship holding cargo from at least seven cultures. Egyptian records name a place transcribed as *Tanaja*, generally taken to be the Mycenaean world, and Hittite records deal with a kingdom called **Ahhiyawa**, which is very probably the Achaeans.",
+        "Bronze Age Greece was a participant in the Bronze Age system, and its fate is the system's fate."],
+      key: "The Mycenaean palaces were redistributive Bronze Age economies under a wanax, plugged into the wider eastern Mediterranean trade the Uluburun wreck illustrates." },
+    { title: "Linear B, and what it turned out to say",
+      text: ["The palaces wrote. Clay tablets in a script called **Linear B** were found at Knossos and later at Pylos, and for fifty years nobody could read them. In 1952 **Michael Ventris**, an architect working on it as an obsession rather than a profession, established that the language was Greek — several centuries earlier than any Greek anyone had known about.",
+        "What the tablets say is the surprise. There is no history, no poetry, no letters, no law. They are inventories: sheep by the flock and by shepherd, wheat, olive oil, bronze issued to named smiths by weight, chariot wheels listed as serviceable or not, women and children assigned to workshops in numbers, offerings due to gods — several of whom, Poseidon and Dionysus among them, are still there a thousand years later.",
+        "The tablets were not meant to last. They were sun-dried clay, kept for a single accounting year and then presumably recycled. Every one that survives was baked hard by the fire that destroyed the building it was in, which means the entire written record of Mycenaean Greece is the final year's paperwork of palaces that burned.",
+        "That is worth sitting with. We can read Bronze Age Greek because their world ended badly."],
+      key: "Linear B, deciphered by Ventris in 1952, is Greek — and consists entirely of palace inventories, preserved only because the fires that destroyed the palaces baked the clay." },
+    { title: "The silence, and what came out of it",
+      text: ["Around 1200 BC the palaces were destroyed, and this belongs to the wider collapse that took Hatti, Ugarit and the Levantine cities at the same time. What followed in Greece was more complete than anywhere else.",
+        "Writing stopped. Linear B was tied to palace administration, and when the palaces went the script went with them; Greece was illiterate for about four hundred years. Population fell sharply and settlements shrank. Monumental building ceased. Fine pottery styles simplified. Long-distance trade contracted to almost nothing.",
+        "When Greeks became literate again in the eighth century they did it with a **borrowed Phoenician alphabet**, not a recovered script, and they used it first for verse and jokes rather than for accounts. Nothing about the palace system came back. No wanax, no redistributive bureaucracy, no inventories — instead several hundred small independent communities of citizens, which is the polis.",
+        "The Greeks kept a memory of the Bronze Age, but not a record of it. Homer, composing in the eighth or seventh century about a war supposedly five hundred years earlier, describes kings and palaces and a great expedition, and gets the material culture inconsistently right and mostly wrong — bronze weapons and boar's-tusk helmets remembered from a world he never saw, mixed with the iron and the burial customs of his own. Classical Athenians walked past Mycenaean walls and attributed them to giants, and thought the Bronze Age was the age of heroes rather than the age of clerks.",
+        "The lost civilisation of Greece was rediscovered by archaeology in the nineteenth century and read for the first time in 1952."],
+      key: "The palaces fell around 1200 BC, taking writing with them for four centuries; Greeks returned to literacy with a Phoenician alphabet and remembered the Bronze Age only as myth." },
+  ],
+  check: [
+    { q: "What do the Linear B tablets contain?", options: ["Epic poetry", "Palace inventories — flocks, rations, bronze, chariot wheels", "Law codes", "Diplomatic letters"], correct: 1,
+      explain: "They survive only because the fires that destroyed the palaces baked the unfired clay." },
+    { q: "How did Greeks become literate again?", options: ["They recovered Linear B", "They borrowed and adapted the Phoenician alphabet", "They kept writing throughout", "They used Egyptian script"], correct: 1,
+      explain: "Nothing of the palace system returned; what emerged instead was the polis." },
+  ],
+},
+);
 
 CHAPTERS.push(
 {

@@ -44,7 +44,7 @@ function App() {
 
   function backTarget(ch) {
     if (!ch) return "home";
-    return ch.kind === "war" ? "wars" : "set";
+    return isGated(ch) ? "wars" : "set";
   }
 
   function handleBookmark(chapterId, index) {
@@ -95,7 +95,7 @@ function App() {
 
   const NAV = [
     { id: "world", label: "Study", icon: ScrollIcon },
-    { id: "wars", label: "Wars", icon: SwordsIcon },
+    { id: "wars", label: "Crossings", icon: SwordsIcon },
     { id: "atlas", label: "Atlas", icon: MapIcon },
     { id: "progress", label: "Progress", icon: ChartIcon },
     { id: "collection", label: "Cards", icon: LayersIcon },

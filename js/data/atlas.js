@@ -59,7 +59,6 @@ const SET_ATLAS = {
    a planned stub, which is exactly what happened to Ancient Britain. */
 Object.assign(SETS, {
   "wars":            { id: "wars", world: null, name: "Wars", status: "system", tagline: "Shared conflicts, unlocked once both sides have been studied." },
-  "ancient-egypt":   { id: "ancient-egypt", world: "ancient", name: "Ancient Egypt", status: "planned", tagline: "Three thousand years of pharaohs before the Greeks arrived." },
   "hellenistic":     { id: "hellenistic", world: "ancient", name: "The Hellenistic World", status: "planned", tagline: "Alexander's successors and the kingdoms they carved out." },
   "mesopotamia":     { id: "mesopotamia", world: "ancient", name: "Mesopotamia", status: "planned", tagline: "Sumer, Akkad, Babylon, Assyria — where writing begins." },
   "indus-valley":    { id: "indus-valley", world: "ancient", name: "Indus Valley", status: "planned", tagline: "Harappa and Mohenjo-daro, and a script still unread." },
@@ -69,9 +68,9 @@ Object.assign(SETS, {
 });
 
 /* Extend the Ancient World's set list with the planned ones. */
-WORLDS[0].sets = ["roman-republic", "carthage", "ptolemaic-egypt", "ancient-greece", "ancient-britain",
+WORLDS[0].sets = ["roman-republic", "carthage", "ancient-egypt", "ptolemaic-egypt", "ancient-greece", "ancient-britain",
   "roman-empire", "persia",
-  "ancient-egypt", "hellenistic",
+  "hellenistic",
   "mesopotamia", "indus-valley", "ancient-india", "ancient-china", "mesoamerica"];
 
 function yearLabel(y) { return y < 0 ? `${Math.abs(y)} BC` : `AD ${y}`; }

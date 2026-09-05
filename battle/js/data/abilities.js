@@ -187,6 +187,37 @@ const ABILITIES = {
     text: "One enemy card becomes Exposed for 3 rounds.",
     effects: [{ type: "status", status: "exposed", rounds: 3, target: "enemyUnit" }],
   },
+  /* ---- Ancient Egypt --------------------------------------------- */
+  "the-inundation": {
+    id: "the-inundation", name: "The Inundation", trigger: "passive",
+    text: "Ignores terrain movement penalties. Every passable square costs 1.",
+    effects: [{ type: "ignoreTerrain" }],
+  },
+  "divine-kingship": {
+    id: "divine-kingship", name: "Divine Kingship", trigger: "passive",
+    text: "Friendly Troops within two squares gain +1 Defence on every edge.",
+    effects: [{ type: "aura", scope: "friendly", range: 2, filter: { type: "troop" }, defence: { all: 1 } }],
+  },
+  "the-erasure": {
+    id: "the-erasure", name: "The Erasure", trigger: "triggered", costsAction: true, cooldown: 3,
+    text: "One enemy card within 3 becomes Exposed for 2 rounds.",
+    effects: [{ type: "status", status: "exposed", rounds: 2, target: "enemyUnit", range: 3 }],
+  },
+  "chariot-corps": {
+    id: "chariot-corps", name: "Chariot Corps", trigger: "passive",
+    text: "Friendly Troops with Speed 2 or more gain +1 Speed.",
+    effects: [{ type: "aura", scope: "friendly", filter: { type: "troop", minSpeed: 2 }, speed: 1 }],
+  },
+  "the-treaty": {
+    id: "the-treaty", name: "The Treaty", trigger: "special",
+    text: "Restore a lost Life to a damaged friendly card, and draw a card.",
+    effects: [{ type: "heal", amount: 1, target: "friendlyDamaged" }, { type: "draw", count: 1 }],
+  },
+  "the-logbook": {
+    id: "the-logbook", name: "The Logbook", trigger: "special",
+    text: "Look at your opponent's hand, then draw a card.",
+    effects: [{ type: "peek" }, { type: "draw", count: 1 }],
+  },
   "the-rising": {
     id: "the-rising", name: "The Rising", trigger: "passive",
     text: "Friendly Troops gain +1 Attack.",

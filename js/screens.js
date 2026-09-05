@@ -117,7 +117,7 @@ function HomeScreen({ save, cards, onEnterWorld, onResume, onCollection, onWars,
     </div>
 
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-      {[[SwordsIcon, "Wars", `${nav.warsOpen} of ${WAR_CHAPTERS.length} unlocked`, onWars],
+      {[[SwordsIcon, "Crossings", `${nav.warsOpen} of ${WAR_CHAPTERS.length} unlocked`, onWars],
         [MapIcon, "Atlas", "Navigate by place and year", onAtlas],
         [ChartIcon, "Progress", "What you've covered so far", onProgress],
         [LayersIcon, "Collection", "Every card, earned and unearned", onCollection]].map(([Icon, label, sub, fn]) => (

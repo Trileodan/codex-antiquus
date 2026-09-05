@@ -7,13 +7,13 @@ function WarsScreen({ save, onHome, onOpenChapter }) {
   const done = save.chaptersDone;
   const groups = WAR_CHAPTERS.reduce((a, w) => { (a[w.act] = a[w.act] || []).push(w); return a; }, {});
   return <div className="max-w-3xl mx-auto px-4 py-8 hcg-fade">
-    <Crumbs items={[{ label: "Home", onClick: onHome }, { label: "Wars" }]} />
-    <h1 className="hcg-display mt-3 mb-1" style={{ fontSize: 26 }}>Wars</h1>
+    <Crumbs items={[{ label: "Home", onClick: onHome }, { label: "Crossings" }]} />
+    <h1 className="hcg-display mt-3 mb-1" style={{ fontSize: 26 }}>Crossings</h1>
     <p style={{ color: "var(--parchment-dim)", marginBottom: 6 }}>
-      Wars belong to both sides, so they live here rather than inside either society’s history. Battles appear only in this section.
+      Some history belongs to no one society. A war has two sides; a collapse can have half a dozen. These entries live here rather than inside any single Set, and battles appear only in this section.
     </p>
     <p style={{ color: "var(--parchment-dim)", fontSize: 14, marginBottom: 22 }}>
-      A war stays sealed until you have studied <b style={{ color: "var(--gold-glow)" }}>both sides up to the year it began</b>. You can’t learn the Punic Wars from Rome alone.
+      An entry stays sealed until you have studied <b style={{ color: "var(--gold-glow)" }}>every side, up to the point it begins</b>. You can’t learn the Punic Wars from Rome alone, or the Bronze Age Collapse from the one country that survived it.
     </p>
 
     {Object.keys(groups).map((act) => <div key={act} className="mb-7">
@@ -23,27 +23,28 @@ function WarsScreen({ save, onHome, onOpenChapter }) {
           const gate = warGate(w, done);
           const complete = !!done[w.id];
           const battles = w.beats.filter((b) => b.name).length;
+          const crisis = w.kind === "crisis";
           return <div key={w.id} className={`rounded-lg p-4 ${gate.open ? "hcg-panel" : "hcg-lockedcard"}`}>
             <button disabled={!gate.open} onClick={() => gate.open && onOpenChapter(w)}
               className="w-full text-left flex items-start gap-3" style={{ cursor: gate.open ? "pointer" : "default" }}>
               <div style={{ width: 26, height: 26, borderRadius: 999, flexShrink: 0, marginTop: 2, display: "flex", alignItems: "center", justifyContent: "center",
                 background: complete ? "var(--verdigris)" : "transparent", border: complete ? "none" : "1px solid var(--hair)" }}>
-                {complete ? <CheckIcon size={14} color="#1B1710" /> : gate.open ? <SwordsIcon size={13} color="var(--rust)" /> : <Lock size={12} color="#8b8371" />}
+                {complete ? <CheckIcon size={14} color="#1B1710" /> : gate.open ? (crisis ? <ClockIcon size={13} color="var(--rust)" /> : <SwordsIcon size={13} color="var(--rust)" />) : <Lock size={12} color="#8b8371" />}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="hcg-display" style={{ fontSize: 16.5 }}>{w.title}</div>
                 <div className="hcg-mono" style={{ fontSize: 10.5, color: "var(--parchment-dim)", marginTop: 2 }}>
-                  {w.era} · {battles} battles · {w.minutes} min
+                  {w.era} · {battles ? `${battles} battles · ` : ""}{w.minutes} min
                 </div>
                 <div className="hcg-mono" style={{ fontSize: 11, color: "var(--parchment-dim)", marginTop: 4 }}>
-                  {w.sides.map((s) => s.label).join("  vs  ")}
+                  {w.sides.map((s) => s.label).join(crisis ? "  ·  " : "  vs  ")}
                 </div>
               </div>
               {gate.open && <ChevRight size={16} color="var(--parchment-dim)" />}
             </button>
 
             {!gate.open && <div className="mt-3 pt-3" style={{ borderTop: "1px solid var(--hair)" }}>
-              <div className="hcg-tab mb-2" style={{ color: "var(--parchment-dim)" }}>BOTH SIDES REQUIRED</div>
+              <div className="hcg-tab mb-2" style={{ color: "var(--parchment-dim)" }}>{crisis ? "EVERY SIDE REQUIRED" : "BOTH SIDES REQUIRED"}</div>
               <div className="flex flex-col gap-1.5">
                 {gate.items.map((g, i) => <div key={i} className="flex items-center gap-2" style={{ fontSize: 13.5, color: g.done ? "var(--verdigris)" : "var(--parchment-dim)" }}>
                   {g.done ? <CheckIcon size={13} /> : <span style={{ width: 13, textAlign: "center" }}>○</span>}
@@ -103,7 +104,7 @@ function AtlasScreen({ save, cards, onHome, onEnterSet, onOpenChapter, onOpenCha
       reason = !built ? "Set not written yet" : locked ? SETS[p.ref.set].sealedHint || "Not unlocked yet" : "";
     } else if (p.ref && p.ref.chapter) {
       const ch = CHAPTER_BY_ID[p.ref.chapter];
-      if (ch && ch.kind === "war") { const g = warGate(ch, save.chaptersDone); locked = !g.open; reason = locked ? "Both sides must be studied" : ""; }
+      if (ch && isGated(ch)) { const g = warGate(ch, save.chaptersDone); locked = !g.open; reason = locked ? "Every side must be studied" : ""; }
     } else if (p.ref && p.ref.char) {
       locked = !cards[p.ref.char];
       reason = locked ? "Card not minted yet" : "";
@@ -128,12 +129,12 @@ function AtlasScreen({ save, cards, onHome, onEnterSet, onOpenChapter, onOpenCha
     } else if (p.ref && p.ref.chapter) {
       const ch = CHAPTER_BY_ID[p.ref.chapter];
       if (ch) {
-        setId = setId || (ch.kind === "war" ? null : ch.set);
-        sub = ch.kind === "war" ? ch.title : `In: ${ch.title}`;
+        setId = setId || (isGated(ch) ? null : ch.set);
+        sub = isGated(ch) ? ch.title : `In: ${ch.title}`;
         line = line || ch.intro;
       }
     }
-    return { setName: setId && SETS[setId] ? SETS[setId].name : (p.kind === "war" || p.kind === "battle" ? "Wars" : null),
+    return { setName: setId && SETS[setId] ? SETS[setId].name : (p.kind === "war" || p.kind === "crisis" || p.kind === "battle" ? "Crossings" : null),
              line: (line || "").split(". ").slice(0, 2).join(". ").replace(/\.?$/, "."), sub };
   }
 

@@ -225,4 +225,48 @@ Object.assign(CHARACTERS, {
   connections: [ { charId: "agricola", relation: "wrote from the frontier his campaigns settled on" }, { name: "Vindolanda", type: "place" }, { name: "Hadrian's Wall", type: "place" } ],
 },
 
+"carausius": {
+  id: "carausius", name: "Carausius", years: "r. AD 286 – 293", sets: ["ancient-britain"],
+  requires: { bronze: ["brit-breakaway"], silver: ["brit-breakaway", "brit-civil"] },
+  tiers: {
+    bronze: { label: "Emperor of Britain", when: "AD 286 – 293",
+      blurb: "Commanded the Channel fleet, was accused of letting raiders through and pocketing the loot afterwards, and on being sentenced to death took the fleet to Britain and declared himself emperor. He held the island and a strip of Gaul for seven years, and struck better silver than the empire he had left.",
+      stats: { power: 70, intellect: 78, influence: 74, creativity: 84, wealth: 72, fame: 58 } },
+    silver: { label: "Quoting Virgil at the End of the World", when: "The coinage",
+      blurb: "Some of his coins read CARAVSIVS ET FRATRES SVI — Carausius and his brothers — putting himself beside Diocletian and Maximian as a colleague rather than a rebel. Others carry RSR and INPCDA, unexplained for centuries until someone matched them to Virgil's Fourth Eclogue: the reign of Saturn returns. A usurper on a wet island was advertising a golden age in verse, and expected to be understood.",
+      stats: { power: 70, intellect: 84, influence: 80, creativity: 90, wealth: 74, fame: 66 } },
+  },
+  claims: [
+    { text: "Carausius commanded the Channel fleet and was accused of intercepting raiders only after they had taken plunder.", classification: "Probable", sources: ["cah"], date: "AD 286", at: "bronze" },
+    { text: "He ruled Britain and part of northern Gaul as emperor from 286 until his murder in 293.", classification: "Established", sources: ["arch", "cah"], date: "AD 286 – 293", at: "bronze" },
+    { text: "His silver coinage was of markedly higher quality than contemporary imperial issues.", classification: "Established", sources: ["arch"], date: "AD 286 – 293", at: "bronze" },
+    { text: "Coins reading CARAVSIVS ET FRATRES SVI present him as a colleague of Diocletian and Maximian.", classification: "Established", sources: ["arch"], date: "c. AD 290", at: "silver" },
+    { text: "The legends RSR and INPCDA expand to a line of Virgil's Fourth Eclogue about a returning golden age.", classification: "Probable", sources: ["arch"], date: "c. AD 290", at: "silver" },
+    { text: "He was murdered by his finance minister Allectus, who ruled until 296.", classification: "Probable", sources: ["cah"], date: "AD 293", at: "silver" },
+  ],
+  connections: [ { name: "Saxon Shore", type: "concept" }, { name: "Londinium", type: "place" }, { name: "Gallic Empire", type: "org" } ],
+},
+
+"patrick": {
+  id: "patrick", name: "Patrick", years: "5th c. AD", sets: ["ancient-britain"],
+  requires: { bronze: ["brit-end"], silver: ["brit-end", "brit-constantine"] },
+  tiers: {
+    bronze: { label: "Taken at Sixteen", when: "5th c. AD",
+      blurb: "Born into a Romanised, Christian, tax-paying British family with a deacon father and a decurion grandfather. Irish raiders took him at sixteen and he spent six years herding animals before escaping. He went back voluntarily, to the people who had enslaved him.",
+      stats: { power: 22, intellect: 70, influence: 76, creativity: 60, wealth: 30, fame: 84 } },
+    silver: { label: "The First Voice", when: "The Confessio",
+      blurb: "His Confessio is a defence of his ministry against British churchmen attacking him, written in Latin he twice apologises for. It is the first autobiography produced in these islands, and after four thousand years of this Set being narrated by visitors, traders, generals and their sons-in-law, the first inhabitant of Britain to speak to us directly and at length is a runaway slave who is embarrassed about his grammar.",
+      stats: { power: 22, intellect: 76, influence: 84, creativity: 66, wealth: 30, fame: 92 } },
+  },
+  claims: [
+    { text: "Patrick was born in Roman Britain to a Christian family; his father was a deacon and decurion.", classification: "Probable", sources: ["cah"], date: "5th c. AD", at: "bronze" },
+    { text: "He was captured by Irish raiders around the age of sixteen and enslaved for six years.", classification: "Probable", sources: ["cah"], date: "5th c. AD", at: "bronze" },
+    { text: "His birthplace, Bannavem Taburniae, cannot be located.", classification: "Unknown", sources: ["cah"], date: "5th c. AD", at: "bronze" },
+    { text: "The Confessio is a defence of his mission written against critics in the British church.", classification: "Established", sources: ["cah"], date: "5th c. AD", at: "silver" },
+    { text: "It is the earliest surviving autobiographical text written in the British Isles.", classification: "Probable", sources: ["cah"], date: "5th c. AD", at: "silver" },
+    { text: "The snakes, the shamrock and the date of 432 are all later tradition, not in his own writing.", classification: "Traditional / Legendary", sources: ["cah"], date: "7th c. onwards", at: "silver" },
+  ],
+  connections: [ { charId: "claudia-severa", relation: "four centuries after the frontier letters" }, { name: "Ireland", type: "place" }, { name: "Confessio", type: "concept" } ],
+},
+
 });

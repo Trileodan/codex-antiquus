@@ -45,6 +45,8 @@ const CHAPTER_SPANS = {
   "brit-caesar": [-55, -54], "brit-claudius": [43, 47], "brit-caratacus": [43, 51],
   "brit-boudica": [60, 61], "brit-agricola": [77, 84],
   "brit-walls": [122, 211], "brit-life": [50, 400],
+  "brit-civil": [193, 212], "brit-breakaway": [260, 296],
+  "brit-constantine": [306, 383], "brit-end": [367, 450],
 };
 
 /* ------------------------------ save --------------------------------- */

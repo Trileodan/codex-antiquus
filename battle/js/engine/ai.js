@@ -53,6 +53,7 @@ const AI_WEIGHTS = {
   exposed: 4.2,       // one of ours an enemy could strike, weighted by how soft the edge is
   towardFortress: 0.9, // pressure on a fortress we do not hold
   commanderRisk: 16,  // a commander standing where it can be hit
+  spareAction: 4.5,   // an Action beyond the normal allowance, roughly what one good move is worth
 };
 
 function aiUnitValue(s, u) {
@@ -60,10 +61,15 @@ function aiUnitValue(s, u) {
   const st = effectiveStats(s, u);
   const base = c.type === "commander" ? AI_WEIGHTS.commander : AI_WEIGHTS.troop;
   const armour = st.defence.front + st.defence.left + st.defence.right + st.defence.rear;
-  return base
+  /* A card that cannot act is worth much less than the same card free to
+     move. Without this, every Special whose whole effect is to stop
+     somebody -- Mesmerised, and anything like it later -- scores zero and
+     is never played, because the board looks unchanged. */
+  const shackled = st.noActions ? 0.45 : st.noMove ? 0.7 : 1;
+  return (base
     + u.lives * AI_WEIGHTS.perLife
     + st.attack * AI_WEIGHTS.attack
-    + armour * AI_WEIGHTS.defence;
+    + armour * AI_WEIGHTS.defence) * shackled;
 }
 
 /* Could `a` strike `t` if it were `a`'s turn? previewAttack already knows
@@ -109,6 +115,17 @@ function aiEvaluate(s, p, weights) {
   score += (s.players[p].vp - s.players[foe].vp) * w.vp;
   score += (s.players[p].command - s.players[foe].command) * w.command;
   score += (s.players[p].hand.length - s.players[foe].hand.length) * w.handCard;
+
+  /* An Action beyond the normal allowance is worth something. Without this
+     a card whose whole effect is to grant one -- Pheidippides -- scores
+     zero the moment it is played, because the board looks identical, and
+     so it was never played in 24 test games.
+
+     Only the SURPLUS counts. Scoring every unspent Action instead made
+     the opponent stop moving altogether: spending one lowered the score,
+     so standing still beat everything and games ran past 40 rounds. */
+  const allowance = s.rules.actionsPerTurn;
+  for (const u of mine) if (!u.sick) score += Math.max(0, u.actionsLeft - allowance) * w.spareAction;
 
   /* Threat, both ways. An attack lands only when attack beats the defence
      of the edge it arrives at, so this is really a facing term: the same

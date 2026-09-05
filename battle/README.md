@@ -153,6 +153,67 @@ cooldowns, hidden units, status effects, summoned units, Commander
 abilities and fortress interaction. Every number in them is a prototype
 value, as §33 requires.
 
+## What the opponent found out about the game
+
+`js/engine/ai.js` plays both sides in the test harness, which is the first
+time anything has played this game properly. Three things fell out. None
+of them is fixed, because each is a design decision rather than a bug.
+
+**Attacks mostly bounce.** Over 274 adjacent enemy pairs across twelve
+games:
+
+| what happened when two enemies stood next to each other | share |
+|---|---|
+| the attacker's arc covered that edge and the attack **landed** | 14% |
+| the arc covered it but the **defence held** | 56% |
+| out of arc, though turning would have fixed it | 12% |
+| out of arc and hopeless | 19% |
+
+`damage = attack > defence` is strict and binary, and most troops have
+2-3 defence on the front against 1-3 attack, so a frontal assault is
+almost always wasted. The opponent worked this out and stopped attacking:
+only 8% of everything it did was an attack, against 27% deploying and 10%
+capturing. It wins on fortresses and points instead. That may be exactly
+right -- flanking is meant to be the game -- but a player who walks up and
+swings four times for nothing will conclude the combat is broken rather
+than that they are doing it wrong. Options, if it wants changing: let ties
+go to the attacker; give a blocked attack some consolation (a push, a
+forced turn); or lower the defence numbers.
+
+**One preset deck is much stronger than the others.** Sixty games, each
+pairing played five times from both sides, alternating battlefields:
+
+| deck | games won |
+|---|---|
+| The Barcids | 22/30 (73%) |
+| The Horde | 15/30 (50%) |
+| The Dynasty | 12/30 (40%) |
+| The Legion | 11/30 (37%) |
+
+Five games per cell is thin, so treat 50 and 40 as the same number -- but
+73 against 37 is not noise. Hannibal ignoring terrain is worth more than
+anything the Legion has.
+
+**Three cards are never worth playing.** In 24 games the opponent never
+once played Sun Tzu, Herodotus or Marcus Agrippa. Sun Tzu and Herodotus
+have the same effect -- look at the hand, draw a card -- for 3 Command and
+2, so Sun Tzu is strictly worse than Herodotus and neither is worth the
+Command. Agrippa only clears Hidden, so it correctly sits idle when
+nothing is hidden; that one is a counter-card doing its job.
+
+Three more cards were never played until the evaluation learned to see
+them, which is worth recording as a method note: Pheidippides grants an
+Action, and Mesmerised stops a card moving, and both leave the board
+looking identical. An opponent that scores only what it can point at will
+never buy tempo or denial. Once *surplus Actions* and *a shackled card is
+worth less* were added, Pheidippides went from never played to one of the
+most played cards in the set. The lesson generalises: a card that is
+invisible to the evaluation is not a weak card, and the two must not be
+confused.
+
+Games run 10 to 15 rounds. Against the brief's 5-8 minutes that is
+comfortable at machine speed and the thing to watch when people play.
+
 ## Deviations from the Build Brief
 
 The brief's §40 asks that its core rules not be changed quietly, so the

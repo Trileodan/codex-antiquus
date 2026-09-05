@@ -52,12 +52,15 @@ const SET_ATLAS = {
 };
 
 /* Planned Sets are added to SETS so the Atlas and World screens can
-   show the full shape of the product without pretending they are ready. */
+   show the full shape of the product without pretending they are ready.
+
+   A Set graduates by being defined in constants.js and deleted from here.
+   Leaving it in both means this file silently overwrites the real one with
+   a planned stub, which is exactly what happened to Ancient Britain. */
 Object.assign(SETS, {
   "wars":            { id: "wars", world: null, name: "Wars", status: "system", tagline: "Shared conflicts, unlocked once both sides have been studied." },
   "ancient-egypt":   { id: "ancient-egypt", world: "ancient", name: "Ancient Egypt", status: "planned", tagline: "Three thousand years of pharaohs before the Greeks arrived." },
   "hellenistic":     { id: "hellenistic", world: "ancient", name: "The Hellenistic World", status: "planned", tagline: "Alexander's successors and the kingdoms they carved out." },
-  "ancient-britain": { id: "ancient-britain", world: "ancient", name: "Ancient Britain", status: "planned", tagline: "From Stonehenge to the end of Roman Britain." },
   "mesopotamia":     { id: "mesopotamia", world: "ancient", name: "Mesopotamia", status: "planned", tagline: "Sumer, Akkad, Babylon, Assyria — where writing begins." },
   "indus-valley":    { id: "indus-valley", world: "ancient", name: "Indus Valley", status: "planned", tagline: "Harappa and Mohenjo-daro, and a script still unread." },
   "ancient-india":   { id: "ancient-india", world: "ancient", name: "Ancient India", status: "planned", tagline: "The Vedic period, the Mauryans and Ashoka." },
@@ -66,8 +69,9 @@ Object.assign(SETS, {
 });
 
 /* Extend the Ancient World's set list with the planned ones. */
-WORLDS[0].sets = ["roman-republic", "carthage", "ptolemaic-egypt", "ancient-greece", "roman-empire", "persia",
-  "ancient-egypt", "hellenistic", "ancient-britain",
+WORLDS[0].sets = ["roman-republic", "carthage", "ptolemaic-egypt", "ancient-greece", "ancient-britain",
+  "roman-empire", "persia",
+  "ancient-egypt", "hellenistic",
   "mesopotamia", "indus-valley", "ancient-india", "ancient-china", "mesoamerica"];
 
 function yearLabel(y) { return y < 0 ? `${Math.abs(y)} BC` : `AD ${y}`; }

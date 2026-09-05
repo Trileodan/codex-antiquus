@@ -43,6 +43,13 @@ const SOURCES = {
   "cyrus-cylinder": "The Cyrus Cylinder and the Nabonidus Chronicle",
   pft: "The Persepolis Fortification Tablets",
   "hebrew-bible": "The Hebrew Bible (Ezra, Isaiah, Chronicles)",
+  tacitus: "Tacitus, Agricola, Annals and Histories",
+  strabo: "Strabo, Geography",
+  pliny: "Pliny the Elder, Natural History",
+  gildas: "Gildas, On the Ruin of Britain (6th c., on events a century earlier)",
+  ammianus: "Ammianus Marcellinus, Res Gestae",
+  vindolanda: "The Vindolanda writing tablets (c. AD 90 – 120)",
+  adna: "Ancient DNA studies of prehistoric British populations",
   cah: "Cambridge Ancient History (2nd edn)",
   arch: "Archaeological survey and material evidence",
 };
@@ -50,7 +57,7 @@ const SOURCES = {
 const WORLDS = [
   { id: "ancient", name: "Ancient World", status: "active",
     blurb: "Rome, Carthage, Egypt and the empires that shaped the classical Mediterranean.",
-    sets: ["roman-republic", "carthage", "ptolemaic-egypt", "ancient-greece", "roman-empire", "persia"] },
+    sets: ["roman-republic", "carthage", "ptolemaic-egypt", "ancient-greece", "ancient-britain", "roman-empire", "persia"] },
   { id: "discovery", name: "Age of Discovery", status: "future", blurb: "Exploration, contact and empire across the Atlantic world." },
   { id: "revolution", name: "Age of Revolution", status: "future", blurb: "Enlightenment ideas collide with old regimes." },
 ];
@@ -70,6 +77,9 @@ const SETS = {
     tagline: "800 – 338 BC. A thousand small states that invented the citizen, and lost him to Macedon." },
   "roman-empire": { id: "roman-empire", world: "ancient", name: "Roman Empire", status: "locked",
     tagline: "From Princeps to Dominate." },
+  "ancient-britain": { id: "ancient-britain", world: "ancient", name: "Ancient Britain", status: "open",
+    foundation: true, patron: "amesbury-archer",
+    tagline: "c. 4000 BC – AD 410. An island with no voice of its own, described by the people who came to take it." },
   "persia": { id: "persia", world: "ancient", name: "Persia", status: "open",
     foundation: true, patron: "cyrus",
     tagline: "559 – 330 BC. The largest empire the world had yet seen, described almost entirely by its enemies." },

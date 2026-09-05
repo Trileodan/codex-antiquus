@@ -39,6 +39,8 @@ const CHAPTER_SPANS = {
   "war-greco-persian": [-499, -449],
   "war-punic-1": [-264, -241], "war-punic-2": [-218, -201], "war-punic-3": [-149, -146],
   "war-actium": [-32, -30],
+  "brit-stones": [-4000, -1500], "brit-metal": [-2200, -700], "brit-hillforts": [-800, -100],
+  "brit-pytheas": [-450, -325], "brit-druids": [-300, 61],
 };
 
 /* ------------------------------ save --------------------------------- */

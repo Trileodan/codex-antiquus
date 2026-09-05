@@ -227,6 +227,11 @@ function Globe({ year, places, onPick, selected }) {
               <circle cx={xy[0]} cy={xy[1]} r={(on ? 1.5 : p.kind === "set" ? 1.25 : 0.95) / zoom}
                       fill={p.locked ? "transparent" : c} stroke={c} strokeWidth=".4"
                       vectorEffect="non-scaling-stroke" />
+              {/* An invisible disc four times the size of the dot. A 1px
+                  hotspot is a fine thing to look at and impossible to hit
+                  with a fingertip, and the two jobs do not have to be done
+                  by the same circle. */}
+              <circle cx={xy[0]} cy={xy[1]} r={4.5 / zoom} fill="transparent" stroke="none" />
               <title>{p.name}</title>
             </g>
           );

@@ -118,8 +118,12 @@ function App() {
           <button onClick={resetAll} className="hcg-mono" style={{ fontSize: 10, color: "var(--hair)" }} title="Reset progress">RESET</button>
         </div>
       </div>
+      {/* Six tabs do not fit across a phone, so the strip scrolls — which
+          left the selected tab off the edge after a tap. Scroll it back
+          into view whenever the screen changes. */}
       {screen !== "reader" && screen !== "begin" && <div className="flex gap-1 mt-2 max-w-3xl mx-auto overflow-x-auto">
         {NAV.map((n) => <button key={n.id} onClick={() => setScreen(n.id)}
+          ref={(el) => { if (el && screen === n.id && el.scrollIntoView) el.scrollIntoView({ block: "nearest", inline: "center" }); }}
           className="hcg-tab flex items-center gap-1.5 px-3 py-1.5 rounded whitespace-nowrap"
           style={{ color: screen === n.id ? "#1B1710" : "var(--parchment-dim)",
             background: screen === n.id ? "var(--bronze-glow)" : "transparent", border: "1px solid var(--hair)" }}>

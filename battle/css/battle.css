@@ -111,6 +111,12 @@
 .bt-log div{ padding:1px 0; border-bottom:1px solid rgba(255,255,255,.03); }
 .bt-mono{ font-family:'Space Mono',monospace; font-size:11px; }
 .bt-grid2{ display:grid; grid-template-columns:1fr 340px; gap:16px; align-items:start; }
+/* A grid item defaults to min-width:auto, which means it refuses to be
+   narrower than its contents. One row of hand cards that does not wrap is
+   then ~700px wide, and the whole document grows to fit it — which on a
+   phone makes the browser zoom the page out and every number on the board
+   too small to read. This is the line that stops that. */
+.bt-grid2 > *{ min-width:0; }
 @media (max-width: 900px){ .bt-grid2{ grid-template-columns:1fr; } }
 .bt-dirpad{ display:grid; grid-template-columns:repeat(3,26px); grid-template-rows:repeat(3,26px); gap:2px; }
 .bt-dirpad button{ background:var(--panel-2); border:1px solid var(--hair); color:var(--parchment); border-radius:3px; cursor:pointer; font-size:11px; }
@@ -124,3 +130,133 @@
 .bt-legend{ display:flex; gap:10px; flex-wrap:wrap; margin-top:8px; }
 .bt-legend .it{ display:flex; align-items:center; gap:5px; font-size:11px; color:var(--parchment-dim); }
 .bt-legend .sw{ width:14px; height:14px; border-radius:3px; border:1px solid var(--hair); }
+
+/* =====================================================================
+   PHONES
+
+   Measured on a fresh battle at 390x844: the board ran 172-562, the
+   help paragraph and the hand pushed End Turn to 1131, and the page was
+   1.7 screens tall. Every turn meant scrolling up to see the board and
+   down to act on it. Landscape was worse — at 844x390 the grid still
+   broke to one column, so an 844px-wide screen got the stacked layout
+   and a board 844px tall on a 390px screen.
+
+   Three rules fix it: the board never exceeds the space above the
+   action bar, the action bar never leaves the screen, and everything
+   that is prose rather than control collapses.
+   ===================================================================== */
+
+/* The board is square and must fit the screen it is on, not the column
+   it is in. --bt-fit is the largest square that leaves room for the
+   header above and the sticky bar below. */
+@media (max-width: 900px) {
+  .bt-board{
+    --bt-fit: min(100%, calc(100dvh - 15rem));
+    max-width: var(--bt-fit);
+    margin: 0 auto;
+  }
+  .bt-sq .coord{ font-size:7px; }
+  .bt-wrap{ padding-bottom: 0; }
+
+  /* Prose that is read once and then in the way. */
+  .bt-help[data-open="0"]{ display:none; }
+  .bt-help-toggle{ display:inline-block; }
+
+  /* The hand becomes one scrolling row, so it never grows downward and
+     push the action bar off the screen. */
+  .bt-hand{ flex-wrap:nowrap; overflow-x:auto; padding-bottom:4px; scroll-snap-type:x proximity; }
+  .bt-hand .bt-card{ flex:0 0 auto; scroll-snap-align:start; }
+  /* The deck builder's pool reuses .bt-hand for its card styling but is a
+     library of sixty-odd cards to browse, not a hand of five to play.
+     Sideways scrolling is right for one and useless for the other. */
+  .bt-hand.bt-pool{ flex-wrap:wrap; overflow:visible; }
+  .bt-hand.bt-pool .bt-card{ flex:1 1 46%; }
+
+  .bt-log{ max-height:120px; }
+  /* The legend is reference material like the guide, and takes three lines
+     on a phone. It travels with the guide rather than getting its own
+     control, because they answer the same question. */
+  .bt-legend[data-open="0"]{ display:none; }
+
+  /* Hand cards: the same information, half the height. Two lines instead
+     of four, and the name allowed to truncate rather than wrap. */
+  .bt-card{ width:112px; padding:6px; }
+  .bt-card .nm{ font-size:11px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .bt-card .ty{ font-size:8.5px; }
+
+  /* The debug toggle is a developer control and does not earn a line here. */
+  .bt-debug{ display:none; }
+}
+
+/* Landscape on a phone: wide but very short. The two-column layout is
+   right here — what is wrong is the height, so cap the board against the
+   viewport height rather than its width. */
+/* Landscape on a phone is wide and very short. Scrolling a board is worse
+   than a small board, so here the screen does not scroll at all: the board
+   is sized by the viewport height on the left, and everything else goes in
+   a column on the right that scrolls inside itself. */
+@media (max-height: 560px) and (orientation: landscape) {
+  .bt-grid2{ grid-template-columns: min(52vh, 46%) 1fr; align-items:stretch; }
+  /* BOTH columns are capped and scroll inside themselves. Capping only the
+     right one left the hand sitting under the board in the left column and
+     pushing the page to 2.6 screens, which is the thing this whole media
+     query exists to prevent. */
+  .bt-grid2 > *{ max-height: calc(100dvh - 5.5rem); overflow-y:auto; }
+  .bt-board{ --bt-fit: 52vh; max-width: var(--bt-fit); margin:0; }
+  .bt-wrap{ padding-top:8px; }
+  .bt-log{ max-height:80px; }
+  .bt-help[data-open="0"]{ display:none; }
+  .bt-legend[data-open="0"]{ display:none; }
+  .bt-hand{ flex-wrap:wrap; overflow:visible; }
+  .bt-actionbar{ margin-top:4px; padding:5px 10px; }
+}
+
+/* The action bar. Command, the selected card and End Turn, always on
+   screen, so a turn can be played without scrolling at all. It only
+   exists on small screens — on a desktop the side panel already does
+   this job and does it better. */
+.bt-actionbar{ display:none; }
+@media (max-width: 900px) {
+  .bt-actionbar{
+    display:flex; position:sticky; bottom:0; z-index:20;
+    align-items:center; gap:10px; padding:8px 10px; margin:8px 0 0;
+    background:var(--panel); border-top:1px solid var(--gold);
+    box-shadow:0 -8px 18px rgba(0,0,0,.5);
+  }
+  /* No negative margins here. They were meant to cancel .bt-wrap's 16px of
+     padding and give a full-bleed bar — but mounted inside the learning app
+     that padding is zero, so the bar hung off the left edge and ate the
+     first two letters of its own label. */
+  .bt-actionbar .who{ flex:1; min-width:0; overflow:hidden;
+                      text-overflow:ellipsis; white-space:nowrap; }
+  .bt-actionbar .who b{ color:var(--gold-glow); }
+  .bt-actionbar .bt-btn{ flex:0 0 auto; }
+  /* The side panel's own End Turn would be a second, scrolled-away copy
+     of the same control, and two of them is worse than one. */
+  .bt-endturn-panel{ display:none; }
+}
+
+/* ---- Touch targets --------------------------------------------------
+   Measured on a phone: the facing arrows came out 14x14px, against the
+   ~44px a fingertip actually needs. They cannot grow inside a 46px
+   square, so on touch devices the rosette breaks out of its square and
+   floats above the board instead. `inset` going negative is what does
+   it; z-index keeps it over the neighbouring squares.
+   -------------------------------------------------------------------- */
+@media (pointer: coarse) {
+  .bt-rosette{ inset:-26px; z-index:30; border-radius:8px; background:rgba(10,9,7,.55); }
+  .bt-rosette .ro{ width:32%; height:32%; font-size:15px; border-width:1.5px; }
+
+  /* A control you press every turn should be a comfortable size. */
+  .bt-actionbar .bt-btn{ min-height:44px; padding:8px 16px; }
+  .bt-btn{ min-height:38px; }
+  .bt-btn.sm{ min-height:32px; }
+
+  /* The board's own numbers, one step up. They are the whole interface. */
+  .bt-edge{ font-size:10.5px; }
+  .bt-unit .atk{ font-size:11.5px; }
+  .bt-sq .coord{ font-size:8px; }
+
+  /* A hand card is a tap target too. */
+  .bt-card{ min-height:56px; }
+}

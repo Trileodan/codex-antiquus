@@ -85,7 +85,7 @@ function FacingRosette({ onPick, onCancel }) {
   </div>;
 }
 
-function Board({ state, viewer, selected, marks, rosette, onDown, onEnter, onUp, onFacing, onCancelFacing, dragOver }) {
+function Board({ state, viewer, selected, marks, rosette, onDown, onEnter, onUp, onFacing, onCancelFacing, dragOver, showLegend }) {
   const cells = [];
   for (let y = 0; y < state.height; y++) {
     for (let x = 0; x < state.width; x++) {
@@ -119,7 +119,7 @@ function Board({ state, viewer, selected, marks, rosette, onDown, onEnter, onUp,
   const used = [...new Set(state.terrain.flat())];
   return <div>
     <div className="bt-board" style={{ gridTemplateColumns: `repeat(${state.width}, 1fr)` }}>{cells}</div>
-    <div className="bt-legend">
+    <div className="bt-legend" data-open={showLegend === false ? "0" : "1"}>
       <span className="it"><span className="sw arc" /> can attack through that edge</span>
       <span className="it"><b className="k d">2</b> defence against an attack from there</span>
       <span className="it"><b className="k a">3</b> attack power, anywhere it can reach</span>

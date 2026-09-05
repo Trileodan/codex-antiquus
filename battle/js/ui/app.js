@@ -17,6 +17,7 @@ const PRESET_DECKS = {
 
 /* front / left / right / rear — "rear" takes B for back, because R is
    already right and the two are the ones you must not confuse. */
+const HELP_KEY = "codex-battle-help-v1";
 const ARC_LETTER = { front: "F", left: "L", right: "R", rear: "B" };
 const arcLetters = (arcs) => (arcs || ["front"]).map((a) => ARC_LETTER[a] || "?").join("");
 
@@ -66,6 +67,9 @@ function BattleApp() {
   const [discards, setDiscards] = React.useState([]);
   const [discarding, setDiscarding] = React.useState(false);
   const [debug, setDebug] = React.useState(false);
+  const [help, setHelp] = React.useState(() => {
+    try { return localStorage.getItem(HELP_KEY) !== "0"; } catch (_) { return true; }
+  });
   /* null = a person is playing Player 2. Otherwise the difficulty key. */
   const [opp, setOpp] = React.useState("steady");
   const [thinking, setThinking] = React.useState(false);
@@ -293,14 +297,24 @@ function BattleApp() {
                rosette={pending ? { x: pending.x, y: pending.y } : null}
                onDown={onDown} onEnter={onEnter} onUp={onUp}
                onFacing={commitFacing} onCancelFacing={() => setPending(null)}
-               dragOver={dragOver} />
-        {st.phase === "main" && <div className="bt-mono" style={{ color: "var(--parchment-dim)", fontSize: 11.5, marginTop: 8, lineHeight: 1.6 }}>
-          Tap a card to see its stats and abilities · drag it onto a square to move, or onto an enemy to attack ·
-          the bright edge of a card is its front ·
-          <b style={{ color: "#E05A3C" }}> red lines</b> are the edges it can attack through,
-          <b style={{ color: "#9FD4C0" }}> green digits</b> are its defence on that edge,
-          and the <b style={{ color: "var(--gold-glow)" }}>gold number</b> is its attack power
-        </div>}
+               dragOver={dragOver} showLegend={help} />
+        {st.phase === "main" && <>
+          {/* Read once, then in the way — and on a phone it was pushing the
+              controls off the screen. It stays open until dismissed, and
+              the choice is remembered. */}
+          <div className="bt-help bt-mono" data-open={help ? "1" : "0"}
+               style={{ color: "var(--parchment-dim)", fontSize: 11.5, marginTop: 8, lineHeight: 1.6 }}>
+            Tap a card to see its stats and abilities · drag it onto a square to move, or onto an enemy to attack ·
+            the bright edge of a card is its front ·
+            <b style={{ color: "#E05A3C" }}> red lines</b> are the edges it can attack through,
+            <b style={{ color: "#9FD4C0" }}> green digits</b> are its defence on that edge,
+            and the <b style={{ color: "var(--gold-glow)" }}>gold number</b> is its attack power
+          </div>
+          <button className="bt-btn sm" style={{ marginTop: 6 }}
+            onClick={() => { setHelp(!help); try { localStorage.setItem(HELP_KEY, help ? "0" : "1"); } catch (_) {} }}>
+            {help ? "Hide the guide" : "How to play"}
+          </button>
+        </>}
         {st.phase === "deploy" && <div className="bt-panel" style={{ marginTop: 10 }}>
           <div className="bt-label">Deployment</div>
           <div style={{ marginTop: 4 }}>
@@ -326,7 +340,7 @@ function BattleApp() {
           <button className="bt-btn sm" style={{ marginTop: 8 }} onClick={clear}>Cancel</button>
         </div>}
 
-        {st.phase === "main" && <div className="bt-panel">
+        {st.phase === "main" && <div className="bt-panel bt-endturn-panel">
           <Score st={st} />
           {aiTurn
             ? <div className="bt-mono" style={{ marginTop: 10, padding: "8px 10px", textAlign: "center",
@@ -370,6 +384,22 @@ function BattleApp() {
         Player {st.winner + 1} wins {st.winBy === "commanders" ? "— both enemy Commanders are down." : `on victory points, ${st.players[st.winner].vp} to ${st.players[opponent(st.winner)].vp}.`}
       </div>
       <button className="bt-btn primary" style={{ marginTop: 10 }} onClick={() => { setSt(null); setScreen("setup"); }}>New battle</button>
+    </div>}
+
+    {/* Phones only (see css/battle.css). The board, your hand and this bar
+        are then the whole game, and a turn needs no scrolling. */}
+    {st.phase === "main" && <div className="bt-actionbar">
+      <div className="who bt-mono" style={{ color: "var(--parchment-dim)" }}>
+        {aiTurn
+          ? <>{AI_LEVELS[st.ai.level].name} is thinking…</>
+          : <><b>{st.ai ? "You" : `Player ${me + 1}`}</b> · {pl.command}/{commandCap(st, me)} cmd · {pl.vp} VP
+              {selUnit ? <> · {cardOf(selUnit).name}</> : null}</>}
+      </div>
+      {!aiTurn && <button className="bt-btn primary" onClick={finishTurn}>
+        {discarding ? `Discard ${discards.length}/${over}` : "End turn"}
+      </button>}
+      {discarding && !aiTurn && <button className="bt-btn sm"
+        onClick={() => { setDiscarding(false); setDiscards([]); }}>Keep playing</button>}
     </div>}
   </div></div>;
 }
@@ -435,7 +465,7 @@ function DeckBuilder({ editing, onSave, onCancel }) {
           {[["all", "Everything"], ["commander", "Commanders"], ["troop", "Troops"], ["special", "Specials"], ["locked", "Locked"]].map(([k, label]) =>
             <button key={k} className={`bt-btn sm ${filter === k ? "primary" : ""}`} onClick={() => setFilter(k)}>{label}</button>)}
         </div>
-        <div className="bt-hand">
+        <div className="bt-hand bt-pool">
           {pool.map((id) => {
             const c = BATTLE_CARDS[id];
             const o = owned[id];
@@ -503,7 +533,7 @@ function Header({ st, onQuit, debug, setDebug }) {
       {st.battlefieldName} · Round {st.round} · Player {st.current + 1}
     </div>
     <div style={{ flex: 1 }} />
-    <label className="bt-mono" style={{ color: "var(--parchment-dim)", cursor: "pointer" }}>
+    <label className="bt-mono bt-debug" style={{ color: "var(--parchment-dim)", cursor: "pointer" }}>
       <input type="checkbox" checked={debug} onChange={(e) => setDebug(e.target.checked)} /> debug
     </label>
     <button className="bt-btn sm" onClick={onQuit}>Quit</button>

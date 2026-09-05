@@ -8,7 +8,7 @@ const fs = require("fs"), path = require("path"), vm = require("vm");
 const ROOT = path.join(__dirname, "..");
 const FILES = [
   "js/data/terrain.js", "js/data/statuses.js", "js/data/abilities.js",
-  "js/data/cards.js", "js/data/cards-collection.js", "js/data/battlefields.js",
+  "js/data/cards.js", "js/data/cards-collection.js", "js/data/battlefields.js", "js/data/collection.js",
   "js/engine/state.js", "js/engine/rules.js",
 ];
 const sandbox = { console, Math, Object, Array, String, Number, JSON };
@@ -20,7 +20,7 @@ const NAMES = ["TERRAIN","STATUSES","ABILITIES","BATTLE_CARDS","BATTLEFIELDS","D
   "effectiveStats","commandCap","deployCost","createBattle","validateDeck","decodeBattlefield",
   "legalCommanderSquares","placeCommander","legalMoves","doMove","legalAttacks","previewAttack","doAttack",
   "canCapture","doCapture","legalDeploys","doDeploy","doSpecial","doAbility","triggeredAbilities","canRotate","doRotate",
-  "endTurn","beginTurn","checkVictory","spawn","damageUnit","hasLineOfSight","DECK_RULES","shuffle"];
+  "ownedCards","collectionMode","endTurn","beginTurn","checkVictory","spawn","damageUnit","hasLineOfSight","DECK_RULES","shuffle"];
 const E = vm.runInContext(`({${NAMES.map(n=>`${n}: typeof ${n}==="undefined"?undefined:${n}`).join(",")}})`, sandbox);
 
 function beginTurnSafe(s) { for (const u of Object.values(s.units)) { u.actionsLeft = s.rules.actionsPerTurn; u.movedThisTurn = false; u.sick = false; } }

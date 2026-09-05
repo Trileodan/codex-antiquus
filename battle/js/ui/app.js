@@ -20,6 +20,23 @@ const PRESET_DECKS = {
 const ARC_LETTER = { front: "F", left: "L", right: "R", rear: "B" };
 const arcLetters = (arcs) => (arcs || ["front"]).map((a) => ARC_LETTER[a] || "?").join("");
 
+/* Presets and saved decks are offered through one list, so the setup
+   screen does not care which is which. */
+function allDeckChoices(saved) {
+  const out = {};
+  for (const k of Object.keys(PRESET_DECKS)) out[k] = { ...PRESET_DECKS[k], preset: true };
+  for (const d of saved) out[d.id] = { name: d.name, blurb: deckBlurb(d.cards), cards: d.cards };
+  return out;
+}
+
+function deckBlurb(cards) {
+  const cs = cards.map((id) => BATTLE_CARDS[id]).filter(Boolean);
+  const cmd = cs.filter((c) => c.type === "commander").map((c) => c.name).join(" and ");
+  const t = cs.filter((c) => c.type === "troop").length;
+  const sp = cs.filter((c) => c.type === "special").length;
+  return `${cmd || "No commanders"} — ${t} troop${t === 1 ? "" : "s"}, ${sp} special${sp === 1 ? "" : "s"}.`;
+}
+
 function needsTarget(ab) {
   return (ab.effects || []).some((e) =>
     ["enemyUnit", "friendlyDamaged", "friendlyUnit", "friendlyInRange"].includes(e.target));
@@ -40,6 +57,8 @@ function eligibleTargets(state, ab, owner, source) {
 
 function BattleApp() {
   const [screen, setScreen] = React.useState("setup");
+  const [saved, setSaved] = React.useState(() => loadDecks());
+  const [editing, setEditing] = React.useState(null);
   const [bf, setBf] = React.useState("open-country");
   const [deckA, setDeckA] = React.useState("legion");
   const [deckB, setDeckB] = React.useState("barcid");
@@ -62,12 +81,26 @@ function BattleApp() {
   const say = (t) => { setMsg(t); if (t) setTimeout(() => setMsg(""), 3200); };
   const clear = () => { setSel(null); setMode(null); setPending(null); };
 
+  const choices = allDeckChoices(saved);
+
   function start() {
-    const s = createBattle(bf, PRESET_DECKS[deckA].cards, PRESET_DECKS[deckB].cards);
+    const A = choices[deckA] || Object.values(choices)[0];
+    const B = choices[deckB] || Object.values(choices)[0];
+    const s = createBattle(bf, A.cards, B.cards);
     setSt(s); clear(); setScreen("battle");
   }
 
-  if (screen === "setup" || !st) return <SetupScreen {...{ bf, setBf, deckA, setDeckA, deckB, setDeckB, start }} />;
+  if (screen === "decks") return <DeckBuilder editing={editing}
+    onCancel={() => { setEditing(null); setScreen("setup"); }}
+    onSave={(deck) => {
+      const next = saved.filter((d) => d.id !== deck.id).concat([deck]);
+      setSaved(next); saveDecks(next); setEditing(null); setScreen("setup");
+    }} />;
+
+  if (screen === "setup" || !st) return <SetupScreen {...{ bf, setBf, deckA, setDeckA, deckB, setDeckB, start, choices, saved,
+    onBuild: () => { setEditing(null); setScreen("decks"); },
+    onEdit: (d) => { setEditing(d); setScreen("decks"); },
+    onDelete: (id) => { const next = saved.filter((d) => d.id !== id); setSaved(next); saveDecks(next); } }} />;
 
   const me = st.current;
   const pl = st.players[me];
@@ -307,6 +340,128 @@ function BattleApp() {
   </div></div>;
 }
 
+function DeckBuilder({ editing, onSave, onCancel }) {
+  const [name, setName] = React.useState(editing ? editing.name : "New deck");
+  const [cards, setCards] = React.useState(editing ? editing.cards.slice() : []);
+  const [filter, setFilter] = React.useState("all");
+  const [inspect, setInspect] = React.useState(null);
+  const owned = React.useMemo(() => ownedCards(), []);
+  const mode = collectionMode();
+
+  const errs = validateDeck(cards);
+  const counts = {};
+  for (const id of cards) counts[id] = (counts[id] || 0) + 1;
+  const people = new Set(cards.map((id) => BATTLE_CARDS[id].charId).filter(Boolean));
+
+  function canAdd(id) {
+    const c = BATTLE_CARDS[id];
+    if (!owned[id] || !owned[id].owned) return "Locked.";
+    if (cards.length >= DECK_RULES.size) return "The deck is full.";
+    const max = c.unique ? 1 : (c.maxCopies || 3);
+    if ((counts[id] || 0) >= max) return `Limit is ${max}.`;
+    if (c.charId && people.has(c.charId)) return "That person is already in the deck.";
+    if (c.type === "commander" && cards.filter((x) => BATTLE_CARDS[x].type === "commander").length >= DECK_RULES.commanders)
+      return `Only ${DECK_RULES.commanders} Commanders.`;
+    return null;
+  }
+
+  const pool = Object.keys(BATTLE_CARDS)
+    .filter((id) => !BATTLE_CARDS[id].token)
+    .filter((id) => filter === "all" || (filter === "locked" ? !owned[id].owned : BATTLE_CARDS[id].type === filter))
+    .sort((a, b) => {
+      const A = BATTLE_CARDS[a], B = BATTLE_CARDS[b];
+      const oa = owned[a].owned ? 0 : 1, ob = owned[b].owned ? 0 : 1;
+      if (oa !== ob) return oa - ob;
+      const order = { commander: 0, troop: 1, special: 2 };
+      if (order[A.type] !== order[B.type]) return order[A.type] - order[B.type];
+      return A.name.localeCompare(B.name);
+    });
+
+  const cmdCount = cards.filter((id) => BATTLE_CARDS[id].type === "commander").length;
+  /* Commanders are placed free before the first round; everything else is paid
+     for out of the Command pool, so the average that matters is of those ten. */
+  const hand = cards.filter((id) => BATTLE_CARDS[id].type !== "commander");
+  const handCost = hand.reduce((n, id) => n + BATTLE_CARDS[id].cost, 0);
+
+  return <div className="bt-root"><div className="bt-wrap">
+    <div style={{ display: "flex", alignItems: "baseline", gap: 14, marginBottom: 6, flexWrap: "wrap" }}>
+      <div className="hcg-display" style={{ fontSize: 20, color: "var(--gold-glow)" }}>Deck builder</div>
+      <div style={{ flex: 1 }} />
+      <button className="bt-btn sm" onClick={onCancel}>Back</button>
+    </div>
+    <div className="bt-mono" style={{ color: "var(--parchment-dim)", marginBottom: 12, lineHeight: 1.6 }}>
+      {mode === "collection"
+        ? "Showing your collection. A card unlocks when you have minted that person at that tier or above in the learning app."
+        : "Sandbox — every card is available because this page is running on its own, without a save to read. Inside the learning app you would only see what you have unlocked."}
+    </div>
+
+    <div className="bt-grid2">
+      <div>
+        <div style={{ display: "flex", gap: 6, marginBottom: 10, flexWrap: "wrap" }}>
+          {[["all", "Everything"], ["commander", "Commanders"], ["troop", "Troops"], ["special", "Specials"], ["locked", "Locked"]].map(([k, label]) =>
+            <button key={k} className={`bt-btn sm ${filter === k ? "primary" : ""}`} onClick={() => setFilter(k)}>{label}</button>)}
+        </div>
+        <div className="bt-hand">
+          {pool.map((id) => {
+            const c = BATTLE_CARDS[id];
+            const o = owned[id];
+            const block = canAdd(id);
+            return <div key={id} className={`bt-card ${o.owned ? "" : "unaffordable"}`}
+              title={o.why}
+              onClick={() => { setInspect(id); if (!block) setCards([...cards, id]); }}>
+              <div className="nm">{c.name}{c.tier ? <span style={{ color: "var(--bronze-glow)" }}> · {c.tier}</span> : null}</div>
+              <div className="ty">{c.type}{c.type === "commander" ? " · free at setup" : ` · ${c.cost} cmd`}</div>
+              {c.type !== "special" && <div className="ty" style={{ marginTop: 3 }}>
+                spd {c.speed} · atk {c.attack} {arcLetters(c.arcs)} · def {c.defence.front}/{c.defence.rear}
+              </div>}
+              {!o.owned && <div className="ty" style={{ marginTop: 4, color: "var(--rust)" }}>{o.why}</div>}
+              {o.owned && block && <div className="ty" style={{ marginTop: 4, color: "var(--parchment-dim)" }}>{block}</div>}
+            </div>;
+          })}
+        </div>
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <div className="bt-panel">
+          <div className="bt-label" style={{ marginBottom: 6 }}>Deck</div>
+          <input value={name} onChange={(e) => setName(e.target.value)}
+            style={{ width: "100%", background: "var(--panel-2)", border: "1px solid var(--hair)",
+                     color: "var(--parchment)", borderRadius: 4, padding: "6px 8px",
+                     fontFamily: "'Cinzel',serif", fontSize: 13, marginBottom: 8 }} />
+          <div className="bt-mono" style={{ color: "var(--parchment-dim)", marginBottom: 8 }}>
+            {cards.length}/{DECK_RULES.size} cards · {cmdCount}/{DECK_RULES.commanders} Commanders
+            {hand.length > 0 && <> · {(handCost / hand.length).toFixed(1)} cmd average to play</>}
+          </div>
+          {cards.length === 0 && <div style={{ color: "var(--parchment-dim)", fontSize: 13 }}>
+            Click cards on the left to add them. Two Commanders and ten others.
+          </div>}
+          {cards.map((id, i) => {
+            const c = BATTLE_CARDS[id];
+            return <div key={i} onClick={() => setCards(cards.filter((_, j) => j !== i))}
+              style={{ cursor: "pointer", display: "flex", gap: 8, alignItems: "baseline",
+                       padding: "3px 0", borderBottom: "1px solid rgba(255,255,255,.04)" }}>
+              <span className="bt-mono" style={{ width: 62, color: c.type === "commander" ? "var(--gold-glow)" : "var(--parchment-dim)" }}>
+                {c.type.slice(0, 4)}
+              </span>
+              <span style={{ flex: 1, fontSize: 13 }}>{c.name}{c.tier ? ` · ${c.tier}` : ""}</span>
+              <span className="bt-mono" style={{ color: "var(--rust)" }}>×</span>
+            </div>;
+          })}
+          {errs.length > 0 && <div style={{ marginTop: 8 }}>
+            {errs.map((e, i) => <div key={i} className="bt-mono" style={{ color: "var(--rust)", fontSize: 11, lineHeight: 1.5 }}>{e}</div>)}
+          </div>}
+          <button className="bt-btn primary" style={{ width: "100%", marginTop: 10 }}
+            disabled={errs.length > 0}
+            onClick={() => onSave({ id: (editing && editing.id) || `deck-${Date.now()}`, name, cards })}>
+            {errs.length ? "Not a legal deck yet" : "Save deck"}
+          </button>
+        </div>
+        {inspect && <div className="bt-panel"><CardDetail state={null} cardId={inspect} /></div>}
+      </div>
+    </div>
+  </div></div>;
+}
+
 function Header({ st, onQuit, debug, setDebug }) {
   return <div style={{ display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12, flexWrap: "wrap" }}>
     <div className="hcg-display" style={{ fontSize: 20, color: "var(--gold-glow)" }}>Field of Battle</div>
@@ -388,15 +543,19 @@ function DebugPanel({ st, refresh }) {
   </div>;
 }
 
-function SetupScreen({ bf, setBf, deckA, setDeckA, deckB, setDeckB, start }) {
+function SetupScreen({ bf, setBf, deckA, setDeckA, deckB, setDeckB, start, choices, saved, onBuild, onEdit, onDelete }) {
   const field = decodeBattlefield(BATTLEFIELDS[bf]);
   const Pick = ({ value, set, label }) => <div className="bt-panel" style={{ flex: 1, minWidth: 240 }}>
     <div className="bt-label" style={{ marginBottom: 8 }}>{label}</div>
-    {Object.entries(PRESET_DECKS).map(([k, d]) =>
+    {Object.entries(choices).map(([k, d]) =>
       <div key={k} onClick={() => set(k)} style={{ cursor: "pointer", padding: "6px 8px", borderRadius: 4, marginBottom: 4,
         border: `1px solid ${value === k ? "var(--gold)" : "var(--hair)"}`, background: value === k ? "var(--panel-2)" : "transparent" }}>
         <div className="hcg-display" style={{ fontSize: 13, color: value === k ? "var(--gold-glow)" : "var(--parchment)" }}>{d.name}</div>
         <div style={{ fontSize: 12.5, lineHeight: 1.45, color: "var(--parchment-dim)" }}>{d.blurb}</div>
+        {!d.preset && <div style={{ marginTop: 4, display: "flex", gap: 6 }}>
+          <button className="bt-btn sm" onClick={(e) => { e.stopPropagation(); onEdit(saved.find((x) => x.id === k)); }}>Edit</button>
+          <button className="bt-btn sm" onClick={(e) => { e.stopPropagation(); onDelete(k); }}>Delete</button>
+        </div>}
       </div>)}
   </div>;
   return <div className="bt-root"><div className="bt-wrap">
@@ -421,7 +580,10 @@ function SetupScreen({ bf, setBf, deckA, setDeckA, deckB, setDeckB, start }) {
     <div className="bt-mono" style={{ color: "var(--parchment-dim)", marginBottom: 10 }}>
       {field.width}×{field.height} · {field.fortresses.length} fortresses
     </div>
-    <button className="bt-btn primary" onClick={start}>Begin the battle</button>
+    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+      <button className="bt-btn primary" onClick={start}>Begin the battle</button>
+      <button className="bt-btn" onClick={onBuild}>Build a deck</button>
+    </div>
   </div></div>;
 }
 

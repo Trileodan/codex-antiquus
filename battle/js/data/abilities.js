@@ -146,6 +146,47 @@ const ABILITIES = {
   },
 
   /* ---- collection-card abilities ---------------------------------- */
+  /* ---- Roman Empire ---------------------------------------------- */
+  "testudo": {
+    id: "testudo", name: "Testudo", trigger: "triggered", costsAction: true, cooldown: 2,
+    text: "This card becomes Fortified: +1 Defence on every edge until the end of the round.",
+    effects: [{ type: "status", status: "fortified", target: "self", rounds: 2 }],
+  },
+  "frontier-works": {
+    id: "frontier-works", name: "Frontier Works", trigger: "passive",
+    text: "Friendly cards within one square gain +1 Defence on every edge.",
+    effects: [{ type: "aura", scope: "friendly", range: 1, defence: { all: 1 } }],
+  },
+  "the-donative": {
+    id: "the-donative", name: "The Donative", trigger: "onDeploy",
+    text: "Draw a card as this Commander takes the field.",
+    effects: [{ type: "draw", count: 1 }],
+  },
+  "best-of-emperors": {
+    id: "best-of-emperors", name: "Optimus Princeps", trigger: "triggered", costsAction: true, cooldown: 3,
+    text: "Give a friendly card an extra Action this turn, and let it move again.",
+    effects: [{ type: "extraAction", target: "friendlyUnit", allowSecondMove: true }],
+  },
+  "the-tetrarchy": {
+    id: "the-tetrarchy", name: "The Tetrarchy", trigger: "passive",
+    text: "Raises your Command cap by 2.",
+    effects: [{ type: "commandCap", amount: 2 }],
+  },
+  "in-hoc-signo": {
+    id: "in-hoc-signo", name: "In Hoc Signo", trigger: "triggered", costsAction: true, cooldown: 4,
+    text: "All enemy cards become Revealed for 2 rounds, ending any Hidden status.",
+    effects: [{ type: "status", status: "revealed", target: "allEnemies", rounds: 2, clears: "hidden" }],
+  },
+  "changed-sides": {
+    id: "changed-sides", name: "Changed Sides", trigger: "special",
+    text: "Look at your opponent's hand, then draw two cards.",
+    effects: [{ type: "peek" }, { type: "draw", count: 2 }],
+  },
+  "res-gestae": {
+    id: "res-gestae", name: "The Record", trigger: "special",
+    text: "One enemy card becomes Exposed for 3 rounds.",
+    effects: [{ type: "status", status: "exposed", rounds: 3, target: "enemyUnit" }],
+  },
   "the-rising": {
     id: "the-rising", name: "The Rising", trigger: "passive",
     text: "Friendly Troops gain +1 Attack.",

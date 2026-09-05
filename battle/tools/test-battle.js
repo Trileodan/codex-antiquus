@@ -58,7 +58,7 @@ section("The link back to the learning app");
    teaches. This link is invisible at runtime and would rot silently. */
 const LEARN = new Set();
 for (const f of ["characters.js", "characters-extra.js", "characters-greece.js",
-                 "characters-persia.js", "characters-britain.js"]) {
+                 "characters-persia.js", "characters-britain.js", "characters-empire.js"]) {
   const txt = fs.readFileSync(path.join(ROOT, "..", "js", "data", f), "utf8");
   for (const m of txt.matchAll(/^"([a-z0-9-]+)": \{/gm)) LEARN.add(m[1]);
 }

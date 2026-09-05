@@ -15,6 +15,14 @@ const STUDY_CHAPTERS = CHAPTERS.filter((c) => c.kind !== "war");
    screen. Kept as data rather than parsed out of the era strings, which
    are written for humans and not for regexes. */
 const CHAPTER_SPANS = {
+  "emp-principate": [-27, 14], "emp-army": [-27, 200], "emp-cult": [-27, 250],
+  "emp-julio-claudians": [14, 68], "emp-69": [68, 69], "emp-flavians": [69, 96],
+  "emp-adoptive": [96, 180], "emp-trajan": [98, 117], "emp-hadrian": [117, 138],
+  "emp-life": [100, 200], "emp-marcus": [161, 192],
+  "emp-severans": [193, 235], "emp-crisis": [235, 284], "emp-diocletian": [284, 305],
+  "emp-constantine": [306, 337], "emp-church": [337, 400],
+  "emp-barbarians": [370, 410], "emp-fall": [410, 476],
+  "war-britain": [43, 84],
   founding: [-800, -750], kings: [-753, -509], "republic-born": [-509, -495],
   "how-republic-worked": [-509, -49], "struggle-orders": [-494, -287],
   "punic-1": [-264, -241], "punic-2": [-218, -216], "punic-3": [-209, -146],

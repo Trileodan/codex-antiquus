@@ -797,6 +797,7 @@ const CHAPTERS = [
 },
 {
   id: "augustus", set: "roman-republic", act: "The End", title: "The Republic That Never Ended", era: "27 BC", minutes: 7,
+  revealsSets: ["roman-empire"],
   intro: "Octavian's genius was not winning. It was working out how to keep power by publicly giving it back.",
   beats: [
     { title: "Handing it all back",

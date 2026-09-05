@@ -123,6 +123,10 @@ function effectiveStats(s, u) {
           if (!ff || ff.owner !== u.owner) continue;
         }
         if (e.requires === "adjacentAlly" && !hasAdjacentAlly(s, u)) continue;
+        /* A friendly aura may have a reach. Without `range` it covers the
+           whole board, which is right for a Commander's presence and wrong
+           for anything that represents a physical structure. */
+        if (e.range != null && Math.abs(other.x - u.x) + Math.abs(other.y - u.y) > e.range) continue;
         if (e.speed) out.speed += e.speed;
         if (e.attack) out.attack += e.attack;
         addArcs(e.arcs);

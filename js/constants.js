@@ -50,6 +50,20 @@ const SOURCES = {
   ammianus: "Ammianus Marcellinus, Res Gestae",
   vindolanda: "The Vindolanda writing tablets (c. AD 90 – 120)",
   adna: "Ancient DNA studies of prehistoric British populations",
+  josephus: "Josephus, The Jewish War (by a commander who changed sides)",
+  "pliny-y": "Pliny the Younger, Letters",
+  marcus: "Marcus Aurelius, Meditations (a private notebook, never meant to be read)",
+  "hist-aug": "The Historia Augusta (late 4th c., partly forged, invents sources)",
+  perpetua: "The Passion of Perpetua and Felicity (a section in her own voice)",
+  lactantius: "Lactantius, On the Deaths of the Persecutors (Christian, contemporary, hostile)",
+  eusebius: "Eusebius, Ecclesiastical History and Life of Constantine",
+  augustine: "Augustine, The City of God",
+  zosimus: "Zosimus, New History (6th c., pagan, blames Christianity)",
+  jordanes: "Jordanes, Getica (6th c., abridging a lost Gothic history)",
+  notitia: "The Notitia Dignitatum (a late Roman list of offices and units)",
+  "theod-code": "The Theodosian Code (imperial law, collected AD 438)",
+  papyri: "The Oxyrhynchus and Egyptian papyri (tax returns, letters, contracts)",
+  ice: "Greenland ice cores, lead deposition as a proxy for metal production",
   cah: "Cambridge Ancient History (2nd edn)",
   arch: "Archaeological survey and material evidence",
 };
@@ -75,8 +89,12 @@ const SETS = {
   "ancient-greece": { id: "ancient-greece", world: "ancient", name: "Ancient Greece", status: "open",
     foundation: true, patron: "solon",
     tagline: "800 – 338 BC. A thousand small states that invented the citizen, and lost him to Macedon." },
-  "roman-empire": { id: "roman-empire", world: "ancient", name: "Roman Empire", status: "locked",
-    tagline: "From Princeps to Dominate." },
+  /* Not a foundation Set. It opens when you finish the Republic's last
+     chapter, because the Augustan settlement is the Republic's ending
+     and this Set's premise, and reading it in the other order spoils
+     both. */
+  "roman-empire": { id: "roman-empire", world: "ancient", name: "Roman Empire", status: "open",
+    tagline: "27 BC – AD 476. A constitution nobody wrote, an army that chose the ruler, and a fall that took a century and did not happen in the east." },
   "ancient-britain": { id: "ancient-britain", world: "ancient", name: "Ancient Britain", status: "open",
     foundation: true, patron: "amesbury-archer",
     tagline: "c. 4000 BC – AD 410. An island with no voice of its own, described by the people who came to take it." },

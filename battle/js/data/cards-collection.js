@@ -240,3 +240,161 @@ Object.assign(BATTLE_CARDS, {
 },
 
 });
+
+/* ---- Roman Empire ---------------------------------------------------
+   The empire's cards are defensive where the Republic's are aggressive,
+   which is the whole difference between the two Sets expressed in
+   numbers: the Republic conquered, the Empire held. Most of these hit
+   only forwards and are very hard to shift from the front.
+   -------------------------------------------------------------------- */
+
+Object.assign(BATTLE_CARDS, {
+
+"claudius-silver": {
+  id: "claudius-silver", name: "Claudius", type: "commander", charId: "claudius", tier: "silver",
+  era: "AD 41 – 54", tags: ["rome", "empire", "administrator"], unique: true,
+  cost: 0, speed: 1, lives: 2, range: 1, attack: 1, arcs: ["front"],
+  defence: { front: 3, left: 2, right: 2, rear: 1 },
+  abilities: ["the-donative"],
+  description: "Found behind a curtain and made emperor by soldiers who wanted paying. Slow, feeble in a fight, and armoured on every side — and every accession is worth a card, because the Guard had to be bought.",
+},
+
+"vespasian-silver": {
+  id: "vespasian-silver", name: "Vespasian", type: "commander", charId: "vespasian", tier: "silver",
+  era: "AD 69 – 79", tags: ["rome", "empire", "flavian"], unique: true,
+  cost: 0, speed: 2, lives: 2, range: 1, attack: 2, arcs: ["front", "right"],
+  defence: { front: 3, left: 1, right: 2, rear: 1 },
+  abilities: ["the-tetrarchy"],
+  description: "A tax farmer's son who won the throne from a province he was already fighting in, then refilled an empty treasury by charging for everything. Not spectacular anywhere; solvent everywhere, which in this game is a bigger Command pool.",
+},
+
+"trajan-silver": {
+  id: "trajan-silver", name: "Trajan", type: "commander", charId: "trajan", tier: "silver",
+  era: "AD 98 – 117", tags: ["rome", "empire", "conqueror"], unique: true,
+  cost: 0, speed: 2, lives: 2, range: 1, attack: 3, arcs: ["front", "left", "right"],
+  defence: { front: 2, left: 1, right: 1, rear: 0 },
+  abilities: ["best-of-emperors"],
+  description: "Took the empire to its greatest extent and reached the Persian Gulf regretting his age. Hits on three edges, nothing behind him, and can hand another card the extra Action that turns a good position into a won one.",
+},
+
+"hadrian-silver": {
+  id: "hadrian-silver", name: "Hadrian", type: "commander", charId: "hadrian", tier: "silver",
+  era: "AD 117 – 138", tags: ["rome", "empire", "frontier"], unique: true,
+  cost: 0, speed: 2, lives: 2, range: 1, attack: 2, arcs: ["front"],
+  defence: { front: 3, left: 2, right: 2, rear: 1 },
+  abilities: ["frontier-works"],
+  description: "Gave back everything Trajan took and spent his reign deciding where the empire stopped. Everything standing near him is harder to kill, which is exactly what a wall does and exactly what it does not do.",
+},
+
+"constantine1-gold": {
+  id: "constantine1-gold", name: "Constantine", type: "commander", charId: "constantine1", tier: "gold",
+  era: "AD 306 – 337", tags: ["rome", "empire", "christian"], unique: true,
+  cost: 0, speed: 2, lives: 2, range: 1, attack: 3, arcs: ["front", "left"],
+  defence: { front: 3, left: 1, right: 2, rear: 1 },
+  abilities: ["in-hoc-signo"],
+  description: "Won the empire, made a religion legal, chaired a council he had no office in, and moved the capital. Strips every enemy of concealment for two rounds — the sign in the sky, as a piece of board information.",
+},
+
+"diocletian-silver": {
+  id: "diocletian-silver", name: "Diocletian", type: "commander", charId: "diocletian", tier: "silver",
+  era: "AD 284 – 305", tags: ["rome", "empire", "reformer"], unique: true,
+  cost: 0, speed: 1, lives: 2, range: 1, attack: 2, arcs: ["front"],
+  defence: { front: 3, left: 2, right: 2, rear: 2 },
+  abilities: ["the-tetrarchy"],
+  description: "Divided the job four ways because every usurpation had begun on a frontier the emperor was not standing on. Slow, armoured on all four edges, and the largest Command pool in the game — an administrator, not a general.",
+},
+
+"zenobia-bronze": {
+  id: "zenobia-bronze", name: "Zenobia", type: "commander", charId: "zenobia", tier: "bronze",
+  era: "AD 267 – 272", tags: ["palmyra", "east", "rebel"], unique: true,
+  cost: 0, speed: 3, lives: 2, range: 1, attack: 3, arcs: ["front", "right"],
+  defence: { front: 2, left: 1, right: 1, rear: 0 },
+  abilities: ["melt-away"],
+  description: "Took Syria, Egypt and half of Asia Minor while Rome was fighting on three frontiers at once. The fastest Commander in the set, thin everywhere, and able to disappear when the answer arrives.",
+},
+
+"septimius-severus-bronze": {
+  id: "septimius-severus-bronze", name: "Severus", type: "commander", charId: "septimius-severus", tier: "bronze",
+  era: "AD 193 – 211", tags: ["rome", "empire", "africa"], unique: true,
+  cost: 0, speed: 2, lives: 2, range: 1, attack: 3, arcs: ["front"],
+  defence: { front: 3, left: 2, right: 1, rear: 1 },
+  abilities: ["the-donative"],
+  description: "Enrich the soldiers and scorn everyone else. Won the empire in four years of civil war and governed on one principle, and this card does the same thing: a card in hand every time he arrives.",
+},
+
+/* ---- Troops ---------------------------------------------------------- */
+
+"praetorian": {
+  id: "praetorian", name: "Praetorian", type: "troop", charId: null,
+  era: "Empire", tags: ["rome", "guard"], maxCopies: 2,
+  cost: 4, speed: 2, lives: 1, range: 1, attack: 3, arcs: ["front", "left", "right"],
+  defence: { front: 3, left: 2, right: 2, rear: 1 },
+  abilities: [],
+  description: "The only troops stationed in Italy, paid a fortune on every accession, and the reason three emperors in this Set died indoors. Expensive, and worth it.",
+},
+
+"auxiliary-cohort": {
+  id: "auxiliary-cohort", name: "Auxiliary Cohort", type: "troop", charId: null,
+  era: "Empire", tags: ["rome", "auxilia"], maxCopies: 3,
+  cost: 2, speed: 3, lives: 1, range: 1, attack: 2, arcs: ["front", "left", "right"],
+  defence: { front: 1, left: 1, right: 1, rear: 0 },
+  abilities: [],
+  description: "Non-citizens serving twenty-five years for citizenship at the end, recorded on a bronze certificate. Faster and more flexible than a legion and armoured like a man who is not yet a Roman.",
+},
+
+"legio-ii-augusta": {
+  id: "legio-ii-augusta", name: "Legio II", type: "troop", charId: null,
+  era: "Empire", tags: ["rome", "legion"], maxCopies: 2,
+  cost: 4, speed: 1, lives: 2, range: 1, attack: 3, arcs: ["front"],
+  defence: { front: 4, left: 2, right: 2, rear: 0 },
+  abilities: ["testudo"],
+  description: "A legion at full strength, which is five thousand men who can only go one way at a time. Nothing in the game beats it from the front and almost anything beats it from behind.",
+},
+
+"gothic-foederati": {
+  id: "gothic-foederati", name: "Foederati", type: "troop", charId: null,
+  era: "Late Empire", tags: ["goth", "federate"], maxCopies: 3,
+  cost: 3, speed: 3, lives: 1, range: 1, attack: 3, arcs: ["front", "rear"],
+  defence: { front: 2, left: 0, right: 0, rear: 1 },
+  abilities: [],
+  description: "An armed people settled inside the frontier under their own leaders, fighting Rome's wars for land because there was no money to pay them. Dangerous coming and going, and nothing at all on the flanks.",
+},
+
+/* ---- Specials -------------------------------------------------------- */
+
+"josephus-bronze": {
+  id: "josephus-bronze", name: "Josephus", type: "special", charId: "josephus", tier: "bronze",
+  era: "AD 67 – 79", tags: ["judaea", "historian"],
+  cost: 3, abilities: ["changed-sides"],
+  description: "Commanded on one side, surrendered, predicted his captor would become emperor, and wrote the war up for the men who won it. You see their hand and take two cards, which is what changing sides is worth.",
+},
+
+"pliny-younger-bronze": {
+  id: "pliny-younger-bronze", name: "Pliny the Younger", type: "special", charId: "pliny-younger", tier: "bronze",
+  era: "c. AD 110", tags: ["rome", "governor"],
+  cost: 2, abilities: ["know-your-enemy"],
+  description: "Wrote to the emperor about everything and kept the replies. Look at what they are holding.",
+},
+
+"ammianus-bronze": {
+  id: "ammianus-bronze", name: "Ammianus", type: "special", charId: "ammianus", tier: "bronze",
+  era: "c. AD 390", tags: ["rome", "historian"],
+  cost: 2, abilities: ["res-gestae"],
+  description: "A serving officer who wrote the last great history in Latin and did not flatter anybody in it. One enemy card is Exposed for three rounds — written down, and harder to defend.",
+},
+
+"marcus-aurelius-gold": {
+  id: "marcus-aurelius-gold", name: "Marcus Aurelius", type: "special", charId: "marcus-aurelius", tier: "gold",
+  era: "AD 166 – 180", tags: ["rome", "stoic"],
+  cost: 3, abilities: ["best-of-emperors"],
+  description: "Eleven years on a frontier war during a pandemic, writing notes to himself about getting up in the morning. Gives a friendly card another Action and lets it move again — endurance, as a tempo card.",
+},
+
+"perpetua-bronze": {
+  id: "perpetua-bronze", name: "Perpetua", type: "special", charId: "perpetua", tier: "bronze",
+  era: "AD 203", tags: ["carthage", "martyr"],
+  cost: 2, abilities: ["field-hospital"],
+  description: "Refused the gesture that would have saved her and wrote it down while waiting. Restores a lost Life to a damaged friendly card — the only thing on this list that undoes something.",
+},
+
+});

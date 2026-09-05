@@ -406,6 +406,31 @@ function doSpecial(s, handIndex, target) {
   return { ok: true };
 }
 
+/* ---------------- who an ability may be pointed at ------------------
+   Reading the effect's `target` rather than the card, so a new ability
+   using an existing target kind needs nothing here. Both the board and
+   the AI ask these two questions before offering an ability.
+   ------------------------------------------------------------------- */
+
+function needsTarget(ab) {
+  return (ab.effects || []).some((e) =>
+    ["enemyUnit", "friendlyDamaged", "friendlyUnit", "friendlyInRange"].includes(e.target));
+}
+
+function eligibleTargets(state, ab, owner, source) {
+  const out = [];
+  for (const u of Object.values(state.units)) {
+    for (const e of ab.effects || []) {
+      if (e.target === "enemyUnit" && u.owner !== owner) out.push(u);
+      if (e.target === "friendlyDamaged" && u.owner === owner && u.lives < u.maxLives) out.push(u);
+      if (e.target === "friendlyUnit" && u.owner === owner) out.push(u);
+      if (e.target === "friendlyInRange" && u.owner === owner && source &&
+          Math.abs(u.x - source.x) + Math.abs(u.y - source.y) <= (e.range || 99)) out.push(u);
+    }
+  }
+  return [...new Set(out)];
+}
+
 /* ---------------- the effect vocabulary ----------------------------
    Every effect type the engine understands lives here. A new card
    reuses these; a genuinely new behaviour adds one entry and is then

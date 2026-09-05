@@ -22,6 +22,15 @@ const arcLetters = (arcs) => (arcs || ["front"]).map((a) => ARC_LETTER[a] || "?"
 
 /* Presets and saved decks are offered through one list, so the setup
    screen does not care which is which. */
+/* Is the opponent to move? During deployment it places its Commanders
+   after Player 1 has placed both of theirs; afterwards it is simply
+   whether the side to move is the one it plays. */
+function isAiTurn(st) {
+  if (!st || !st.ai || st.winner != null) return false;
+  if (st.phase === "deploy") return st.players[0].commanderQueue.length === 0;
+  return st.current === st.ai.player;
+}
+
 function allDeckChoices(saved) {
   const out = {};
   for (const k of Object.keys(PRESET_DECKS)) out[k] = { ...PRESET_DECKS[k], preset: true };
@@ -37,23 +46,9 @@ function deckBlurb(cards) {
   return `${cmd || "No commanders"} — ${t} troop${t === 1 ? "" : "s"}, ${sp} special${sp === 1 ? "" : "s"}.`;
 }
 
-function needsTarget(ab) {
-  return (ab.effects || []).some((e) =>
-    ["enemyUnit", "friendlyDamaged", "friendlyUnit", "friendlyInRange"].includes(e.target));
-}
-function eligibleTargets(state, ab, owner, source) {
-  const out = [];
-  for (const u of Object.values(state.units)) {
-    for (const e of ab.effects || []) {
-      if (e.target === "enemyUnit" && u.owner !== owner) out.push(u);
-      if (e.target === "friendlyDamaged" && u.owner === owner && u.lives < u.maxLives) out.push(u);
-      if (e.target === "friendlyUnit" && u.owner === owner) out.push(u);
-      if (e.target === "friendlyInRange" && u.owner === owner && source &&
-          Math.abs(u.x - source.x) + Math.abs(u.y - source.y) <= (e.range || 99)) out.push(u);
-    }
-  }
-  return [...new Set(out)];
-}
+/* needsTarget and eligibleTargets used to live here. They are legality
+   questions, not drawing, and the AI has to ask them too, so they moved
+   to js/engine/rules.js. */
 
 function BattleApp() {
   const [screen, setScreen] = React.useState("setup");
@@ -71,6 +66,10 @@ function BattleApp() {
   const [discards, setDiscards] = React.useState([]);
   const [discarding, setDiscarding] = React.useState(false);
   const [debug, setDebug] = React.useState(false);
+  /* null = a person is playing Player 2. Otherwise the difficulty key. */
+  const [opp, setOpp] = React.useState("steady");
+  const [thinking, setThinking] = React.useState(false);
+  const aiTimer = React.useRef(null);
   /* Drag state lives with the other hooks: React requires every hook to run
      on every render, and this component returns early for the setup screen. */
   const dragRef = React.useRef(null);
@@ -81,12 +80,41 @@ function BattleApp() {
   const say = (t) => { setMsg(t); if (t) setTimeout(() => setMsg(""), 3200); };
   const clear = () => { setSel(null); setMode(null); setPending(null); };
 
+  /* The opponent plays one action per tick rather than a whole turn at
+     once, so you can see what it did instead of the board jumping. Each
+     tick is a mutation followed by a refresh, exactly as a tap would be,
+     and the effect re-runs because bump() re-renders after each one.
+
+     This lives up here with the other hooks on purpose. React requires
+     every hook to run on every render, and this component returns early
+     for the setup and deck-builder screens — putting it below one of
+     those returns blanks the app the moment a battle starts. */
+  React.useEffect(() => {
+    if (!isAiTurn(st) || st.phase === "over") { setThinking(false); return; }
+    setThinking(true);
+    aiTimer.current = setTimeout(() => {
+      if (st.phase === "deploy") {
+        aiPlaceCommanders(st, st.ai.player, st.ai.level);
+        clear(); refresh(); return;
+      }
+      const action = aiChooseAction(st, st.ai.level);
+      if (action) {
+        const r = action.run(st);
+        if (r && r.ok !== false) { refresh(); return; }
+      }
+      endTurn(st, aiDiscardChoice(st));
+      clear(); refresh();
+    }, st.phase === "deploy" ? 320 : 460);
+    return () => clearTimeout(aiTimer.current);
+  });
+
   const choices = allDeckChoices(saved);
 
   function start() {
     const A = choices[deckA] || Object.values(choices)[0];
     const B = choices[deckB] || Object.values(choices)[0];
     const s = createBattle(bf, A.cards, B.cards);
+    s.ai = opp ? { level: opp, player: 1 } : null;
     setSt(s); clear(); setScreen("battle");
   }
 
@@ -97,7 +125,7 @@ function BattleApp() {
       setSaved(next); saveDecks(next); setEditing(null); setScreen("setup");
     }} />;
 
-  if (screen === "setup" || !st) return <SetupScreen {...{ bf, setBf, deckA, setDeckA, deckB, setDeckB, start, choices, saved,
+  if (screen === "setup" || !st) return <SetupScreen {...{ bf, setBf, deckA, setDeckA, deckB, setDeckB, start, choices, saved, opp, setOpp,
     onBuild: () => { setEditing(null); setScreen("decks"); },
     onEdit: (d) => { setEditing(d); setScreen("decks"); },
     onDelete: (id) => { const next = saved.filter((d) => d.id !== id); setSaved(next); saveDecks(next); } }} />;
@@ -105,6 +133,7 @@ function BattleApp() {
   const me = st.current;
   const pl = st.players[me];
   const selUnit = sel && st.units[sel];
+  const aiTurn = isAiTurn(st);
 
   /* ---- which squares are clickable, and why ---- */
   const marks = {};
@@ -134,7 +163,7 @@ function BattleApp() {
      the square under the finger rather than the one it started on, which
      is what touch would otherwise do. */
   function onDown(x, y, e) {
-    if (st.phase !== "main" || pending) return;
+    if (st.phase !== "main" || pending || aiTurn) return;
     try { e.currentTarget.releasePointerCapture(e.pointerId); } catch (_) {}
     const u = unitAt(st, x, y);
     dragRef.current = { x, y, uid: u && u.owner === me ? u.uid : null, moved: false };
@@ -174,7 +203,7 @@ function BattleApp() {
   }
 
   function handleTap(x, y) {
-    if (st.phase === "over") return;
+    if (st.phase === "over" || aiTurn) return;
     const u = unitAt(st, x, y);
 
     if (st.phase === "deploy") {
@@ -275,7 +304,7 @@ function BattleApp() {
         {st.phase === "deploy" && <div className="bt-panel" style={{ marginTop: 10 }}>
           <div className="bt-label">Deployment</div>
           <div style={{ marginTop: 4 }}>
-            Player {(st.players[0].commanderQueue.length ? 0 : 1) + 1}, place{" "}
+            {aiTurn ? `${AI_LEVELS[st.ai.level].name} places ` : `Player ${(st.players[0].commanderQueue.length ? 0 : 1) + 1}, place `}
             <b style={{ color: "var(--gold-glow)" }}>
               {BATTLE_CARDS[(st.players[0].commanderQueue.length ? st.players[0] : st.players[1]).commanderQueue[0]].name}
             </b>{" "}on a highlighted square of your home row.
@@ -299,10 +328,15 @@ function BattleApp() {
 
         {st.phase === "main" && <div className="bt-panel">
           <Score st={st} />
-          <button className="bt-btn primary" style={{ width: "100%", marginTop: 10 }} onClick={finishTurn}>
-            {discarding ? `Discard ${discards.length}/${over} and end turn` : `End Player ${me + 1}'s turn`}
-          </button>
-          {discarding && <button className="bt-btn sm" style={{ width: "100%", marginTop: 6 }}
+          {aiTurn
+            ? <div className="bt-mono" style={{ marginTop: 10, padding: "8px 10px", textAlign: "center",
+                    border: "1px solid var(--hair)", borderRadius: 4, color: "var(--parchment-dim)" }}>
+                {AI_LEVELS[st.ai.level].name} is thinking…
+              </div>
+            : <button className="bt-btn primary" style={{ width: "100%", marginTop: 10 }} onClick={finishTurn}>
+                {discarding ? `Discard ${discards.length}/${over} and end turn` : st.ai ? "End your turn" : `End Player ${me + 1}'s turn`}
+              </button>}
+          {discarding && !aiTurn && <button className="bt-btn sm" style={{ width: "100%", marginTop: 6 }}
             onClick={() => { setDiscarding(false); setDiscards([]); }}>Keep playing</button>}
         </div>}
 
@@ -543,7 +577,7 @@ function DebugPanel({ st, refresh }) {
   </div>;
 }
 
-function SetupScreen({ bf, setBf, deckA, setDeckA, deckB, setDeckB, start, choices, saved, onBuild, onEdit, onDelete }) {
+function SetupScreen({ bf, setBf, deckA, setDeckA, deckB, setDeckB, start, choices, saved, opp, setOpp, onBuild, onEdit, onDelete }) {
   const field = decodeBattlefield(BATTLEFIELDS[bf]);
   const Pick = ({ value, set, label }) => <div className="bt-panel" style={{ flex: 1, minWidth: 240 }}>
     <div className="bt-label" style={{ marginBottom: 8 }}>{label}</div>
@@ -564,9 +598,23 @@ function SetupScreen({ bf, setBf, deckA, setDeckA, deckB, setDeckB, start, choic
       A tactical battle for two players at one screen. Twelve cards, two of them Commanders, on an
       eight-by-eight field with four fortresses. Combat is decided by facing and position, never by dice.
     </p>
+    <div className="bt-panel" style={{ margin: "14px 0" }}>
+      <div className="bt-label" style={{ marginBottom: 8 }}>Who plays the other side</div>
+      <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+        {[[null, "A person here", "Two players sharing this screen, taking turns."],
+          ...Object.keys(AI_LEVELS).map((k) => [k, AI_LEVELS[k].name, AI_LEVELS[k].blurb])
+        ].map(([k, label, blurb]) =>
+          <button key={String(k)} onClick={() => setOpp(k)} title={blurb}
+            className={`bt-btn sm ${opp === k ? "primary" : ""}`}>{label}</button>)}
+      </div>
+      <div className="bt-mono" style={{ color: "var(--parchment-dim)", marginTop: 8, lineHeight: 1.6 }}>
+        {opp ? AI_LEVELS[opp].blurb : "Two players sharing this screen, taking turns."}
+      </div>
+    </div>
+
     <div style={{ display: "flex", gap: 12, flexWrap: "wrap", margin: "14px 0" }}>
-      <Pick value={deckA} set={setDeckA} label="Player 1 deck" />
-      <Pick value={deckB} set={setDeckB} label="Player 2 deck" />
+      <Pick value={deckA} set={setDeckA} label={opp ? "Your deck" : "Player 1 deck"} />
+      <Pick value={deckB} set={setDeckB} label={opp ? "Their deck" : "Player 2 deck"} />
       <div className="bt-panel" style={{ flex: 1, minWidth: 240 }}>
         <div className="bt-label" style={{ marginBottom: 8 }}>Battlefield</div>
         {Object.values(BATTLEFIELDS).map((b) =>

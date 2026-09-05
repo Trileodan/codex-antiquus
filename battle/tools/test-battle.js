@@ -9,7 +9,7 @@ const ROOT = path.join(__dirname, "..");
 const FILES = [
   "js/data/terrain.js", "js/data/statuses.js", "js/data/abilities.js",
   "js/data/cards.js", "js/data/cards-collection.js", "js/data/battlefields.js", "js/data/collection.js",
-  "js/engine/state.js", "js/engine/rules.js",
+  "js/engine/state.js", "js/engine/rules.js", "js/engine/ai.js",
 ];
 const sandbox = { console, Math, Object, Array, String, Number, JSON };
 vm.createContext(sandbox);
@@ -20,7 +20,10 @@ const NAMES = ["TERRAIN","STATUSES","ABILITIES","BATTLE_CARDS","BATTLEFIELDS","D
   "effectiveStats","commandCap","deployCost","createBattle","validateDeck","decodeBattlefield",
   "legalCommanderSquares","placeCommander","legalMoves","doMove","legalAttacks","previewAttack","doAttack",
   "canCapture","doCapture","legalDeploys","doDeploy","doSpecial","doAbility","triggeredAbilities","canRotate","doRotate",
-  "ownedCards","collectionMode","endTurn","beginTurn","checkVictory","spawn","damageUnit","hasLineOfSight","DECK_RULES","shuffle"];
+  "ownedCards","collectionMode","endTurn","beginTurn","checkVictory","spawn","damageUnit","hasLineOfSight","DECK_RULES","shuffle",
+  "needsTarget","eligibleTargets",
+  "AI_LEVELS","AI_WEIGHTS","aiEvaluate","aiLegalActions","aiChooseAction","aiTakeTurn","aiPlaceCommanders",
+  "aiDiscardChoice","cloneState","aiCouldHit"];
 const E = vm.runInContext(`({${NAMES.map(n=>`${n}: typeof ${n}==="undefined"?undefined:${n}`).join(",")}})`, sandbox);
 
 function beginTurnSafe(s) { for (const u of Object.values(s.units)) { u.actionsLeft = s.rules.actionsPerTurn; u.movedThisTurn = false; u.sick = false; } }
@@ -345,6 +348,80 @@ E.spawn(s, 0, "legionnaire", leo.x, leo.y + 1, "S", { sick: false });
 ok(E.effectiveStats(s, leo).defence.front === aloneDef + 2, "Leonidas gains +2 front defence with an ally beside him");
 
 /* ---------- random playouts ---------- */
+section("The opponent");
+/* It must not be able to do anything a person could not: every action it
+   offers is produced by the same legality functions the board calls. */
+{
+  const s = E.createBattle("open-country", DECK_A, DECK_B);
+  E.aiPlaceCommanders(s, 0, "steady");
+  E.aiPlaceCommanders(s, 1, "steady");
+  ok(s.phase === "main", "the opponent can place its own Commanders");
+  ok(Object.keys(s.units).length === 4, "four Commanders on the field after both sides place");
+  ok(E.livingCommanders(s, 1).every((u) => u.y === s.deployRows[1]), "it placed them on its own home row");
+  const cols = E.livingCommanders(s, 1).map((u) => u.x);
+  ok(Math.abs(cols[0] - cols[1]) >= 2, `it spread its Commanders out (columns ${cols.join(" and ")})`);
+
+  const acts = E.aiLegalActions(s);
+  ok(acts.length > 0, `it finds ${acts.length} legal actions on turn one`);
+  ok(acts.every((a) => ["move","attack","rotate","capture","deploy","ability","special"].includes(a.kind)),
+     "every action it offers is a kind the engine knows");
+
+  /* Scoring must not mutate. This is the whole basis of the search: it
+     plays each candidate on a copy and keeps the state it started from. */
+  const before = JSON.stringify({ ...s, log: [] });
+  E.aiChooseAction(s, "steady");
+  ok(JSON.stringify({ ...s, log: [] }) === before, "choosing an action leaves the real state untouched");
+
+  /* An opponent facing a free kill must take it. */
+  const t = E.createBattle("open-country", DECK_A, DECK_B);
+  E.aiPlaceCommanders(t, 0, "steady"); E.aiPlaceCommanders(t, 1, "steady");
+  t.units = {};
+  const killer = E.spawn(t, 1, "genghis", 3, 3, "N", { sick: false });
+  const victim = E.spawn(t, 0, "velite", 3, 2, "N", { sick: false });
+  E.spawn(t, 1, "immortal", 7, 7, "N", { sick: false });
+  E.spawn(t, 0, "legionnaire", 0, 0, "S", { sick: false });
+  t.current = 1;
+  const p = E.previewAttack(t, killer, victim);
+  ok(p.inArc && p.damage === 1, "the set-up strike would land (rear edge, attack over defence)");
+  const pick = E.aiChooseAction(t, "ruthless");
+  ok(pick && pick.kind === "attack" && pick.targetUid === victim.uid,
+     `it takes a kill that is there for the taking (chose ${pick ? pick.kind : "nothing"})`);
+
+  /* Discarding down to the limit must produce exactly the right count. */
+  const d = E.createBattle("open-country", DECK_A, DECK_B);
+  E.aiPlaceCommanders(d, 0, "steady"); E.aiPlaceCommanders(d, 1, "steady");
+  while (d.players[0].hand.length < d.rules.maxHand + 2 && d.players[0].draw.length)
+    d.players[0].hand.push(d.players[0].draw.pop());
+  const overBy = d.players[0].hand.length - d.rules.maxHand;
+  const chosen = E.aiDiscardChoice(d);
+  ok(chosen.length === overBy, `it discards exactly the ${overBy} it is over by`);
+  ok(E.endTurn(d, chosen).ok, "and the engine accepts that discard");
+
+  ok(Object.keys(E.AI_LEVELS).length === 3, "three difficulty levels");
+  ok(Object.values(E.AI_LEVELS).every((l) => l.name && l.blurb), "each one is named and described");
+}
+
+section("The opponent plays a whole game against itself");
+{
+  let decided = 0, rounds = 0, kinds = {};
+  for (let g = 0; g < 6; g++) {
+    const s = E.createBattle(["open-country","river-crossing","mountain-pass"][g % 3], DECK_A, DECK_B);
+    E.aiPlaceCommanders(s, 0, "steady");
+    E.aiPlaceCommanders(s, 1, g % 2 ? "cautious" : "ruthless");
+    let guard = 0;
+    while (s.winner == null && s.round <= 40 && guard++ < 200) {
+      for (const a of E.aiTakeTurn(s, s.current === 0 ? "steady" : (g % 2 ? "cautious" : "ruthless")))
+        kinds[a.kind] = (kinds[a.kind] || 0) + 1;
+    }
+    if (s.winner != null) decided++;
+    rounds += s.round;
+  }
+  ok(decided === 6, `all 6 games reached a winner (${decided}/6)`);
+  ok(rounds / 6 < 30, `they finish quickly enough — ${(rounds / 6).toFixed(1)} rounds on average`);
+  ok(Object.keys(kinds).length >= 4, `it uses a spread of action types: ${Object.keys(kinds).join(", ")}`);
+  ok((kinds.move || 0) > 0 && (kinds.deploy || 0) > 0, "it both manoeuvres and reinforces");
+}
+
 section("Random playouts");
 function randomAI(s, rng) {
   const p = s.current, pl = s.players[p];

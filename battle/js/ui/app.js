@@ -6,13 +6,13 @@
 
 const PRESET_DECKS = {
   "legion": { name: "The Legion", blurb: "Caesar's tempo and Leonidas holding the middle. Cheap infantry, deployed forward, taking fortresses early.",
-    cards: ["caesar","leonidas","legionnaire","legionnaire","legionnaire","phalangite","velite","numidian-cavalry","spartan-hoplite","nightingale","cicero","pheidippides"] },
+    cards: ["caesar-gold","leonidas-silver","legionnaire","legionnaire","legionnaire","phalangite","velite","numidian-cavalry","spartan-hoplite","nightingale","cicero-bronze","pheidippides"] },
   "barcid":  { name: "The Barcids", blurb: "Hannibal ignores the map and Alexander reaches further than anyone expects. Terrain-heavy battlefields favour this one heavily.",
-    cards: ["hannibal","alexander","immortal","immortal","cretan-archer","scythian-archer","sacred-band","jack-ripper","boudica","van-gogh","archimedes","sun-tzu"] },
+    cards: ["hannibal-gold","alexander-bronze","immortal","immortal","cretan-archer","scythian-archer","sacred-band","jack-ripper","boudica-bronze","van-gogh","archimedes","sun-tzu"] },
   "horde":   { name: "The Horde", blurb: "Genghis makes every rider a square faster and Napoleon makes them all cheaper. Wide, fast, and thin where it is hit.",
-    cards: ["genghis","napoleon","numidian-cavalry","numidian-cavalry","numidian-cavalry","scythian-archer","scythian-archer","velite","boudica","pheidippides","herodotus","agrippa"] },
+    cards: ["genghis","carausius-silver","numidian-cavalry","numidian-cavalry","numidian-cavalry","scythian-archer","scythian-archer","velite","boudica-bronze","pheidippides","herodotos-bronze","agrippa"] },
   "dynasty": { name: "The Dynasty", blurb: "Cleopatra banks Command that nobody else can, and spends it on a slow, armoured line that is very hard to shift off a fortress.",
-    cards: ["cleopatra","leonidas","spartan-hoplite","spartan-hoplite","immortal","immortal","phalangite","cretan-archer","legionnaire","nightingale","archimedes","cicero"] },
+    cards: ["cleopatra-silver","perikles-gold","spartan-hoplite","spartan-hoplite","immortal","immortal","phalangite","cretan-archer","legionnaire","nightingale","archimedes","cato-bronze"] },
 };
 
 /* front / left / right / rear — "rear" takes B for back, because R is

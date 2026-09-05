@@ -458,7 +458,13 @@ const EFFECTS = {
     }
     const t = ctx.target && s.units[ctx.target.uid];
     if (!t) return { ok: false, error: "Choose a target." };
-    if (e.target === "enemyUnit" && t.owner === ctx.owner) return { ok: false, error: "That target must be an enemy." };
+    if (e.target === "enemyUnit") {
+      if (t.owner === ctx.owner) return { ok: false, error: "That target must be an enemy." };
+      if (e.range != null && ctx.source) {
+        const d = Math.abs(t.x - ctx.source.x) + Math.abs(t.y - ctx.source.y);
+        if (d > e.range) return { ok: false, error: "Out of range." };
+      }
+    }
     if (e.target === "friendlyInRange") {
       if (t.owner !== ctx.owner) return { ok: false, error: "That target must be friendly." };
       const d = Math.abs(t.x - ctx.source.x) + Math.abs(t.y - ctx.source.y);

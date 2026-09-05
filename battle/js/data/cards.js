@@ -21,6 +21,9 @@
                 warship would be ["left","right"] and a tank all four.
                 Drawn as a red line along each of those edges.
      defence    still per-edge, because being flanked has to hurt
+     charId     the person in the learning app this card represents. A
+                person may appear in a deck only once, whichever tier.
+     tier       which point in their life this card is
      unique     only one copy may appear in a deck (named individuals)
      maxCopies  for generic cards, how many copies are allowed
      token      summoned only; never appears in a deck
@@ -30,8 +33,8 @@ const BATTLE_CARDS = {
 
 /* ============================ COMMANDERS ============================ */
 
-"caesar": {
-  id: "caesar", name: "Julius Caesar", type: "commander", charId: "caesar",
+"caesar-gold": {
+  id: "caesar-gold", name: "Julius Caesar", type: "commander", charId: "caesar", tier: "gold",
   era: "100 – 44 BC", tags: ["rome", "general", "politician"], unique: true,
   cost: 0, speed: 2, lives: 2, range: 1,
   attack: 3, arcs: ["front"],
@@ -40,8 +43,8 @@ const BATTLE_CARDS = {
   description: "Fast, aggressive and dangerously exposed from behind. Caesar's real weapon was the speed at which he could put men where they were not expected.",
 },
 
-"hannibal": {
-  id: "hannibal", name: "Hannibal Barca", type: "commander", charId: "hannibal",
+"hannibal-gold": {
+  id: "hannibal-gold", name: "Hannibal Barca", type: "commander", charId: "hannibal", tier: "gold",
   era: "247 – 183 BC", tags: ["carthage", "general"], unique: true,
   cost: 0, speed: 2, lives: 2, range: 1,
   attack: 2, arcs: ["front", "left", "right"],
@@ -50,8 +53,8 @@ const BATTLE_CARDS = {
   description: "Terrain was never an obstacle to Hannibal so much as an argument. Marshland, mountains and rivers cost him nothing that they did not cost the enemy twice over.",
 },
 
-"alexander": {
-  id: "alexander", name: "Alexander the Great", type: "commander", charId: "alexander",
+"alexander-bronze": {
+  id: "alexander-bronze", name: "Alexander the Great", type: "commander", charId: "alexander", tier: "bronze",
   era: "356 – 323 BC", tags: ["macedon", "general"], unique: true,
   cost: 0, speed: 3, lives: 2, range: 1,
   attack: 3, arcs: ["front"],
@@ -60,8 +63,8 @@ const BATTLE_CARDS = {
   description: "He commanded from the point of the wedge, which is why he kept winning and why he kept nearly dying. Enormous reach, almost no armour behind him.",
 },
 
-"leonidas": {
-  id: "leonidas", name: "Leonidas", type: "commander", charId: "leonidas",
+"leonidas-silver": {
+  id: "leonidas-silver", name: "Leonidas", type: "commander", charId: "leonidas", tier: "silver",
   era: "d. 480 BC", tags: ["sparta", "general"], unique: true,
   cost: 0, speed: 1, lives: 2, range: 1,
   attack: 2, arcs: ["front"],
@@ -70,8 +73,8 @@ const BATTLE_CARDS = {
   description: "Slow, immovable, and worth far more with a line beside him than alone. A wall is only a wall while it is continuous.",
 },
 
-"cleopatra": {
-  id: "cleopatra", name: "Cleopatra VII", type: "commander", charId: "cleopatra",
+"cleopatra-silver": {
+  id: "cleopatra-silver", name: "Cleopatra VII", type: "commander", charId: "cleopatra", tier: "silver",
   era: "69 – 30 BC", tags: ["egypt", "ruler"], unique: true,
   cost: 0, speed: 2, lives: 2, range: 1,
   attack: 1, arcs: ["front"],
@@ -192,15 +195,6 @@ const BATTLE_CARDS = {
   description: "Three hundred picked men who broke the Spartan line at Leuctra and died in their ranks at Chaeronea. Expensive, and it does not retreat well.",
 },
 
-"spartacus": {
-  id: "spartacus", name: "Spartacus", type: "troop", charId: "spartacus",
-  era: "d. 71 BC", tags: ["rome", "rebel"], unique: true,
-  cost: 4, speed: 2, lives: 1, range: 1,
-  attack: 3, arcs: ["front", "left", "right", "rear"],
-  defence: { front: 1, left: 1, right: 1, rear: 1 },
-  abilities: ["slave-revolt"],
-  description: "Dangerous from any angle and almost unarmoured. Every enemy he puts down brings another card to your hand — the revolt grows by winning.",
-},
 
 "jack-ripper": {
   id: "jack-ripper", name: "Jack the Ripper", type: "troop", charId: null,
@@ -212,8 +206,8 @@ const BATTLE_CARDS = {
   description: "Hits harder than anything else in the prototype and cannot survive a single return blow. Kills, disappears, and is somewhere else by the time you look.",
 },
 
-"boudica": {
-  id: "boudica", name: "Boudica", type: "troop", charId: null,
+"boudica-bronze": {
+  id: "boudica-bronze", name: "Boudica", type: "troop", charId: "boudica", tier: "bronze",
   era: "d. c. AD 61", tags: ["britain", "rebel", "chariot"], unique: true,
   cost: 4, speed: 3, lives: 1, range: 1,
   attack: 3, arcs: ["front", "left", "right"],
@@ -248,12 +242,6 @@ const BATTLE_CARDS = {
   description: "A painter has no business on a battlefield, so he does not go on one. An enemy unit stops where it is for two rounds.",
 },
 
-"cicero": {
-  id: "cicero", name: "Cicero", type: "special", charId: "cicero",
-  era: "106 – 43 BC", tags: ["rome", "orator"], unique: true,
-  cost: 2, abilities: ["rhetoric"],
-  description: "The most dangerous voice in the late Republic, and it never once held a line. Leaves an enemy unit Exposed for two rounds.",
-},
 
 "archimedes": {
   id: "archimedes", name: "Archimedes", type: "special", charId: null,
@@ -277,18 +265,12 @@ const BATTLE_CARDS = {
 },
 
 "agrippa": {
-  id: "agrippa", name: "Marcus Agrippa", type: "special", charId: "agrippa",
+  id: "agrippa", name: "Marcus Agrippa", type: "special", charId: null,
   era: "63 – 12 BC", tags: ["rome", "admiral"], unique: true,
   cost: 3, abilities: ["reveal"],
   description: "The man who actually won Actium. Ends every Hidden status on the board and stops those units hiding again for two rounds.",
 },
 
-"herodotus": {
-  id: "herodotus", name: "Herodotus", type: "special", charId: "herodotus",
-  era: "c. 484 – 425 BC", tags: ["greece", "history"], unique: true,
-  cost: 2, abilities: ["know-your-enemy"],
-  description: "He went and asked, and wrote down who told him. Look at your opponent's hand, then draw a card.",
-},
 };
 
 const BATTLE_CARD_IDS = Object.keys(BATTLE_CARDS);

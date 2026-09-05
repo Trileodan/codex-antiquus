@@ -8,7 +8,7 @@ const fs = require("fs"), path = require("path"), vm = require("vm");
 const ROOT = path.join(__dirname, "..");
 const FILES = [
   "js/data/terrain.js", "js/data/statuses.js", "js/data/abilities.js",
-  "js/data/cards.js", "js/data/battlefields.js",
+  "js/data/cards.js", "js/data/cards-collection.js", "js/data/battlefields.js",
   "js/engine/state.js", "js/engine/rules.js",
 ];
 const sandbox = { console, Math, Object, Array, String, Number, JSON };
@@ -39,24 +39,51 @@ ok(E.dirBetween(0, 0, 2, 2) === null, "diagonals are not orthogonal");
 
 /* ---------- decks ---------- */
 section("Deck validation");
-const DECK_A = ["caesar","leonidas","legionnaire","legionnaire","legionnaire","phalangite",
-                "velite","numidian-cavalry","spartan-hoplite","nightingale","cicero","pheidippides"];
-const DECK_B = ["hannibal","alexander","immortal","immortal","cretan-archer","scythian-archer",
-                "sacred-band","jack-ripper","boudica","van-gogh","archimedes","sun-tzu"];
+const DECK_A = ["caesar-gold","leonidas-silver","legionnaire","legionnaire","legionnaire","phalangite",
+                "velite","numidian-cavalry","spartan-hoplite","nightingale","cicero-bronze","pheidippides"];
+const DECK_B = ["hannibal-gold","alexander-bronze","immortal","immortal","cretan-archer","scythian-archer",
+                "sacred-band","jack-ripper","boudica-bronze","van-gogh","archimedes","sun-tzu"];
 ok(E.validateDeck(DECK_A).length === 0, "a legal deck validates: " + E.validateDeck(DECK_A));
 ok(E.validateDeck(DECK_B).length === 0, "second legal deck validates: " + E.validateDeck(DECK_B));
 ok(E.validateDeck(DECK_A.slice(0, 11)).length > 0, "an 11-card deck is rejected");
-ok(E.validateDeck(["caesar","legionnaire", ...DECK_A.slice(2)]).length > 0, "one Commander is rejected");
-ok(E.validateDeck(["caesar","caesar","leonidas", ...DECK_A.slice(3)]).length > 0, "a duplicated unique is rejected");
-ok(E.validateDeck(["caesar","leonidas","war-elephant-token", ...DECK_A.slice(3)]).length > 0, "a token cannot be decked");
+ok(E.validateDeck(["caesar-gold","legionnaire", ...DECK_A.slice(2)]).length > 0, "one Commander is rejected");
+ok(E.validateDeck(["caesar-gold","caesar-gold","leonidas-silver", ...DECK_A.slice(3)]).length > 0, "a duplicated unique is rejected");
+ok(E.validateDeck(["caesar-gold","leonidas-silver","war-elephant-token", ...DECK_A.slice(3)]).length > 0, "a token cannot be decked");
+
+section("The link back to the learning app");
+/* Every charId a battle card claims must be a person the app actually
+   teaches. This link is invisible at runtime and would rot silently. */
+const LEARN = new Set();
+for (const f of ["characters.js", "characters-extra.js", "characters-greece.js",
+                 "characters-persia.js", "characters-britain.js"]) {
+  const txt = fs.readFileSync(path.join(ROOT, "..", "js", "data", f), "utf8");
+  for (const m of txt.matchAll(/^"([a-z0-9-]+)": \{/gm)) LEARN.add(m[1]);
+}
+ok(LEARN.size > 40, `found ${LEARN.size} characters in the learning app`);
+const dangling = Object.values(E.BATTLE_CARDS).filter((c) => c.charId && !LEARN.has(c.charId));
+ok(dangling.length === 0, `battle cards pointing at people the app does not teach: ${dangling.map((c) => `${c.name} -> ${c.charId}`).join(", ")}`);
+const tiered = Object.values(E.BATTLE_CARDS).filter((c) => c.charId);
+ok(tiered.every((c) => c.tier), "every card with a charId also names a tier");
+ok(tiered.length >= 25, `${tiered.length} battle cards are linked to the collection`);
+
+section("A person may appear in a deck only once");
+const twoCaesars = ["caesar-gold", "leonidas-silver", "legionnaire", "legionnaire", "legionnaire",
+                    "phalangite", "velite", "numidian-cavalry", "spartan-hoplite", "nightingale",
+                    "cicero-bronze", "boudica-bronze"];
+ok(E.validateDeck(twoCaesars).length === 0, "a deck with one Boudica is legal");
+const bothBoudicas = twoCaesars.slice(0, 11).concat(["boudica-bronze"]);
+bothBoudicas[9] = "boudica-silver";
+const errsB = E.validateDeck(bothBoudicas);
+ok(errsB.some((e) => /same person/.test(e)),
+   "two tiers of the same person are refused: " + errsB.join(" | "));
 
 /* ---------- setup ---------- */
 function fresh(bf) {
   const s = E.createBattle(bf || "open-country", DECK_A, DECK_B);
-  E.placeCommander(s, 0, "caesar", 2, 0);
-  E.placeCommander(s, 0, "leonidas", 5, 0);
-  E.placeCommander(s, 1, "hannibal", 2, 7);
-  E.placeCommander(s, 1, "alexander", 5, 7);
+  E.placeCommander(s, 0, "caesar-gold", 2, 0);
+  E.placeCommander(s, 0, "leonidas-silver", 5, 0);
+  E.placeCommander(s, 1, "hannibal-gold", 2, 7);
+  E.placeCommander(s, 1, "alexander-bronze", 5, 7);
   return s;
 }
 section("Setup and command economy");
@@ -69,7 +96,7 @@ ok(s.players[0].command === 2, "two living Commanders generate 2 Command in roun
 
 /* ---------- movement and terrain ---------- */
 section("Movement");
-const caesar = Object.values(s.units).find((u) => u.cardId === "caesar");
+const caesar = Object.values(s.units).find((u) => u.cardId === "caesar-gold");
 caesar.x = 0; caesar.y = 0;                       // column 0 is plains all the way down
 let moves = E.legalMoves(s, caesar.uid);
 ok(moves.some((m) => m.x === 0 && m.y === 2), "Caesar (Speed 2) can reach two plains squares");
@@ -82,21 +109,21 @@ ok(!E.legalMoves(s, caesar.uid).some((m) => m.x === 2 && m.y === 2),
    "forest costs 2, so a Speed-2 unit cannot cross it and keep going");
 
 const mp = E.createBattle("mountain-pass", DECK_A, DECK_B);
-E.placeCommander(mp, 0, "caesar", 3, 0); E.placeCommander(mp, 0, "leonidas", 4, 0);
-E.placeCommander(mp, 1, "hannibal", 3, 7); E.placeCommander(mp, 1, "alexander", 4, 7);
-const mpCaesar = Object.values(mp.units).find((u) => u.cardId === "caesar");
+E.placeCommander(mp, 0, "caesar-gold", 3, 0); E.placeCommander(mp, 0, "leonidas-silver", 4, 0);
+E.placeCommander(mp, 1, "hannibal-gold", 3, 7); E.placeCommander(mp, 1, "alexander-bronze", 4, 7);
+const mpCaesar = Object.values(mp.units).find((u) => u.cardId === "caesar-gold");
 ok(!E.legalMoves(mp, mpCaesar.uid).some((m) => m.x === 3 && m.y === 1), "mountains are impassable");
 
 section("Terrain-ignoring passive");
 mp.current = 1;
 E.beginTurn(mp);
-const hann = Object.values(mp.units).find((u) => u.cardId === "hannibal");
+const hann = Object.values(mp.units).find((u) => u.cardId === "hannibal-gold");
 hann.x = 1; hann.y = 7;                            // (1,6) and (1,5) are both hills
 const hStats = E.effectiveStats(mp, hann);
 ok(hStats.ignoreTerrain === true, "Hannibal's Alpine Crossing is read off the ability, not his name");
 ok(E.legalMoves(mp, hann.uid).some((m) => m.x === 1 && m.y === 5),
    "…so two hills cost him 2 and he crosses both");
-const alex = Object.values(mp.units).find((u) => u.cardId === "alexander");
+const alex = Object.values(mp.units).find((u) => u.cardId === "alexander-bronze");
 alex.x = 6; alex.y = 7;                            // (6,6) and (6,5) are the mirrored hills
 ok(E.effectiveStats(mp, alex).speed === 3, "Alexander is one point faster");
 ok(!E.legalMoves(mp, alex.uid).some((m) => m.x === 6 && m.y === 5),
@@ -128,14 +155,14 @@ ok(atk.actionsLeft === 1, "the attack cost one Action");
 
 section("Commanders take two hits");
 s = fresh();
-const target = Object.values(s.units).find((u) => u.cardId === "hannibal");
+const target = Object.values(s.units).find((u) => u.cardId === "hannibal-gold");
 ok(target.lives === 2, "a Commander starts on 2 Lives");
 E.damageUnit(s, target, 1, null);
 ok(target.lives === 1 && s.units[target.uid], "one hit does not remove a Commander");
 E.damageUnit(s, target, 1, null);
 ok(!s.units[target.uid], "the second hit does");
 ok(s.winner === null, "one Commander down is not a loss");
-E.damageUnit(s, Object.values(s.units).find((u) => u.cardId === "alexander"), 2, null);
+E.damageUnit(s, Object.values(s.units).find((u) => u.cardId === "alexander-bronze"), 2, null);
 ok(s.winner === 0 && s.winBy === "commanders", "losing both Commanders loses the battle immediately");
 
 section("Attack arcs");
@@ -162,7 +189,7 @@ ok(E.effectiveStats(s, front).arcs.join() === "front", "a legionary is armed to 
 
 section("Turning on the spot");
 s = fresh();
-const turner = Object.values(s.units).find((u) => u.cardId === "caesar");
+const turner = Object.values(s.units).find((u) => u.cardId === "caesar-gold");
 s.current = 0; beginTurnSafe(s);
 ok(E.canRotate(s, turner.uid), "a Commander with Actions left may turn");
 ok(E.doRotate(s, turner.uid, "S").ok === false, "turning to the way you already face is refused");
@@ -249,7 +276,7 @@ ok(E.legalMoves(s, near.uid).length > 0, "…and has legal moves on the turn it 
 section("Abilities, cooldowns and summoning");
 s = fresh();
 s.current = 1; E.beginTurn(s);
-const hb = Object.values(s.units).find((u) => u.cardId === "hannibal");
+const hb = Object.values(s.units).find((u) => u.cardId === "hannibal-gold");
 const before = Object.keys(s.units).length;
 hb.x = 0; hb.y = 7;                                // (0,6) is plains, so no terrain modifier
 const ab = E.doAbility(s, hb.uid, "war-elephant", null);
@@ -265,7 +292,7 @@ s = fresh();
 s.current = 0;
 s.players[0].command = 8;
 s.players[0].hand = ["van-gogh"];
-const victim = Object.values(s.units).find((u) => u.cardId === "hannibal");
+const victim = Object.values(s.units).find((u) => u.cardId === "hannibal-gold");
 const sp = E.doSpecial(s, 0, { uid: victim.uid });
 ok(sp.ok, "van Gogh resolves: " + (sp.error || ""));
 ok(E.effectiveStats(s, victim).noMove === true, "the target is Mesmerised and cannot Move");
@@ -276,7 +303,7 @@ ok(E.legalAttacks(s, victim.uid) !== null, "but is not prevented from attacking"
 
 section("Phalanx aura reads adjacency, not a name");
 s = fresh();
-const leo = Object.values(s.units).find((u) => u.cardId === "leonidas");
+const leo = Object.values(s.units).find((u) => u.cardId === "leonidas-silver");
 const aloneDef = E.effectiveStats(s, leo).defence.front;
 E.spawn(s, 0, "legionnaire", leo.x, leo.y + 1, "S", { sick: false });
 ok(E.effectiveStats(s, leo).defence.front === aloneDef + 2, "Leonidas gains +2 front defence with an ally beside him");
@@ -323,10 +350,10 @@ for (let g = 0; g < 200; g++) {
   const st = E.createBattle(bfIds[g % bfIds.length], DECK_A, DECK_B);
   try {
     const c0 = E.legalCommanderSquares(st, 0), c1 = E.legalCommanderSquares(st, 1);
-    E.placeCommander(st, 0, "caesar", c0[0].x, c0[0].y);
-    E.placeCommander(st, 0, "leonidas", c0[3].x, c0[3].y);
-    E.placeCommander(st, 1, "hannibal", c1[0].x, c1[0].y);
-    E.placeCommander(st, 1, "alexander", c1[3].x, c1[3].y);
+    E.placeCommander(st, 0, "caesar-gold", c0[0].x, c0[0].y);
+    E.placeCommander(st, 0, "leonidas-silver", c0[3].x, c0[3].y);
+    E.placeCommander(st, 1, "hannibal-gold", c1[0].x, c1[0].y);
+    E.placeCommander(st, 1, "alexander-bronze", c1[3].x, c1[3].y);
     let turns = 0;
     while (st.phase === "main" && turns++ < 400) {
       randomAI(st, rng);

@@ -114,7 +114,15 @@ function effectiveStats(s, u) {
         if (e.type !== "aura" || e.scope !== "friendly") continue;
         const f = e.filter || {};
         if (f.type && cardOf(u).type !== f.type) continue;
+        if (f.tag && !(cardOf(u).tags || []).includes(f.tag)) continue;
         if (f.minSpeed != null && (cardOf(u).speed || 0) < f.minSpeed) continue;
+        /* A friendly aura may also require something of the RECEIVING card —
+           Perikles' walls only help what is standing on a fortress. */
+        if (e.requires === "ownFortress") {
+          const ff = fortressAt(s, u.x, u.y);
+          if (!ff || ff.owner !== u.owner) continue;
+        }
+        if (e.requires === "adjacentAlly" && !hasAdjacentAlly(s, u)) continue;
         if (e.speed) out.speed += e.speed;
         if (e.attack) out.attack += e.attack;
         addArcs(e.arcs);
@@ -249,6 +257,17 @@ function validateDeck(deck) {
     const c = BATTLE_CARDS[id];
     const max = c.unique ? 1 : (c.maxCopies || 3);
     if (counts[id] > max) errs.push(`${c.name}: ${counts[id]} copies, limit is ${max}.`);
+  }
+  /* A person may appear once. Young Caesar and the dictator are different
+     cards but the same man, so a deck must choose which one it wants. */
+  const people = {};
+  for (const c of cards) {
+    if (!c.charId) continue;
+    (people[c.charId] = people[c.charId] || []).push(c);
+  }
+  for (const pid in people) {
+    if (people[pid].length > 1)
+      errs.push(`${people[pid].map((c) => c.name + (c.tier ? ` (${c.tier})` : "")).join(" and ")} are the same person — a deck may only hold one.`);
   }
   return errs;
 }

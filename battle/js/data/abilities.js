@@ -144,4 +144,96 @@ const ABILITIES = {
     text: "End all Hidden statuses on enemy units, and Reveal them for 2 rounds.",
     effects: [{ type: "status", status: "revealed", rounds: 2, target: "allEnemies", clears: "hidden" }],
   },
+
+  /* ---- collection-card abilities ---------------------------------- */
+  "the-rising": {
+    id: "the-rising", name: "The Rising", trigger: "passive",
+    text: "Friendly Troops gain +1 Attack.",
+    effects: [{ type: "aura", scope: "friendly", filter: { type: "troop" }, attack: 1 }],
+  },
+  "melt-away": {
+    id: "melt-away", name: "Melt Away", trigger: "triggered", costsAction: true, cooldown: 3,
+    text: "This card becomes Hidden for 2 turns.",
+    effects: [{ type: "status", status: "hidden", rounds: 2, target: "self" }],
+  },
+  "chariot-country": {
+    id: "chariot-country", name: "Chariot Country", trigger: "passive",
+    text: "Ignores terrain movement penalties.",
+    effects: [{ type: "ignoreTerrain" }],
+  },
+  "leave-their-gods": {
+    id: "leave-their-gods", name: "Leave Their Gods Alone", trigger: "passive",
+    text: "Friendly cards gain +1 Defence in every direction.",
+    effects: [{ type: "aura", scope: "friendly", defence: { all: 1 } }],
+  },
+  "the-long-walls": {
+    id: "the-long-walls", name: "The Long Walls", trigger: "passive",
+    text: "Friendly cards standing on a Fortress you control gain +2 Defence in every direction.",
+    effects: [{ type: "aura", scope: "friendly", requires: "ownFortress", defence: { all: 2 } }],
+  },
+  "the-sarissa": {
+    id: "the-sarissa", name: "The Sarissa", trigger: "passive",
+    text: "Friendly Troops gain +1 Front Defence.",
+    effects: [{ type: "aura", scope: "friendly", filter: { type: "troop" }, defence: { front: 1 } }],
+  },
+  "numidian-horse": {
+    id: "numidian-horse", name: "Numidian Horse", trigger: "passive",
+    text: "Friendly cavalry gain +1 Speed.",
+    effects: [{ type: "aura", scope: "friendly", filter: { tag: "cavalry" }, speed: 1 }],
+  },
+  "scorched-earth": {
+    id: "scorched-earth", name: "Scorched Earth", trigger: "triggered", costsAction: true, cooldown: 3,
+    text: "One enemy card within 3 squares becomes Exposed for 2 rounds.",
+    effects: [{ type: "status", status: "exposed", rounds: 2, target: "enemyUnit", range: 3 }],
+  },
+  "the-great-king": {
+    id: "the-great-king", name: "The Great King", trigger: "passive",
+    text: "Your maximum stored Command is increased by 2.",
+    effects: [{ type: "commandCap", amount: 2 }],
+  },
+  "the-channel-fleet": {
+    id: "the-channel-fleet", name: "The Channel Fleet", trigger: "passive",
+    text: "Friendly cards gain +1 Speed.",
+    effects: [{ type: "aura", scope: "friendly", speed: 1 }],
+  },
+  "circumnavigation": {
+    id: "circumnavigation", name: "Circumnavigation", trigger: "triggered", costsAction: true, cooldown: 3,
+    text: "One friendly card gains an extra Action this turn and may Move again.",
+    effects: [{ type: "extraAction", target: "friendlyUnit", allowSecondMove: true }],
+  },
+  "terms-with-rome": {
+    id: "terms-with-rome", name: "Terms with Rome", trigger: "triggered", costsAction: true, cooldown: 4,
+    text: "Look at your opponent's hand, then draw a card.",
+    effects: [{ type: "peek" }, { type: "draw", count: 1 }],
+  },
+  "withdraw": {
+    id: "withdraw", name: "Withdraw", trigger: "triggered", costsAction: true, cooldown: 2,
+    text: "This card gains an extra Action this turn and may Move again.",
+    effects: [{ type: "extraAction", allowSecondMove: true }],
+  },
+  "read-the-ground": {
+    id: "read-the-ground", name: "Read the Ground", trigger: "special",
+    text: "Look at your opponent's hand.",
+    effects: [{ type: "peek" }],
+  },
+  "shaking-off-burdens": {
+    id: "shaking-off-burdens", name: "The Shaking Off of Burdens", trigger: "special",
+    text: "Restore 1 lost Life to a damaged friendly card.",
+    effects: [{ type: "heal", amount: 1, target: "friendlyDamaged" }],
+  },
+  "word-from-the-fort": {
+    id: "word-from-the-fort", name: "Word from the Fort", trigger: "special",
+    text: "Draw a card.",
+    effects: [{ type: "draw", count: 1 }],
+  },
+  "the-richest-man": {
+    id: "the-richest-man", name: "The Richest Man in Rome", trigger: "special",
+    text: "Draw two cards.",
+    effects: [{ type: "draw", count: 2 }],
+  },
+  "obstruction": {
+    id: "obstruction", name: "Obstruction", trigger: "special",
+    text: "One enemy card becomes Mesmerised for 2 rounds and cannot Move.",
+    effects: [{ type: "status", status: "mesmerised", rounds: 2, target: "enemyUnit" }],
+  },
 };

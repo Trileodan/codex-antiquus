@@ -157,4 +157,72 @@ Object.assign(CHARACTERS, {
   connections: [ { charId: "caratacus", relation: "handed him to Rome" }, { name: "Brigantes", type: "org" }, { name: "Stanwick", type: "place" } ],
 },
 
+"boudica": {
+  id: "boudica", name: "Boudica", years: "d. c. AD 61", sets: ["ancient-britain"],
+  requires: { bronze: ["brit-boudica"], silver: ["brit-boudica", "brit-claudius"], gold: ["brit-boudica", "brit-life", "brit-agricola"] },
+  tiers: {
+    bronze: { label: "Queen of the Iceni", when: "AD 60",
+      blurb: "Her husband left half his kingdom to Nero to protect the other half, and Rome took all of it. She was flogged and her daughters raped by the staff of a procurator collecting an inheritance. Everything that follows was a response to an administrative decision about property.",
+      stats: { power: 72, intellect: 66, influence: 84, creativity: 60, wealth: 48, fame: 80 } },
+    silver: { label: "Three Cities", when: "AD 60 – 61",
+      blurb: "Camulodunum, Londinium and Verulamium burned, and the governor abandoned London rather than lose the province defending it. The red destruction layer under all three is one of the few places where a sentence of Tacitus can be picked up in a trench.",
+      stats: { power: 84, intellect: 70, influence: 88, creativity: 66, wealth: 44, fame: 90 } },
+    gold: { label: "Thirteen Centuries Missing", when: "The afterlife",
+      blurb: "Gildas does not mention her. Bede does not. Nobody in Britain knew she had existed until Tacitus was rediscovered, and then every age remade her — Tudor patriot, noble savage, and finally a Victorian bronze in a scythed chariot beside Westminster Bridge, a woman who destroyed three Roman towns rather than be ruled from abroad, standing guard over the largest empire in history.",
+      stats: { power: 84, intellect: 74, influence: 94, creativity: 70, wealth: 44, fame: 98 } },
+  },
+  claims: [
+    { text: "Prasutagus left his kingdom jointly to Nero and his two daughters, and Rome annexed it entirely.", classification: "Probable", sources: ["tacitus"], date: "c. AD 60", at: "bronze" },
+    { text: "Boudica was flogged and her daughters raped by Roman officials.", classification: "Probable", sources: ["tacitus"], date: "c. AD 60", at: "bronze" },
+    { text: "Dio reports that loans forced on the British aristocracy, including forty million sesterces from Seneca, were suddenly called in.", classification: "Probable", sources: ["dio"], date: "c. AD 60", at: "bronze" },
+    { text: "Camulodunum, Londinium and Verulamium were destroyed, and a burnt layer beneath all three confirms it.", classification: "Established", sources: ["tacitus", "arch"], date: "AD 60 – 61", at: "silver" },
+    { text: "Suetonius Paulinus abandoned Londinium rather than defend it.", classification: "Probable", sources: ["tacitus"], date: "AD 61", at: "silver" },
+    { text: "The site of the final battle has never been identified.", classification: "Unknown", sources: ["cah"], date: "AD 61", at: "silver" },
+    { text: "How she died: Tacitus says poison, Dio says illness, and the accounts cannot be reconciled.", classification: "Unknown", sources: ["tacitus", "dio"], date: "AD 61", at: "silver" },
+    { text: "She was unknown in Britain until Tacitus was rediscovered in the Renaissance.", classification: "Established", sources: ["cah"], date: "16th c.", at: "gold" },
+    { text: "Boudica derives from a Brittonic word for victory and is probably a title rather than a personal name.", classification: "Probable", sources: ["cah"], date: "1st c. AD", at: "gold" },
+  ],
+  connections: [ { charId: "cartimandua", relation: "the other client ruler, who chose the opposite course" }, { charId: "agricola", relation: "served in Britain during the revolt" }, { name: "Iceni", type: "org" }, { name: "Camulodunum", type: "place" } ],
+},
+
+"agricola": {
+  id: "agricola", name: "Gnaeus Julius Agricola", years: "AD 40 – 93", sets: ["ancient-britain"],
+  requires: { bronze: ["brit-agricola"], silver: ["brit-agricola", "brit-walls"] },
+  tiers: {
+    bronze: { label: "Seven Years and a Biographer", when: "AD 77 – 84",
+      blurb: "Governed longer than anyone and is documented better than anyone, because his daughter married Tacitus. Took the army further north than it ever went again, won at a place nobody can find, and sent the fleet round the top of Britain to establish by observation that it was an island — which Pytheas had reported four centuries earlier and been disbelieved for.",
+      stats: { power: 76, intellect: 80, influence: 78, creativity: 72, wealth: 66, fame: 74 } },
+    silver: { label: "They Called It Civilisation", when: "The policy",
+      blurb: "Built the fora and baths, educated the chiefs' sons, made the toga fashionable — and his own son-in-law wrote that the inexperienced called this civilisation when it was part of their enslavement. An ancient description of soft power, set down by the man defending the governor who used it.",
+      stats: { power: 76, intellect: 86, influence: 84, creativity: 76, wealth: 66, fame: 80 } },
+  },
+  claims: [
+    { text: "Agricola governed Britain for around seven years from AD 77.", classification: "Established", sources: ["tacitus", "cah"], date: "AD 77 – 84", at: "bronze" },
+    { text: "Tacitus, his son-in-law, wrote his biography in AD 98 as a defence of men who served under tyrants.", classification: "Established", sources: ["tacitus"], date: "AD 98", at: "bronze" },
+    { text: "He defeated a Caledonian confederation at Mons Graupius.", classification: "Probable", sources: ["tacitus"], date: "AD 83 or 84", at: "bronze" },
+    { text: "The site of Mons Graupius is not identified.", classification: "Unknown", sources: ["cah"], date: "AD 83 or 84", at: "bronze" },
+    { text: "The speech given to the Caledonian leader Calgacus was composed by Tacitus.", classification: "Established", sources: ["tacitus", "cah"], date: "AD 98", at: "bronze" },
+    { text: "His fleet circumnavigated Britain, establishing by observation that it is an island.", classification: "Probable", sources: ["tacitus"], date: "AD 84", at: "silver" },
+    { text: "The northern forts were dismantled within a few years; at Inchtuthil the garrison buried around a million unused nails.", classification: "Established", sources: ["arch"], date: "c. AD 87", at: "silver" },
+  ],
+  connections: [ { charId: "boudica", relation: "was in Britain during her revolt" }, { charId: "claudia-severa", relation: "the frontier his campaigns eventually settled on" }, { name: "Mons Graupius", type: "event" }, { name: "Caledonia", type: "place" } ],
+},
+
+"claudia-severa": {
+  id: "claudia-severa", name: "Claudia Severa", years: "fl. c. AD 100", sets: ["ancient-britain"],
+  requires: { bronze: ["brit-walls"] },
+  tiers: {
+    bronze: { label: "The Birthday Invitation", when: "c. AD 100",
+      blurb: "The wife of a fort commander near Hadrian's Wall, inviting a friend to her birthday and promising the day will be more enjoyable if she comes. A scribe wrote most of it; the closing line — sister, dearest soul, farewell — is in her own less practised hand. It is the earliest known writing in Latin by a woman anywhere in the Roman world, and it is about a party.",
+      stats: { power: 12, intellect: 62, influence: 55, creativity: 58, wealth: 66, fame: 70 } },
+  },
+  claims: [
+    { text: "A wooden tablet from Vindolanda records Claudia Severa inviting Sulpicia Lepidina to a birthday celebration.", classification: "Established", sources: ["vindolanda"], date: "c. AD 100", at: "bronze" },
+    { text: "The closing greeting is in a second, less practised hand, taken to be her own.", classification: "Probable", sources: ["vindolanda"], date: "c. AD 100", at: "bronze" },
+    { text: "It is the earliest known example of writing in Latin by a woman.", classification: "Probable", sources: ["vindolanda", "cah"], date: "c. AD 100", at: "bronze" },
+    { text: "Another Vindolanda tablet uses the otherwise unattested word Brittunculi, wretched little Britons.", classification: "Established", sources: ["vindolanda"], date: "c. AD 100", at: "bronze" },
+  ],
+  connections: [ { charId: "agricola", relation: "wrote from the frontier his campaigns settled on" }, { name: "Vindolanda", type: "place" }, { name: "Hadrian's Wall", type: "place" } ],
+},
+
 });

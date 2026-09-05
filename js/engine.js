@@ -43,6 +43,8 @@ const CHAPTER_SPANS = {
   "brit-pytheas": [-450, -325], "brit-druids": [-300, 61],
   "brit-tribes": [-150, 43], "brit-oppida": [-100, 43],
   "brit-caesar": [-55, -54], "brit-claudius": [43, 47], "brit-caratacus": [43, 51],
+  "brit-boudica": [60, 61], "brit-agricola": [77, 84],
+  "brit-walls": [122, 211], "brit-life": [50, 400],
 };
 
 /* ------------------------------ save --------------------------------- */

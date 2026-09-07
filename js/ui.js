@@ -580,6 +580,7 @@ function Reader({ chapter, save, startBeat, onExit, onBookmark, onBeat, onComple
           <div className="hcg-mono" style={{ fontSize: 10.5, color: "var(--rust)", marginBottom: 4 }}>{beat.year} · {beat.place}</div>
           <div style={{ fontSize: 13.5, color: "var(--parchment-dim)", lineHeight: 1.5 }}>{beat.forces}</div>
         </div>}
+        {beat.map && <ChapterMap map={beat.map} />}
         {prose}
         {beat.tactics && <div className="hcg-panel-2 rounded p-4 mb-4" style={{ borderColor: "var(--verdigris)" }}>
           <div className="hcg-tab mb-2" style={{ color: "var(--verdigris)" }}>THE TACTIC</div>

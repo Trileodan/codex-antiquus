@@ -236,6 +236,45 @@ for (const [id, c] of Object.entries(CHARACTERS)) {
 }
 
 /* ------------------------------------------------------------------ */
+/* Chapter maps                                                        */
+/* ------------------------------------------------------------------ */
+/* A map is authored as real coordinates, so the failure mode is a place
+   silently drawn in the sea rather than an exception. Check that every
+   point is inside the frame it claims. */
+{
+  let maps = 0, points = 0;
+  for (const c of CHAPTERS) for (const b of c.beats || []) {
+    if (!b.map) continue;
+    maps++;
+    const where = `chapter "${c.id}" map`;
+    const bd = b.map.bounds;
+    if (!Array.isArray(bd) || bd.length !== 4) { fail(`${where}: bounds must be [minLon, minLat, maxLon, maxLat]`); continue; }
+    const [w, s2, e, n] = bd;
+    if (!(w < e && s2 < n)) fail(`${where}: bounds are inside out — ${JSON.stringify(bd)}`);
+    if (!b.map.caption) warn(`${where}: no caption`);
+    const check = (label, pts) => {
+      for (const p of pts) {
+        points++;
+        if (!Array.isArray(p) || p.length !== 2 || !Number.isFinite(p[0]) || !Number.isFinite(p[1]))
+          { fail(`${where}: ${label} has a malformed point ${JSON.stringify(p)}`); continue; }
+        if (p[0] < w - 1 || p[0] > e + 1 || p[1] < s2 - 1 || p[1] > n + 1)
+          fail(`${where}: ${label} point ${JSON.stringify(p)} falls outside the bounds ${JSON.stringify(bd)}`);
+      }
+    };
+    for (const p of b.map.places || []) {
+      points++;
+      if (!p.name) fail(`${where}: a place has no name`);
+      if (p.lon < w - 1 || p.lon > e + 1 || p.lat < s2 - 1 || p.lat > n + 1)
+        fail(`${where}: "${p.name}" at ${p.lon},${p.lat} falls outside the bounds ${JSON.stringify(bd)}`);
+    }
+    for (const r of b.map.routes || []) check(`route "${r.label || "?"}"`, r.points || []);
+    for (const l of b.map.lines || []) check(`line "${l.label || "?"}"`, l.points || []);
+    for (const a of b.map.areas || []) check(`area "${a.label || "?"}"`, a.points || []);
+  }
+  if (maps) console.log(`Maps           — ${maps} chapter maps, ${points} authored coordinates`);
+}
+
+/* ------------------------------------------------------------------ */
 /* The rest of the world                                               */
 /* ------------------------------------------------------------------ */
 /* Meanwhile is only useful if there is something to say. A studied year

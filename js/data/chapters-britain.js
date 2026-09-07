@@ -255,6 +255,20 @@ CHAPTERS.push(
         "The landing was opposed. The transports could not beach in shallow water, the legionaries had to go over the side in armour into surf while being shot at, and by Caesar's own account they would not move until the standard-bearer of the Tenth jumped in alone and shamed them into following. It is a good story, and it is the sort of good story a commander includes when the campaign has not otherwise produced much.",
         "What produced even less was the weather. The cavalry transports, sailing separately, were driven back across the Channel by a gale. The same storm caught the beached fleet on a full-moon spring tide that Caesar says his men did not know about, wrecking or damaging a great many ships and stranding the army in a hostile country with no way home until they were repaired.",
         "He got the ships mended, fought off an attack, took hostages he mostly never received, and left before the equinox. In Rome the Senate voted twenty days of public thanksgiving. The gap between those two sentences is the point."],
+      map: {
+        bounds: [-6, 47, 4, 53],
+        caption: "Two summers, two crossings, and never far from the beach. The second brought five legions and still turned round before winter.",
+        places: [
+          { name: "Portus Itius", lon: 1.85, lat: 50.95, big: true },
+          { name: "Deal", lon: 1.40, lat: 51.22, big: true },
+          { name: "the Thames", lon: 0.30, lat: 51.45 },
+          { name: "Wheathampstead", lon: -0.30, lat: 51.81, tone: "enemy" },
+        ],
+        routes: [
+          { label: "55 BC", tone: "march", dashed: true, points: [[1.85,50.95],[1.55,51.10],[1.40,51.22]] },
+          { label: "54 BC", tone: "march", points: [[1.85,50.95],[1.45,51.20],[0.80,51.38],[0.30,51.45],[-0.30,51.78]] },
+        ],
+      },
       key: "The 55 BC expedition was a two-legion reconnaissance nearly wrecked by a spring tide; Rome voted twenty days of thanksgiving anyway." },
     { title: "54 BC: Cassivellaunus",
       text: ["The following year he came back properly: five legions, two thousand cavalry, and something like eight hundred ships, a fleet so large that Caesar says the Britons watching from the cliffs withdrew inland rather than contest the landing.",
@@ -432,6 +446,22 @@ CHAPTERS.push(
         "What it was for has been argued about since the eighteenth century. The one ancient statement is a sentence in the unreliable *Historia Augusta*: that Hadrian was the first to build a wall, eighty miles long, to separate the Romans from the barbarians. That is a purpose, but it does not explain the design.",
         "A wall meant to stop an army would not have a gate every mile. Milecastles with gateways north and south are the architecture of a customs post: they control, count and tax movement rather than forbidding it. And the Wall is not sited for defence in depth — in places it runs along a crag where the drop does the work, and in others it takes a line that a commander wanting a battlefield would not choose.",
         "The current reading is that it did several things at once — a statement of where Rome ended, a mechanism for taxing and monitoring traffic, a barrier against raiding rather than invasion, and a very large piece of employment for an army that was not campaigning. That it kept the north out is the one thing it demonstrably failed to do."],
+      map: {
+        bounds: [-8, 53, 0, 59],
+        caption: "Two walls, a generation and a hundred miles apart. The northern one was held for about eight years; the southern one for nearly three centuries.",
+        places: [
+          { name: "Carlisle", lon: -2.94, lat: 54.89 },
+          { name: "Wallsend", lon: -1.53, lat: 54.99 },
+          { name: "Vindolanda", lon: -2.36, lat: 54.99, big: true },
+          { name: "Old Kilpatrick", lon: -4.44, lat: 55.91 },
+          { name: "Carriden", lon: -3.57, lat: 56.01 },
+          { name: "Inchtuthil", lon: -3.44, lat: 56.53, tone: "enemy" },
+        ],
+        lines: [
+          { label: "Hadrian's Wall", tone: "frontier", points: [[-3.00,54.95],[-2.36,54.99],[-1.53,54.99]] },
+          { label: "Antonine Wall", tone: "route", dashed: true, points: [[-4.44,55.91],[-3.98,55.95],[-3.57,56.01]] },
+        ],
+      },
       key: "Hadrian's Wall runs 73 miles with a gateway every mile; its design suits control and taxation of movement more than defence." },
     { title: "The letters at Vindolanda",
       text: ["Just south of the Wall, at **Vindolanda**, the ground is waterlogged and the rubbish did not rot. Excavation from 1973 onwards has produced hundreds of thin wooden leaves written in ink — the everyday paperwork and correspondence of a garrison around AD 100, and the closest thing to overheard speech that Roman Britain has left.",

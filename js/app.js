@@ -99,6 +99,7 @@ function App() {
     { id: "atlas", label: "Atlas", icon: MapIcon },
     { id: "progress", label: "Progress", icon: ChartIcon },
     { id: "collection", label: "Coins", icon: LayersIcon },
+    { id: "yeardrop", label: "Year Drop", icon: ClockIcon },
   ];
 
   return <div className="hcg-root">
@@ -157,6 +158,9 @@ function App() {
     {screen === "progress" && <ProgressScreen save={save} cards={cards} onHome={() => setScreen("home")} onOpenChar={setOpenChar} />}
 
     {screen === "collection" && <CollectionScreen save={save} cards={cards} onHome={() => setScreen("home")} onOpenChar={setOpenChar} />}
+
+    {screen === "yeardrop" && <YearDropScreen save={save} cards={cards} onHome={() => setScreen("home")}
+      onOpenChapter={openChapter} onOpenChar={setOpenChar} />}
 
 
     {screen === "reader" && chapter && <Reader chapter={chapter} save={save} startBeat={startBeat}

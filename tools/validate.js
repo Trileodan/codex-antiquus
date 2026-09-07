@@ -27,7 +27,7 @@ const LOAD_ORDER = [
   "js/data/characters-persia.js", "js/data/characters-britain.js", "js/data/characters-empire.js", "js/data/characters-egypt-ancient.js",
   "js/data/atlas.js",
   "js/data/coastline.js",
-  "js/data/places.js", "js/data/glossary.js",
+  "js/data/places.js", "js/data/glossary.js", "js/data/world.js",
   "js/engine.js",
 ];
 
@@ -62,7 +62,7 @@ if (errors.length) { report(); process.exit(1); }
 /* `const` at the top level of a vm script lands in the context's lexical
    scope, not on the sandbox object, so hand the bindings out explicitly. */
 const NAMES = ["CHAPTERS", "CHARACTERS", "SETS", "SOURCES", "WORLDS", "TIER_ORDER",
-  "GLOSSARY", "CHAPTER_SPANS", "CHAPTER_BY_ID", "PENDING_WARS", "SET_ATLAS",
+  "GLOSSARY", "WORLD_EVENTS", "CHAPTER_SPANS", "CHAPTER_BY_ID", "PENDING_WARS", "SET_ATLAS",
   "PLACES", "COASTLINE", "PLACE_TONE", "COASTLINE_SOURCE",
   "actsOf", "actOpen", "chapterOpen", "CHAPTERS_BY_SET",
   "REGIONS", "ERAS", "CLASS_COLOR",
@@ -72,7 +72,7 @@ for (const n of NAMES) if (data[n] === undefined) fail(`${n} is not defined afte
 if (errors.length) { report(); process.exit(1); }
 
 const {
-  CHAPTERS, CHARACTERS, SETS, SOURCES, WORLDS, TIER_ORDER, GLOSSARY,
+  CHAPTERS, CHARACTERS, SETS, SOURCES, WORLDS, TIER_ORDER, GLOSSARY, WORLD_EVENTS,
   CHAPTER_SPANS, CHAPTER_BY_ID, PENDING_WARS, SET_ATLAS, REGIONS, ERAS, CLASS_COLOR,
   PLACES, COASTLINE, PLACE_TONE, COASTLINE_SOURCE,
   actsOf, actOpen, chapterOpen, CHAPTERS_BY_SET,
@@ -233,6 +233,30 @@ for (const [id, c] of Object.entries(CHARACTERS)) {
   });
 
   if (c.goldName && !tiers.includes("gold")) warn(`${where}: has a goldName but no gold tier`);
+}
+
+/* ------------------------------------------------------------------ */
+/* The rest of the world                                               */
+/* ------------------------------------------------------------------ */
+/* Meanwhile is only useful if there is something to say. A studied year
+   with no world event within eighty years shows an empty panel, which
+   reads as a bug rather than as silence. */
+{
+  for (const e of WORLD_EVENTS) {
+    if (!Number.isFinite(e.year)) fail(`world event "${e.what || "?"}": no year`);
+    if (!e.region) fail(`world event ${e.year}: no region`);
+    if (!e.what) fail(`world event ${e.year}: nothing said`);
+  }
+  const gaps = [];
+  for (const c of CHAPTERS) {
+    const sp = CHAPTER_SPANS[c.id];
+    if (!sp) continue;
+    for (const y of [sp[0], sp[1]])
+      if (!WORLD_EVENTS.some((e) => Math.abs(e.year - y) <= 80)) gaps.push(`${c.id} (${y})`);
+  }
+  const uniq = [...new Set(gaps)];
+  if (uniq.length) warn(`${uniq.length} chapter endpoints have no world event within 80 years, so Meanwhile would be empty: ${uniq.slice(0, 6).join(", ")}${uniq.length > 6 ? "…" : ""}`);
+  console.log(`Meanwhile      — ${WORLD_EVENTS.length} world events, ${[...new Set(WORLD_EVENTS.map((e) => e.region))].length} regions`);
 }
 
 /* ------------------------------------------------------------------ */

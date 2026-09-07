@@ -1,12 +1,91 @@
 /* =========================== BITS =================================== */
-function RichText({ text }) {
+/* --------------------------------------------------------------------
+   Glossary terms are found in the prose rather than marked up in it.
+
+   One regex, built once from the glossary keys, longest first so that
+   "Linear B" wins over "B" and "Medinet Habu" over "Habu". Only the
+   first appearance in a passage is made tappable — underlining every
+   occurrence of "polis" in a chapter about the polis would be unreadable.
+
+   Doing it this way is what lets the glossary apply to a hundred and
+   nineteen chapters that were written before it existed, and to every
+   chapter written afterwards without anybody remembering to tag a word.
+   -------------------------------------------------------------------- */
+const GLOSS_RE = (() => {
+  const keys = Object.keys(GLOSSARY).sort((a, b) => b.length - a.length)
+    .map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  /* A trailing s is allowed, so "hieroglyphs" matches "hieroglyph" and
+     "nomarchs" matches "nomarch". Irregular plurals that matter here —
+     ostraca, poleis, stelae, papyri — are separate entries instead. */
+  return new RegExp(`\\b(${keys.join("|")})(s)?\\b`, "gi");
+})();
+
+/* The canonical key for whatever spelling was matched. */
+const GLOSS_KEY = (() => {
+  const m = {};
+  for (const k of Object.keys(GLOSSARY)) m[k.toLowerCase()] = k;
+  return m;
+})();
+
+function GlossTerm({ word, term, onOpen }) {
+  return <button onClick={(e) => { e.stopPropagation(); onOpen(term); }}
+    style={{ background: "none", border: 0, padding: 0, font: "inherit", color: "inherit",
+             cursor: "pointer", borderBottom: "1px dotted var(--bronze-glow)" }}
+    title={`${term} · ${GLOSSARY[term].say}`}>{word}</button>;
+}
+
+/* Split a plain run of text into spans and glossary buttons. `seen` is
+   shared across a whole passage so a word is only marked once. */
+function glossify(text, keyPrefix, seen, onOpen) {
+  if (!onOpen) return text;
+  const out = [];
+  let last = 0, m, n = 0;
+  GLOSS_RE.lastIndex = 0;
+  while ((m = GLOSS_RE.exec(text)) !== null) {
+    const key = GLOSS_KEY[m[0].toLowerCase()] || GLOSS_KEY[m[1].toLowerCase()];
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    if (m.index > last) out.push(text.slice(last, m.index));
+    out.push(<GlossTerm key={`${keyPrefix}-g${n++}`} word={m[0]} term={key} onOpen={onOpen} />);
+    last = m.index + m[0].length;
+  }
+  if (!out.length) return text;
+  if (last < text.length) out.push(text.slice(last));
+  return out;
+}
+
+/* `seen` is mutated as the text is walked, which means RichText is only
+   safe to call from inside a useMemo that owns the set. Rendering it
+   twice with the same set marks nothing the second time, because every
+   term has already been used — which is exactly the bug this comment
+   exists to stop somebody reintroducing. */
+function RichText({ text, onTerm, seen }) {
+  const marks = seen || new Set();
   const parts = text.split(/(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*)/g);
   return <>{parts.map((p, i) => {
     if (p.startsWith("***") && p.endsWith("***")) return <b key={i} style={{ fontStyle: "italic" }}>{p.slice(3, -3)}</b>;
     if (p.startsWith("**") && p.endsWith("**")) return <b key={i}>{p.slice(2, -2)}</b>;
     if (p.length > 2 && p.startsWith("*") && p.endsWith("*")) return <i key={i} style={{ color: "var(--bronze-glow)" }}>{p.slice(1, -1)}</i>;
-    return <span key={i}>{p}</span>;
+    return <span key={i}>{glossify(p, i, marks, onTerm)}</span>;
   })}</>;
+}
+
+/* The panel that opens when a term is tapped. Deliberately small and
+   dismissable: the reader is mid-sentence and wants to get back to it. */
+function GlossPanel({ term, onClose }) {
+  if (!term || !GLOSSARY[term]) return null;
+  const g = GLOSSARY[term];
+  return <div className="fixed inset-0 z-[60] flex items-end justify-center p-3" onClick={onClose}>
+    <div className="hcg-panel hcg-pop rounded-lg p-4 w-full" style={{ maxWidth: 520, borderColor: "var(--bronze-glow)" }}
+         onClick={(e) => e.stopPropagation()}>
+      <div className="flex items-baseline justify-between gap-3 mb-1">
+        <div className="hcg-display" style={{ fontSize: 17, color: "var(--gold-glow)" }}>{term}</div>
+        <button onClick={onClose} className="hcg-mono" style={{ fontSize: 11, color: "var(--parchment-dim)" }}>close</button>
+      </div>
+      <div className="hcg-mono" style={{ fontSize: 12.5, color: "var(--bronze-glow)", marginBottom: 6 }}>say it: {g.say}</div>
+      <div style={{ fontSize: 14.5, lineHeight: 1.65, color: "#DFD3B9" }}>{g.what}</div>
+    </div>
+  </div>;
 }
 
 function Medallion({ tier, label, size = 56, mythic }) {
@@ -437,6 +516,7 @@ function Reader({ chapter, save, startBeat, onExit, onBookmark, onBeat, onComple
   const [phase, setPhase] = useState("read"); // read | check | done
   const [qi, setQi] = useState(0);
   const [answers, setAnswers] = useState({});
+  const [term, setTerm] = useState(null);
   const topRef = useRef(null);
   const already = !!save.chaptersDone[chapter.id];
 
@@ -444,6 +524,23 @@ function Reader({ chapter, save, startBeat, onExit, onBookmark, onBeat, onComple
   useEffect(() => { onBeat(chapter.id, i, chapter.beats[i]); }, [i]);
 
   const beat = chapter.beats[i];
+  /* The prose is marked up once per beat and then reused. A glossary term
+     is made tappable on its first appearance in the passage only, which
+     needs a set shared across the paragraphs — and that set must not
+     survive into a second render, or every term is already "seen" and
+     nothing is marked at all. Memoising the finished elements does both. */
+  const prose = useMemo(() => {
+    const seen = new Set();
+    return (beat.text || []).map((p, n) =>
+      <p key={n} className="hcg-prose" style={{ marginBottom: 14 }}>
+        <RichText text={p} onTerm={setTerm} seen={seen} />
+      </p>);
+  }, [chapter.id, i]);
+  const tactics = useMemo(() => beat.tactics
+    ? <p className="hcg-prose" style={{ fontSize: 16 }}>
+        <RichText text={beat.tactics} onTerm={setTerm} seen={new Set()} />
+      </p>
+    : null, [chapter.id, i]);
   /* Shuffled once per chapter, not per render, so the options do not move
      under the reader's finger. */
   const check = useMemo(() => chapter.check.map((q, n) => shuffledQuestion(chapter.id, n, q)), [chapter.id]);
@@ -454,6 +551,7 @@ function Reader({ chapter, save, startBeat, onExit, onBookmark, onBeat, onComple
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6 hcg-fade">
+      <GlossPanel term={term} onClose={() => setTerm(null)} />
       <div ref={topRef} />
       <div className="flex items-center justify-between gap-3 mb-4">
         <button onClick={onExit} className="hcg-mono hcg-link flex items-center gap-1" style={{ fontSize: 11.5, color: "var(--parchment-dim)" }}><ChevLeft size={12} /> {SETS[chapter.set].name}</button>
@@ -482,10 +580,10 @@ function Reader({ chapter, save, startBeat, onExit, onBookmark, onBeat, onComple
           <div className="hcg-mono" style={{ fontSize: 10.5, color: "var(--rust)", marginBottom: 4 }}>{beat.year} · {beat.place}</div>
           <div style={{ fontSize: 13.5, color: "var(--parchment-dim)", lineHeight: 1.5 }}>{beat.forces}</div>
         </div>}
-        {beat.text.map((p, n) => <p key={n} className="hcg-prose" style={{ marginBottom: 14 }}><RichText text={p} /></p>)}
+        {prose}
         {beat.tactics && <div className="hcg-panel-2 rounded p-4 mb-4" style={{ borderColor: "var(--verdigris)" }}>
           <div className="hcg-tab mb-2" style={{ color: "var(--verdigris)" }}>THE TACTIC</div>
-          <p className="hcg-prose" style={{ fontSize: 16 }}><RichText text={beat.tactics} /></p>
+          {tactics}
         </div>}
         {beat.diagram && <BattleDiagram key={`${chapter.id}-${i}`} diagram={beat.diagram} />}
         {beat.lineage && <div className="mb-4">

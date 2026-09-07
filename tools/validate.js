@@ -27,7 +27,7 @@ const LOAD_ORDER = [
   "js/data/characters-persia.js", "js/data/characters-britain.js", "js/data/characters-empire.js", "js/data/characters-egypt-ancient.js",
   "js/data/atlas.js",
   "js/data/coastline.js",
-  "js/data/places.js",
+  "js/data/places.js", "js/data/glossary.js",
   "js/engine.js",
 ];
 
@@ -62,7 +62,7 @@ if (errors.length) { report(); process.exit(1); }
 /* `const` at the top level of a vm script lands in the context's lexical
    scope, not on the sandbox object, so hand the bindings out explicitly. */
 const NAMES = ["CHAPTERS", "CHARACTERS", "SETS", "SOURCES", "WORLDS", "TIER_ORDER",
-  "CHAPTER_SPANS", "CHAPTER_BY_ID", "PENDING_WARS", "SET_ATLAS",
+  "GLOSSARY", "CHAPTER_SPANS", "CHAPTER_BY_ID", "PENDING_WARS", "SET_ATLAS",
   "PLACES", "COASTLINE", "PLACE_TONE", "COASTLINE_SOURCE",
   "actsOf", "actOpen", "chapterOpen", "CHAPTERS_BY_SET",
   "REGIONS", "ERAS", "CLASS_COLOR",
@@ -72,7 +72,7 @@ for (const n of NAMES) if (data[n] === undefined) fail(`${n} is not defined afte
 if (errors.length) { report(); process.exit(1); }
 
 const {
-  CHAPTERS, CHARACTERS, SETS, SOURCES, WORLDS, TIER_ORDER,
+  CHAPTERS, CHARACTERS, SETS, SOURCES, WORLDS, TIER_ORDER, GLOSSARY,
   CHAPTER_SPANS, CHAPTER_BY_ID, PENDING_WARS, SET_ATLAS, REGIONS, ERAS, CLASS_COLOR,
   PLACES, COASTLINE, PLACE_TONE, COASTLINE_SOURCE,
   actsOf, actOpen, chapterOpen, CHAPTERS_BY_SET,
@@ -233,6 +233,23 @@ for (const [id, c] of Object.entries(CHARACTERS)) {
   });
 
   if (c.goldName && !tiers.includes("gold")) warn(`${where}: has a goldName but no gold tier`);
+}
+
+/* ------------------------------------------------------------------ */
+/* Glossary                                                            */
+/* ------------------------------------------------------------------ */
+{
+  let hits = 0, unused = [];
+  const body = CHAPTERS.flatMap((c) => (c.beats || []).flatMap((b) => [...(b.text || []), b.tactics || ""])).join(" ");
+  for (const [k, v] of Object.entries(GLOSSARY)) {
+    if (!v.say) fail(`glossary "${k}": no pronunciation`);
+    if (!v.what) fail(`glossary "${k}": no definition`);
+    if (v.what && v.what.length > 320) warn(`glossary "${k}": definition is ${v.what.length} chars — it opens over the text being read`);
+    const re = new RegExp(`\\b${k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}s?\\b`, "i");
+    if (re.test(body)) hits++; else unused.push(k);
+  }
+  if (unused.length) warn(`${unused.length} glossary terms never appear in any chapter: ${unused.slice(0, 8).join(", ")}${unused.length > 8 ? "…" : ""}`);
+  console.log(`Glossary       — ${Object.keys(GLOSSARY).length} terms, ${hits} of them found in the prose`);
 }
 
 /* ------------------------------------------------------------------ */

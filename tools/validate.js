@@ -27,7 +27,7 @@ const LOAD_ORDER = [
   "js/data/characters-persia.js", "js/data/characters-britain.js", "js/data/characters-empire.js", "js/data/characters-egypt-ancient.js",
   "js/data/atlas.js",
   "js/data/coastline.js",
-  "js/data/places.js", "js/data/glossary.js", "js/data/world.js",
+  "js/data/places.js", "js/data/glossary.js", "js/data/world.js", "js/data/campaigns.js",
   "js/engine.js",
 ];
 
@@ -62,7 +62,7 @@ if (errors.length) { report(); process.exit(1); }
 /* `const` at the top level of a vm script lands in the context's lexical
    scope, not on the sandbox object, so hand the bindings out explicitly. */
 const NAMES = ["CHAPTERS", "CHARACTERS", "SETS", "SOURCES", "WORLDS", "TIER_ORDER",
-  "GLOSSARY", "WORLD_EVENTS", "CHAPTER_SPANS", "CHAPTER_BY_ID", "PENDING_WARS", "SET_ATLAS",
+  "GLOSSARY", "WORLD_EVENTS", "CAMPAIGNS", "CHAPTER_SPANS", "CHAPTER_BY_ID", "PENDING_WARS", "SET_ATLAS",
   "PLACES", "COASTLINE", "PLACE_TONE", "COASTLINE_SOURCE",
   "actsOf", "actOpen", "chapterOpen", "CHAPTERS_BY_SET",
   "REGIONS", "ERAS", "CLASS_COLOR",
@@ -72,7 +72,7 @@ for (const n of NAMES) if (data[n] === undefined) fail(`${n} is not defined afte
 if (errors.length) { report(); process.exit(1); }
 
 const {
-  CHAPTERS, CHARACTERS, SETS, SOURCES, WORLDS, TIER_ORDER, GLOSSARY, WORLD_EVENTS,
+  CHAPTERS, CHARACTERS, SETS, SOURCES, WORLDS, TIER_ORDER, GLOSSARY, WORLD_EVENTS, CAMPAIGNS,
   CHAPTER_SPANS, CHAPTER_BY_ID, PENDING_WARS, SET_ATLAS, REGIONS, ERAS, CLASS_COLOR,
   PLACES, COASTLINE, PLACE_TONE, COASTLINE_SOURCE,
   actsOf, actOpen, chapterOpen, CHAPTERS_BY_SET,
@@ -272,6 +272,33 @@ for (const [id, c] of Object.entries(CHARACTERS)) {
     for (const a of b.map.areas || []) check(`area "${a.label || "?"}"`, a.points || []);
   }
   if (maps) console.log(`Maps           — ${maps} chapter maps, ${points} authored coordinates`);
+}
+
+/* ------------------------------------------------------------------ */
+/* Campaigns                                                           */
+/* ------------------------------------------------------------------ */
+/* A campaign is a route through chapters that already exist. A stop
+   pointing at nothing is a dead end in the middle of an argument. */
+{
+  let stops = 0, crossings = 0;
+  for (const c of CAMPAIGNS) {
+    const where = `campaign "${c.id}"`;
+    if (!c.name) fail(`${where}: no name`);
+    if (!c.blurb) fail(`${where}: no blurb`);
+    if (!Array.isArray(c.stops) || c.stops.length < 3) fail(`${where}: needs at least three stops to be a route`);
+    const sets = new Set();
+    for (const s of c.stops || []) {
+      stops++;
+      const ch = CHAPTER_BY_ID[s.chapter];
+      if (!ch) { fail(`${where}: stop "${s.chapter}" is not a chapter`); continue; }
+      if (!s.why) fail(`${where}: stop "${s.chapter}" has no reason — a list of chapters without reasons is a syllabus, not a campaign`);
+      sets.add(ch.set);
+    }
+    if (sets.size < 2) warn(`${where}: every stop is in one Set (${[...sets][0]}) — that is a Set, not a route across them`);
+    crossings += sets.size;
+  }
+  const covered = new Set(CAMPAIGNS.flatMap((c) => c.stops.map((s) => s.chapter)));
+  console.log(`Campaigns      — ${CAMPAIGNS.length} routes, ${stops} stops, touching ${covered.size} of ${CHAPTERS.length} chapters`);
 }
 
 /* ------------------------------------------------------------------ */

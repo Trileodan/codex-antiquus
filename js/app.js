@@ -9,19 +9,22 @@ function App() {
     return (!s.patron && !Object.keys(s.chaptersDone || {}).length) ? "begin" : "home";
   });
   const [setId, setSetId] = useState(null);
+  const [campaignId, setCampaignId] = useState(null);
   const [chapter, setChapter] = useState(null);
   const [startBeat, setStartBeat] = useState(0);
   const [openChar, setOpenChar] = useState(null);
   const [mints, setMints] = useState([]);
   const [toast, setToast] = useState(null);
   const toastT = useRef(null);
+  const cameFromCampaign = useRef(false);
 
   const cards = useMemo(() => computeCards(save.chaptersDone, save.patron), [save.chaptersDone, save.patron]);
   useEffect(() => { persist(save); }, [save]);
 
   function fireToast(msg) { setToast(msg); clearTimeout(toastT.current); toastT.current = setTimeout(() => setToast(null), 3000); }
 
-  function openChapter(ch) {
+  function openChapter(ch, fromCampaign) {
+    cameFromCampaign.current = !!fromCampaign;
     const bm = save.bookmark && save.bookmark.chapterId === ch.id ? save.bookmark.beatIndex : 0;
     setChapter(ch); setStartBeat(bm); setSetId(ch.set); setScreen("reader");
   }
@@ -44,6 +47,9 @@ function App() {
 
   function backTarget(ch) {
     if (!ch) return "home";
+    /* If you came in from a campaign, that is where you want to be put
+       back — the next reason is the thing worth reading. */
+    if (cameFromCampaign.current) return "campaign";
     return isGated(ch) ? "wars" : "set";
   }
 
@@ -94,6 +100,7 @@ function App() {
   }
 
   const NAV = [
+    { id: "campaigns", label: "Campaigns", icon: SwordsIcon },
     { id: "world", label: "Study", icon: ScrollIcon },
     { id: "wars", label: "Crossings", icon: SwordsIcon },
     { id: "atlas", label: "Atlas", icon: MapIcon },
@@ -158,6 +165,12 @@ function App() {
     {screen === "progress" && <ProgressScreen save={save} cards={cards} onHome={() => setScreen("home")} onOpenChar={setOpenChar} />}
 
     {screen === "collection" && <CollectionScreen save={save} cards={cards} onHome={() => setScreen("home")} onOpenChar={setOpenChar} />}
+
+    {screen === "campaigns" && <CampaignsScreen save={save} onHome={() => setScreen("home")}
+      onOpenCampaign={(id) => { setCampaignId(id); setScreen("campaign"); }} />}
+
+    {screen === "campaign" && campaignId && <CampaignScreen campaignId={campaignId} save={save}
+      onHome={() => setScreen("home")} onBack={() => setScreen("campaigns")} onOpenChapter={(ch) => openChapter(ch, true)} />}
 
     {screen === "yeardrop" && <YearDropScreen save={save} cards={cards} onHome={() => setScreen("home")}
       onOpenChapter={openChapter} onOpenChar={setOpenChar} />}

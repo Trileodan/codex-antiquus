@@ -31,10 +31,6 @@
 <link rel="stylesheet" href="css/styles.css" />
 <link rel="stylesheet" href="vendor/tailwind.css" />
 
-<!-- The battle module. It has its own folder and its own standalone page at
-     battle/index.html; this file loads the same sources so the game runs as a
-     tab inside the app, where it can see the collection. -->
-<link rel="stylesheet" href="battle/css/battle.css" />
 
 <!-- Each vendored library is tried locally first and falls back to its CDN if
      vendor/ is empty, so a fresh clone runs before anyone fetches anything.
@@ -84,23 +80,6 @@
 <script type="text/babel" data-presets="react" src="js/globe.js"></script>
 <script type="text/babel" data-presets="react" src="js/screens.js"></script>
 <script type="text/babel" data-presets="react" src="js/screens-new.js"></script>
-<!-- Battle module: data, engine, UI. It must load before js/app.js, which
-     renders <BattleApp />. collection.js looks for CHARACTERS, computeCards
-     and loadSave and finds them here, so the deck builder shows the real
-     collection rather than the sandbox everything-unlocked pool. -->
-<script type="text/babel" data-presets="react" src="battle/js/data/terrain.js"></script>
-<script type="text/babel" data-presets="react" src="battle/js/data/statuses.js"></script>
-<script type="text/babel" data-presets="react" src="battle/js/data/abilities.js"></script>
-<script type="text/babel" data-presets="react" src="battle/js/data/cards.js"></script>
-<script type="text/babel" data-presets="react" src="battle/js/data/cards-collection.js"></script>
-<script type="text/babel" data-presets="react" src="battle/js/data/battlefields.js"></script>
-<script type="text/babel" data-presets="react" src="battle/js/data/collection.js"></script>
-<script type="text/babel" data-presets="react" src="battle/js/engine/state.js"></script>
-<script type="text/babel" data-presets="react" src="battle/js/engine/rules.js"></script>
-<script type="text/babel" data-presets="react" src="battle/js/engine/ai.js"></script>
-<script type="text/babel" data-presets="react" src="battle/js/ui/board.js"></script>
-<script type="text/babel" data-presets="react" src="battle/js/ui/app.js"></script>
-
 <script type="text/babel" data-presets="react" src="js/app.js"></script>
 
 <!-- Opened by double-clicking? This page loads its JavaScript from sibling

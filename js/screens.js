@@ -80,14 +80,14 @@ function HomeScreen({ save, cards, onEnterWorld, onResume, onCollection, onWars,
       <div className="hcg-tab" style={{ color: "var(--bronze-glow)", marginBottom: 8 }}>A HISTORY LEARNING &amp; COLLECTIBLE CARD GAME</div>
       <h1 className="hcg-display" style={{ fontSize: 34 }}>Codex Antiquus</h1>
       <p style={{ color: "var(--parchment-dim)", marginTop: 8, maxWidth: 520, marginLeft: "auto", marginRight: "auto" }}>
-        Work through history in short chapters. Cards are struck from what you finish and can prove — never from a name you skimmed past.
+        Work through history in short chapters. Coins are struck from what you finish and can prove, and each one says how well you know the subject — not how important the app thinks they were.
       </p>
     </div>
 
     <ResumeRibbon save={save} onResume={onResume} />
 
     <div className="grid grid-cols-3 gap-3 mb-8">
-      {[["Chapters", `${chaptersDoneCount} / ${totalChapters}`], ["Cards", `${cardCount} / ${ALL_CHARACTER_IDS.length}`], ["Gold", `${golds}`]].map(([l, v]) => (
+      {[["Chapters", `${chaptersDoneCount} / ${totalChapters}`], ["Coins", `${cardCount} / ${ALL_CHARACTER_IDS.length}`], ["Gold", `${golds}`]].map(([l, v]) => (
         <div key={l} className="hcg-panel rounded-lg p-3 text-center">
           <div className="hcg-display" style={{ fontSize: 20, color: "var(--gold-glow)" }}>{v}</div>
           <div className="hcg-tab" style={{ color: "var(--parchment-dim)" }}>{l.toUpperCase()}</div>
@@ -120,7 +120,7 @@ function HomeScreen({ save, cards, onEnterWorld, onResume, onCollection, onWars,
       {[[SwordsIcon, "Crossings", `${nav.warsOpen} of ${WAR_CHAPTERS.length} unlocked`, onWars],
         [MapIcon, "Atlas", "Navigate by place and year", onAtlas],
         [ChartIcon, "Progress", "What you've covered so far", onProgress],
-        [LayersIcon, "Collection", "Every card, earned and unearned", onCollection]].map(([Icon, label, sub, fn]) => (
+        [LayersIcon, "Collection", "Every coin, struck and unstruck", onCollection]].map(([Icon, label, sub, fn]) => (
         <button key={label} onClick={fn} className="hcg-panel rounded-lg p-4 flex items-center gap-3 hover:brightness-110">
           <Icon size={18} color="var(--gold-glow)" />
           <div className="flex-1 text-left"><div style={{ fontSize: 15 }}>{label}</div>
@@ -237,7 +237,7 @@ function CollectionScreen({ save, cards, onHome, onOpenChar }) {
     <Crumbs items={[{ label: "Home", onClick: onHome }, { label: "Collection" }]} />
     <h1 className="hcg-display mt-3 mb-1" style={{ fontSize: 26 }}>The collection</h1>
     <p style={{ color: "var(--parchment-dim)", marginBottom: 18 }}>
-      {Object.keys(cards).length} of {ALL_CHARACTER_IDS.length} figures discovered. Tap any card — locked ones show exactly which chapters would earn them.
+      {Object.keys(cards).length} of {ALL_CHARACTER_IDS.length} figures discovered. Tap any coin — unstruck ones show exactly which chapters would earn them.
     </p>
     <div className="grid grid-cols-3 gap-3 mb-8">
       {groups.map(([k, l], i) => <div key={k} className="hcg-panel rounded-lg p-3 text-center">

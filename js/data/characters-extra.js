@@ -10,8 +10,7 @@ Object.assign(CHARACTERS, {
   sets: ["carthage"],
   requires: { bronze: ["carth-dido", "carth-place"] },
   tiers: { bronze: { label: "Founder of Carthage", when: "Traditional, 814 BC",
-    blurb: "Fled Tyre after her brother murdered her husband for his treasure, and won a hilltop by cutting an oxhide into a single thread. Rome later rewrote her as a queen destroyed by love for Aeneas — a story that makes Carthage's founder into a warning about women and turns the Punic Wars into destiny.",
-    stats: { power: 44, intellect: 68, influence: 58, creativity: 72, wealth: 60, fame: 34 } } },
+    blurb: "Fled Tyre after her brother murdered her husband for his treasure, and won a hilltop by cutting an oxhide into a single thread. Rome later rewrote her as a queen destroyed by love for Aeneas — a story that makes Carthage's founder into a warning about women and turns the Punic Wars into destiny." } },
   claims: [
     { text: "Elissa fled Tyre after her brother Pygmalion murdered her husband.", classification: "Traditional / Legendary", sources: ["cah"], date: "9th c. BC", at: "bronze" },
     { text: "She obtained the Byrsa hill by cutting an oxhide into a continuous thread.", classification: "Traditional / Legendary", sources: ["cah"], date: "814 BC", at: "bronze" },
@@ -25,8 +24,7 @@ Object.assign(CHARACTERS, {
   id: "hanno", name: "Hanno the Navigator", years: "fl. c. 500 BC", sets: ["carthage"],
   requires: { bronze: ["carth-hanno"] },
   tiers: { bronze: { label: "Beyond the Pillars", when: "c. 500 BC",
-    blurb: "Took a Carthaginian fleet out through the Pillars of Hercules and down the Atlantic coast of Africa, founding colonies and filing a report that survives in Greek translation. It describes volcanoes, drums heard in the dark and hairy people his interpreters called gorillai — a word borrowed 2,300 years later to name the ape.",
-    stats: { power: 52, intellect: 74, influence: 44, creativity: 80, wealth: 58, fame: 36 } } },
+    blurb: "Took a Carthaginian fleet out through the Pillars of Hercules and down the Atlantic coast of Africa, founding colonies and filing a report that survives in Greek translation. It describes volcanoes, drums heard in the dark and hairy people his interpreters called gorillai — a word borrowed 2,300 years later to name the ape." } },
   claims: [
     { text: "Hanno led a Carthaginian colonising expedition down the Atlantic coast of Africa.", classification: "Probable", sources: ["cah"], date: "c. 500 BC", at: "bronze" },
     { text: "The Periplus of Hanno survives as a Greek translation of a Punic temple inscription.", classification: "Established", sources: ["cah"], date: "c. 500 BC", at: "bronze" },
@@ -41,11 +39,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["war-punic-2"], silver: ["carth-zama", "carth-end"] },
   tiers: {
     bronze: { label: "The Cavalry That Changed Sides", when: "202 BC",
-      blurb: "A Numidian prince who fought for Carthage in Spain, lost his kingdom to a rival, and was won over by Scipio. His cavalry decided Zama by returning from the pursuit to strike Hannibal's rear — the exact manoeuvre that had destroyed Rome at Cannae, now working for Rome.",
-      stats: { power: 58, intellect: 70, influence: 55, creativity: 62, wealth: 40, fame: 46 } },
+      blurb: "A Numidian prince who fought for Carthage in Spain, lost his kingdom to a rival, and was won over by Scipio. His cavalry decided Zama by returning from the pursuit to strike Hannibal's rear — the exact manoeuvre that had destroyed Rome at Cannae, now working for Rome." },
     silver: { label: "King of Numidia", when: "c. 150 BC",
-      blurb: "Rewarded with a united Numidia and a Roman guarantee, he spent fifty years annexing Carthaginian territory piece by piece, knowing every appeal to Rome would be decided in his favour. He lived to about ninety, fathered children into his eighties, and did more than anyone except Rome to destroy Carthage — by exploiting a treaty rather than breaking one.",
-      stats: { power: 76, intellect: 78, influence: 66, creativity: 60, wealth: 70, fame: 54 } },
+      blurb: "Rewarded with a united Numidia and a Roman guarantee, he spent fifty years annexing Carthaginian territory piece by piece, knowing every appeal to Rome would be decided in his favour. He lived to about ninety, fathered children into his eighties, and did more than anyone except Rome to destroy Carthage — by exploiting a treaty rather than breaking one." },
   },
   claims: [
     { text: "Masinissa fought for Carthage in Spain before changing sides to Rome.", classification: "Established", sources: ["polybius", "livy"], date: "c. 206 BC", at: "bronze" },
@@ -61,8 +57,7 @@ Object.assign(CHARACTERS, {
   note: "Encountered here through Egypt only. A fuller card, covering the Macedonian and Persian campaigns, arrives with the Macedon and Persia Sets.",
   requires: { bronze: ["egy-alexander"] },
   tiers: { bronze: { label: "Pharaoh of Egypt", when: "332 BC",
-    blurb: "Took Egypt from Persia without a battle at twenty-four, sacrificed to Apis, was accepted as pharaoh, and marked out a Greek city on the coast before marching east. He never saw Alexandria built. It outlasted his empire by three hundred years and his dynasty by two thousand.",
-    stats: { power: 92, intellect: 84, influence: 90, creativity: 88, wealth: 86, fame: 94 } } },
+    blurb: "Took Egypt from Persia without a battle at twenty-four, sacrificed to Apis, was accepted as pharaoh, and marked out a Greek city on the coast before marching east. He never saw Alexandria built. It outlasted his empire by three hundred years and his dynasty by two thousand." } },
   claims: [
     { text: "The Persian satrap Mazaces surrendered Egypt to Alexander without a battle in 332 BC.", classification: "Established", sources: ["cah"], date: "332 BC", at: "bronze" },
     { text: "Alexander was recognised as pharaoh and sacrificed to the Apis bull.", classification: "Established", sources: ["cah"], date: "332 BC", at: "bronze" },
@@ -76,8 +71,7 @@ Object.assign(CHARACTERS, {
   id: "ptolemy1", name: "Ptolemy I Soter", years: "c. 367 – 282 BC", sets: ["ptolemaic-egypt"],
   requires: { bronze: ["egy-ptolemy1"] },
   tiers: { bronze: { label: "The Successor Who Chose Well", when: "305 BC",
-    blurb: "Alexander's bodyguard and, later, his historian. While the other Successors bled each other trying to hold the whole empire, he asked for the one province that could feed and defend itself — then hijacked Alexander's funeral cortege to give his regime a legitimacy no rival could buy. He died in bed, which almost none of them managed.",
-    stats: { power: 80, intellect: 84, influence: 74, creativity: 76, wealth: 86, fame: 62 } } },
+    blurb: "Alexander's bodyguard and, later, his historian. While the other Successors bled each other trying to hold the whole empire, he asked for the one province that could feed and defend itself — then hijacked Alexander's funeral cortege to give his regime a legitimacy no rival could buy. He died in bed, which almost none of them managed." } },
   claims: [
     { text: "Ptolemy took Egypt in the division of Alexander's empire and declared himself king in 305 BC.", classification: "Established", sources: ["cah"], date: "323 – 305 BC", at: "bronze" },
     { text: "He diverted Alexander's funeral cortege to Egypt and entombed the body there.", classification: "Established", sources: ["cah"], date: "321 BC", at: "bronze" },
@@ -92,8 +86,7 @@ Object.assign(CHARACTERS, {
   id: "ptolemy2", name: "Ptolemy II Philadelphus", years: "308 – 246 BC", sets: ["ptolemaic-egypt"],
   requires: { bronze: ["egy-ptolemy2"] },
   tiers: { bronze: { label: "Library and Lighthouse", when: "c. 270 BC",
-    blurb: "Spent Egypt's grain surplus on making Alexandria the intellectual capital of the world, and got value for money: Euclid, Eratosthenes, Aristarchus, the Septuagint, and a lighthouse that stood fifteen centuries. He also married his own sister, which scandalised Greeks, reassured Egyptians, and set a dynastic pattern that ended with Cleopatra.",
-    stats: { power: 74, intellect: 80, influence: 72, creativity: 90, wealth: 94, fame: 66 } } },
+    blurb: "Spent Egypt's grain surplus on making Alexandria the intellectual capital of the world, and got value for money: Euclid, Eratosthenes, Aristarchus, the Septuagint, and a lighthouse that stood fifteen centuries. He also married his own sister, which scandalised Greeks, reassured Egyptians, and set a dynastic pattern that ended with Cleopatra." } },
   claims: [
     { text: "Ptolemy II married his full sister Arsinoe II, establishing sibling marriage as dynastic practice.", classification: "Established", sources: ["cah"], date: "c. 273 BC", at: "bronze" },
     { text: "The Museum and Great Library were developed under his patronage.", classification: "Established", sources: ["cah"], date: "3rd c. BC", at: "bronze" },
@@ -107,8 +100,7 @@ Object.assign(CHARACTERS, {
   id: "agrippa", name: "Marcus Agrippa", years: "63 – 12 BC", sets: ["roman-republic"],
   requires: { bronze: ["war-actium"] },
   tiers: { bronze: { label: "The Man Who Won Actium", when: "31 BC",
-    blurb: "Octavian's schoolfriend, admiral and the actual military mind of his rise. He cleared Sextus Pompey from the sea, invented the harpax, and beat Antony by taking his supply ports and starving his fleet before a shot was fired. He never once tried to take the credit, which is probably why he kept his head.",
-    stats: { power: 72, intellect: 86, influence: 58, creativity: 84, wealth: 76, fame: 60 } } },
+    blurb: "Octavian's schoolfriend, admiral and the actual military mind of his rise. He cleared Sextus Pompey from the sea, invented the harpax, and beat Antony by taking his supply ports and starving his fleet before a shot was fired. He never once tried to take the credit, which is probably why he kept his head." } },
   claims: [
     { text: "Agrippa defeated Sextus Pompey at Naulochus in 36 BC, securing Rome's grain supply.", classification: "Established", sources: ["dio", "appian"], date: "36 BC", at: "bronze" },
     { text: "He developed the harpax, a catapult-launched grapnel used to board enemy ships.", classification: "Established", sources: ["appian", "dio"], date: "36 BC", at: "bronze" },

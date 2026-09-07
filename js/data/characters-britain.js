@@ -16,11 +16,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["brit-stones"], silver: ["brit-stones", "brit-metal"] },
   tiers: {
     bronze: { label: "The Man From the Alps", when: "c. 2300 BC",
-      blurb: "Buried three miles from Stonehenge with the richest grave goods of his age in Britain — and the isotopes in his teeth say he grew up somewhere with Alpine winters. He arrived on a badly damaged knee, having crossed a continent, and was buried with the earliest gold yet found in this country.",
-      stats: { power: 30, intellect: 55, influence: 62, creativity: 70, wealth: 78, fame: 44 } },
+      blurb: "Buried three miles from Stonehenge with the richest grave goods of his age in Britain — and the isotopes in his teeth say he grew up somewhere with Alpine winters. He arrived on a badly damaged knee, having crossed a continent, and was buried with the earliest gold yet found in this country." },
     silver: { label: "The Turnover", when: "The Beaker centuries",
-      blurb: "He stands for the moment the population of Britain was replaced. Within a few centuries of graves like his appearing, something like nine tenths of the island's ancestry had changed. Whether that was migration, disease, violence or collapse cannot currently be told from the evidence, and the confident versions all go beyond it.",
-      stats: { power: 42, intellect: 60, influence: 74, creativity: 72, wealth: 80, fame: 58 } },
+      blurb: "He stands for the moment the population of Britain was replaced. Within a few centuries of graves like his appearing, something like nine tenths of the island's ancestry had changed. Whether that was migration, disease, violence or collapse cannot currently be told from the evidence, and the confident versions all go beyond it." },
   },
   claims: [
     { text: "He was buried near Amesbury, about three miles from Stonehenge, with five Beaker pots, copper knives and two gold hair ornaments.", classification: "Established", sources: ["arch"], date: "c. 2300 BC", at: "bronze" },
@@ -37,11 +35,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["brit-pytheas"], silver: ["brit-pytheas", "brit-hillforts"] },
   tiers: {
     bronze: { label: "The Man Who Went and Looked", when: "c. 325 BC",
-      blurb: "Sailed from Marseille past the Pillars of Heracles and around Britain, measured his latitudes with a shadow-stick, and wrote the first description of this island by anyone who had seen it. His book is lost. Every surviving word of it is a quotation by someone explaining why he was a liar.",
-      stats: { power: 20, intellect: 90, influence: 48, creativity: 88, wealth: 40, fame: 55 } },
+      blurb: "Sailed from Marseille past the Pillars of Heracles and around Britain, measured his latitudes with a shadow-stick, and wrote the first description of this island by anyone who had seen it. His book is lost. Every surviving word of it is a quotation by someone explaining why he was a liar." },
     silver: { label: "Right About Everything He Was Mocked For", when: "The verdict, eventually",
-      blurb: "He reported the midnight sun, a sea near Thule that could be neither sailed nor walked on, and tides governed by the moon. Strabo called him an arch-falsifier. What his readers lacked was not evidence but a framework, and the lesson generalises: a source can be dismissed for being ahead of its audience rather than wrong.",
-      stats: { power: 20, intellect: 94, influence: 62, creativity: 90, wealth: 40, fame: 70 } },
+      blurb: "He reported the midnight sun, a sea near Thule that could be neither sailed nor walked on, and tides governed by the moon. Strabo called him an arch-falsifier. What his readers lacked was not evidence but a framework, and the lesson generalises: a source can be dismissed for being ahead of its audience rather than wrong." },
   },
   claims: [
     { text: "Pytheas sailed from Massalia around Britain in about 325 BC and wrote an account called On the Ocean.", classification: "Probable", sources: ["strabo", "pliny", "cah"], date: "c. 325 BC", at: "bronze" },
@@ -59,8 +55,7 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["brit-hillforts", "brit-druids"] },
   tiers: {
     bronze: { label: "Three Ways to Die", when: "1st c. AD",
-      blurb: "A well-fed man in his mid-twenties with trimmed nails and no calluses, struck twice on the head, garrotted and with his throat cut, laid face-down in a Cheshire bog. The triple death is read as ritual sacrifice, and it is read as an execution, and it is read as a murder. The body is superbly preserved and the reason for it is not recoverable.",
-      stats: { power: 35, intellect: 40, influence: 58, creativity: 30, wealth: 55, fame: 66 } },
+      blurb: "A well-fed man in his mid-twenties with trimmed nails and no calluses, struck twice on the head, garrotted and with his throat cut, laid face-down in a Cheshire bog. The triple death is read as ritual sacrifice, and it is read as an execution, and it is read as a murder. The body is superbly preserved and the reason for it is not recoverable." },
   },
   claims: [
     { text: "The body was found in Lindow Moss in 1984 and dates to roughly the first century AD.", classification: "Established", sources: ["arch"], date: "1984", at: "bronze" },
@@ -76,11 +71,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["brit-caesar"], silver: ["brit-caesar", "brit-tribes"] },
   tiers: {
     bronze: { label: "The First Briton With a Name", when: "54 BC",
-      blurb: "Given supreme command over the usual rivalries when Caesar came back in force, and fought the campaign correctly by refusing the one Caesar wanted — disbanding his infantry, keeping four thousand chariots, and bleeding the column from the flanks. His is the earliest name of an inhabitant of this island that anyone can read.",
-      stats: { power: 68, intellect: 74, influence: 70, creativity: 80, wealth: 52, fame: 62 } },
+      blurb: "Given supreme command over the usual rivalries when Caesar came back in force, and fought the campaign correctly by refusing the one Caesar wanted — disbanding his infantry, keeping four thousand chariots, and bleeding the column from the flanks. His is the earliest name of an inhabitant of this island that anyone can read." },
     silver: { label: "Beaten by a Defection", when: "The Thames, 54 BC",
-      blurb: "Not beaten in the field. The Trinovantes, whose king he had killed and whose heir was sitting in Caesar's camp, changed sides and told the Romans where his stronghold was; five other peoples followed. The alliance he had been given command of was the thing that failed, and it failed for reasons that predated the invasion.",
-      stats: { power: 70, intellect: 78, influence: 62, creativity: 82, wealth: 52, fame: 70 } },
+      blurb: "Not beaten in the field. The Trinovantes, whose king he had killed and whose heir was sitting in Caesar's camp, changed sides and told the Romans where his stronghold was; five other peoples followed. The alliance he had been given command of was the thing that failed, and it failed for reasons that predated the invasion." },
   },
   claims: [
     { text: "Cassivellaunus was given overall command of the British resistance to Caesar's second expedition.", classification: "Probable", sources: ["caesar"], date: "54 BC", at: "bronze" },
@@ -97,11 +90,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["brit-oppida"], silver: ["brit-oppida", "brit-tribes"] },
   tiers: {
     bronze: { label: "King of the Britons", when: "c. AD 9 – 40",
-      blurb: "Ruled thirty years from Camulodunum over a territory that had swallowed its neighbours, with a mint, a treasury and coins carrying an ear of barley on one face and a vine leaf on the other — what the kingdom grew, and what it bought. Suetonius calls him king of the Britons, which flattens a paramount kingship into something simpler.",
-      stats: { power: 66, intellect: 72, influence: 84, creativity: 66, wealth: 82, fame: 60 } },
+      blurb: "Ruled thirty years from Camulodunum over a territory that had swallowed its neighbours, with a mint, a treasury and coins carrying an ear of barley on one face and a vine leaf on the other — what the kingdom grew, and what it bought. Suetonius calls him king of the Britons, which flattens a paramount kingship into something simpler." },
     silver: { label: "Thirty Years of Not Being Invaded", when: "The policy",
-      blurb: "Kept Rome at arm's length by being more useful trading than fighting: wine in, grain and slaves out, exiles tolerated, nobody's army required. It held for three decades and collapsed within three years of his death, when his sons pushed a Roman client too far and handed Claudius a pretext.",
-      stats: { power: 66, intellect: 80, influence: 88, creativity: 70, wealth: 86, fame: 68 } },
+      blurb: "Kept Rome at arm's length by being more useful trading than fighting: wine in, grain and slaves out, exiles tolerated, nobody's army required. It held for three decades and collapsed within three years of his death, when his sons pushed a Roman client too far and handed Claudius a pretext." },
   },
   claims: [
     { text: "Cunobelinus ruled from Camulodunum for roughly thirty years and struck inscribed coinage there.", classification: "Established", sources: ["arch", "cah"], date: "c. AD 9 – 40", at: "bronze" },
@@ -118,11 +109,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["brit-claudius", "brit-caratacus"], silver: ["brit-caratacus", "brit-oppida"] },
   tiers: {
     bronze: { label: "Nine Years", when: "AD 43 – 51",
-      blurb: "Lost his kingdom in the first summer and kept fighting for nine years anyway, moving west and commanding other people's wars — the Silures first, then the Ordovices. Tacitus says the escapes made him the most famous man in Britain, which was itself the weapon: a leader who had survived Rome was worth following.",
-      stats: { power: 74, intellect: 76, influence: 80, creativity: 78, wealth: 34, fame: 82 } },
+      blurb: "Lost his kingdom in the first summer and kept fighting for nine years anyway, moving west and commanding other people's wars — the Silures first, then the Ordovices. Tacitus says the escapes made him the most famous man in Britain, which was itself the weapon: a leader who had survived Rome was worth following." },
     silver: { label: "The Speech He Did Not Write", when: "Rome, AD 51",
-      blurb: "Paraded through Rome and pardoned, after a speech asking whether wanting to rule everyone means everyone must accept slavery. Tacitus composed it half a century later, as ancient historians composed all speeches. The most quoted British statement of the period is a Roman senator's argument against Rome — which is not a British voice surviving, but the absence of one, decorated.",
-      stats: { power: 74, intellect: 82, influence: 86, creativity: 78, wealth: 34, fame: 90 } },
+      blurb: "Paraded through Rome and pardoned, after a speech asking whether wanting to rule everyone means everyone must accept slavery. Tacitus composed it half a century later, as ancient historians composed all speeches. The most quoted British statement of the period is a Roman senator's argument against Rome — which is not a British voice surviving, but the absence of one, decorated." },
   },
   claims: [
     { text: "Caratacus led resistance among the Silures and Ordovices for around nine years after AD 43.", classification: "Probable", sources: ["tacitus"], date: "AD 43 – 51", at: "bronze" },
@@ -140,11 +129,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["brit-caratacus"], silver: ["brit-caratacus", "brit-claudius"] },
   tiers: {
     bronze: { label: "Queen of the Brigantes", when: "c. AD 43 – 69",
-      blurb: "Ruled the largest territory in Britain for a quarter of a century by treaty with Rome, which is longer than any British ruler managed by fighting it. Handing Caratacus over was the treaty working: sheltering the empire's most wanted man would have brought four legions into her country.",
-      stats: { power: 60, intellect: 80, influence: 86, creativity: 62, wealth: 74, fame: 64 } },
+      blurb: "Ruled the largest territory in Britain for a quarter of a century by treaty with Rome, which is longer than any British ruler managed by fighting it. Handing Caratacus over was the treaty working: sheltering the empire's most wanted man would have brought four legions into her country." },
     silver: { label: "Written by a Man Who Disliked Her", when: "The record",
-      blurb: "Everything known about her comes from Tacitus, who calls her treacherous and dwells on her leaving her husband for his armour-bearer — a charge he does not level at male client kings doing the same arithmetic. Strip the disapproval and what remains is a ruler who kept her kingdom out of a war for twenty-five years and lost it in a civil quarrel Rome could not spare troops to settle.",
-      stats: { power: 62, intellect: 84, influence: 82, creativity: 66, wealth: 74, fame: 70 } },
+      blurb: "Everything known about her comes from Tacitus, who calls her treacherous and dwells on her leaving her husband for his armour-bearer — a charge he does not level at male client kings doing the same arithmetic. Strip the disapproval and what remains is a ruler who kept her kingdom out of a war for twenty-five years and lost it in a civil quarrel Rome could not spare troops to settle." },
   },
   claims: [
     { text: "Cartimandua ruled the Brigantes as a Roman client from around AD 43.", classification: "Probable", sources: ["tacitus"], date: "c. AD 43", at: "bronze" },
@@ -162,14 +149,11 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["brit-boudica"], silver: ["brit-boudica", "brit-claudius"], gold: ["brit-boudica", "brit-life", "brit-agricola"] },
   tiers: {
     bronze: { label: "Queen of the Iceni", when: "AD 60",
-      blurb: "Her husband left half his kingdom to Nero to protect the other half, and Rome took all of it. She was flogged and her daughters raped by the staff of a procurator collecting an inheritance. Everything that follows was a response to an administrative decision about property.",
-      stats: { power: 72, intellect: 66, influence: 84, creativity: 60, wealth: 48, fame: 80 } },
+      blurb: "Her husband left half his kingdom to Nero to protect the other half, and Rome took all of it. She was flogged and her daughters raped by the staff of a procurator collecting an inheritance. Everything that follows was a response to an administrative decision about property." },
     silver: { label: "Three Cities", when: "AD 60 – 61",
-      blurb: "Camulodunum, Londinium and Verulamium burned, and the governor abandoned London rather than lose the province defending it. The red destruction layer under all three is one of the few places where a sentence of Tacitus can be picked up in a trench.",
-      stats: { power: 84, intellect: 70, influence: 88, creativity: 66, wealth: 44, fame: 90 } },
+      blurb: "Camulodunum, Londinium and Verulamium burned, and the governor abandoned London rather than lose the province defending it. The red destruction layer under all three is one of the few places where a sentence of Tacitus can be picked up in a trench." },
     gold: { label: "Thirteen Centuries Missing", when: "The afterlife",
-      blurb: "Gildas does not mention her. Bede does not. Nobody in Britain knew she had existed until Tacitus was rediscovered, and then every age remade her — Tudor patriot, noble savage, and finally a Victorian bronze in a scythed chariot beside Westminster Bridge, a woman who destroyed three Roman towns rather than be ruled from abroad, standing guard over the largest empire in history.",
-      stats: { power: 84, intellect: 74, influence: 94, creativity: 70, wealth: 44, fame: 98 } },
+      blurb: "Gildas does not mention her. Bede does not. Nobody in Britain knew she had existed until Tacitus was rediscovered, and then every age remade her — Tudor patriot, noble savage, and finally a Victorian bronze in a scythed chariot beside Westminster Bridge, a woman who destroyed three Roman towns rather than be ruled from abroad, standing guard over the largest empire in history." },
   },
   claims: [
     { text: "Prasutagus left his kingdom jointly to Nero and his two daughters, and Rome annexed it entirely.", classification: "Probable", sources: ["tacitus"], date: "c. AD 60", at: "bronze" },
@@ -190,11 +174,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["brit-agricola"], silver: ["brit-agricola", "brit-walls"] },
   tiers: {
     bronze: { label: "Seven Years and a Biographer", when: "AD 77 – 84",
-      blurb: "Governed longer than anyone and is documented better than anyone, because his daughter married Tacitus. Took the army further north than it ever went again, won at a place nobody can find, and sent the fleet round the top of Britain to establish by observation that it was an island — which Pytheas had reported four centuries earlier and been disbelieved for.",
-      stats: { power: 76, intellect: 80, influence: 78, creativity: 72, wealth: 66, fame: 74 } },
+      blurb: "Governed longer than anyone and is documented better than anyone, because his daughter married Tacitus. Took the army further north than it ever went again, won at a place nobody can find, and sent the fleet round the top of Britain to establish by observation that it was an island — which Pytheas had reported four centuries earlier and been disbelieved for." },
     silver: { label: "They Called It Civilisation", when: "The policy",
-      blurb: "Built the fora and baths, educated the chiefs' sons, made the toga fashionable — and his own son-in-law wrote that the inexperienced called this civilisation when it was part of their enslavement. An ancient description of soft power, set down by the man defending the governor who used it.",
-      stats: { power: 76, intellect: 86, influence: 84, creativity: 76, wealth: 66, fame: 80 } },
+      blurb: "Built the fora and baths, educated the chiefs' sons, made the toga fashionable — and his own son-in-law wrote that the inexperienced called this civilisation when it was part of their enslavement. An ancient description of soft power, set down by the man defending the governor who used it." },
   },
   claims: [
     { text: "Agricola governed Britain for around seven years from AD 77.", classification: "Established", sources: ["tacitus", "cah"], date: "AD 77 – 84", at: "bronze" },
@@ -213,8 +195,7 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["brit-walls"] },
   tiers: {
     bronze: { label: "The Birthday Invitation", when: "c. AD 100",
-      blurb: "The wife of a fort commander near Hadrian's Wall, inviting a friend to her birthday and promising the day will be more enjoyable if she comes. A scribe wrote most of it; the closing line — sister, dearest soul, farewell — is in her own less practised hand. It is the earliest known writing in Latin by a woman anywhere in the Roman world, and it is about a party.",
-      stats: { power: 12, intellect: 62, influence: 55, creativity: 58, wealth: 66, fame: 70 } },
+      blurb: "The wife of a fort commander near Hadrian's Wall, inviting a friend to her birthday and promising the day will be more enjoyable if she comes. A scribe wrote most of it; the closing line — sister, dearest soul, farewell — is in her own less practised hand. It is the earliest known writing in Latin by a woman anywhere in the Roman world, and it is about a party." },
   },
   claims: [
     { text: "A wooden tablet from Vindolanda records Claudia Severa inviting Sulpicia Lepidina to a birthday celebration.", classification: "Established", sources: ["vindolanda"], date: "c. AD 100", at: "bronze" },
@@ -230,11 +211,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["brit-breakaway"], silver: ["brit-breakaway", "brit-civil"] },
   tiers: {
     bronze: { label: "Emperor of Britain", when: "AD 286 – 293",
-      blurb: "Commanded the Channel fleet, was accused of letting raiders through and pocketing the loot afterwards, and on being sentenced to death took the fleet to Britain and declared himself emperor. He held the island and a strip of Gaul for seven years, and struck better silver than the empire he had left.",
-      stats: { power: 70, intellect: 78, influence: 74, creativity: 84, wealth: 72, fame: 58 } },
+      blurb: "Commanded the Channel fleet, was accused of letting raiders through and pocketing the loot afterwards, and on being sentenced to death took the fleet to Britain and declared himself emperor. He held the island and a strip of Gaul for seven years, and struck better silver than the empire he had left." },
     silver: { label: "Quoting Virgil at the End of the World", when: "The coinage",
-      blurb: "Some of his coins read CARAVSIVS ET FRATRES SVI — Carausius and his brothers — putting himself beside Diocletian and Maximian as a colleague rather than a rebel. Others carry RSR and INPCDA, unexplained for centuries until someone matched them to Virgil's Fourth Eclogue: the reign of Saturn returns. A usurper on a wet island was advertising a golden age in verse, and expected to be understood.",
-      stats: { power: 70, intellect: 84, influence: 80, creativity: 90, wealth: 74, fame: 66 } },
+      blurb: "Some of his coins read CARAVSIVS ET FRATRES SVI — Carausius and his brothers — putting himself beside Diocletian and Maximian as a colleague rather than a rebel. Others carry RSR and INPCDA, unexplained for centuries until someone matched them to Virgil's Fourth Eclogue: the reign of Saturn returns. A usurper on a wet island was advertising a golden age in verse, and expected to be understood." },
   },
   claims: [
     { text: "Carausius commanded the Channel fleet and was accused of intercepting raiders only after they had taken plunder.", classification: "Probable", sources: ["cah"], date: "AD 286", at: "bronze" },
@@ -252,11 +231,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["brit-end"], silver: ["brit-end", "brit-constantine"] },
   tiers: {
     bronze: { label: "Taken at Sixteen", when: "5th c. AD",
-      blurb: "Born into a Romanised, Christian, tax-paying British family with a deacon father and a decurion grandfather. Irish raiders took him at sixteen and he spent six years herding animals before escaping. He went back voluntarily, to the people who had enslaved him.",
-      stats: { power: 22, intellect: 70, influence: 76, creativity: 60, wealth: 30, fame: 84 } },
+      blurb: "Born into a Romanised, Christian, tax-paying British family with a deacon father and a decurion grandfather. Irish raiders took him at sixteen and he spent six years herding animals before escaping. He went back voluntarily, to the people who had enslaved him." },
     silver: { label: "The First Voice", when: "The Confessio",
-      blurb: "His Confessio is a defence of his ministry against British churchmen attacking him, written in Latin he twice apologises for. It is the first autobiography produced in these islands, and after four thousand years of this Set being narrated by visitors, traders, generals and their sons-in-law, the first inhabitant of Britain to speak to us directly and at length is a runaway slave who is embarrassed about his grammar.",
-      stats: { power: 22, intellect: 76, influence: 84, creativity: 66, wealth: 30, fame: 92 } },
+      blurb: "His Confessio is a defence of his ministry against British churchmen attacking him, written in Latin he twice apologises for. It is the first autobiography produced in these islands, and after four thousand years of this Set being narrated by visitors, traders, generals and their sons-in-law, the first inhabitant of Britain to speak to us directly and at length is a runaway slave who is embarrassed about his grammar." },
   },
   claims: [
     { text: "Patrick was born in Roman Britain to a Christian family; his father was a deacon and decurion.", classification: "Probable", sources: ["cah"], date: "5th c. AD", at: "bronze" },

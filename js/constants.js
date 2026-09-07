@@ -12,8 +12,16 @@ const TIER_RANK = { bronze: 0, silver: 1, gold: 2 };
 const TIER_LABEL = { bronze: "Bronze", silver: "Silver", gold: "Gold" };
 const TIER_COLOR = { bronze: "var(--bronze)", silver: "var(--silver)", gold: "var(--gold)" };
 const TIER_GLOW = { bronze: "var(--bronze-glow)", silver: "var(--silver-glow)", gold: "var(--gold-glow)" };
-const STAT_KEYS = ["power", "intellect", "influence", "creativity", "wealth", "fame"];
-const STAT_LABEL = { power: "Power", intellect: "Intellect", influence: "Influence", creativity: "Creativity", wealth: "Wealth", fame: "Fame" };
+/* What a tier actually claims — about the reader, not the subject.
+   A coin is not a trophy for having met somebody; it is a statement
+   about how well you know them, and the three grades are the three
+   useful levels of knowing anything. */
+const TIER_MEANS = {
+  bronze: "You recognise the subject and can place it broadly.",
+  silver: "You can explain what happened, why it matters, and place it exactly.",
+  gold:   "You can recall it unprompted, reason about it, and connect it to other history.",
+};
+const TIER_SHORT = { bronze: "Recognise", silver: "Explain", gold: "Connect" };
 const CLASS_COLOR = {
   "Established": "var(--verdigris)", "Probable": "var(--bronze-glow)", "Contested": "var(--rust)",
   "Interpretation": "var(--silver-glow)", "Traditional / Legendary": "var(--gold-glow)", "Unknown": "var(--parchment-dim)",

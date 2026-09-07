@@ -53,16 +53,45 @@ function Bar({ pct, tone = "gold", height = 8 }) {
     <div style={{ width: `${pct}%`, height: "100%", background: g, transition: "width .6s ease" }} /></div>;
 }
 
-function StatBars({ stats, tier }) {
+/* The coin itself. There used to be six invented attribute scores here —
+   power, intellect, influence and so on — which were a game mechanic and
+   said nothing true about anybody. What a coin records now is how well
+   the reader knows the subject, which is the only thing this app is in a
+   position to measure. */
+function Coin({ tier, size = 64 }) {
+  const t = tier || "locked";
+  const face = {
+    bronze: ["#7A5F35", "#C89B5A"], silver: ["#6C7883", "#CBD6DE"],
+    gold: ["#8A6E23", "#F6DE7C"], locked: ["#2A2620", "#3A3226"],
+  }[t];
+  return <div style={{
+    width: size, height: size, borderRadius: "50%", flexShrink: 0,
+    background: `radial-gradient(circle at 34% 30%, ${face[1]}, ${face[0]} 72%)`,
+    border: `2px solid ${tier ? TIER_GLOW[tier] : "var(--hair)"}`,
+    boxShadow: tier ? `0 0 12px -2px ${TIER_GLOW[tier]}` : "none",
+    display: "flex", alignItems: "center", justifyContent: "center",
+    fontFamily: "'Cinzel',serif", fontSize: size * 0.34, color: tier ? "#1B1710" : "var(--hair)",
+  }}>{tier ? TIER_LABEL[tier][0] : "·"}</div>;
+}
+
+/* The three grades, with the one you hold marked. Reading it should tell
+   you what you would have to be able to do to earn the next one. */
+function CoinLadder({ tier }) {
   return <div className="flex flex-col gap-2">
-    {STAT_KEYS.map((k) => (
-      <div key={k} className="flex items-center gap-3">
-        <div className="hcg-tab" style={{ width: 76, color: "var(--parchment-dim)" }}>{STAT_LABEL[k]}</div>
-        <div className="hcg-bar-track flex-1 rounded-full overflow-hidden" style={{ height: 9 }}>
-          <div style={{ width: `${stats[k]}%`, height: "100%", background: `linear-gradient(90deg, ${TIER_COLOR[tier]}, ${TIER_GLOW[tier]})`, transition: "width .7s ease" }} />
+    {TIER_ORDER.map((t) => {
+      const held = TIER_ORDER.indexOf(tier) >= TIER_ORDER.indexOf(t);
+      return <div key={t} className="flex items-start gap-3 rounded p-2"
+        style={{ background: t === tier ? "var(--panel-2)" : "transparent",
+                 border: `1px solid ${t === tier ? TIER_GLOW[t] : "transparent"}` }}>
+        <Coin tier={held ? t : null} size={30} />
+        <div style={{ minWidth: 0 }}>
+          <div className="hcg-mono" style={{ fontSize: 11, color: held ? TIER_GLOW[t] : "var(--parchment-dim)" }}>
+            {TIER_LABEL[t].toUpperCase()} · {TIER_SHORT[t].toUpperCase()}
+          </div>
+          <div style={{ fontSize: 13.5, lineHeight: 1.5, color: held ? "#DFD3B9" : "var(--parchment-dim)" }}>{TIER_MEANS[t]}</div>
         </div>
-        <div className="hcg-mono" style={{ width: 28, textAlign: "right", fontSize: 13, color: TIER_GLOW[tier] }}>{stats[k]}</div>
-      </div>))}
+      </div>;
+    })}
   </div>;
 }
 
@@ -88,7 +117,7 @@ function CharacterModal({ charId, cards, chaptersDone, onClose, onOpenChar, onGo
   const tiersBuilt = TIER_ORDER.filter((t) => c.tiers[t]);
   const visibleClaims = tier ? c.claims.filter((cl) => TIER_RANK[cl.at] <= TIER_RANK[tier]) : [];
 
-  const TABS = [{ id: "card", label: "Card", icon: ScrollIcon }, { id: "claims", label: "Claims", icon: InfoIcon },
+  const TABS = [{ id: "card", label: "Coin", icon: ScrollIcon }, { id: "claims", label: "Claims", icon: InfoIcon },
     { id: "links", label: "Connections", icon: LinkIcon }, { id: "life", label: "Life stages", icon: ClockIcon }];
 
   return (
@@ -144,9 +173,8 @@ function CharacterModal({ charId, cards, chaptersDone, onClose, onOpenChar, onGo
             <p style={{ lineHeight: 1.7, color: "#DFD3B9" }}>{c.tiers[tier].blurb}</p>
             {c.note && <div className="hcg-panel-2 rounded p-3" style={{ fontSize: 13, color: "var(--parchment-dim)" }}>{c.note}</div>}
             <div>
-              <div className="hcg-tab mb-2" style={{ color: "var(--parchment-dim)" }}>SIX STATS · {c.tiers[tier].when}</div>
-              <StatBars stats={c.tiers[tier].stats} tier={tier} />
-              <div style={{ fontSize: 12.5, color: "var(--parchment-dim)", marginTop: 8, fontStyle: "italic" }}>Fame is recognition at this point in their life, not their modern reputation.</div>
+              <div className="hcg-tab mb-2" style={{ color: "var(--parchment-dim)" }}>WHAT THIS COIN SAYS · {c.tiers[tier].when}</div>
+              <CoinLadder tier={tier} />
             </div>
             {nt ? <div className="hcg-panel-2 rounded p-4">
               <div className="hcg-tab mb-2" style={{ color: "var(--gold-glow)" }}>PATH TO {TIER_LABEL[nt.tier].toUpperCase()}</div>
@@ -170,7 +198,7 @@ function CharacterModal({ charId, cards, chaptersDone, onClose, onOpenChar, onGo
               </div>
               <div className="hcg-mono" style={{ fontSize: 10.5, color: "var(--parchment-dim)" }}>{cl.date} · {cl.sources.map((s) => SOURCES[s]).join("; ")}</div>
             </div>)}
-            <div style={{ fontSize: 12.5, color: "var(--parchment-dim)", fontStyle: "italic" }}>More claims unlock as this card rises in tier.</div>
+            <div style={{ fontSize: 12.5, color: "var(--parchment-dim)", fontStyle: "italic" }}>More claims unlock as this coin rises.</div>
           </div>}
 
           {tier && tab === "links" && <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -217,7 +245,7 @@ function MintModal({ mints, cards, onClose, onOpen }) {
   return <div className="fixed inset-0 z-[55] flex items-center justify-center p-4" style={{ background: "rgba(9,7,5,.8)" }} onClick={onClose}>
     <div className="hcg-panel hcg-pop rounded-lg p-6 max-w-md w-full text-center" onClick={(e) => e.stopPropagation()}>
       <div className="hcg-tab mb-1" style={{ color: "var(--gold-glow)" }}>CHAPTER COMPLETE</div>
-      <h3 className="hcg-display mb-5" style={{ fontSize: 20 }}>{mints.length === 1 ? "A card is struck" : `${mints.length} cards are struck`}</h3>
+      <h3 className="hcg-display mb-5" style={{ fontSize: 20 }}>{mints.length === 1 ? "A coin is struck" : `${mints.length} coins are struck`}</h3>
       <div className="flex flex-col gap-3">
         {mints.map((m, i) => {
           const c = CHARACTERS[m.id]; const nm = displayName(c, m.tier);
@@ -226,6 +254,7 @@ function MintModal({ mints, cards, onClose, onOpen }) {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2"><span style={{ fontSize: 15 }}>{nm}</span><TierBadge tier={m.tier} small /></div>
               <div style={{ fontSize: 12, color: "var(--parchment-dim)" }}>{m.from ? `Raised from ${TIER_LABEL[m.from]} — ${c.tiers[m.tier].label}` : c.tiers[m.tier].label}</div>
+              <div className="hcg-mono" style={{ fontSize: 10.5, color: TIER_GLOW[m.tier], marginTop: 2 }}>{TIER_MEANS[m.tier]}</div>
             </div>
             <ChevRight size={16} color="var(--parchment-dim)" />
           </button>;
@@ -373,6 +402,35 @@ function BattleDiagram({ diagram }) {
 }
 
 /* ========================= CHAPTER READER =========================== */
+/* --------------------------------------------------------------------
+   Checkpoint options are shuffled at render time.
+
+   92% of the 228 questions in this app had been written with the right
+   answer second. Nobody did that on purpose; it is what happens when you
+   write a question, then a wrong answer, then the right one, then two
+   more wrong ones. The effect is that the checkpoint stops testing
+   anything, because the second option is always correct.
+
+   The shuffle is seeded on the chapter and question, so the order is the
+   same every time you meet that question — it does not jump around while
+   you are reading it — but it is not the order it was authored in.
+   -------------------------------------------------------------------- */
+function seededOrder(seed, n) {
+  let h = 2166136261;
+  for (let i = 0; i < seed.length; i++) { h ^= seed.charCodeAt(i); h = Math.imul(h, 16777619); }
+  const rnd = () => { h ^= h << 13; h ^= h >>> 17; h ^= h << 5; return ((h >>> 0) % 100000) / 100000; };
+  const idx = Array.from({ length: n }, (_, i) => i);
+  for (let i = n - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [idx[i], idx[j]] = [idx[j], idx[i]]; }
+  return idx;
+}
+
+/* A question with its options in display order, and `correct` pointing at
+   wherever the right one ended up. */
+function shuffledQuestion(chapterId, qi, q) {
+  const order = seededOrder(`${chapterId}#${qi}`, q.options.length);
+  return { ...q, options: order.map((o) => q.options[o]), correct: order.indexOf(q.correct) };
+}
+
 function Reader({ chapter, save, startBeat, onExit, onBookmark, onBeat, onComplete }) {
   const total = chapter.beats.length;
   const [i, setI] = useState(startBeat || 0);
@@ -386,8 +444,11 @@ function Reader({ chapter, save, startBeat, onExit, onBookmark, onBeat, onComple
   useEffect(() => { onBeat(chapter.id, i, chapter.beats[i]); }, [i]);
 
   const beat = chapter.beats[i];
-  const correctCount = chapter.check.reduce((a, q, n) => a + (answers[n] === q.correct ? 1 : 0), 0);
-  const passed = correctCount >= Math.ceil(chapter.check.length * 0.67);
+  /* Shuffled once per chapter, not per render, so the options do not move
+     under the reader's finger. */
+  const check = useMemo(() => chapter.check.map((q, n) => shuffledQuestion(chapter.id, n, q)), [chapter.id]);
+  const correctCount = check.reduce((a, q, n) => a + (answers[n] === q.correct ? 1 : 0), 0);
+  const passed = correctCount >= Math.ceil(check.length * 0.67);
 
   function advance() { if (i + 1 < total) setI(i + 1); else setPhase("check"); }
 
@@ -457,12 +518,12 @@ function Reader({ chapter, save, startBeat, onExit, onBookmark, onBeat, onComple
       </div>}
 
       {phase === "check" && <div className="hcg-fade">
-        <div className="hcg-tab mb-3" style={{ color: "var(--parchment-dim)" }}>CHECKPOINT · QUESTION {qi + 1} OF {chapter.check.length}</div>
-        <div style={{ fontSize: 17, marginBottom: 14 }}>{chapter.check[qi].q}</div>
+        <div className="hcg-tab mb-3" style={{ color: "var(--parchment-dim)" }}>CHECKPOINT · QUESTION {qi + 1} OF {check.length}</div>
+        <div style={{ fontSize: 17, marginBottom: 14 }}>{check[qi].q}</div>
         <div className="flex flex-col gap-2">
-          {chapter.check[qi].options.map((opt, oi) => {
+          {check[qi].options.map((opt, oi) => {
             const answered = answers[qi] !== undefined;
-            const isC = oi === chapter.check[qi].correct, isP = answers[qi] === oi;
+            const isC = oi === check[qi].correct, isP = answers[qi] === oi;
             let bg = "var(--panel-2)", bd = "var(--hair)";
             if (answered && isC) { bg = "rgba(124,154,133,.18)"; bd = "var(--verdigris)"; }
             else if (answered && isP) { bg = "rgba(166,84,58,.18)"; bd = "var(--rust)"; }
@@ -475,15 +536,15 @@ function Reader({ chapter, save, startBeat, onExit, onBookmark, onBeat, onComple
           })}
         </div>
         {answers[qi] !== undefined && <div className="hcg-fade mt-4">
-          <div className="hcg-panel-2 rounded p-3" style={{ fontSize: 13.5, color: "var(--parchment-dim)" }}>{chapter.check[qi].explain}</div>
-          <button onClick={() => qi + 1 < chapter.check.length ? setQi(qi + 1) : setPhase("done")} className="hcg-btn mt-3 text-xs px-4 py-2.5 rounded" style={{ background: "var(--bronze)", color: "#1B1710" }}>
-            {qi + 1 < chapter.check.length ? "Next question" : "See result"}</button>
+          <div className="hcg-panel-2 rounded p-3" style={{ fontSize: 13.5, color: "var(--parchment-dim)" }}>{check[qi].explain}</div>
+          <button onClick={() => qi + 1 < check.length ? setQi(qi + 1) : setPhase("done")} className="hcg-btn mt-3 text-xs px-4 py-2.5 rounded" style={{ background: "var(--bronze)", color: "#1B1710" }}>
+            {qi + 1 < check.length ? "Next question" : "See result"}</button>
         </div>}
       </div>}
 
       {phase === "done" && <div className="hcg-fade text-center py-6">
         <div className="hcg-display" style={{ fontSize: 22, color: passed ? "var(--gold-glow)" : "var(--rust)" }}>{passed ? "Checkpoint passed" : "Not quite"}</div>
-        <div style={{ color: "var(--parchment-dim)", marginTop: 6 }}>{correctCount} of {chapter.check.length} correct</div>
+        <div style={{ color: "var(--parchment-dim)", marginTop: 6 }}>{correctCount} of {check.length} correct</div>
         {passed ? <>
           <p style={{ color: "var(--parchment-dim)", marginTop: 12, fontSize: 14 }}>{already ? "Already completed — no new cards from a re-read." : "Chapter marked complete. Any cards this unlocks will be struck now."}</p>
           <button onClick={() => onComplete(chapter.id)} className="hcg-btn mt-5 text-sm px-5 py-2.5 rounded" style={{ background: "var(--gold)", color: "#1B1710" }}>Finish chapter</button>

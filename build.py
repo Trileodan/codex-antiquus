@@ -2,7 +2,6 @@
 """Bundle Codex Antiquus into double-clickable single files.
 
     python3 build.py     ->  dist/codex-antiquus.html   (the learning app)
-                             dist/field-of-battle.html  (the battle game)
 
 Browsers refuse to load sibling scripts over file://, so the multi-file tree
 needs a server. This inlines the CSS and every JS module into a single
@@ -111,10 +110,12 @@ def bundle(page_rel, out_name):
 
 
 any_cdn = bundle("index.html", "codex-antiquus.html")
-any_cdn |= bundle("battle/index.html", "field-of-battle.html")
+# The battle page is archived (see archive/README.md). Restore this line
+# alongside the script tags in index.html to bring it back.
+# any_cdn |= bundle("archive/battle/index.html", "field-of-battle.html")
 
 print()
 if any_cdn:
     print("Run tools/fetch-vendor.sh (or .ps1) to vendor the remaining libraries.")
 else:
-    print("Both files are self-contained apart from the Google Fonts stylesheet.")
+    print("The bundle is self-contained apart from the Google Fonts stylesheet.")

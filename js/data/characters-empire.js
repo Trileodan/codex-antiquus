@@ -20,11 +20,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["emp-julio-claudians"], silver: ["emp-julio-claudians", "emp-cult"] },
   tiers: {
     bronze: { label: "Found Behind a Curtain", when: "AD 41",
-      blurb: "Limped, stammered, drooled when excited, and was kept out of public life by a family that found him an embarrassment — which is very probably why he outlived all of them. The Praetorians found him hiding after Caligula's murder and made him emperor because he was there and he was a Julian, and he turned out to be the most productive administrator of the dynasty.",
-      stats: { power: 62, intellect: 82, influence: 70, creativity: 66, wealth: 88, fame: 72 } },
+      blurb: "Limped, stammered, drooled when excited, and was kept out of public life by a family that found him an embarrassment — which is very probably why he outlived all of them. The Praetorians found him hiding after Caligula's murder and made him emperor because he was there and he was a Julian, and he turned out to be the most productive administrator of the dynasty." },
     silver: { label: "The Man on the Bronze", when: "AD 48",
-      blurb: "His speech admitting Gauls to the Senate survives twice: as Tacitus polished it, and as it was actually inscribed at Lyon. The real one wanders, digresses into institutional history, and pulls itself back with the equivalent of but I am getting ahead of myself. It is the only place in this app where an ancient historian's version of a speech can be checked against the speech.",
-      stats: { power: 62, intellect: 88, influence: 78, creativity: 70, wealth: 88, fame: 76 } },
+      blurb: "His speech admitting Gauls to the Senate survives twice: as Tacitus polished it, and as it was actually inscribed at Lyon. The real one wanders, digresses into institutional history, and pulls itself back with the equivalent of but I am getting ahead of myself. It is the only place in this app where an ancient historian's version of a speech can be checked against the speech." },
   },
   claims: [
     { text: "The Praetorian Guard proclaimed Claudius emperor after Caligula's murder.", classification: "Established", sources: ["suetonius", "dio"], date: "AD 41", at: "bronze" },
@@ -43,11 +41,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["emp-69"], silver: ["emp-69", "emp-flavians"] },
   tiers: {
     bronze: { label: "The Fourth Man", when: "AD 69",
-      blurb: "A tax farmer's son commanding in Judaea when three emperors killed each other in a year. His legions proclaimed him, his generals won the war for him, and he arrived in Rome after it was over — the clearest demonstration of Tacitus' secret of empire, that the throne could be won from a province by a man who was not there.",
-      stats: { power: 78, intellect: 74, influence: 70, creativity: 58, wealth: 62, fame: 66 } },
+      blurb: "A tax farmer's son commanding in Judaea when three emperors killed each other in a year. His legions proclaimed him, his generals won the war for him, and he arrived in Rome after it was over — the clearest demonstration of Tacitus' secret of empire, that the throne could be won from a province by a man who was not there." },
     silver: { label: "Money Does Not Smell", when: "AD 69 – 79",
-      blurb: "Inherited an empty treasury and refilled it by taxing everything, including the ammonia collected from public urinals — and when his son objected to the source, held a coin to his nose and asked whether it smelled. Built the Colosseum out of the sack of Jerusalem, on ground taken back from Nero's private garden. Both halves of that were the message.",
-      stats: { power: 80, intellect: 80, influence: 82, creativity: 66, wealth: 84, fame: 82 } },
+      blurb: "Inherited an empty treasury and refilled it by taxing everything, including the ammonia collected from public urinals — and when his son objected to the source, held a coin to his nose and asked whether it smelled. Built the Colosseum out of the sack of Jerusalem, on ground taken back from Nero's private garden. Both halves of that were the message." },
   },
   claims: [
     { text: "The eastern legions proclaimed Vespasian emperor in July AD 69.", classification: "Established", sources: ["tacitus", "josephus"], date: "AD 69", at: "bronze" },
@@ -66,8 +62,7 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["emp-flavians"] },
   tiers: {
     bronze: { label: "The Man Who Changed Sides", when: "AD 67 – 79",
-      blurb: "Commanded Judaean forces in Galilee, was besieged, survived a suicide pact he may have rigged, surrendered, and told Vespasian he would become emperor. When the prophecy came true he was freed, took his captor's family name, and wrote the history of the war for the men who had won it. An eyewitness on the losing side, writing under the patronage of the winners, and open about it.",
-      stats: { power: 30, intellect: 86, influence: 58, creativity: 74, wealth: 62, fame: 70 } },
+      blurb: "Commanded Judaean forces in Galilee, was besieged, survived a suicide pact he may have rigged, surrendered, and told Vespasian he would become emperor. When the prophecy came true he was freed, took his captor's family name, and wrote the history of the war for the men who had won it. An eyewitness on the losing side, writing under the patronage of the winners, and open about it." },
   },
   claims: [
     { text: "Josephus commanded Judaean forces in Galilee and surrendered at Jotapata in AD 67.", classification: "Established", sources: ["josephus", "cah"], date: "AD 67", at: "bronze" },
@@ -85,11 +80,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["emp-trajan"], silver: ["emp-trajan", "emp-adoptive"] },
   tiers: {
     bronze: { label: "The Furthest Extent", when: "AD 101 – 117",
-      blurb: "Took Dacia for its gold, then took Armenia, Mesopotamia and Ctesiphon, and reached the Persian Gulf — where Dio has him watching a ship leave for India and regretting his age. It is the largest the empire ever was. It lasted about three years, and his successor gave the east back within months of his death.",
-      stats: { power: 94, intellect: 76, influence: 84, creativity: 70, wealth: 90, fame: 88 } },
+      blurb: "Took Dacia for its gold, then took Armenia, Mesopotamia and Ctesiphon, and reached the Persian Gulf — where Dio has him watching a ship leave for India and regretting his age. It is the largest the empire ever was. It lasted about three years, and his successor gave the east back within months of his death." },
     silver: { label: "Optimus Princeps", when: "AD 98 – 117",
-      blurb: "Voted best of emperors by a Senate that had spent a century being careful, and the compliment seems to have been meant. His replies to Pliny in Bithynia are the best surviving picture of how the empire was actually governed: aqueducts, bathhouses, a refused fire brigade, and a written policy on Christians that forbids anonymous accusations as not in keeping with the spirit of our age.",
-      stats: { power: 94, intellect: 84, influence: 90, creativity: 74, wealth: 90, fame: 92 } },
+      blurb: "Voted best of emperors by a Senate that had spent a century being careful, and the compliment seems to have been meant. His replies to Pliny in Bithynia are the best surviving picture of how the empire was actually governed: aqueducts, bathhouses, a refused fire brigade, and a written policy on Christians that forbids anonymous accusations as not in keeping with the spirit of our age." },
   },
   claims: [
     { text: "Trajan annexed Dacia after two wars ending in AD 106.", classification: "Established", sources: ["dio", "arch"], date: "AD 101 – 106", at: "bronze" },
@@ -108,8 +101,7 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["emp-adoptive"] },
   tiers: {
     bronze: { label: "The Governor's Filing", when: "c. AD 110 – 112",
-      blurb: "Governed Bithynia and wrote to the emperor about everything: an aqueduct built twice and finished never, a bathhouse, a fire brigade that was refused because associations turn political. He also asked what to do about Christians, admitted he had never attended such a trial and did not know what the crime was, and got a reply. Nothing in Roman literature shows the machinery of empire so plainly.",
-      stats: { power: 34, intellect: 80, influence: 62, creativity: 72, wealth: 78, fame: 68 } },
+      blurb: "Governed Bithynia and wrote to the emperor about everything: an aqueduct built twice and finished never, a bathhouse, a fire brigade that was refused because associations turn political. He also asked what to do about Christians, admitted he had never attended such a trial and did not know what the crime was, and got a reply. Nothing in Roman literature shows the machinery of empire so plainly." },
   },
   claims: [
     { text: "Pliny governed Bithynia-Pontus as an imperial legate around AD 110.", classification: "Established", sources: ["pliny-y", "cah"], date: "c. AD 110", at: "bronze" },
@@ -126,11 +118,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["emp-hadrian"], silver: ["emp-hadrian", "emp-life"] },
   tiers: {
     bronze: { label: "The Man Who Drew the Lines", when: "AD 117 – 138",
-      blurb: "Gave back Trajan's eastern conquests within months, then spent half his reign travelling the empire deciding where it stopped: a palisade in Germany, a ditch system in Africa, a wall across Britain. They were too thin to stop an army. They were never meant to. What they marked was a change of mind about what an empire was.",
-      stats: { power: 78, intellect: 88, influence: 84, creativity: 86, wealth: 88, fame: 86 } },
+      blurb: "Gave back Trajan's eastern conquests within months, then spent half his reign travelling the empire deciding where it stopped: a palisade in Germany, a ditch system in Africa, a wall across Britain. They were too thin to stop an army. They were never meant to. What they marked was a change of mind about what an empire was." },
     silver: { label: "Graeculus", when: "AD 125 – 138",
-      blurb: "Spanish-born, Greek by choice, the first emperor to wear a beard because philosophers did. Finished a temple at Athens that had stood unfinished for six centuries, built a villa that reproduced the places he had seen, and when Antinous drowned in the Nile made him a god and had him sculpted so often that his is one of the most recognisable faces of the ancient world.",
-      stats: { power: 78, intellect: 92, influence: 86, creativity: 92, wealth: 88, fame: 90 } },
+      blurb: "Spanish-born, Greek by choice, the first emperor to wear a beard because philosophers did. Finished a temple at Athens that had stood unfinished for six centuries, built a villa that reproduced the places he had seen, and when Antinous drowned in the Nile made him a god and had him sculpted so often that his is one of the most recognisable faces of the ancient world." },
   },
   claims: [
     { text: "Hadrian abandoned Trajan's conquests in Mesopotamia and Armenia on his accession.", classification: "Established", sources: ["hist-aug", "dio"], date: "AD 117", at: "bronze" },
@@ -150,14 +140,11 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["emp-marcus"], silver: ["emp-marcus", "emp-adoptive"], gold: ["emp-marcus", "emp-life", "emp-crisis"] },
   tiers: {
     bronze: { label: "The Notebook", when: "AD 170s",
-      blurb: "Twelve books of Greek jottings with no title, written on campaign and certainly not for us. Not serene: the notes of a man arguing himself into getting up, reminding himself that the people he meets today will be ungrateful and that this is no reason to hate them. The only private self-address by a head of state to survive from the ancient world.",
-      stats: { power: 70, intellect: 94, influence: 78, creativity: 80, wealth: 84, fame: 82 } },
+      blurb: "Twelve books of Greek jottings with no title, written on campaign and certainly not for us. Not serene: the notes of a man arguing himself into getting up, reminding himself that the people he meets today will be ungrateful and that this is no reason to hate them. The only private self-address by a head of state to survive from the ancient world." },
     silver: { label: "The Last of the Five", when: "AD 161 – 180",
-      blurb: "The end of the adoptive succession, and the proof of what it had really been. The four emperors before him chose the best man available because none of them had a son who lived. He had one, made him co-emperor at sixteen, and the happiest period in human history ended the year he died.",
-      stats: { power: 76, intellect: 94, influence: 86, creativity: 80, wealth: 84, fame: 88 } },
+      blurb: "The end of the adoptive succession, and the proof of what it had really been. The four emperors before him chose the best man available because none of them had a son who lived. He had one, made him co-emperor at sixteen, and the happiest period in human history ended the year he died." },
     gold: { label: "Eleven Years on the Danube", when: "AD 166 – 180",
-      blurb: "Spent his reign on a frontier war that would not end, during a pandemic that emptied the tax rolls, enrolling gladiators and slaves because there were no recruits and selling the palace furniture to pay them. He died at Vindobona with the war unfinished. The philosophy was written in the gaps.",
-      stats: { power: 84, intellect: 96, influence: 88, creativity: 82, wealth: 70, fame: 94 } },
+      blurb: "Spent his reign on a frontier war that would not end, during a pandemic that emptied the tax rolls, enrolling gladiators and slaves because there were no recruits and selling the palace furniture to pay them. He died at Vindobona with the war unfinished. The philosophy was written in the gaps." },
   },
   claims: [
     { text: "The Meditations are private Stoic exercises, untitled in the manuscripts and not written for publication.", classification: "Established", sources: ["marcus", "cah"], date: "AD 170s", at: "bronze" },
@@ -177,8 +164,7 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["emp-cult"] },
   tiers: {
     bronze: { label: "The Prison Diary", when: "AD 203",
-      blurb: "A young woman of good family at Carthage, arrested with her slave Felicity, executed in the arena at twenty-two. A long section of the account claims to be her own writing from prison — her father begging her to recant, her anxiety about her nursing son, her dreams. If it is what it says it is, it is the earliest surviving Latin written by a woman describing her own death sentence.",
-      stats: { power: 18, intellect: 74, influence: 66, creativity: 78, wealth: 62, fame: 72 } },
+      blurb: "A young woman of good family at Carthage, arrested with her slave Felicity, executed in the arena at twenty-two. A long section of the account claims to be her own writing from prison — her father begging her to recant, her anxiety about her nursing son, her dreams. If it is what it says it is, it is the earliest surviving Latin written by a woman describing her own death sentence." },
   },
   claims: [
     { text: "Perpetua and Felicity were executed at Carthage in the arena in AD 203.", classification: "Probable", sources: ["perpetua", "cah"], date: "AD 203", at: "bronze" },
@@ -195,8 +181,7 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["emp-severans"] },
   tiers: {
     bronze: { label: "Enrich the Soldiers", when: "AD 193 – 211",
-      blurb: "Born at Lepcis Magna in Libya, won the empire in four years of civil war, and governed on one principle. Dio reports the advice he left his sons: enrich the soldiers, and scorn everyone else. He raised army pay for the first time in a century, let soldiers marry, opened the officer corps, and stationed a legion in Italy. Each measure was a rational answer to 193, and each made the next auction more likely.",
-      stats: { power: 88, intellect: 74, influence: 76, creativity: 60, wealth: 82, fame: 74 } },
+      blurb: "Born at Lepcis Magna in Libya, won the empire in four years of civil war, and governed on one principle. Dio reports the advice he left his sons: enrich the soldiers, and scorn everyone else. He raised army pay for the first time in a century, let soldiers marry, opened the officer corps, and stationed a legion in Italy. Each measure was a rational answer to 193, and each made the next auction more likely." },
   },
   claims: [
     { text: "The Praetorian Guard auctioned the throne after killing Pertinax in AD 193.", classification: "Established", sources: ["dio", "hist-aug"], date: "AD 193", at: "bronze" },
@@ -214,8 +199,7 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["emp-crisis"] },
   tiers: {
     bronze: { label: "Queen of the East", when: "AD 267 – 272",
-      blurb: "Ruled Palmyra after her husband's murder and, while Rome was fighting on three frontiers at once, took Syria, Egypt and much of Asia Minor. She issued coinage in her son's name and then her own with the imperial title. Aurelian beat her in two battles and took her alive. What happened to her afterwards is genuinely unknown, and every version we have is a story someone wanted to tell.",
-      stats: { power: 76, intellect: 82, influence: 84, creativity: 78, wealth: 86, fame: 82 } },
+      blurb: "Ruled Palmyra after her husband's murder and, while Rome was fighting on three frontiers at once, took Syria, Egypt and much of Asia Minor. She issued coinage in her son's name and then her own with the imperial title. Aurelian beat her in two battles and took her alive. What happened to her afterwards is genuinely unknown, and every version we have is a story someone wanted to tell." },
   },
   claims: [
     { text: "Zenobia governed Palmyra after the murder of her husband Odaenathus in AD 267.", classification: "Established", sources: ["cah", "arch"], date: "AD 267", at: "bronze" },
@@ -233,11 +217,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["emp-diocletian"], silver: ["emp-diocletian", "emp-crisis"] },
   tiers: {
     bronze: { label: "Four Emperors on Purpose", when: "AD 293",
-      blurb: "Worked out that every usurpation of the previous fifty years had begun on a frontier the emperor was not standing on, and divided the job four ways: two senior emperors, two juniors, four courts, four armies. Then in AD 305 he did the thing no Roman emperor had ever done and resigned. Asked to come back, he is said to have replied that if they could see the cabbages he had grown they would not ask.",
-      stats: { power: 90, intellect: 88, influence: 86, creativity: 84, wealth: 78, fame: 80 } },
+      blurb: "Worked out that every usurpation of the previous fifty years had begun on a frontier the emperor was not standing on, and divided the job four ways: two senior emperors, two juniors, four courts, four armies. Then in AD 305 he did the thing no Roman emperor had ever done and resigned. Asked to come back, he is said to have replied that if they could see the cabbages he had grown they would not ask." },
     silver: { label: "Dominus", when: "AD 284 – 305",
-      blurb: "Ended the Augustan fiction three centuries after it was invented. The first citizen became lord, approached through curtains and prostration. He doubled the provinces, split civil from military command, grew the administration from hundreds to tens of thousands, and tried to legislate away inflation with a schedule of a thousand prices carved on stone. It failed, and it is the best economic document we have.",
-      stats: { power: 92, intellect: 90, influence: 92, creativity: 84, wealth: 80, fame: 84 } },
+      blurb: "Ended the Augustan fiction three centuries after it was invented. The first citizen became lord, approached through curtains and prostration. He doubled the provinces, split civil from military command, grew the administration from hundreds to tens of thousands, and tried to legislate away inflation with a schedule of a thousand prices carved on stone. It failed, and it is the best economic document we have." },
   },
   claims: [
     { text: "Diocletian established the Tetrarchy of two Augusti and two Caesars by AD 293.", classification: "Established", sources: ["cah", "arch"], date: "AD 286 – 293", at: "bronze" },
@@ -256,14 +238,11 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["emp-constantine"], silver: ["emp-constantine", "emp-church"], gold: ["emp-constantine", "emp-church", "emp-fall"] },
   tiers: {
     bronze: { label: "The Milvian Bridge", when: "AD 312",
-      blurb: "Proclaimed by the army at York, won the empire in six years of civil war, and beat Maxentius outside Rome. What happened before the battle is the most examined religious claim in Roman history and the two accounts of it disagree on the sign, the timing and whether anything was seen at all. What followed is documented: in AD 313 religion became a free choice for everyone.",
-      stats: { power: 88, intellect: 82, influence: 88, creativity: 76, wealth: 86, fame: 90 } },
+      blurb: "Proclaimed by the army at York, won the empire in six years of civil war, and beat Maxentius outside Rome. What happened before the battle is the most examined religious claim in Roman history and the two accounts of it disagree on the sign, the timing and whether anything was seen at all. What followed is documented: in AD 313 religion became a free choice for everyone." },
     silver: { label: "Nicaea", when: "AD 325",
-      blurb: "Summoned three hundred bishops, paid their travel out of the imperial post, chaired the proceedings, and pressed them into a creed that most of Christianity still recites. He held no clerical office of any kind. The precedent — the ruler as convener and guarantor of orthodoxy — became the expectation in the east and a thousand-year argument in the west.",
-      stats: { power: 88, intellect: 86, influence: 94, creativity: 80, wealth: 88, fame: 94 } },
+      blurb: "Summoned three hundred bishops, paid their travel out of the imperial post, chaired the proceedings, and pressed them into a creed that most of Christianity still recites. He held no clerical office of any kind. The precedent — the ruler as convener and guarantor of orthodoxy — became the expectation in the east and a thousand-year argument in the west." },
     gold: { label: "A New Rome", when: "AD 330",
-      blurb: "Refounded Byzantium as his capital on a defensible promontory near both threatened frontiers, with a Senate, free grain and walls. The empire's centre moved east to the richer half — which is why, when the western provinces went, the eastern empire simply carried on calling itself Roman for another eleven hundred years.",
-      stats: { power: 90, intellect: 88, influence: 96, creativity: 86, wealth: 92, fame: 97 } },
+      blurb: "Refounded Byzantium as his capital on a defensible promontory near both threatened frontiers, with a Senate, free grain and walls. The empire's centre moved east to the richer half — which is why, when the western provinces went, the eastern empire simply carried on calling itself Roman for another eleven hundred years." },
   },
   claims: [
     { text: "Constantine was proclaimed emperor by the army at York in AD 306.", classification: "Established", sources: ["eusebius", "cah"], date: "AD 306", at: "bronze" },
@@ -284,8 +263,7 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["emp-barbarians"] },
   tiers: {
     bronze: { label: "The Last History in Latin", when: "c. AD 390",
-      blurb: "A Greek from Antioch who served as a staff officer, survived a siege, and then wrote the last great history in Latin — the only major narrative for the fourth century. He is at Adrianople in a way no other late source manages, and he records that the Roman officers receiving the Gothic refugees extorted them and sold them dogs to eat at the price of a child apiece.",
-      stats: { power: 40, intellect: 90, influence: 52, creativity: 82, wealth: 50, fame: 62 } },
+      blurb: "A Greek from Antioch who served as a staff officer, survived a siege, and then wrote the last great history in Latin — the only major narrative for the fourth century. He is at Adrianople in a way no other late source manages, and he records that the Roman officers receiving the Gothic refugees extorted them and sold them dogs to eat at the price of a child apiece." },
   },
   claims: [
     { text: "Ammianus served as a staff officer in the eastern army before writing his history.", classification: "Established", sources: ["ammianus", "cah"], date: "AD 353 – 363", at: "bronze" },

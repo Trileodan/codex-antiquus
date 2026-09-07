@@ -98,8 +98,7 @@ function App() {
     { id: "wars", label: "Crossings", icon: SwordsIcon },
     { id: "atlas", label: "Atlas", icon: MapIcon },
     { id: "progress", label: "Progress", icon: ChartIcon },
-    { id: "collection", label: "Cards", icon: LayersIcon },
-    { id: "battle", label: "Battle", icon: ShieldIcon },
+    { id: "collection", label: "Coins", icon: LayersIcon },
   ];
 
   return <div className="hcg-root">
@@ -159,15 +158,6 @@ function App() {
 
     {screen === "collection" && <CollectionScreen save={save} cards={cards} onHome={() => setScreen("home")} onOpenChar={setOpenChar} />}
 
-    {/* The battle module, mounted as an ordinary child. It reads the save
-        itself through loadSave(), so it sees the same collection this screen
-        does without being handed anything. BattleApp is defined by
-        battle/js/ui/app.js, which index.html loads just before this file. */}
-    {screen === "battle" && (typeof BattleApp === "function"
-      ? <BattleApp />
-      : <div className="max-w-xl mx-auto px-4 py-16 text-center hcg-fade">
-          <p style={{ color: "var(--parchment-dim)" }}>The battle module did not load.</p>
-        </div>)}
 
     {screen === "reader" && chapter && <Reader chapter={chapter} save={save} startBeat={startBeat}
       onExit={exitReader} onBookmark={handleBookmark} onBeat={handleBeat} onComplete={completeChapter} />}

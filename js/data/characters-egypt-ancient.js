@@ -19,11 +19,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["egy-menes"], silver: ["egy-menes", "egy-predynastic"] },
   tiers: {
     bronze: { label: "The Man on the Palette", when: "c. 3100 BC",
-      blurb: "Shown on a ceremonial palette wearing the crown of Upper Egypt on one face and the crown of Lower Egypt on the other, mace raised over a kneeling captive. It is the founding image of Egyptian kingship and it is not a battle report — the same pose was still being carved for Roman emperors three thousand years later.",
-      stats: { power: 74, intellect: 60, influence: 82, creativity: 66, wealth: 62, fame: 78 } },
+      blurb: "Shown on a ceremonial palette wearing the crown of Upper Egypt on one face and the crown of Lower Egypt on the other, mace raised over a kneeling captive. It is the founding image of Egyptian kingship and it is not a battle report — the same pose was still being carved for Roman emperors three thousand years later." },
     silver: { label: "Or Possibly Not Narmer", when: "The problem",
-      blurb: "Egypt remembered its first king as Menes and no contemporary object carries that name. Narmer is one candidate and his successor Hor-Aha is the other, and the argument has run since the nineteenth century without resolution. What certainly happened is administrative: a capital at Memphis, sealings at both ends of the country, and the start of recorded time.",
-      stats: { power: 74, intellect: 66, influence: 84, creativity: 66, wealth: 64, fame: 82 } },
+      blurb: "Egypt remembered its first king as Menes and no contemporary object carries that name. Narmer is one candidate and his successor Hor-Aha is the other, and the argument has run since the nineteenth century without resolution. What certainly happened is administrative: a capital at Memphis, sealings at both ends of the country, and the start of recorded time." },
   },
   claims: [
     { text: "The Narmer Palette shows one ruler wearing both the white and red crowns.", classification: "Established", sources: ["arch"], date: "c. 3100 BC", at: "bronze" },
@@ -41,8 +39,7 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["egy-pyramids"] },
   tiers: {
     bronze: { label: "The First Architect With a Name", when: "c. 2670 BC",
-      blurb: "Djoser's chief official, credited by Egyptian tradition with the Step Pyramid at Saqqara — the first monumental stone building anywhere. He is one of very few architects in history whose name outlived his building, and Egypt eventually worshipped him as a god of medicine two thousand years after his death.",
-      stats: { power: 42, intellect: 92, influence: 76, creativity: 94, wealth: 60, fame: 80 } },
+      blurb: "Djoser's chief official, credited by Egyptian tradition with the Step Pyramid at Saqqara — the first monumental stone building anywhere. He is one of very few architects in history whose name outlived his building, and Egypt eventually worshipped him as a god of medicine two thousand years after his death." },
   },
   claims: [
     { text: "The Step Pyramid at Saqqara is the earliest monumental stone building known.", classification: "Established", sources: ["arch"], date: "c. 2670 BC", at: "bronze" },
@@ -59,11 +56,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["egy-pyramids"], silver: ["egy-pyramids", "egy-oldkingdom"] },
   tiers: {
     bronze: { label: "The Great Pyramid", when: "c. 2560 BC",
-      blurb: "Built the largest building in the world and held the record for nearly four thousand years. Two and a half million blocks, sides level to a few centimetres, aligned to true north within a fraction of a degree — and the only certain likeness of him is an ivory figurine three inches high.",
-      stats: { power: 88, intellect: 72, influence: 92, creativity: 78, wealth: 96, fame: 92 } },
+      blurb: "Built the largest building in the world and held the record for nearly four thousand years. Two and a half million blocks, sides level to a few centimetres, aligned to true north within a fraction of a degree — and the only certain likeness of him is an ivory figurine three inches high." },
     silver: { label: "The King in the Paperwork", when: "Year 27",
-      blurb: "A logbook found at Wadi al-Jarf in 2013 records an inspector named Merer shipping limestone to his pyramid, week by week, naming the official in charge. It is the oldest inscribed papyrus known and it turns the Great Pyramid from a mystery into a delivery schedule.",
-      stats: { power: 88, intellect: 76, influence: 92, creativity: 80, wealth: 96, fame: 94 } },
+      blurb: "A logbook found at Wadi al-Jarf in 2013 records an inspector named Merer shipping limestone to his pyramid, week by week, naming the official in charge. It is the oldest inscribed papyrus known and it turns the Great Pyramid from a mystery into a delivery schedule." },
   },
   claims: [
     { text: "The Great Pyramid was the tallest structure built by humans until the 14th century AD.", classification: "Established", sources: ["arch"], date: "c. 2560 BC", at: "bronze" },
@@ -81,8 +76,7 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["egy-pyramids"] },
   tiers: {
     bronze: { label: "The Inspector's Logbook", when: "c. 2562 BC",
-      blurb: "Commanded about forty men and kept a diary. Sail to Tura, load limestone, sail to Giza, unload, repeat — with rations issued and officials met. Found at Wadi al-Jarf in 2013, it is the oldest inscribed papyrus in existence and the only contemporary account of building the Great Pyramid, written by a middle manager who had no idea anyone would read it.",
-      stats: { power: 24, intellect: 70, influence: 40, creativity: 44, wealth: 38, fame: 52 } },
+      blurb: "Commanded about forty men and kept a diary. Sail to Tura, load limestone, sail to Giza, unload, repeat — with rations issued and officials met. Found at Wadi al-Jarf in 2013, it is the oldest inscribed papyrus in existence and the only contemporary account of building the Great Pyramid, written by a middle manager who had no idea anyone would read it." },
   },
   claims: [
     { text: "The Wadi al-Jarf papyri are the oldest inscribed papyri yet found.", classification: "Established", sources: ["wadi-jarf", "arch"], date: "c. 2562 BC", at: "bronze" },
@@ -98,8 +92,7 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["egy-middle-kingdom"] },
   tiers: {
     bronze: { label: "The Face That Changed", when: "c. 1860 BC",
-      blurb: "Pushed the border deep into Nubia, built fortresses with walls eight metres thick and paperwork logging everyone who crossed, and left a boundary stela telling his own successors that any son of his who let the line slip is no son of his. His portraits abandon the serene royal ideal for heavy lids and deep lines — the sharpest stylistic break in three thousand years of Egyptian art.",
-      stats: { power: 84, intellect: 80, influence: 78, creativity: 72, wealth: 74, fame: 66 } },
+      blurb: "Pushed the border deep into Nubia, built fortresses with walls eight metres thick and paperwork logging everyone who crossed, and left a boundary stela telling his own successors that any son of his who let the line slip is no son of his. His portraits abandon the serene royal ideal for heavy lids and deep lines — the sharpest stylistic break in three thousand years of Egyptian art." },
   },
   claims: [
     { text: "Senusret III fortified the Second Cataract with a chain of mud-brick fortresses.", classification: "Established", sources: ["arch"], date: "c. 1860 BC", at: "bronze" },
@@ -115,11 +108,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["egy-empire"], silver: ["egy-empire", "egy-akhenaten"] },
   tiers: {
     bronze: { label: "King, Not Queen", when: "c. 1473 BC",
-      blurb: "Took the full royal titulary at a time when Egyptian had no word, image or ritual for a female king. Her monuments improvise: the kilt, the false beard and the male body of a pharaoh, with feminine grammar in the text beside them, so the same statue can be visually male and textually female. Two decades of prosperity, a trading fleet to Punt, and a temple that quotes the architecture of the king who last reunified Egypt.",
-      stats: { power: 70, intellect: 86, influence: 88, creativity: 90, wealth: 88, fame: 84 } },
+      blurb: "Took the full royal titulary at a time when Egyptian had no word, image or ritual for a female king. Her monuments improvise: the kilt, the false beard and the male body of a pharaoh, with feminine grammar in the text beside them, so the same statue can be visually male and textually female. Two decades of prosperity, a trading fleet to Punt, and a temple that quotes the architecture of the king who last reunified Egypt." },
     silver: { label: "Chiselled Out", when: "c. 1440 BC",
-      blurb: "Twenty years after her death her statues were smashed and buried, her cartouches cut from walls and her name left off the king lists. The delay is the clue: this was not Thutmose III's revenge but the removal of a precedent, at the point he needed the throne secured for his own son. On that reading the attack was on the idea that a woman could hold the office, which is worse.",
-      stats: { power: 70, intellect: 88, influence: 88, creativity: 90, wealth: 88, fame: 90 } },
+      blurb: "Twenty years after her death her statues were smashed and buried, her cartouches cut from walls and her name left off the king lists. The delay is the clue: this was not Thutmose III's revenge but the removal of a precedent, at the point he needed the throne secured for his own son. On that reading the attack was on the idea that a woman could hold the office, which is worse." },
   },
   claims: [
     { text: "Hatshepsut ruled as king with the full five-part royal titulary.", classification: "Established", sources: ["arch"], date: "c. 1473 BC", at: "bronze" },
@@ -137,8 +128,7 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["egy-empire"] },
   tiers: {
     bronze: { label: "Megiddo", when: "c. 1457 BC",
-      blurb: "Campaigned in the Levant seventeen times in twenty years and built the largest empire Egypt ever held. His annals at Karnak, copied from an army scribe's day-book, are the earliest detailed battle account in human history — and they record his own army throwing away the pursuit by stopping to loot, which royal inscriptions do not normally do.",
-      stats: { power: 94, intellect: 84, influence: 86, creativity: 76, wealth: 88, fame: 82 } },
+      blurb: "Campaigned in the Levant seventeen times in twenty years and built the largest empire Egypt ever held. His annals at Karnak, copied from an army scribe's day-book, are the earliest detailed battle account in human history — and they record his own army throwing away the pursuit by stopping to loot, which royal inscriptions do not normally do." },
   },
   claims: [
     { text: "The Karnak annals were copied from a leather-roll day-book kept on campaign.", classification: "Probable", sources: ["arch"], date: "c. 1450 BC", at: "bronze" },
@@ -154,11 +144,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["egy-akhenaten"], silver: ["egy-akhenaten", "egy-empire"] },
   tiers: {
     bronze: { label: "The Aten Alone", when: "c. 1348 BC",
-      blurb: "Closed the temples, suppressed Amun — hacking the name out of his own father's cartouche — moved the capital to virgin desert and worshipped the visible disc of the sun. Whether it counts as monotheism is arguable, since access to the god ran through him: at Amarna, people are shown worshipping the royal family, who worship the Aten.",
-      stats: { power: 68, intellect: 82, influence: 74, creativity: 96, wealth: 82, fame: 88 } },
+      blurb: "Closed the temples, suppressed Amun — hacking the name out of his own father's cartouche — moved the capital to virgin desert and worshipped the visible disc of the sun. Whether it counts as monotheism is arguable, since access to the god ran through him: at Amarna, people are shown worshipping the royal family, who worship the Aten." },
     silver: { label: "The Letters in the Rubbish", when: "c. 1350 BC",
-      blurb: "His reign is documented by 382 clay tablets found by a woman digging for fertiliser in 1887 — the Egyptian foreign office archive, in Akkadian, with great kings haggling over gold and Levantine vassals begging for archers. Whether Egypt's non-committal replies show a king neglecting his empire or an imperial power letting vassals exhaust each other is still argued.",
-      stats: { power: 68, intellect: 86, influence: 76, creativity: 96, wealth: 82, fame: 90 } },
+      blurb: "His reign is documented by 382 clay tablets found by a woman digging for fertiliser in 1887 — the Egyptian foreign office archive, in Akkadian, with great kings haggling over gold and Levantine vassals begging for archers. Whether Egypt's non-committal replies show a king neglecting his empire or an imperial power letting vassals exhaust each other is still argued." },
   },
   claims: [
     { text: "He changed his name from Amenhotep IV and founded a new capital at Akhetaten.", classification: "Established", sources: ["arch"], date: "c. 1348 BC", at: "bronze" },
@@ -177,11 +165,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["egy-kadesh"], silver: ["egy-kadesh", "egy-sea-peoples"] },
   tiers: {
     bronze: { label: "Kadesh, As He Told It", when: "1274 BC",
-      blurb: "Walked into an ambush at Kadesh on the word of two planted scouts, nearly lost his army, and had the battle carved on five temples as a personal triumph. The account admits the ambush and the collapse, because the story needs them — the king alone against the odds. What it cannot admit is the draw, and the Hittite records and the map both say draw.",
-      stats: { power: 88, intellect: 70, influence: 90, creativity: 80, wealth: 94, fame: 96 } },
+      blurb: "Walked into an ambush at Kadesh on the word of two planted scouts, nearly lost his army, and had the battle carved on five temples as a personal triumph. The account admits the ambush and the collapse, because the story needs them — the king alone against the odds. What it cannot admit is the draw, and the Hittite records and the map both say draw." },
     silver: { label: "The Treaty", when: "1258 BC",
-      blurb: "Sixteen years later he signed a peace with Hatti that survives in both parties' texts — Egyptian on a temple wall, Akkadian on Hittite clay. Non-aggression, mutual defence, extradition with a clause protecting the returned from punishment. Each copy says the other side asked for peace. It held for decades, and about seventy years later one of the signatories no longer existed.",
-      stats: { power: 88, intellect: 78, influence: 92, creativity: 80, wealth: 94, fame: 96 } },
+      blurb: "Sixteen years later he signed a peace with Hatti that survives in both parties' texts — Egyptian on a temple wall, Akkadian on Hittite clay. Non-aggression, mutual defence, extradition with a clause protecting the returned from punishment. Each copy says the other side asked for peace. It held for decades, and about seventy years later one of the signatories no longer existed." },
   },
   claims: [
     { text: "Ramesses II was deceived by planted scouts before Kadesh in 1274 BC.", classification: "Probable", sources: ["kadesh"], date: "1274 BC", at: "bronze" },
@@ -199,11 +185,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["egy-sea-peoples"], silver: ["egy-sea-peoples", "egy-decline"] },
   tiers: {
     bronze: { label: "The Last Great Pharaoh", when: "c. 1177 BC",
-      blurb: "Beat off a land and sea invasion in the Delta and carved it at Medinet Habu, listing the countries already destroyed — Hatti, Carchemish, Alashiya — in what turns out to be an accurate casualty list for the collapse of the Bronze Age, written while it was happening by the only major power that survived it.",
-      stats: { power: 82, intellect: 72, influence: 78, creativity: 70, wealth: 72, fame: 80 } },
+      blurb: "Beat off a land and sea invasion in the Delta and carved it at Medinet Habu, listing the countries already destroyed — Hatti, Carchemish, Alashiya — in what turns out to be an accurate casualty list for the collapse of the Bronze Age, written while it was happening by the only major power that survived it." },
     silver: { label: "Cut to the Bone", when: "1155 BC",
-      blurb: "In his 29th year the men building his tomb walked off the job over unpaid rations — the first recorded strike anywhere. He was then killed in a harem conspiracy documented in trial papyri, and a CT scan published in 2012 found his throat cut through to the vertebrae. The reign that saved Egypt also shows every symptom of a state running out of money.",
-      stats: { power: 82, intellect: 74, influence: 74, creativity: 70, wealth: 62, fame: 84 } },
+      blurb: "In his 29th year the men building his tomb walked off the job over unpaid rations — the first recorded strike anywhere. He was then killed in a harem conspiracy documented in trial papyri, and a CT scan published in 2012 found his throat cut through to the vertebrae. The reign that saved Egypt also shows every symptom of a state running out of money." },
   },
   claims: [
     { text: "Medinet Habu records land and sea battles against a coalition around 1177 BC.", classification: "Established", sources: ["medinet-habu"], date: "c. 1177 BC", at: "bronze" },
@@ -221,8 +205,7 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["egy-kushites"] },
   tiers: {
     bronze: { label: "The King From Napata", when: "c. 727 BC",
-      blurb: "Came north from Kush and took Egypt, and the stela describing it is one of the great Egyptian documents — he pauses for festivals, makes his troops purify themselves, and rebukes an officer for letting captured horses go hungry, saying it distresses him more than anything else the man did. His dynasty ruled sixty years and revived Old Kingdom art and language on purpose.",
-      stats: { power: 82, intellect: 78, influence: 80, creativity: 74, wealth: 78, fame: 62 } },
+      blurb: "Came north from Kush and took Egypt, and the stela describing it is one of the great Egyptian documents — he pauses for festivals, makes his troops purify themselves, and rebukes an officer for letting captured horses go hungry, saying it distresses him more than anything else the man did. His dynasty ruled sixty years and revived Old Kingdom art and language on purpose." },
   },
   claims: [
     { text: "Piye of Kush campaigned north and took control of Egypt around 727 BC.", classification: "Established", sources: ["arch", "cah"], date: "c. 727 BC", at: "bronze" },
@@ -239,8 +222,7 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["egy-persia"] },
   tiers: {
     bronze: { label: "The Man Who Served Both", when: "525 BC",
-      blurb: "An Egyptian naval commander who went over to the Persians and wrote his own account of it on a statue. He says he instructed Cambyses in the proper reverence for the goddess Neith and had foreigners cleared from her temple — and his testimony, with an Apis burial paid for by Cambyses, is what overturns Herodotus' story of a mad king desecrating Egypt.",
-      stats: { power: 46, intellect: 82, influence: 74, creativity: 58, wealth: 70, fame: 44 } },
+      blurb: "An Egyptian naval commander who went over to the Persians and wrote his own account of it on a statue. He says he instructed Cambyses in the proper reverence for the goddess Neith and had foreigners cleared from her temple — and his testimony, with an Apis burial paid for by Cambyses, is what overturns Herodotus' story of a mad king desecrating Egypt." },
   },
   claims: [
     { text: "Udjahorresnet served as a naval officer under Egyptian kings and then under Cambyses.", classification: "Established", sources: ["arch"], date: "c. 526 – 519 BC", at: "bronze" },

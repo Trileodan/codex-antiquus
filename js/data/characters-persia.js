@@ -17,14 +17,11 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["per-cyrus", "per-babylon"], silver: ["per-empire", "per-religion"], gold: ["per-fall", "grk-persia"] },
   tiers: {
     bronze: { label: "The Vassal Who Took the World", when: "539 BC",
-      blurb: "Revolted against his Median overlords, and within twenty years held more of the earth than anyone before him — Anatolia to the Indus, the Nile eventually, Babylon without a fight. He arrived in conquered cities speaking their language and funding their gods, which was cheaper than garrisons and worked better.",
-      stats: { power: 88, intellect: 86, influence: 90, creativity: 84, wealth: 88, fame: 84 } },
+      blurb: "Revolted against his Median overlords, and within twenty years held more of the earth than anyone before him — Anatolia to the Indus, the Nile eventually, Babylon without a fight. He arrived in conquered cities speaking their language and funding their gods, which was cheaper than garrisons and worked better." },
     silver: { label: "The Policy, Not the Virtue", when: "The empire he designed",
-      blurb: "Left local law, language, religion and often rulers in place, and required only tribute, troops and quiet. It was unusually consistent tolerance and it was administration, not philosophy — an empire that size is cheaper to hold if you leave people's gods alone. The design outlasted his dynasty by centuries.",
-      stats: { power: 88, intellect: 90, influence: 94, creativity: 88, wealth: 90, fame: 88 } },
+      blurb: "Left local law, language, religion and often rulers in place, and required only tribute, troops and quiet. It was unusually consistent tolerance and it was administration, not philosophy — an empire that size is cheaper to hold if you leave people's gods alone. The design outlasted his dynasty by centuries." },
     gold: { label: "Everyone's Cyrus", when: "The afterlife of a reputation",
-      blurb: "The Hebrew Bible calls him God's anointed — the only foreigner it does. Xenophon made him a model prince for Greek readers who despised Persia. The last Shah made his cylinder a human rights charter. Alexander repaired his tomb. Almost nobody who has claimed him wanted the same thing, which is the surest sign the record is thin enough to fill in.",
-      stats: { power: 88, intellect: 92, influence: 96, creativity: 90, wealth: 90, fame: 96 } },
+      blurb: "The Hebrew Bible calls him God's anointed — the only foreigner it does. Xenophon made him a model prince for Greek readers who despised Persia. The last Shah made his cylinder a human rights charter. Alexander repaired his tomb. Almost nobody who has claimed him wanted the same thing, which is the surest sign the record is thin enough to fill in." },
   },
   claims: [
     { text: "Cyrus overthrew Median overlordship around 550 BC and took Ecbatana.", classification: "Established", sources: ["herodotus", "cah"], date: "c. 550 BC", at: "bronze" },
@@ -42,8 +39,7 @@ Object.assign(CHARACTERS, {
   id: "cambyses", name: "Cambyses II", years: "d. 522 BC", sets: ["persia"],
   requires: { bronze: ["per-cambyses", "per-cyrus"] },
   tiers: { bronze: { label: "The Libelled King", when: "525 BC",
-    blurb: "Conquered Egypt and completed his father's empire, then acquired a Greek reputation as a sacrilegious madman who stabbed the sacred Apis bull and laughed. The Apis burial from his reign sits at Saqqara, conducted with full honours, its stela showing Cambyses himself making the offering in proper pharaonic form. He is the app's clearest case of a hostile source caught by the evidence on the ground.",
-    stats: { power: 78, intellect: 62, influence: 66, creativity: 48, wealth: 82, fame: 52 } } },
+    blurb: "Conquered Egypt and completed his father's empire, then acquired a Greek reputation as a sacrilegious madman who stabbed the sacred Apis bull and laughed. The Apis burial from his reign sits at Saqqara, conducted with full honours, its stela showing Cambyses himself making the offering in proper pharaonic form. He is the app's clearest case of a hostile source caught by the evidence on the ground." } },
   claims: [
     { text: "Cambyses conquered Egypt in 525 BC, winning at Pelusium and taking Memphis.", classification: "Established", sources: ["herodotus", "cah"], date: "525 BC", at: "bronze" },
     { text: "Herodotus reports that he stabbed the Apis bull in contempt and was driven mad.", classification: "Contested", sources: ["herodotus"], date: "c. 524 BC", at: "bronze" },
@@ -59,14 +55,11 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["per-darius", "per-empire"], silver: ["per-persepolis", "per-religion"], gold: ["per-west", "grk-persia"] },
   tiers: {
     bronze: { label: "The Man Who Said He Was Not Lying", when: "522 BC",
-      blurb: "Took the throne by killing the man sitting on it, then carved his justification a hundred metres up a cliff at Behistun in three languages, insisting nineteen times that he was telling the truth. Whether the man he killed was an impostor or the rightful king has been argued for over a century, and the convenience of his version is hard to miss.",
-      stats: { power: 84, intellect: 90, influence: 86, creativity: 82, wealth: 88, fame: 76 } },
+      blurb: "Took the throne by killing the man sitting on it, then carved his justification a hundred metres up a cliff at Behistun in three languages, insisting nineteen times that he was telling the truth. Whether the man he killed was an impostor or the rightful king has been argued for over a century, and the convenience of his version is hard to miss." },
     silver: { label: "The Administrator", when: "The empire that worked",
-      blurb: "Divided the empire into satrapies with assessed tribute, drove a 2,700 km road from Sardis to Susa with relay couriers who crossed it in a week, minted a gold coinage anyone would accept, and standardised weights and measures. None of it is glamorous and all of it is why an empire of that size held together for two centuries.",
-      stats: { power: 84, intellect: 94, influence: 90, creativity: 88, wealth: 92, fame: 80 } },
+      blurb: "Divided the empire into satrapies with assessed tribute, drove a 2,700 km road from Sardis to Susa with relay couriers who crossed it in a week, minted a gold coinage anyone would accept, and standardised weights and measures. None of it is glamorous and all of it is why an empire of that size held together for two centuries." },
     gold: { label: "Rosetta of the East", when: "Read in 1847",
-      blurb: "Because he repeated himself in Old Persian, Elamite and Akkadian, the cliff he carved to defend a coup became the key that unlocked cuneiform — and with it two thousand years of Mesopotamian records that had been unreadable since antiquity. A usurper's defence statement is the reason we can read Babylon.",
-      stats: { power: 84, intellect: 96, influence: 92, creativity: 90, wealth: 92, fame: 88 } },
+      blurb: "Because he repeated himself in Old Persian, Elamite and Akkadian, the cliff he carved to defend a coup became the key that unlocked cuneiform — and with it two thousand years of Mesopotamian records that had been unreadable since antiquity. A usurper's defence statement is the reason we can read Babylon." },
   },
   claims: [
     { text: "Darius took the throne in 522 BC after killing the reigning claimant, then suppressed revolts across the empire for a year.", classification: "Established", sources: ["behistun", "herodotus"], date: "522 – 521 BC", at: "bronze" },
@@ -84,11 +77,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["per-darius", "per-empire"], silver: ["per-persepolis", "per-west"] },
   tiers: {
     bronze: { label: "Daughter, Wife, Mother of Kings", when: "c. 522 BC",
-      blurb: "Daughter of Cyrus, married to Darius, mother of Xerxes — the join between the two Achaemenid lines, and the reason Darius's claim to the throne looked less like a coup. Herodotus gives her real influence at court, including over the succession. He is a Greek writing decades later about the private conversations of a Persian queen, which is worth remembering before quoting him.",
-      stats: { power: 40, intellect: 82, influence: 86, creativity: 64, wealth: 88, fame: 58 } },
+      blurb: "Daughter of Cyrus, married to Darius, mother of Xerxes — the join between the two Achaemenid lines, and the reason Darius's claim to the throne looked less like a coup. Herodotus gives her real influence at court, including over the succession. He is a Greek writing decades later about the private conversations of a Persian queen, which is worth remembering before quoting him." },
     silver: { label: "What the Tablets Show", when: "The Persepolis archive",
-      blurb: "The administrative record does something the Greek gossip cannot: it shows royal women in the Achaemenid system holding estates, commanding workforces, travelling with retinues and issuing orders under their own seals. Women in the wider workforce appear as supervisors, sometimes paid more than the men beneath them, with rations issued for childbirth as routine. Not a queen's whispered influence — an institutional position.",
-      stats: { power: 46, intellect: 84, influence: 88, creativity: 66, wealth: 90, fame: 62 } },
+      blurb: "The administrative record does something the Greek gossip cannot: it shows royal women in the Achaemenid system holding estates, commanding workforces, travelling with retinues and issuing orders under their own seals. Women in the wider workforce appear as supervisors, sometimes paid more than the men beneath them, with rations issued for childbirth as routine. Not a queen's whispered influence — an institutional position." },
   },
   claims: [
     { text: "Atossa was a daughter of Cyrus, a wife of Darius I and the mother of Xerxes.", classification: "Established", sources: ["herodotus", "cah"], date: "c. 522 BC", at: "bronze" },
@@ -106,11 +97,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["per-west", "per-darius"], silver: ["per-persepolis", "per-religion"] },
   tiers: {
     bronze: { label: "The Greek Villain", when: "480 BC",
-      blurb: "In Greek writing he is the archetype of the eastern despot — whipping the sea for wrecking his bridge, throned above Salamis to watch his defeat, ruined by luxury and rage. Aeschylus put him on stage eight years after the invasion, in a play performed for the men who had beaten him. That is the portrait that survived, and it was made by the winners for an audience that wanted it.",
-      stats: { power: 80, intellect: 62, influence: 78, creativity: 54, wealth: 92, fame: 88 } },
+      blurb: "In Greek writing he is the archetype of the eastern despot — whipping the sea for wrecking his bridge, throned above Salamis to watch his defeat, ruined by luxury and rage. Aeschylus put him on stage eight years after the invasion, in a play performed for the men who had beaten him. That is the portrait that survived, and it was made by the winners for an audience that wanted it." },
     silver: { label: "The Builder Who Reigned Fifteen More Years", when: "465 BC",
-      blurb: "The Persian record shows something duller and more plausible: a king who finished the Gate of All Nations and the Hall of a Hundred Columns at Persepolis, held an empire that had lost a frontier campaign, and reigned another fifteen years before being murdered in a palace conspiracy. No royal inscription mentions Greece at all. Kings recorded victories, and the silence is its own kind of evidence.",
-      stats: { power: 82, intellect: 72, influence: 82, creativity: 70, wealth: 94, fame: 90 } },
+      blurb: "The Persian record shows something duller and more plausible: a king who finished the Gate of All Nations and the Hall of a Hundred Columns at Persepolis, held an empire that had lost a frontier campaign, and reigned another fifteen years before being murdered in a palace conspiracy. No royal inscription mentions Greece at all. Kings recorded victories, and the silence is its own kind of evidence." },
   },
   claims: [
     { text: "Xerxes led the invasion of Greece in 480 BC and withdrew after its failure.", classification: "Established", sources: ["herodotus", "cah"], date: "480 – 479 BC", at: "bronze" },
@@ -128,11 +117,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["per-after"], silver: ["per-after", "grk-pelop", "per-empire"] },
   tiers: {
     bronze: { label: "The King's Peace", when: "387 BC",
-      blurb: "Stopped trying to conquer Greece and started arbitrating it. In 387 BC the exhausted Greek states accepted terms dictated from Susa: the cities of Asia were his, everyone else was autonomous, and he was the guarantor. They called it the King's Peace, which is an admission in the name.",
-      stats: { power: 64, intellect: 84, influence: 92, creativity: 76, wealth: 90, fame: 54 } },
+      blurb: "Stopped trying to conquer Greece and started arbitrating it. In 387 BC the exhausted Greek states accepted terms dictated from Susa: the cities of Asia were his, everyone else was autonomous, and he was the guarantor. They called it the King's Peace, which is an admission in the name." },
     silver: { label: "Gold Instead of Armies", when: "The long century",
-      blurb: "Persian money funded whichever Greek side was losing, keeping the wars going and every participant weak. Athens fell in 404 BC to a fleet Persia had paid for, in exchange for the Ionian Greeks — everything the defence of 480 BC had been about, traded away by the state that had led it. Two invasions failed. Subsidy worked, and cost a fraction as much.",
-      stats: { power: 66, intellect: 88, influence: 94, creativity: 82, wealth: 92, fame: 60 } },
+      blurb: "Persian money funded whichever Greek side was losing, keeping the wars going and every participant weak. Athens fell in 404 BC to a fleet Persia had paid for, in exchange for the Ionian Greeks — everything the defence of 480 BC had been about, traded away by the state that had led it. Two invasions failed. Subsidy worked, and cost a fraction as much." },
   },
   claims: [
     { text: "The King's Peace of 387 BC awarded the Asian Greek cities to Persia and made the King guarantor of the other states' autonomy.", classification: "Established", sources: ["xenophon", "cah"], date: "387 BC", at: "bronze" },
@@ -150,11 +137,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["war-greco-persian", "per-west"], silver: ["war-greco-persian", "per-west", "grk-persia"] },
   tiers: {
     bronze: { label: "The Greek Who Fought for Persia", when: "480 BC",
-      blurb: "Ruler of Halicarnassus, a Greek city that was a Persian subject, and commander of her own squadron in Xerxes' fleet. She advised against fighting at Salamis, was overruled, fought anyway, and got out. Xerxes is said to have remarked that his men had become women and his women men.",
-      stats: { power: 66, intellect: 88, influence: 70, creativity: 84, wealth: 72, fame: 64 } },
+      blurb: "Ruler of Halicarnassus, a Greek city that was a Persian subject, and commander of her own squadron in Xerxes' fleet. She advised against fighting at Salamis, was overruled, fought anyway, and got out. Xerxes is said to have remarked that his men had become women and his women men." },
     silver: { label: "The Inconvenient Witness", when: "Read against the sources",
-      blurb: "She is a problem for the story everyone tells about this war. A Greek, ruling a Greek city, commanding Greek ships for the Great King — because plenty of Greeks were Persian subjects and did not experience 480 BC as a fight for freedom. Herodotus was born in her city a few years later and plainly admires her, which is worth weighing in both directions.",
-      stats: { power: 68, intellect: 90, influence: 74, creativity: 86, wealth: 72, fame: 70 } },
+      blurb: "She is a problem for the story everyone tells about this war. A Greek, ruling a Greek city, commanding Greek ships for the Great King — because plenty of Greeks were Persian subjects and did not experience 480 BC as a fight for freedom. Herodotus was born in her city a few years later and plainly admires her, which is worth weighing in both directions." },
   },
   claims: [
     { text: "Artemisia ruled Halicarnassus as a Persian subject and commanded ships in Xerxes' fleet at Salamis.", classification: "Established", sources: ["herodotus"], date: "480 BC", at: "bronze" },
@@ -171,11 +156,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["per-fall"], silver: ["per-fall", "per-after", "grk-philip"] },
   tiers: {
     bronze: { label: "The King Who Lost", when: "330 BC",
-      blurb: "Beaten at Issus and Gaugamela, fled east, and was murdered by his own satrap Bessus before Alexander could catch him. His reputation as a coward and an incompetent rests almost entirely on Greek and Roman writers, who had every reason for the man Alexander beat to look beatable.",
-      stats: { power: 58, intellect: 56, influence: 62, creativity: 44, wealth: 86, fame: 62 } },
+      blurb: "Beaten at Issus and Gaugamela, fled east, and was murdered by his own satrap Bessus before Alexander could catch him. His reputation as a coward and an incompetent rests almost entirely on Greek and Roman writers, who had every reason for the man Alexander beat to look beatable." },
     silver: { label: "Not a Rotten Empire", when: "Read against the evidence",
-      blurb: "The story of a decadent Persia collapsing under its own weight is read backwards from its defeat, by sources invested in that reading. The empire it describes had dictated peace terms to Greece in 387 BC and reconquered Egypt in the 340s. It did not rot. It lost to an exceptional general with an army built for exactly this, in four years — and its administration was good enough that the conqueror kept it.",
-      stats: { power: 60, intellect: 62, influence: 66, creativity: 46, wealth: 86, fame: 66 } },
+      blurb: "The story of a decadent Persia collapsing under its own weight is read backwards from its defeat, by sources invested in that reading. The empire it describes had dictated peace terms to Greece in 387 BC and reconquered Egypt in the 340s. It did not rot. It lost to an exceptional general with an army built for exactly this, in four years — and its administration was good enough that the conqueror kept it." },
   },
   claims: [
     { text: "Darius III was defeated at Issus in 333 BC and Gaugamela in 331 BC.", classification: "Established", sources: ["arrian", "diodorus"], date: "333 – 331 BC", at: "bronze" },

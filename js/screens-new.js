@@ -113,7 +113,7 @@ function AtlasScreen({ save, cards, onHome, onEnterSet, onOpenChapter, onOpenCha
   }), [kinds, save.chaptersDone, cards, open]);
 
   /* What Set does this belong to, and what is it? Derived where the app
-     already knows — a card carries its own Set and label, a war its intro —
+     already knows — a coin carries its own Set and label, a war its intro —
      and stated explicitly only for the places that have no entry of their
      own. Nothing is duplicated into places.js that the data already holds. */
   function context(p) {
@@ -171,7 +171,7 @@ function AtlasScreen({ save, cards, onHome, onEnterSet, onOpenChapter, onOpenCha
           ? <div className="mt-2.5" style={{ fontSize: 13.5, color: "var(--parchment-dim)" }}>Sealed — {picked.reason}.</div>
           : <button onClick={() => go(picked)} className="hcg-btn mt-3 text-sm px-4 py-2 rounded"
                     style={{ background: "var(--bronze)", color: "#1B1710" }}>
-              {picked.ref.char ? "Open the card" : picked.ref.set ? "Open the Set" : "Read the chapter"}
+              {picked.ref.char ? "Open the coin" : picked.ref.set ? "Open the Set" : "Read the chapter"}
               <ChevRight size={13} style={{ marginLeft: 4 }} />
             </button>)}
       </div>); })() : (

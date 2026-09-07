@@ -13,8 +13,7 @@ Object.assign(CHARACTERS, {
   id: "solon", name: "Solon", years: "c. 630 – c. 560 BC", sets: ["ancient-greece"],
   requires: { bronze: ["grk-athens-reform", "grk-polis"] },
   tiers: { bronze: { label: "The Arbitrator", when: "594 BC",
-    blurb: "Given power by both sides of a class war to rewrite Athens' laws, cancelled the debts that were turning citizens into slaves, graded political rights by income instead of birth — then left the city for ten years so nobody could make him amend it. He wrote poetry defending the settlement, some of which survives, and it is mostly a complaint that neither side thanked him.",
-    stats: { power: 22, intellect: 84, influence: 74, creativity: 70, wealth: 48, fame: 62 } } },
+    blurb: "Given power by both sides of a class war to rewrite Athens' laws, cancelled the debts that were turning citizens into slaves, graded political rights by income instead of birth — then left the city for ten years so nobody could make him amend it. He wrote poetry defending the settlement, some of which survives, and it is mostly a complaint that neither side thanked him." } },
   claims: [
     { text: "Solon cancelled existing debts and outlawed loans secured on the borrower's person.", classification: "Established", sources: ["aristotle-ath", "plutarch"], date: "594 BC", at: "bronze" },
     { text: "He replaced birth with measured agricultural income as the basis for political rights.", classification: "Established", sources: ["aristotle-ath"], date: "594 BC", at: "bronze" },
@@ -29,11 +28,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["grk-athens-reform", "grk-polis"], silver: ["grk-pericles", "grk-empire"] },
   tiers: {
     bronze: { label: "The Rewirer", when: "508 BC",
-      blurb: "Rebuilt Athens from the village up. Registered citizens where they lived rather than by ancestry, then assembled ten new tribes each deliberately stitched from coast, city and inland — so that no tribe was any family's territory. A council of 500 chosen by lot prepared business for an assembly of everyone. He engineered a constitution the way one designs a machine.",
-      stats: { power: 20, intellect: 88, influence: 78, creativity: 92, wealth: 52, fame: 48 } },
+      blurb: "Rebuilt Athens from the village up. Registered citizens where they lived rather than by ancestry, then assembled ten new tribes each deliberately stitched from coast, city and inland — so that no tribe was any family's territory. A council of 500 chosen by lot prepared business for an assembly of everyone. He engineered a constitution the way one designs a machine." },
     silver: { label: "Architect of the Democracy", when: "Seen from 431 BC",
-      blurb: "What he built held for nearly two centuries and grew more radical, not less. Pay for office, allotted juries and an assembly that could vote itself into a war all descend from the structure he laid down — and so does the empire that funded it. He is the rarest thing in political history: a designer whose design ran.",
-      stats: { power: 24, intellect: 90, influence: 86, creativity: 94, wealth: 52, fame: 64 } },
+      blurb: "What he built held for nearly two centuries and grew more radical, not less. Pay for office, allotted juries and an assembly that could vote itself into a war all descend from the structure he laid down — and so does the empire that funded it. He is the rarest thing in political history: a designer whose design ran." },
   },
   claims: [
     { text: "Kleisthenes reorganised Attica into demes grouped in ten tribes drawn from three separate districts each.", classification: "Established", sources: ["herodotus", "aristotle-ath"], date: "508 BC", at: "bronze" },
@@ -49,11 +46,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["grk-persia"], silver: ["grk-persia", "grk-empire", "grk-colonies"] },
   tiers: {
     bronze: { label: "The Enquirer", when: "c. 440 BC",
-      blurb: "Set out to record what happened in the Persian wars before it faded, and invented a method doing it: naming his informants, giving rival versions, and marking where he is reporting rather than believing. His word for the enquiry was historia. He is also credulous, fond of a good story, and wrong about numbers by an order of magnitude.",
-      stats: { power: 8, intellect: 86, influence: 44, creativity: 88, wealth: 40, fame: 70 } },
+      blurb: "Set out to record what happened in the Persian wars before it faded, and invented a method doing it: naming his informants, giving rival versions, and marking where he is reporting rather than believing. His word for the enquiry was historia. He is also credulous, fond of a good story, and wrong about numbers by an order of magnitude." },
     silver: { label: "Father of History, Father of Lies", when: "The verdict since antiquity",
-      blurb: "Both titles are ancient. He travelled, asked Egyptians and Persians and Scythians for their own accounts, and gave space to versions that made Greeks look bad — which is why he was accused of being too fond of foreigners. Archaeology has vindicated him on details his ancient critics rejected, and buried him on others. He is the reason this app cites its sources.",
-      stats: { power: 8, intellect: 90, influence: 58, creativity: 90, wealth: 40, fame: 82 } },
+      blurb: "Both titles are ancient. He travelled, asked Egyptians and Persians and Scythians for their own accounts, and gave space to versions that made Greeks look bad — which is why he was accused of being too fond of foreigners. Archaeology has vindicated him on details his ancient critics rejected, and buried him on others. He is the reason this app cites its sources." },
   },
   claims: [
     { text: "Herodotus systematically named his informants and gave competing versions of disputed events.", classification: "Established", sources: ["herodotus"], date: "c. 440 BC", at: "bronze" },
@@ -69,11 +64,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["grk-persia", "grk-athens-reform"], silver: ["grk-empire"] },
   tiers: {
     bronze: { label: "The Man Who Built the Fleet", when: "483 BC",
-      blurb: "Persuaded Athens to spend a windfall from a new silver strike at Laurion on 200 warships instead of distributing it to citizens as cash. It was an unpopular argument for a fleet against an enemy that had already been beaten once. Three years later that fleet was the only thing standing between Greece and Xerxes.",
-      stats: { power: 62, intellect: 90, influence: 76, creativity: 88, wealth: 54, fame: 66 } },
+      blurb: "Persuaded Athens to spend a windfall from a new silver strike at Laurion on 200 warships instead of distributing it to citizens as cash. It was an unpopular argument for a fleet against an enemy that had already been beaten once. Three years later that fleet was the only thing standing between Greece and Xerxes." },
     silver: { label: "Exiled by the City He Saved", when: "c. 471 BC",
-      blurb: "Rebuilt Athens' walls against Spartan objection by stalling in person at Sparta while the work went on behind him, and fortified the Piraeus, committing Athens to the sea. Then he was ostracised, condemned in absence, and ended his life as a governor in the service of the Persian king he had defeated.",
-      stats: { power: 64, intellect: 92, influence: 62, creativity: 90, wealth: 66, fame: 74 } },
+      blurb: "Rebuilt Athens' walls against Spartan objection by stalling in person at Sparta while the work went on behind him, and fortified the Piraeus, committing Athens to the sea. Then he was ostracised, condemned in absence, and ended his life as a governor in the service of the Persian king he had defeated." },
   },
   claims: [
     { text: "He persuaded Athens to spend the Laurion silver windfall on a war fleet rather than distributing it.", classification: "Established", sources: ["herodotus", "aristotle-ath"], date: "483 BC", at: "bronze" },
@@ -89,14 +82,11 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["grk-pericles", "grk-empire"], silver: ["grk-pelop"], gold: ["grk-socrates", "grk-philip"] },
   tiers: {
     bronze: { label: "First Citizen", when: "The 440s BC",
-      blurb: "Held no special power. He was one of ten generals, elected annually, and led by winning the argument in front of several thousand people over and over for thirty years. Introduced pay for public office, which is what turned a democracy of the leisured into a democracy of the poor, and rebuilt the Acropolis with money his allies had paid for defence.",
-      stats: { power: 48, intellect: 88, influence: 94, creativity: 82, wealth: 70, fame: 86 } },
+      blurb: "Held no special power. He was one of ten generals, elected annually, and led by winning the argument in front of several thousand people over and over for thirty years. Introduced pay for public office, which is what turned a democracy of the leisured into a democracy of the poor, and rebuilt the Acropolis with money his allies had paid for defence." },
     silver: { label: "The Strategy and the Plague", when: "431 – 429 BC",
-      blurb: "His war plan was to abandon the countryside, shelter behind the walls and let the fleet win slowly. It was correct and it was hated by the farmers watching their land burn. Then plague swept the crowded city, killed perhaps a third of it, and killed him — leaving Athens with his war and without his judgement.",
-      stats: { power: 52, intellect: 88, influence: 88, creativity: 82, wealth: 70, fame: 90 } },
+      blurb: "His war plan was to abandon the countryside, shelter behind the walls and let the fleet win slowly. It was correct and it was hated by the farmers watching their land burn. Then plague swept the crowded city, killed perhaps a third of it, and killed him — leaving Athens with his war and without his judgement." },
     gold: { label: "The Verdict", when: "Seen from 338 BC",
-      blurb: "Thucydides called it democracy in name and rule by the first man in fact. What he built produced the Parthenon, the drama festivals and pay for the poor — and an empire that could not let anyone leave, a war it could not end, a democracy that executed Socrates, and a Greece so exhausted that Macedon walked into it. The app does not resolve that for you.",
-      stats: { power: 52, intellect: 92, influence: 96, creativity: 86, wealth: 72, fame: 96 } },
+      blurb: "Thucydides called it democracy in name and rule by the first man in fact. What he built produced the Parthenon, the drama festivals and pay for the poor — and an empire that could not let anyone leave, a war it could not end, a democracy that executed Socrates, and a Greece so exhausted that Macedon walked into it. The app does not resolve that for you." },
   },
   claims: [
     { text: "Perikles introduced pay for jury service, enabling poor citizens to take part.", classification: "Established", sources: ["aristotle-ath", "plutarch"], date: "c. 450s BC", at: "bronze" },
@@ -114,11 +104,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["grk-pelop"], silver: ["grk-pelop", "grk-pericles", "grk-empire"] },
   tiers: {
     bronze: { label: "The Failed General", when: "424 BC",
-      blurb: "Commanded an Athenian squadron, arrived too late to save Amphipolis, and was exiled for it. The exile gave him twenty years and access to both sides, and he spent them writing the war down. He caught the plague and survived, and described its symptoms so precisely that it could be recognised if it came again.",
-      stats: { power: 40, intellect: 92, influence: 36, creativity: 80, wealth: 62, fame: 58 } },
+      blurb: "Commanded an Athenian squadron, arrived too late to save Amphipolis, and was exiled for it. The exile gave him twenty years and access to both sides, and he spent them writing the war down. He caught the plague and survived, and described its symptoms so precisely that it could be recognised if it came again." },
     silver: { label: "A Possession for All Time", when: "c. 400 BC",
-      blurb: "Stripped out the gods, the oracles and the marvels that fill Herodotus, and explained events by power, fear and interest instead. He said plainly that his speeches are reconstructions of what the occasion demanded — an admission no earlier writer made, and the reason he is trusted more and quoted more carefully. He left the history unfinished, mid-sentence, in 411 BC.",
-      stats: { power: 40, intellect: 96, influence: 58, creativity: 84, wealth: 62, fame: 80 } },
+      blurb: "Stripped out the gods, the oracles and the marvels that fill Herodotus, and explained events by power, fear and interest instead. He said plainly that his speeches are reconstructions of what the occasion demanded — an admission no earlier writer made, and the reason he is trusted more and quoted more carefully. He left the history unfinished, mid-sentence, in 411 BC." },
   },
   claims: [
     { text: "Thucydides was exiled after failing to relieve Amphipolis in 424 BC.", classification: "Established", sources: ["thucydides"], date: "424 BC", at: "bronze" },
@@ -135,11 +123,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["grk-socrates"], silver: ["grk-socrates", "grk-pelop", "grk-pericles"] },
   tiers: {
     bronze: { label: "The Man Who Wrote Nothing", when: "399 BC",
-      blurb: "Left not one written word. Everything about him arrives through pupils defending his memory and a comedian mocking him twenty-four years before the trial. Convicted of impiety and corrupting the young by a jury of 500, he proposed free meals at public expense as his sentence, declined an arranged escape, and drank the hemlock.",
-      stats: { power: 34, intellect: 96, influence: 62, creativity: 90, wealth: 12, fame: 74 } },
+      blurb: "Left not one written word. Everything about him arrives through pupils defending his memory and a comedian mocking him twenty-four years before the trial. Convicted of impiety and corrupting the young by a jury of 500, he proposed free meals at public expense as his sentence, declined an arranged escape, and drank the hemlock." },
     silver: { label: "The Uncomfortable Case", when: "Read against the war",
-      blurb: "The charge was impiety; the timing was five years after defeat and a junta that killed 1,500 people, two of whose leading figures had been his associates. An amnesty barred prosecuting anyone for what they did under the Thirty, so impiety was what remained. A democracy killed a man for arguing — and gave him a public trial and a vote, which the junta had given nobody.",
-      stats: { power: 34, intellect: 98, influence: 76, creativity: 92, wealth: 12, fame: 92 } },
+      blurb: "The charge was impiety; the timing was five years after defeat and a junta that killed 1,500 people, two of whose leading figures had been his associates. An amnesty barred prosecuting anyone for what they did under the Thirty, so impiety was what remained. A democracy killed a man for arguing — and gave him a public trial and a vote, which the junta had given nobody." },
   },
   claims: [
     { text: "Socrates wrote nothing; all accounts of him are by others.", classification: "Established", sources: ["plato", "xenophon"], date: "5th – 4th c. BC", at: "bronze" },
@@ -157,11 +143,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["war-greco-persian", "grk-sparta"], silver: ["war-greco-persian", "grk-sparta", "per-west"] },
   tiers: {
     bronze: { label: "The Rearguard", when: "480 BC",
-      blurb: "Held a defile between mountain and sea for two days against an army of a size nobody can agree on, then — once a mountain path had been betrayed and the position was lost — sent most of the allied army away and stayed with a rearguard to cover its withdrawal. The Thespians stayed too, in comparable numbers, and are almost never mentioned.",
-      stats: { power: 82, intellect: 68, influence: 62, creativity: 58, wealth: 44, fame: 92 } },
+      blurb: "Held a defile between mountain and sea for two days against an army of a size nobody can agree on, then — once a mountain path had been betrayed and the position was lost — sent most of the allied army away and stayed with a rearguard to cover its withdrawal. The Thespians stayed too, in comparable numbers, and are almost never mentioned." },
     silver: { label: "What the Story Is For", when: "The afterlife",
-      blurb: "No stand has been retold more or more usefully. The epitaph at the pass is real and restrained. Almost everything built on it since has not been: Göring invoked the three hundred by name to recast an army destroyed by its own command at Stalingrad as noble sacrifice. The battle was a defeat that bought a fleet time to fight at Salamis. That is a smaller and better claim than the one usually made for it.",
-      stats: { power: 82, intellect: 70, influence: 74, creativity: 58, wealth: 44, fame: 98 } },
+      blurb: "No stand has been retold more or more usefully. The epitaph at the pass is real and restrained. Almost everything built on it since has not been: Göring invoked the three hundred by name to recast an army destroyed by its own command at Stalingrad as noble sacrifice. The battle was a defeat that bought a fleet time to fight at Salamis. That is a smaller and better claim than the one usually made for it." },
   },
   claims: [
     { text: "Leonidas commanded the Greek force holding the pass at Thermopylae in 480 BC and died there.", classification: "Established", sources: ["herodotus"], date: "480 BC", at: "bronze" },
@@ -178,11 +162,9 @@ Object.assign(CHARACTERS, {
   requires: { bronze: ["grk-philip"], silver: ["grk-philip", "grk-sparta", "grk-pelop"] },
   tiers: {
     bronze: { label: "The Hostage Who Watched", when: "359 BC",
-      blurb: "Spent his youth as a hostage in Thebes learning how Epaminondas had beaten Sparta, then went home and built the army that answer implied: a longer pike, a deeper formation, and heavy cavalry to break what the infantry had pinned. He paid it all year, so it trained all year, while Greek citizen soldiers went home for the harvest.",
-      stats: { power: 86, intellect: 88, influence: 82, creativity: 86, wealth: 78, fame: 70 } },
+      blurb: "Spent his youth as a hostage in Thebes learning how Epaminondas had beaten Sparta, then went home and built the army that answer implied: a longer pike, a deeper formation, and heavy cavalry to break what the infantry had pinned. He paid it all year, so it trained all year, while Greek citizen soldiers went home for the harvest." },
     silver: { label: "The End of the Free Polis", when: "338 BC",
-      blurb: "Won more by marriage, money and patience than by battle, and when he finally fought at Chaeronea in 338 BC he ended Greek independence in an afternoon — his eighteen-year-old son commanding the wing that broke Thebes. The League of Corinth left the cities their laws and took their foreign policy. He was murdered two years later, with the Persian invasion still ahead of him.",
-      stats: { power: 90, intellect: 90, influence: 90, creativity: 88, wealth: 82, fame: 84 } },
+      blurb: "Won more by marriage, money and patience than by battle, and when he finally fought at Chaeronea in 338 BC he ended Greek independence in an afternoon — his eighteen-year-old son commanding the wing that broke Thebes. The League of Corinth left the cities their laws and took their foreign policy. He was murdered two years later, with the Persian invasion still ahead of him." },
   },
   claims: [
     { text: "Philip spent years as a hostage in Thebes during its period of military dominance.", classification: "Established", sources: ["diodorus", "plutarch"], date: "368 – 365 BC", at: "bronze" },

@@ -62,7 +62,7 @@ if (errors.length) { report(); process.exit(1); }
 /* `const` at the top level of a vm script lands in the context's lexical
    scope, not on the sandbox object, so hand the bindings out explicitly. */
 const NAMES = ["CHAPTERS", "CHARACTERS", "SETS", "SOURCES", "WORLDS", "TIER_ORDER",
-  "STAT_KEYS", "CHAPTER_SPANS", "CHAPTER_BY_ID", "PENDING_WARS", "SET_ATLAS",
+  "CHAPTER_SPANS", "CHAPTER_BY_ID", "PENDING_WARS", "SET_ATLAS",
   "PLACES", "COASTLINE", "PLACE_TONE", "COASTLINE_SOURCE",
   "actsOf", "actOpen", "chapterOpen", "CHAPTERS_BY_SET",
   "REGIONS", "ERAS", "CLASS_COLOR",
@@ -72,7 +72,7 @@ for (const n of NAMES) if (data[n] === undefined) fail(`${n} is not defined afte
 if (errors.length) { report(); process.exit(1); }
 
 const {
-  CHAPTERS, CHARACTERS, SETS, SOURCES, WORLDS, TIER_ORDER, STAT_KEYS,
+  CHAPTERS, CHARACTERS, SETS, SOURCES, WORLDS, TIER_ORDER,
   CHAPTER_SPANS, CHAPTER_BY_ID, PENDING_WARS, SET_ATLAS, REGIONS, ERAS, CLASS_COLOR,
   PLACES, COASTLINE, PLACE_TONE, COASTLINE_SOURCE,
   actsOf, actOpen, chapterOpen, CHAPTERS_BY_SET,
@@ -207,13 +207,12 @@ for (const [id, c] of Object.entries(CHARACTERS)) {
     }
   }
 
+  /* Coins carry no scores. A tier is a claim about the reader's grasp of
+     the subject, not an invented rating of the person. */
   for (const [tier, t] of Object.entries(c.tiers || {})) {
-    if (!t.stats) { fail(`${where}: ${tier} tier has no stats`); continue; }
-    for (const [k, v] of Object.entries(t.stats)) {
-      if (!STAT_KEYS.includes(k)) fail(`${where}: ${tier} stat "${k}" is not a known stat`);
-      if (!Number.isFinite(v) || v < 1 || v > 100) fail(`${where}: ${tier} stat ${k} = ${v}, outside 1–100`);
-    }
-    for (const k of STAT_KEYS) if (!(k in t.stats)) fail(`${where}: ${tier} tier is missing the "${k}" stat`);
+    if (t.stats) fail(`${where}: ${tier} tier still carries stats — coins have no scores`);
+    if (!t.label) fail(`${where}: ${tier} tier has no label`);
+    if (!t.blurb) fail(`${where}: ${tier} tier has no blurb`);
   }
 
   for (const s of c.sets || []) if (!SETS[s]) fail(`${where}: sets names "${s}", which is not in SETS`);
@@ -234,6 +233,23 @@ for (const [id, c] of Object.entries(CHARACTERS)) {
   });
 
   if (c.goldName && !tiers.includes("gold")) warn(`${where}: has a goldName but no gold tier`);
+}
+
+/* ------------------------------------------------------------------ */
+/* Checkpoint answers                                                  */
+/* ------------------------------------------------------------------ */
+/* The app shuffles options at render time, so a lopsided authored
+   distribution is no longer exploitable — but it is still a sign that
+   questions are being written by habit rather than designed, and if the
+   shuffle were ever removed it would be a live bug again. */
+{
+  const dist = {};
+  let total = 0;
+  for (const c of CHAPTERS) for (const q of c.check || []) { dist[q.correct] = (dist[q.correct] || 0) + 1; total++; }
+  const worst = Math.max(...Object.values(dist));
+  if (total > 20 && worst / total > 0.6)
+    warn(`${((worst / total) * 100).toFixed(0)}% of the ${total} checkpoint answers are authored in one position ` +
+         `(${JSON.stringify(dist)}) — the app shuffles at render time, but new questions should still vary`);
 }
 
 /* ------------------------------------------------------------------ */

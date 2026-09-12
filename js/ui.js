@@ -63,9 +63,16 @@ function RichText({ text, onTerm, seen }) {
   const marks = seen || new Set();
   const parts = text.split(/(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*)/g);
   return <>{parts.map((p, i) => {
-    if (p.startsWith("***") && p.endsWith("***")) return <b key={i} style={{ fontStyle: "italic" }}>{p.slice(3, -3)}</b>;
-    if (p.startsWith("**") && p.endsWith("**")) return <b key={i}>{p.slice(2, -2)}</b>;
-    if (p.length > 2 && p.startsWith("*") && p.endsWith("*")) return <i key={i} style={{ color: "var(--bronze-glow)" }}>{p.slice(1, -1)}</i>;
+    /* Emphasis runs are glossified too. The bolded words are the ones the
+       author flagged as load-bearing, which makes them exactly the ones a
+       reader is most likely to want a definition for — excluding them was
+       the wrong way round. */
+    if (p.startsWith("***") && p.endsWith("***"))
+      return <b key={i} style={{ fontStyle: "italic" }}>{glossify(p.slice(3, -3), i, marks, onTerm)}</b>;
+    if (p.startsWith("**") && p.endsWith("**"))
+      return <b key={i}>{glossify(p.slice(2, -2), i, marks, onTerm)}</b>;
+    if (p.length > 2 && p.startsWith("*") && p.endsWith("*"))
+      return <i key={i} style={{ color: "var(--bronze-glow)" }}>{glossify(p.slice(1, -1), i, marks, onTerm)}</i>;
     return <span key={i}>{glossify(p, i, marks, onTerm)}</span>;
   })}</>;
 }
@@ -183,6 +190,62 @@ function Crumbs({ items }) {
   </div>;
 }
 
+/* --------------------------------------------------------------------
+   Why do I have Silver?
+
+   Brief section 13. A tier that arrives with no explanation is a number
+   going up. This lists what actually earned it — every chapter whose
+   completion contributed, in the order they were read — so the coin can
+   answer for itself.
+
+   The app can only report what it actually recorded, which is chapter
+   completion. It does not claim to know that you reasoned well, because
+   it cannot see that, and inventing evidence would be worse than
+   showing none.
+   -------------------------------------------------------------------- */
+function CoinEvidence({ c, tier, chaptersDone, onGoChapter }) {
+  const held = TIER_ORDER.slice(0, TIER_ORDER.indexOf(tier) + 1);
+  /* A chapter can appear in more than one tier's requirements; credit it
+     to the first tier that needed it, which is where it did its work. */
+  const seen = new Set();
+  const rows = [];
+  for (const t of held) {
+    for (const chId of (c.requires[t] || [])) {
+      if (seen.has(chId)) continue;
+      seen.add(chId);
+      rows.push({ chId, tier: t });
+    }
+  }
+  if (!rows.length) return null;
+
+  return <div className="hcg-panel-2 rounded p-4">
+    <div className="hcg-tab mb-1" style={{ color: TIER_GLOW[tier] }}>WHY DO I HAVE {TIER_LABEL[tier].toUpperCase()}?</div>
+    <div style={{ fontSize: 13, color: "var(--parchment-dim)", lineHeight: 1.6, marginBottom: 10 }}>
+      {rows.length} chapter{rows.length === 1 ? "" : "s"} earned this coin. Tap one to read it again.
+    </div>
+    <div className="flex flex-col gap-2">
+      {rows.map(({ chId, tier: t }) => {
+        const ch = CHAPTER_BY_ID[chId];
+        const done = !!chaptersDone[chId];
+        if (!ch) return null;
+        return <button key={chId} onClick={() => onGoChapter(ch)} className="flex items-start gap-2.5 text-left">
+          <span style={{ marginTop: 3, flexShrink: 0 }}><Coin tier={done ? t : null} size={16} /></span>
+          <span style={{ minWidth: 0 }}>
+            <span className="hcg-link" style={{ fontSize: 14, color: done ? "#DFD3B9" : "var(--parchment-dim)" }}>{ch.title}</span>
+            <span className="hcg-mono block" style={{ fontSize: 10, color: "var(--parchment-dim)", marginTop: 1 }}>
+              {SETS[ch.set] ? SETS[ch.set].name : "Crossings"} · counted toward {TIER_LABEL[t]}
+            </span>
+          </span>
+        </button>;
+      })}
+    </div>
+    <div style={{ fontSize: 12, color: "var(--parchment-dim)", lineHeight: 1.6, marginTop: 12, fontStyle: "italic" }}>
+      The app records what you finished, not how well you reasoned about it. Only you can judge whether the
+      coin is honest — and a Year Drop is the fastest way to find out.
+    </div>
+  </div>;
+}
+
 /* ====================== CHARACTER MODAL ============================= */
 function CharacterModal({ charId, cards, chaptersDone, onClose, onOpenChar, onGoChapter }) {
   const c = CHARACTERS[charId];
@@ -255,6 +318,7 @@ function CharacterModal({ charId, cards, chaptersDone, onClose, onOpenChar, onGo
               <div className="hcg-tab mb-2" style={{ color: "var(--parchment-dim)" }}>WHAT THIS COIN SAYS · {c.tiers[tier].when}</div>
               <CoinLadder tier={tier} />
             </div>
+            <CoinEvidence c={c} tier={tier} chaptersDone={chaptersDone} onGoChapter={onGoChapter} />
             {nt ? <div className="hcg-panel-2 rounded p-4">
               <div className="hcg-tab mb-2" style={{ color: "var(--gold-glow)" }}>PATH TO {TIER_LABEL[nt.tier].toUpperCase()}</div>
               <div className="flex flex-col gap-2">

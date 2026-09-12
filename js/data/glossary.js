@@ -120,6 +120,26 @@ const GLOSSARY = {
   "stelae":          { say: "STEE-lee", what: "Plural of stela — upright inscribed stone slabs." },
   "papyri":          { say: "puh-PIE-rye", what: "Plural of papyrus — documents written on Nile reed." },
   "syncretism":      { say: "SIN-kret-izm", what: "Merging gods or practices from different traditions into one, which the ancient Mediterranean did constantly and without embarrassment." },
+  /* ---- Carthage --------------------------------------------------- */
+  "cothon":          { say: "KOH-thon", what: "An artificial harbour basin, dug rather than found. Carthage's was two of them — a rectangular commercial dock in front of a circular naval one you could not see into." },
+  "suffete":         { say: "SUFF-eet", what: "One of the two chief magistrates of Carthage, elected annually. Roughly what a Roman consul was, minus the army." },
+  "suffetes":        { say: "SUFF-eets", what: "Plural of suffete — Carthage's two annually elected chief magistrates." },
+  "Tophet":          { say: "TOH-fet", what: "The walled precinct at Carthage holding thousands of urns of cremated infants and animals. Whether it is evidence of child sacrifice or an infant cemetery is genuinely unresolved." },
+  "Melqart":         { say: "MEL-kart", what: "The chief god of Tyre and its colonies, a patron of kings and voyages. Greeks identified him with Herakles, which is why the Straits of Gibraltar became the Pillars of Hercules." },
+  "Barcid":          { say: "BAR-sid", what: "Of the family of Hamilcar Barca — Hannibal's clan, and effectively the private government of Carthaginian Spain." },
+  "Numidian":        { say: "new-MID-ee-un", what: "Of Numidia, the kingdoms west and south of Carthage. Their light cavalry was the best in the western Mediterranean, and both sides wanted it." },
+  "Masinissa":       { say: "mass-in-ISS-uh", what: "The Numidian king Rome installed on Carthage's border in 202 BC. He then spent fifty years taking Carthaginian land, with Rome arbitrating every dispute in his favour." },
+  "indemnity":       { say: "in-DEM-nit-ee", what: "A cash penalty imposed on a defeated state, paid in instalments. Also, usefully for the winner, a leash — which is why Rome refused to let Carthage pay hers off early." },
+  "talent":          { say: "TAL-ent", what: "A unit of weight in silver, roughly 26 kilograms. Carthage's second indemnity was ten thousand of them, spread over fifty years." },
+  "Gades":           { say: "GAD-eez", what: "The old Phoenician colony on the Atlantic coast of Spain, founded before Carthage itself. Modern Cadiz, and one of the oldest continuously inhabited cities in western Europe." },
+  "Byrsa":           { say: "BUR-sa", what: "The citadel hill at the centre of Carthage, and the last place to fall in 146 BC. The name is a Greek pun on the ox-hide in the foundation legend." },
+  "periplus":        { say: "PERR-ip-luss", what: "A coasting voyage, or the written account of one — a sailor's list of what you pass and in what order. Hanno's is very nearly the only Carthaginian text we have." },
+  "Polybius":        { say: "pol-IB-ee-us", what: "Greek hostage turned historian, writing inside the household of the Roman general who destroyed Carthage. Careful, well-informed, pro-Roman — which makes the moments he criticises Rome unusually valuable." },
+  "Diodorus":        { say: "die-oh-DOR-us", what: "Diodorus Siculus, a first-century BC Greek who compiled a world history out of earlier writers. Uneven, but for some periods he is all there is." },
+  "Appian":          { say: "APP-ee-un", what: "Second-century AD Greek historian of Rome's wars, organised by enemy rather than by date. Our fullest account of the destruction of Carthage." },
+  "corvus":          { say: "COR-vuss", what: "Latin for 'crow' — the hinged boarding bridge with a spike that Rome bolted to its warships, to turn a sea battle into an infantry fight it could win." },
+
+  /* ---- Method ----------------------------------------------------- */
   "chronology":      { say: "kron-OL-uh-jee", what: "The framework of dates. Egyptian chronology before 664 BC is a chain of reign lengths tied to a few astronomical sightings, and it floats by decades." },
   "radiocarbon":     { say: "ray-dee-oh-CAR-bon", what: "Dating organic material by the decay of carbon-14. Independent of any king list, which is why it matters here." },
 };

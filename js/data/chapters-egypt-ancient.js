@@ -352,6 +352,41 @@ CHAPTERS.push(
         "At **Megiddo** in about 1457 BC a coalition of Canaanite rulers held the pass. Three routes were available: two safe and wide, one a narrow track through the hills where the army would have to move in single file and could be destroyed piecemeal. His officers argued for the safe roads. He took the narrow one, on the reasoning that the enemy would expect the safe ones, and led from the front. He came out unopposed onto the plain behind them.",
         "The Egyptians won the field. Then the army stopped to loot the enemy camp instead of pursuing, the Canaanite leaders escaped into the city, and Megiddo had to be besieged for seven months. The annals say this. An Egyptian royal inscription records the king's army throwing away a decisive victory through indiscipline, which is not what royal inscriptions normally do, and it is the detail that makes the whole account more believable.",
         "The empire that followed was run cheaply and cleverly: not annexation, but local rulers left in place, bound by oath, their sons taken to Egypt to be educated at court and sent home loyal. Tribute flowed in, garrisons were small, and it held for the better part of two centuries."],
+      decision: {
+        title: "Three roads to Megiddo",
+        you: "You are Thutmose III", when: "c. 1457 BC",
+        situation: [
+          "A coalition of Canaanite rulers has gathered at **Megiddo**, which sits on the pass through the Carmel ridge and controls the road from Egypt to Syria. Take it and the Levant is open. Lose here and Egypt's empire ends before it starts.",
+          "Your scouts report three ways through the ridge. Two are broad and safe — one swinging north through Zefti, one south through Taanach — and both bring you onto the plain a comfortable distance from the enemy. The third, through **Aruna**, is a track so narrow that the army would have to move in single file, horse after horse and man after man, for hours.",
+          "Your senior officers have said what they think. They want a wide road. They point out, correctly, that if the enemy is waiting at the far end of the narrow one, your army will emerge a few men at a time and be destroyed piecemeal while the rest of it is still in the hills.",
+        ],
+        known: [
+          "The enemy coalition is at Megiddo and has had time to choose its ground.",
+          "The Aruna track is genuinely as bad as your officers say.",
+          "Your army is better drilled than theirs and wins in the open.",
+        ],
+        unknown: [
+          "Which road the enemy expects you to take.",
+          "Whether they have posted anyone in the hills at all.",
+        ],
+        options: [
+          { text: "Take the northern road through Zefti. Safe, wide, and your army arrives intact and in order.",
+            verdict: "You would have arrived on the plain in good order — and so would they. The Canaanites had deployed expecting one of the wide roads, and you would have fought the battle they had prepared for. Winnable, probably, but expensive, and Megiddo is a fortress: a hard fight in the open means a long siege afterwards with a bloodied army." },
+          { text: "Split the army and come through two roads at once, so neither can be blocked.",
+            verdict: "Sound in principle and dangerous here. The two roads emerge hours apart, so for part of the day you would have half an army on the plain facing all of theirs. Defeat in detail is exactly what your officers are afraid of, and this is the version of it you would have inflicted on yourself." },
+          { text: "Take the Aruna track, in single file, and lead from the front yourself.",
+            historical: true,
+            verdict: "Which is what he did, over the objections of every officer, on the reasoning that the enemy would expect the safe roads precisely because they were safe. He came out of the pass unopposed. The Canaanites had put nothing in the hills." },
+          { text: "Do not force the pass at all. Besiege the coastal towns, cut Megiddo off, and let the coalition break up on its own.",
+            verdict: "Patient and not unreasonable — but a coalition that holds together long enough to gather at Megiddo has momentum, and Egyptian armies campaigned in a season and went home. A war of position hands them the winter to recruit, and hands your own nobles a summer with no plunder in it." },
+        ],
+        outcome: [
+          "He took the narrow road and led the column himself. The army emerged onto the plain behind the enemy's position, unopposed, and formed up. The Canaanites had to swing round to face a direction they had not prepared for, and the Egyptians broke them.",
+          "And then it went wrong in the most ordinary way possible. The Egyptian army stopped to loot the abandoned camp instead of pursuing, the Canaanite leaders got inside Megiddo's walls, and a battle won in an afternoon turned into a **seven-month siege**.",
+          "The annals at Karnak say all of this — including the looting. An Egyptian royal inscription recording that the king's own army threw away a decisive victory through indiscipline is not what royal inscriptions normally do, and it is the detail that makes the rest of the account believable.",
+        ],
+        lesson: "The bold choice was right for a reason that had nothing to do with boldness: he worked out what the enemy expected and did the other thing. The undisciplined pursuit cost seven months, which is the part every general since has had to solve separately.",
+      },
       key: "Thutmose III's Karnak annals, copied from an army day-book, describe Megiddo in detail — including his army losing the pursuit by looting — and the empire was run through educated hostage princes." },
   ],
   check: [

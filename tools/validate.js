@@ -275,6 +275,33 @@ for (const [id, c] of Object.entries(CHARACTERS)) {
 }
 
 /* ------------------------------------------------------------------ */
+/* Command decisions                                                   */
+/* ------------------------------------------------------------------ */
+/* The exercise only works if exactly one option is the historical one
+   and every other option is answered honestly rather than dismissed. */
+{
+  let n = 0, opts = 0;
+  for (const c of CHAPTERS) for (const b of c.beats || []) {
+    if (!b.decision) continue;
+    n++;
+    const d = b.decision, where = `chapter "${c.id}" decision`;
+    for (const f of ["title", "you", "when"]) if (!d[f]) fail(`${where}: no ${f}`);
+    if (!Array.isArray(d.situation) || !d.situation.length) fail(`${where}: no situation`);
+    if (!Array.isArray(d.outcome) || !d.outcome.length) fail(`${where}: no outcome`);
+    if (!Array.isArray(d.options) || d.options.length < 3) fail(`${where}: needs at least three options to be a decision`);
+    const hist = (d.options || []).filter((o) => o.historical);
+    if (hist.length !== 1) fail(`${where}: ${hist.length} options marked historical — there must be exactly one`);
+    for (const o of d.options || []) {
+      opts++;
+      if (!o.text) fail(`${where}: an option has no text`);
+      if (!o.verdict) fail(`${where}: option "${(o.text || "").slice(0, 40)}…" has no verdict — every option must be answered, not just the right one`);
+      if (o.verdict && o.verdict.length < 60) warn(`${where}: the verdict on "${(o.text || "").slice(0, 30)}…" is very short; the point is an honest reading, not a dismissal`);
+    }
+  }
+  if (n) console.log(`Decisions      — ${n} command decisions, ${opts} options, all with verdicts`);
+}
+
+/* ------------------------------------------------------------------ */
 /* Campaigns                                                           */
 /* ------------------------------------------------------------------ */
 /* A campaign is a route through chapters that already exist. A stop

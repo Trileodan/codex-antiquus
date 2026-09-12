@@ -581,7 +581,15 @@ function Reader({ chapter, save, startBeat, onExit, onBookmark, onBeat, onComple
           <div style={{ fontSize: 13.5, color: "var(--parchment-dim)", lineHeight: 1.5 }}>{beat.forces}</div>
         </div>}
         {beat.map && <ChapterMap map={beat.map} />}
-        {prose}
+        {/* A Command Decision is pointless if the prose underneath it already
+            says what happened — and in every chapter that carries one, it
+            does, because the decision was added to a beat that was already
+            narrating the event. So the passage stays folded until the
+            reader has committed to an answer. That is the brief's rule:
+            do not reveal the historical decision until after they answer. */}
+        {beat.decision
+          ? <CommandDecision decision={beat.decision} reveal={prose} />
+          : prose}
         {beat.tactics && <div className="hcg-panel-2 rounded p-4 mb-4" style={{ borderColor: "var(--verdigris)" }}>
           <div className="hcg-tab mb-2" style={{ color: "var(--verdigris)" }}>THE TACTIC</div>
           {tactics}

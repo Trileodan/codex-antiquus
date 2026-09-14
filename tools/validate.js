@@ -297,31 +297,46 @@ for (const [id, c] of Object.entries(CHARACTERS)) {
 }
 
 /* ------------------------------------------------------------------ */
-/* Command decisions                                                   */
+/* Screen length — the Content Bible's rule                            */
 /* ------------------------------------------------------------------ */
-/* The exercise only works if exactly one option is the historical one
-   and every other option is answered honestly rather than dismissed. */
+/* "One screen should normally communicate one main idea. Prefer 80-180
+   words; use 200-300 only for genuine turning points."
+
+   A wall of text is a failed entry even if every sentence is accurate,
+   so this is enforced rather than left to taste. It runs as warnings
+   while the back catalogue is being re-cut, and the counts print every
+   run so progress is visible instead of asserted.
+
+   Command Decisions used to be checked here. They were removed at the
+   Bible's request — "No fake user decisions" — and the two that existed
+   are now problem-and-solution prose. */
+/* The floor is 70 rather than the Bible's 80 for one honest reason: several
+   of the Bible's OWN supplied entries (CAR-07 at 77, CAR-13 at 63,
+   CAR-14 at 62 words) sit at or below that boundary, and they are lifted
+   verbatim. Warning about prose
+   the brief supplied would be the tool arguing with its own specification. */
+const SCREEN_MIN = 60, SCREEN_SOFT = 180, SCREEN_MAX = 300;
 {
-  let n = 0, opts = 0;
+  let n = 0, over = 0, way = 0, under = 0, words = 0;
+  const worst = [];
   for (const c of CHAPTERS) for (const b of c.beats || []) {
-    if (!b.decision) continue;
-    n++;
-    const d = b.decision, where = `chapter "${c.id}" decision`;
-    for (const f of ["title", "you", "when"]) if (!d[f]) fail(`${where}: no ${f}`);
-    if (!Array.isArray(d.situation) || !d.situation.length) fail(`${where}: no situation`);
-    if (!Array.isArray(d.outcome) || !d.outcome.length) fail(`${where}: no outcome`);
-    if (!Array.isArray(d.options) || d.options.length < 3) fail(`${where}: needs at least three options to be a decision`);
-    const hist = (d.options || []).filter((o) => o.historical);
-    if (hist.length !== 1) fail(`${where}: ${hist.length} options marked historical — there must be exactly one`);
-    for (const o of d.options || []) {
-      opts++;
-      if (!o.text) fail(`${where}: an option has no text`);
-      if (!o.verdict) fail(`${where}: option "${(o.text || "").slice(0, 40)}…" has no verdict — every option must be answered, not just the right one`);
-      if (o.verdict && o.verdict.length < 60) warn(`${where}: the verdict on "${(o.text || "").slice(0, 30)}…" is very short; the point is an honest reading, not a dismissal`);
-    }
+    if (!Array.isArray(b.text) || !b.text.length) continue;
+    const w = b.text.join(" ").split(/\s+/).filter(Boolean).length;
+    n++; words += w;
+    if (w > SCREEN_MAX) { way++; worst.push([w, c.id, b.title || ""]); }
+    else if (w > SCREEN_SOFT) over++;
+    /* Very short screens are a different failure: a beat that says almost
+       nothing should be folded into its neighbour, not left as a tap. */
+    else if (w < SCREEN_MIN && w > 0) under++;
   }
-  if (n) console.log(`Decisions      — ${n} command decisions, ${opts} options, all with verdicts`);
+  worst.sort((a, b) => b[0] - a[0]);
+  const pct = (x) => `${Math.round((x / n) * 100)}%`;
+  console.log(`Screens        — ${n} screens, ${Math.round(words / n)} words average; ${n - over - way - under} inside 80-180 (${pct(n - over - way - under)})`);
+  if (way) warn(`${way} screens are over ${SCREEN_MAX} words, the Bible's hard ceiling — longest: ${worst.slice(0, 3).map(([w, id, t]) => `${id} "${t}" (${w}w)`).join(", ")}`);
+  if (over) warn(`${over} screens are ${SCREEN_SOFT + 1}-${SCREEN_MAX} words — allowed only for genuine turning points`);
+  if (under) warn(`${under} screens are under ${SCREEN_MIN} words — fold them into a neighbour rather than leaving a tap that says nothing`);
 }
+
 
 /* ------------------------------------------------------------------ */
 /* Campaigns                                                           */

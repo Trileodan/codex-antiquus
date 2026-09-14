@@ -73,7 +73,17 @@ const CHAPTER_SPANS = {
 
 /* ------------------------------ save --------------------------------- */
 const SAVE_KEY = "codex-antiquus-save-v3";
-const BLANK_SAVE = { chaptersDone: {}, beatMax: {}, bookmark: null, recentKeys: [], keyCount: 0, patron: null };
+const BLANK_SAVE = {
+  chaptersDone: {}, beatMax: {}, bookmark: null, recentKeys: [], keyCount: 0, patron: null,
+  /* quiz[coinId] = { passed: true } | { failedAt: <epoch ms> }
+     A coin at 100% coverage is "ready to promote"; passing its quiz mints
+     Gold. Failing locks the quiz for QUIZ_LOCK_MS, which is the only
+     place in this app where time is allowed to gate anything. It is
+     deliberate: promotion to Gold should cost something to get wrong. */
+  quiz: {},
+  /* Results of timeline games, newest first. */
+  games: [],
+};
 
 function loadSave() {
   try {
@@ -86,27 +96,148 @@ function persist(save) {
   try { window.localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) { /* private mode: session only */ }
 }
 
-/* ---------------------------- unlocking ------------------------------ */
-// A tier is minted only when EVERY chapter it requires is complete.
-function computeCards(chaptersDone, patron) {
+/* --------------------------------------------------------------------
+   Checkpoint options are shuffled at render time.
+
+   92% of the 228 questions in this app had been written with the right
+   answer second. Nobody did that on purpose; it is what happens when you
+   write a question, then a wrong answer, then the right one, then two
+   more wrong ones. The effect is that the checkpoint stops testing
+   anything, because the second option is always correct.
+
+   The shuffle is seeded on the chapter and question, so the order is the
+   same every time you meet that question — it does not jump around while
+   you are reading it — but it is not the order it was authored in.
+   -------------------------------------------------------------------- */
+function seededOrder(seed, n) {
+  let h = 2166136261;
+  for (let i = 0; i < seed.length; i++) { h ^= seed.charCodeAt(i); h = Math.imul(h, 16777619); }
+  const rnd = () => { h ^= h << 13; h ^= h >>> 17; h ^= h << 5; return ((h >>> 0) % 100000) / 100000; };
+  const idx = Array.from({ length: n }, (_, i) => i);
+  for (let i = n - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [idx[i], idx[j]] = [idx[j], idx[i]]; }
+  return idx;
+}
+
+/* A question with its options in display order, and `correct` pointing at
+   wherever the right one ended up. */
+function shuffledQuestion(chapterId, qi, q) {
+  const order = seededOrder(`${chapterId}#${qi}`, q.options.length);
+  return { ...q, options: order.map((o) => q.options[o]), correct: order.indexOf(q.correct) };
+}
+
+/* ------------------------------ coins -------------------------------- */
+/* THE COIN MODEL
+   ---------------------------------------------------------------------
+   A coin is any subject the app can teach: a person, an event, a battle,
+   a war, an invention. Tiers are proportional to how much of what the
+   app holds on that subject you have actually read.
+
+     Bronze  you have met it — one teaching chapter studied
+     Silver  half of what the app has on it
+     Gold    all of it, AND you have passed its quiz
+
+   A coin at full coverage whose quiz is unpassed sits at Silver and is
+   flagged READY TO PROMOTE. That flag is the point: Gold is not handed
+   out for turning pages, it is claimed.
+
+   The older card files declare `requires: { bronze: [...], silver: [...],
+   gold: [...] }`. Those arrays are now read as one pool of teaching
+   chapters, so nothing had to be rewritten. New coins may simply declare
+   `teaches: [...]` instead, which is clearer. */
+
+const QUIZ_LOCK_MS = 24 * 60 * 60 * 1000;
+const SILVER_AT = 0.5;
+
+/* Every chapter that teaches about this coin, from either declaration. */
+function coinChapters(c) {
+  if (c._chapters) return c._chapters;
+  let list;
+  if (Array.isArray(c.teaches)) list = c.teaches.slice();
+  else {
+    const seen = new Set();
+    list = [];
+    for (const tier of TIER_ORDER) {
+      for (const id of (c.requires && c.requires[tier]) || []) {
+        if (!seen.has(id)) { seen.add(id); list.push(id); }
+      }
+    }
+  }
+  /* A chapter that does not exist cannot be studied, and leaving it in
+     would make full coverage unreachable — which is how a coin becomes
+     permanently un-goldable without anyone noticing. */
+  list = list.filter((id) => CHAPTER_BY_ID[id]);
+  try { Object.defineProperty(c, "_chapters", { value: list, enumerable: false }); } catch (e) { c._chapters = list; }
+  return list;
+}
+
+function quizLockedUntil(save, coinId) {
+  const q = (save && save.quiz && save.quiz[coinId]) || null;
+  if (!q || q.passed || !q.failedAt) return 0;
+  const until = q.failedAt + QUIZ_LOCK_MS;
+  return until > Date.now() ? until : 0;
+}
+function quizPassed(save, coinId) {
+  return !!(save && save.quiz && save.quiz[coinId] && save.quiz[coinId].passed);
+}
+
+/* Coverage and tier for one coin. Returns null when nothing is studied,
+   because an unmet coin is not in the collection at all. */
+function coinState(c, chaptersDone, save) {
+  const chapters = coinChapters(c);
+  if (!chapters.length) return null;
+  const studied = chapters.filter((id) => chaptersDone[id]).length;
+  if (!studied) return null;
+  const pct = studied / chapters.length;
+  const full = studied === chapters.length;
+  const passed = quizPassed(save, c.id);
+  let tier = "bronze";
+  if (full && passed) tier = "gold";
+  else if (pct >= SILVER_AT) tier = "silver";
+
+  /* Some coins were written before tiers were proportional and stop at
+     bronze or silver. Showing a tier with no text behind it is a blank
+     screen, so the DISPLAYED tier is clamped to the highest one actually
+     authored. Coverage is unaffected, so the moment the missing tier is
+     written the coin moves up on its own with no migration. The validator
+     lists every coin still in this state. */
+  const top = TIER_ORDER.filter((t) => c.tiers && c.tiers[t]).pop() || "bronze";
+  const capped = TIER_RANK[tier] > TIER_RANK[top];
+  if (capped) tier = top;
+
+  return {
+    tier, studied, total: chapters.length, pct,
+    full, capped,
+    /* No point offering a quiz whose reward has not been written yet. */
+    ready: full && !passed && !!(c.tiers && c.tiers.gold),
+    lockedUntil: full && !passed ? quizLockedUntil(save, c.id) : 0,
+    chapters,
+  };
+}
+
+function computeCards(chaptersDone, patron, save) {
   const out = {};
   for (const id of ALL_CHARACTER_IDS) {
-    const c = CHARACTERS[id];
-    let earned = null;
-    for (const tier of TIER_ORDER) {
-      const req = c.requires[tier];
-      if (!req) break;
-      if (req.every((ch) => chaptersDone[ch])) earned = tier; else break;
-    }
-    if (earned) out[id] = earned;
+    const st = coinState(CHARACTERS[id], chaptersDone, save);
+    if (st) out[id] = st.tier;
   }
   /* The patron of the Set you chose to begin with is granted at Bronze.
-     It is the one card in the app that is given rather than earned, once
+     It is the one coin in the app that is given rather than earned, once
      per playthrough, and it is deliberate: choosing where to start should
-     feel like taking someone's side. A card already earned higher keeps
+     feel like taking someone's side. A coin already earned higher keeps
      its tier. */
   if (patron && SETS[patron] && SETS[patron].patron && !out[SETS[patron].patron])
     out[SETS[patron].patron] = "bronze";
+  return out;
+}
+
+/* Every coin currently at full coverage with its quiz outstanding. The
+   Coins screen surfaces these; it is the app's only nag. */
+function readyToPromote(chaptersDone, save) {
+  const out = [];
+  for (const id of ALL_CHARACTER_IDS) {
+    const st = coinState(CHARACTERS[id], chaptersDone, save);
+    if (st && st.ready && !st.lockedUntil) out.push(id);
+  }
   return out;
 }
 
@@ -192,12 +323,21 @@ function initials(name) {
   return use.map((w) => w[0]).slice(0, 2).join("") || name.slice(0, 1).toUpperCase();
 }
 
-function nextTierInfo(c, cards, chaptersDone) {
-  const cur = cards[c.id] || null;
-  const idx = cur ? TIER_RANK[cur] + 1 : 0;
-  const next = TIER_ORDER[idx];
-  if (!next || !c.requires[next]) return null;
-  return { tier: next, missing: c.requires[next].filter((ch) => !chaptersDone[ch]) };
+/* What stands between this coin and its next tier. With proportional
+   tiers this is no longer a fixed list of prerequisites but "how many
+   more of the chapters that teach it", which is both easier to explain
+   and harder to game. */
+function nextTierInfo(c, cards, chaptersDone, save) {
+  const st = coinState(c, chaptersDone, save);
+  if (!st) {
+    return { tier: "bronze", missing: coinChapters(c), need: 1 };
+  }
+  if (st.tier === "gold") return null;
+  const unread = st.chapters.filter((id) => !chaptersDone[id]);
+  if (st.full) return { tier: "gold", missing: [], need: 0, quiz: true, lockedUntil: st.lockedUntil };
+  const silverNeed = Math.max(1, Math.ceil(st.total * SILVER_AT) - st.studied);
+  if (st.tier === "bronze") return { tier: "silver", missing: unread, need: silverNeed };
+  return { tier: "gold", missing: unread, need: unread.length, quiz: true };
 }
 
 /* --------------------------- progression ----------------------------- */

@@ -14,11 +14,13 @@ function App() {
   const [startBeat, setStartBeat] = useState(0);
   const [openChar, setOpenChar] = useState(null);
   const [mints, setMints] = useState([]);
+  const [quizCoin, setQuizCoin] = useState(null);
+  const [game, setGame] = useState(null);
   const [toast, setToast] = useState(null);
   const toastT = useRef(null);
   const cameFromCampaign = useRef(false);
 
-  const cards = useMemo(() => computeCards(save.chaptersDone, save.patron), [save.chaptersDone, save.patron]);
+  const cards = useMemo(() => computeCards(save.chaptersDone, save.patron, save), [save.chaptersDone, save.patron, save.quiz]);
   useEffect(() => { persist(save); }, [save]);
 
   function fireToast(msg) { setToast(msg); clearTimeout(toastT.current); toastT.current = setTimeout(() => setToast(null), 3000); }
@@ -67,10 +69,24 @@ function App() {
     setScreen(backTarget(chapter));
   }
 
+  /* Promotion quiz result. A pass mints Gold; a failure stamps the time,
+     which is what the 24h lock reads. `attempts` is bumped either way so
+     a retry draws a different set of questions rather than the same four. */
+  function quizResult(coinId, passed) {
+    setSave((s) => {
+      const prev = (s.quiz && s.quiz[coinId]) || {};
+      const entry = passed
+        ? { passed: true, attempts: (prev.attempts || 0) + 1 }
+        : { failedAt: Date.now(), attempts: (prev.attempts || 0) + 1 };
+      return { ...s, quiz: { ...(s.quiz || {}), [coinId]: entry } };
+    });
+    if (passed) fireToast(`${CHARACTERS[coinId].name} promoted to Gold.`);
+  }
+
   function completeChapter(chapterId) {
-    const before = computeCards(save.chaptersDone);
+    const before = computeCards(save.chaptersDone, null, save);
     const nextDone = { ...save.chaptersDone, [chapterId]: true };
-    const after = computeCards(nextDone);
+    const after = computeCards(nextDone, null, save);
     const newMints = [];
     for (const id of ALL_CHARACTER_IDS) {
       if (after[id] && after[id] !== before[id]) newMints.push({ id, tier: after[id], from: before[id] || null });
@@ -107,6 +123,7 @@ function App() {
     { id: "progress", label: "Progress", icon: ChartIcon },
     { id: "collection", label: "Coins", icon: LayersIcon },
     { id: "yeardrop", label: "Year Drop", icon: ClockIcon },
+    { id: "timeline", label: "Timeline", icon: SwordsIcon },
   ];
 
   return <div className="hcg-root">
@@ -164,6 +181,14 @@ function App() {
 
     {screen === "progress" && <ProgressScreen save={save} cards={cards} onHome={() => setScreen("home")} onOpenChar={setOpenChar} />}
 
+    {screen === "timeline" && !game && <GameSetupScreen save={save} cards={cards} onHome={() => setScreen("home")}
+      onStart={(cfg) => setGame(tgNewGame(cfg))} />}
+
+    {screen === "timeline" && game && <TimelineGameScreen game={game}
+      onMove={(coinId, slot) => setGame((g) => tgPlace(g, coinId, slot))}
+      onAgain={() => setGame(null)}
+      onHome={() => { setGame(null); setScreen("home"); }} />}
+
     {screen === "collection" && <CollectionScreen save={save} cards={cards} onHome={() => setScreen("home")} onOpenChar={setOpenChar} />}
 
     {screen === "campaigns" && <CampaignsScreen save={save} onHome={() => setScreen("home")}
@@ -188,8 +213,11 @@ function App() {
       <button onClick={() => setScreen("home")} className="hcg-btn mt-5 text-xs px-4 py-2 rounded" style={{ background: "var(--bronze)", color: "#1B1710" }}>Back home</button>
     </div>}
 
-    {openChar && <CharacterModal charId={openChar} cards={cards} chaptersDone={save.chaptersDone}
-      onClose={() => setOpenChar(null)} onOpenChar={setOpenChar} onGoChapter={goChapterFromCard} />}
+    {openChar && <CharacterModal charId={openChar} cards={cards} chaptersDone={save.chaptersDone} save={save}
+      onClose={() => setOpenChar(null)} onOpenChar={setOpenChar} onGoChapter={goChapterFromCard}
+      onTakeQuiz={(id) => setQuizCoin(id)} />}
+
+    {quizCoin && <QuizModal coinId={quizCoin} save={save} onClose={() => setQuizCoin(null)} onResult={quizResult} />}
 
     {mints.length > 0 && <MintModal mints={mints} cards={cards} onClose={() => setMints([])} onOpen={(id) => { setMints([]); setOpenChar(id); }} />}
 

@@ -25,10 +25,13 @@ const LOAD_ORDER = [
   "js/data/characters-extra.js",
   "js/data/characters-greece.js",
   "js/data/characters-persia.js", "js/data/characters-britain.js", "js/data/characters-empire.js", "js/data/characters-egypt-ancient.js",
+  "js/data/timeline.js",
+  "js/data/timeline-game.js",
   "js/data/atlas.js",
   "js/data/coastline.js",
   "js/data/places.js", "js/data/glossary.js", "js/data/world.js", "js/data/campaigns.js",
   "js/engine.js",
+  "js/data/quizgen.js",
 ];
 
 const errors = [];
@@ -66,7 +69,9 @@ const NAMES = ["CHAPTERS", "CHARACTERS", "SETS", "SOURCES", "WORLDS", "TIER_ORDE
   "PLACES", "COASTLINE", "PLACE_TONE", "COASTLINE_SOURCE",
   "actsOf", "actOpen", "chapterOpen", "CHAPTERS_BY_SET",
   "REGIONS", "ERAS", "CLASS_COLOR",
-  "computeCards", "unlockedSets", "warGate", "setProgress", "buildProgress", "BLANK_SAVE"];
+  "computeCards", "unlockedSets", "warGate", "setProgress", "buildProgress", "BLANK_SAVE",
+  "coinChapters", "coinState", "readyToPromote", "buildQuiz", "COIN_KINDS", "CLASSIFICATIONS",
+  "playableCoins", "allCoins", "tgNewGame", "tgPlace", "tgAiMove", "tgSlotOk", "tgCorrectSlot", "TG_COINS"];
 const data = vm.runInContext(`({ ${NAMES.map((n) => `${n}: typeof ${n} === "undefined" ? undefined : ${n}`).join(", ")} })`, sandbox);
 for (const n of NAMES) if (data[n] === undefined) fail(`${n} is not defined after loading the data layer`);
 if (errors.length) { report(); process.exit(1); }
@@ -77,10 +82,15 @@ const {
   PLACES, COASTLINE, PLACE_TONE, COASTLINE_SOURCE,
   actsOf, actOpen, chapterOpen, CHAPTERS_BY_SET,
   computeCards, unlockedSets, warGate, setProgress, buildProgress, BLANK_SAVE,
+  coinChapters, coinState, readyToPromote, buildQuiz, COIN_KINDS, CLASSIFICATIONS,
+  playableCoins, allCoins, tgNewGame, tgPlace, tgAiMove, tgSlotOk, tgCorrectSlot, TG_COINS,
 } = data;
 
-const CLASSIFICATIONS = Object.keys(CLASS_COLOR);
 const chapterIds = new Set(CHAPTERS.map((c) => c.id));
+/* Coins written before tiers became proportional, which stop short of
+   gold and so cannot yet be promoted. Collected rather than failed one
+   by one, because the fix is an authoring job and the list is the brief. */
+const needTierText = [];
 
 /* ------------------------------------------------------------------ */
 /* Chapters                                                            */
@@ -186,25 +196,37 @@ for (const [id, c] of Object.entries(CHARACTERS)) {
   if (!c.name) fail(`${where}: no name`);
 
   const tiers = Object.keys(c.tiers || {});
-  const reqs = Object.keys(c.requires || {});
   if (!tiers.length) fail(`${where}: no tiers`);
-
-  for (const t of tiers) if (!reqs.includes(t)) fail(`${where}: has a ${t} tier with no requires[${t}]`);
-  for (const t of reqs) if (!tiers.includes(t)) fail(`${where}: has requires[${t}] with no ${t} tier`);
   for (const t of tiers) if (!TIER_ORDER.includes(t)) fail(`${where}: unknown tier "${t}"`);
 
-  // Tiers must be contiguous from bronze — computeCards stops at the first gap.
-  const ranked = TIER_ORDER.filter((t) => tiers.includes(t));
-  const expected = TIER_ORDER.slice(0, ranked.length);
-  if (ranked.join() !== expected.join())
-    fail(`${where}: tiers ${ranked.join("+")} skip a rank — computeCards stops at the first missing tier`);
+  /* Every coin needs all three tiers now. Under the proportional model a
+     reader can reach any of them on any coin, so a missing tier is a
+     blank screen waiting to happen rather than a design choice. */
+  const missingTiers = TIER_ORDER.filter((t) => !tiers.includes(t));
+  if (missingTiers.length) needTierText.push(`${id} (${missingTiers.join("+")})`);
 
-  for (const [tier, req] of Object.entries(c.requires || {})) {
-    if (!Array.isArray(req) || !req.length) { fail(`${where}: requires[${tier}] is empty`); continue; }
-    for (const ch of req) {
-      if (!chapterIds.has(ch)) fail(`${where}: requires[${tier}] names chapter "${ch}", which does not exist`);
-      else if (!reachableChapters.has(ch)) fail(`${where}: requires[${tier}] needs chapter "${ch}", in a Set nothing unlocks`);
-    }
+  /* Teaching pool: either the new `teaches` list or the legacy per-tier
+     `requires` arrays, which are read as one pool. */
+  const pool = coinChapters(c);
+  if (!pool.length) fail(`${where}: no teaching chapters — declare teaches[] or requires{}`);
+  const declared = Array.isArray(c.teaches)
+    ? c.teaches
+    : TIER_ORDER.flatMap((t) => (c.requires && c.requires[t]) || []);
+  for (const ch of declared) {
+    if (!chapterIds.has(ch)) fail(`${where}: names chapter "${ch}", which does not exist`);
+    else if (!reachableChapters.has(ch)) fail(`${where}: needs chapter "${ch}", in a Set nothing unlocks`);
+  }
+
+  /* The timeline statement the game plays with. */
+  const kind = c.kind || "person";
+  if (!COIN_KINDS.includes(kind)) fail(`${where}: unknown kind "${kind}"`);
+  if (!c.timeline) warn(`${where}: no timeline{} — cannot be played in the timeline game`);
+  else {
+    if (typeof c.timeline.year !== "number" || !Number.isInteger(c.timeline.year))
+      fail(`${where}: timeline.year must be a whole number (negative for BC)`);
+    if (c.timeline.year === 0) fail(`${where}: timeline.year 0 — there is no year zero`);
+    if (!c.timeline.label || c.timeline.label.length > 78)
+      fail(`${where}: timeline.label must be present and under 78 characters`);
   }
 
   /* Coins carry no scores. A tier is a claim about the reader's grasp of
@@ -474,7 +496,7 @@ for (const id of foundations) {
   if (!CHARACTERS[patron]) { fail(`${where}: patron "${patron}" is not a card`); continue; }
   if (!(CHARACTERS[patron].sets || []).includes(id))
     fail(`${where}: patron "${patron}" does not belong to this Set`);
-  if (!CHARACTERS[patron].requires.bronze)
+  if (!CHARACTERS[patron].tiers || !CHARACTERS[patron].tiers.bronze)
     fail(`${where}: patron "${patron}" has no bronze tier to be granted at`);
 }
 
@@ -580,18 +602,50 @@ let playthrough = "not run";
     if (!studied) break;
   }
 
-  const cards = computeCards(done);
+  const noQuiz = { quiz: {} };
+  const allQuiz = { quiz: {} };
+  for (const id of Object.keys(CHARACTERS)) allQuiz.quiz[id] = { passed: true };
 
-  if (Object.keys(computeCards({})).length)
-    fail("some cards mint from a blank save — a card requires nothing");
+  const cards = computeCards(done, null, noQuiz);
+  const golds = computeCards(done, null, allQuiz);
+
+  if (Object.keys(computeCards({}, null, noQuiz)).length)
+    fail("some coins mint from a blank save — a coin has no teaching chapters");
 
   for (const ch of CHAPTERS)
     if (!done[ch.id]) fail(`chapter "${ch.id}" (${SETS[ch.set] ? SETS[ch.set].name : ch.set}) is never reachable in a full playthrough`);
 
   for (const id of Object.keys(CHARACTERS)) {
-    const top = TIER_ORDER.filter((t) => CHARACTERS[id].requires[t]).pop();
-    if (!cards[id]) fail(`card "${id}" never mints, even with every chapter complete`);
-    else if (cards[id] !== top) fail(`card "${id}" tops out at ${cards[id]} but defines a ${top} tier`);
+    /* With everything read but no quiz taken, a coin sits at Silver and is
+       flagged ready — Gold is claimed, not given. */
+    const hasGold = !!(CHARACTERS[id].tiers && CHARACTERS[id].tiers.gold);
+    if (!cards[id]) fail(`coin "${id}" never mints, even with every chapter complete`);
+    else if (hasGold && cards[id] !== "silver") fail(`coin "${id}" reads ${cards[id]} at full coverage; it should hold at silver until its quiz is passed`);
+    /* And with the quiz passed it must actually reach Gold, or the top of
+       the ladder is unreachable and nobody would ever find out. */
+    if (hasGold && golds[id] !== "gold") fail(`coin "${id}" cannot reach gold even with its quiz passed`);
+  }
+
+  /* Ready-to-promote must light up for everything at full coverage. */
+  const promotable = Object.keys(CHARACTERS).filter((id) => CHARACTERS[id].tiers && CHARACTERS[id].tiers.gold);
+  const ready = readyToPromote(done, noQuiz);
+  if (ready.length !== promotable.length)
+    fail(`readyToPromote returns ${ready.length} of ${promotable.length} promotable coins at full coverage`);
+
+  if (needTierText.length)
+    warn(`${needTierText.length} coins cannot reach gold yet — no tier text written: ${needTierText.slice(0, 6).join(", ")}${needTierText.length > 6 ? ` and ${needTierText.length - 6} more` : ""}`);
+
+  /* Every coin's generated quiz must actually produce questions, or Gold
+     is unreachable in practice however the tiers compute. */
+  for (const id of Object.keys(CHARACTERS)) {
+    const qs = buildQuiz(CHARACTERS[id], 0);
+    if (!qs.length) fail(`coin "${id}": promotion quiz generates no questions`);
+    else if (qs.length < 3) warn(`coin "${id}": promotion quiz is only ${qs.length} question(s) long`);
+    qs.forEach((q, n) => {
+      if (!Array.isArray(q.options) || q.options.length < 2) fail(`coin "${id}" quiz q${n + 1}: needs at least two options`);
+      else if (typeof q.correct !== "number" || !q.options[q.correct]) fail(`coin "${id}" quiz q${n + 1}: correct index is out of range`);
+      else if (new Set(q.options).size !== q.options.length) fail(`coin "${id}" quiz q${n + 1}: duplicate options`);
+    });
   }
 
   for (const w of CHAPTERS.filter(isGated))

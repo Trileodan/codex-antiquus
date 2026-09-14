@@ -247,14 +247,15 @@ function CoinEvidence({ c, tier, chaptersDone, onGoChapter }) {
 }
 
 /* ====================== CHARACTER MODAL ============================= */
-function CharacterModal({ charId, cards, chaptersDone, onClose, onOpenChar, onGoChapter }) {
+function CharacterModal({ charId, cards, chaptersDone, save, onClose, onOpenChar, onGoChapter, onTakeQuiz }) {
   const c = CHARACTERS[charId];
   const tier = cards[charId] || null;
   const [tab, setTab] = useState("card");
   const [dev, setDev] = useState(false);
   useEffect(() => { setTab("card"); setDev(false); }, [charId]);
 
-  const nt = nextTierInfo(c, cards, chaptersDone);
+  const nt = nextTierInfo(c, cards, chaptersDone, save);
+  const st = coinState(c, chaptersDone, save);
   const name = displayName(c, tier);
   const tiersBuilt = TIER_ORDER.filter((t) => c.tiers[t]);
   const visibleClaims = tier ? c.claims.filter((cl) => TIER_RANK[cl.at] <= TIER_RANK[tier]) : [];
@@ -290,7 +291,7 @@ function CharacterModal({ charId, cards, chaptersDone, onClose, onOpenChar, onGo
 
         <div className="p-5 hcg-fade" key={tab + String(dev)}>
           {dev && <pre className="hcg-mono hcg-panel-2 hcg-scroll rounded p-3 mb-4 overflow-auto" style={{ fontSize: 10.5, color: "var(--verdigris)", maxHeight: 240 }}>
-{JSON.stringify({ id: c.id, tier, requires: c.requires, stats: tier ? c.tiers[tier].stats : null, claims: visibleClaims.length, connections: c.connections.length }, null, 2)}</pre>}
+{JSON.stringify({ id: c.id, kind: c.kind || "person", tier, coverage: st ? `${st.studied}/${st.total}` : "0", ready: st ? st.ready : false, timeline: c.timeline || null, claims: visibleClaims.length, connections: (c.connections || []).length }, null, 2)}</pre>}
 
           {!tier && (
             <div>
@@ -298,7 +299,7 @@ function CharacterModal({ charId, cards, chaptersDone, onClose, onOpenChar, onGo
               {nt && <div className="hcg-panel-2 rounded p-4">
                 <div className="hcg-tab mb-2" style={{ color: "var(--bronze-glow)" }}>REQUIRED FOR {TIER_LABEL[nt.tier].toUpperCase()}</div>
                 <div className="flex flex-col gap-2">
-                  {c.requires[nt.tier].map((chId) => {
+                  {nt.missing.map((chId) => {
                     const ch = CHAPTER_BY_ID[chId]; const done = !!chaptersDone[chId];
                     return <button key={chId} onClick={() => done ? null : onGoChapter(ch)} className="flex items-center gap-2 text-left" style={{ fontSize: 14, color: done ? "var(--verdigris)" : "var(--parchment)" }}>
                       {done ? <CheckIcon size={14} /> : <span style={{ width: 14, textAlign: "center", color: "var(--parchment-dim)" }}>○</span>}
@@ -319,10 +320,14 @@ function CharacterModal({ charId, cards, chaptersDone, onClose, onOpenChar, onGo
               <CoinLadder tier={tier} />
             </div>
             <CoinEvidence c={c} tier={tier} chaptersDone={chaptersDone} onGoChapter={onGoChapter} />
-            {nt ? <div className="hcg-panel-2 rounded p-4">
-              <div className="hcg-tab mb-2" style={{ color: "var(--gold-glow)" }}>PATH TO {TIER_LABEL[nt.tier].toUpperCase()}</div>
+            {st && st.ready && <PromotePanel c={c} st={st} onTakeQuiz={onTakeQuiz} />}
+            {nt && !(st && st.ready) ? <div className="hcg-panel-2 rounded p-4">
+              <div className="hcg-tab mb-1" style={{ color: "var(--gold-glow)" }}>PATH TO {TIER_LABEL[nt.tier].toUpperCase()}</div>
+              {st && <div className="hcg-mono" style={{ fontSize: 11, color: "var(--parchment-dim)", marginBottom: 8 }}>
+                {st.studied} of {st.total} studied{nt.need > 0 ? ` · ${nt.need} more for ${TIER_LABEL[nt.tier].toLowerCase()}` : ""}
+              </div>}
               <div className="flex flex-col gap-2">
-                {c.requires[nt.tier].map((chId) => {
+                {nt.missing.map((chId) => {
                   const ch = CHAPTER_BY_ID[chId]; const done = !!chaptersDone[chId];
                   return <button key={chId} onClick={() => done ? null : onGoChapter(ch)} className="flex items-center gap-2 text-left" style={{ fontSize: 14, color: done ? "var(--verdigris)" : "var(--parchment)" }}>
                     {done ? <CheckIcon size={14} /> : <span style={{ width: 14, textAlign: "center", color: "var(--parchment-dim)" }}>○</span>}
@@ -545,34 +550,6 @@ function BattleDiagram({ diagram }) {
 }
 
 /* ========================= CHAPTER READER =========================== */
-/* --------------------------------------------------------------------
-   Checkpoint options are shuffled at render time.
-
-   92% of the 228 questions in this app had been written with the right
-   answer second. Nobody did that on purpose; it is what happens when you
-   write a question, then a wrong answer, then the right one, then two
-   more wrong ones. The effect is that the checkpoint stops testing
-   anything, because the second option is always correct.
-
-   The shuffle is seeded on the chapter and question, so the order is the
-   same every time you meet that question — it does not jump around while
-   you are reading it — but it is not the order it was authored in.
-   -------------------------------------------------------------------- */
-function seededOrder(seed, n) {
-  let h = 2166136261;
-  for (let i = 0; i < seed.length; i++) { h ^= seed.charCodeAt(i); h = Math.imul(h, 16777619); }
-  const rnd = () => { h ^= h << 13; h ^= h >>> 17; h ^= h << 5; return ((h >>> 0) % 100000) / 100000; };
-  const idx = Array.from({ length: n }, (_, i) => i);
-  for (let i = n - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [idx[i], idx[j]] = [idx[j], idx[i]]; }
-  return idx;
-}
-
-/* A question with its options in display order, and `correct` pointing at
-   wherever the right one ended up. */
-function shuffledQuestion(chapterId, qi, q) {
-  const order = seededOrder(`${chapterId}#${qi}`, q.options.length);
-  return { ...q, options: order.map((o) => q.options[o]), correct: order.indexOf(q.correct) };
-}
 
 function Reader({ chapter, save, startBeat, onExit, onBookmark, onBeat, onComplete }) {
   const total = chapter.beats.length;

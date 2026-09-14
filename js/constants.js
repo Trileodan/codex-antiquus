@@ -22,6 +22,16 @@ const TIER_MEANS = {
   gold:   "You can recall it unprompted, reason about it, and connect it to other history.",
 };
 const TIER_SHORT = { bronze: "Recognise", silver: "Explain", gold: "Connect" };
+/* The six labels every claim in the app carries. Kept as an ordered list
+   as well as a colour map, because the promotion quiz needs to draw
+   distractors from it. */
+/* What a coin can be about. A coin is no longer only a person: an event,
+   a battle, a war or an invention is just as much a thing you can come to
+   recognise, explain and finally reason about. */
+const COIN_KINDS = ["person", "event", "battle", "war", "invention"];
+const COIN_KIND_LABEL = { person: "Person", event: "Event", battle: "Battle", war: "War", invention: "Invention" };
+
+const CLASSIFICATIONS = ["Established", "Probable", "Contested", "Interpretation", "Traditional / Legendary", "Unknown"];
 const CLASS_COLOR = {
   "Established": "var(--verdigris)", "Probable": "var(--bronze-glow)", "Contested": "var(--rust)",
   "Interpretation": "var(--silver-glow)", "Traditional / Legendary": "var(--gold-glow)", "Unknown": "var(--parchment-dim)",

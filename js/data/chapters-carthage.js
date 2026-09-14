@@ -18,6 +18,12 @@
        live campaign had reached, so silence there is not a deletion
        instruction.
 
+   v2 NOTE. The Bible's v2 expansion paragraphs were filed against the
+   wrong entries — 43 of 45 of them, drifting by up to four places and
+   spilling from one section into the next. They have been realigned by
+   subject before use. CAR-02 and CAR-03 below carry the paragraphs that
+   actually describe them; v2 had given them Saguntum and the Alps.
+
    Battles are still deliberately thin here and live in the Wars tab, per
    the Bible's §1: the Set explains why a war begins and what changes,
    the War page does terrain, deployment and phases.
@@ -218,20 +224,22 @@ CHAPTERS.push(
    Beats without the marker cover ground the Bible does not reach. */
 CHAPTERS.push(
 {
-  id: "carth-after-first", set: "carthage", act: "Decline", title: "What the First War Cost", era: "264 – 237 BC", minutes: 5,
+  id: "carth-after-first", set: "carthage", act: "Decline", title: "What the First War Cost", era: "264 – 237 BC", minutes: 6,
   intro: "The war itself lives in the Wars tab. This chapter is the bill that arrived afterwards — because the bill is what causes the next war.",
   beats: [
     /* BIBLE · CAR-02 */
     { title: "The First Punic War begins",
       text: ["The immediate crisis centres on Messana in Sicily and the Mamertines who control it. Appeals for outside help draw both Carthage and Rome into the dispute.",
         "What begins as a local intervention becomes a war between the dominant naval power of the western Mediterranean and an Italian land power that has barely begun operating overseas.",
-        "Rome's problem is obvious: Sicily cannot be won by pretending the sea is not there."],
+        "Rome's problem is obvious: Sicily cannot be won by pretending the sea is not there.",
+        "Neither side begins the crisis with a master plan for a twenty-three-year struggle. Escalation matters. Once Roman troops cross to Sicily and Carthage commits to resisting them, local alliances and strategic fears turn the dispute into something much larger. This is a useful recurring theme in Roman history: enormous wars can grow from decisions that originally look limited."],
       key: "264 BC: a local dispute at Messana pulls both powers into a war neither planned." },
     /* BIBLE · CAR-03 */
     { title: "Rome learns to fight at sea",
       text: ["Ancient tradition says the Romans used a captured or grounded Carthaginian quinquereme as a model while rapidly building a fleet. The story may simplify a more complicated process, but Rome unquestionably develops major naval capacity with remarkable speed.",
         "The famous corvus boarding device allows Roman infantry to turn some naval encounters into close combat. At Mylae in 260 BC, Rome wins its first major naval victory.",
-        "Carthage still has deeper maritime experience. Rome has demonstrated something that will become one of its defining strengths: when an enemy presents a problem, Rome can copy, adapt and keep trying after expensive failures."],
+        "Carthage still has deeper maritime experience. Rome has demonstrated something that will become one of its defining strengths: when an enemy presents a problem, Rome can copy, adapt and keep trying after expensive failures.",
+        "The adaptation is expensive. Roman fleets are repeatedly lost not only in combat but in storms, and the human cost is enormous. Yet Rome keeps rebuilding. Carthage's naval tradition gives it advantages in experience; Rome's political system proves unusually capable of absorbing losses and returning with another fleet. The First Punic War becomes an endurance contest as much as a contest of seamanship."],
       key: "260 BC: Mylae. Rome's answer to a naval problem is to build a navy and keep rebuilding it." },
     { title: "The bill",
       text: ["Three thousand two hundred talents over ten years, on top of the cost of building and losing fleet after fleet. And Sicily went — its western half, held for something like four hundred years, became Rome's first overseas province, and was promptly taxed to help pay for the next war.",

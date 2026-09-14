@@ -1,0 +1,669 @@
+# The Indus Valley — draft Set
+
+_9 chapters, ~5,800 words. Read a chapter or two for voice; the classifications are in bold._
+
+
+---
+
+## ACT: DISCOVERY
+
+### The Civilisation Nobody Knew About
+
+*1856 – 1924 (found); c. 2600 – 1900 BC (lived) · 6 min*
+
+> In 1856 a British railway contractor found a supply of excellent hard brick. He used it as track ballast. It was a four-thousand-year-old city, and nobody would work that out for another sixty-eight years.
+
+**Ballast**
+
+The brothers John and William Brunton were laying the East Indian Railway line between Karachi and Lahore, and they needed hardcore. A local told them about a ruined town near a village called Harappa where the ground was full of good fired brick.
+
+So they quarried it. Something in the region of a hundred miles of railway track was bedded on the remains of one of the largest cities of the Bronze Age. **Alexander Cunningham**, the head of the Archaeological Survey of India, visited in 1872 and 1875, recorded a seal with an animal and some unknown signs on it, and concluded the place was probably not very old. He had no reason to think otherwise; there was nothing in anyone's chronology for it to belong to.
+
+This is worth sitting with for a moment. The problem was not that nobody looked. People looked, wrote it down, and could not see what they were looking at, because the category did not exist yet. Indian history began with the Buddha and the Mauryas, and everything before that was assumed to be villages.
+
+That is a much more common failure than the dramatic kind. Evidence sits in plain sight, correctly recorded, for decades, because the framework that would make it mean something has not been built.
+
+`KEY:` Harappa was quarried for railway ballast from 1856; its antiquity was not recognised until the 1920s.
+
+**Two sites, six hundred and forty kilometres apart**
+
+In 1921 **Daya Ram Sahni** excavated at Harappa for the Survey. In 1922 **Rakhal Das Banerji** dug at a mound in Sindh called **Mohenjo-daro** — the name means something like *mound of the dead* — and found that it lay beneath Buddhist remains, so it had to be older than them, and that it produced the same strange square seals Sahni was finding.
+
+The two sites are six hundred and forty kilometres apart. Seals that matched, across that distance, meant one culture rather than two towns.
+
+In September 1924 **Sir John Marshall**, the Director-General, announced it in the *Illustrated London News*, and in a single article added roughly three thousand years to the history of South Asia. It is one of the great moments in archaeology, and it deserves the reputation it has.
+
+It is also worth noticing the shape of it. The Indian archaeologists dug; the British Director-General announced. Banerji never published his full Mohenjo-daro report, was moved off the site, quarrelled with Marshall, left the Survey under a cloud in 1926 and died at forty-four. How the credit for this discovery is distributed is an **Interpretation**, but it is not a difficult one to read.
+
+`KEY:` Sahni at Harappa and Banerji at Mohenjo-daro found matching seals 640 km apart; Marshall announced the civilisation in 1924.
+
+**How big it turned out to be**
+
+Over a thousand Mature Harappan settlements are now known, spread from Balochistan to western Uttar Pradesh and from a trading outpost in north-eastern Afghanistan down into Gujarat. By area of distribution it is the largest Bronze Age civilisation there was — bigger in footprint than Egypt and Mesopotamia combined.
+
+You will often see that written as "an empire of a million square kilometres". Be careful with that number. It is a line drawn around the outermost find-spots, not a governed territory, and we have no evidence at all of a single state. **Interpretation**, dressed up as a measurement.
+
+And here is the figure that ought to sit underneath every other sentence in this Set: **fewer than a tenth** of those thousand-odd sites have been excavated, and most of those only partially. Mohenjo-daro's earliest levels are below the water table and have never been reached at all.
+
+Almost every "the Indus had no such-and-such" you will read in this Set traces back to that one number. Keep it in your pocket.
+
+`KEY:` Over 1,000 Mature Harappan sites are known across the largest area of any Bronze Age civilisation, but under 10% have been excavated.
+
+**Checkpoint**
+
+1. Why was Harappa's antiquity missed for decades after it was first recorded?
+   - The site was inaccessible
+   - **There was no framework in which a Bronze Age Indian city could exist** ✓
+   - The records were lost
+   - Nobody visited it
+   
+   *Cunningham recorded a seal in the 1870s and dismissed the site as recent. The evidence was seen; the category to put it in had not been invented.*
+
+2. How much of the known Indus world has been excavated?
+   - Nearly all of it
+   - About half
+   - **Under a tenth, most of that partially** ✓
+   - None — it is all survey
+   
+   *This is the single most important caveat in the Set. It is the reason most Indus 'absences' are honestly Unknown rather than established.*
+
+
+### Before the Cities
+
+*c. 7000 – 2600 BC · 6 min*
+
+> The cities did not arrive from anywhere. They were grown, slowly, out of four thousand years of farming villages — which is the least glamorous and most important fact about them.
+
+**Mehrgarh**
+
+On the edge of the Kachi plain in Balochistan, where the hills come down to the Indus lowlands, there is a site called **Mehrgarh** that was occupied from something like 7000 BC.
+
+The early levels have mud-brick houses, barley and wheat, and goats — and then, over the following millennia, cotton, humped zebu cattle, copper, and long-distance materials arriving from the sea and the mountains: shell from the Arabian coast, turquoise, lapis.
+
+Mehrgarh also produced one of the more startling finds in the history of medicine. Several adult molars from around 7000 BC have neat holes drilled in them, made with a flint bit, in living people, who went on chewing on them afterwards. Somebody in Balochistan was practising dentistry nine thousand years ago.
+
+The point of Mehrgarh is continuity. There is no moment where civilisation arrives. There is a very long, very unglamorous sequence of farming, herding, potting and bead-making, and out of the far end of it the cities come.
+
+`KEY:` Mehrgarh in Balochistan shows farming, herding and craft from c. 7000 BC — a long local run-up to the Indus cities.
+
+**The Early Harappan**
+
+From roughly 3300 BC the pattern spreads and thickens. Archaeologists group it under regional names — Ravi, Hakra, Kot Diji, Amri, Sothi-Siswal — and the differences between those groups matter more than the shared label suggests.
+
+But the Harappan signature is already assembling, in pieces. Pottery styles start to converge across a wide area. Potters' marks appear that look like ancestors of the later signs. Bricks begin to be made to a fixed proportion. Settlements grow walls. And at Harappa itself the **Ravi Phase**, from about 3300 BC, is already doing a version of what Harappa will later do at scale.
+
+Then, over a couple of centuries either side of 2600 BC, it integrates. Dozens of local traditions become one recognisable material culture spread over a million square kilometres, with the same brick ratios, the same weight system, the same seal shapes and the same script from Afghanistan to Gujarat.
+
+Nobody knows how or why that happened. No conquest layer, no founder, no text. The word specialists use is *integration*, which is an honest word precisely because it explains nothing.
+
+`KEY:` Regional Early Harappan cultures from c. 3300 BC converged into one material culture around 2600 BC, by a process nobody can explain.
+
+**A word about dates, and a word about politics**
+
+The Mature Harappan bracket of **c. 2600 – 1900 BC** is about as solid as Bronze Age chronology gets: many calibrated radiocarbon dates from independently excavated sites, cross-checked against Indus objects found in datable Mesopotamian levels. Call it **Established**, with the honest caveat that each boundary is the middle of a process, not a morning.
+
+Where the earlier dates are concerned, be more careful. Excavations at **Bhirrana** in Haryana have been used to claim occupation from around 8000 BC and, from there, that the Indus is the oldest civilisation on earth. The dates come from a small number of charcoal samples, the stratigraphy is disputed, and the claim has not been accepted outside a fairly narrow circle. **Contested** — and the contest is not really about radiocarbon.
+
+You will meet this repeatedly in this Set. The Indus is politically valuable in modern South Asia in a way that Carthage is not politically valuable to anyone. An older, indigenous, literate, peaceful Indus serves several national stories at once, and that pressure shows up in what gets claimed, what gets funded and what gets announced.
+
+It does not mean Indian archaeology is untrustworthy — it produced most of what we know. It means the usual rule applies with more force than usual: ask who benefits from a claim before you decide how much weight to put on it.
+
+`KEY:` The Mature Harappan dates 2600–1900 BC are firm; much earlier claims such as Bhirrana's 8000 BC are contested and politically charged.
+
+**Checkpoint**
+
+1. What does Mehrgarh show about the origins of the Indus cities?
+   - They were founded by migrants from Mesopotamia
+   - **They grew out of four millennia of local farming and craft** ✓
+   - They appeared suddenly with no precursor
+   - They were founded after a flood
+   
+   *The long unglamorous sequence is the answer. There is no arrival moment.*
+
+2. How should the claim that the Indus dates from 8000 BC be treated?
+   - Established
+   - **Contested, and politically loaded** ✓
+   - Traditional / Legendary
+   - Unknown
+   
+   *It rests on disputed stratigraphy at one site, and it serves a modern national argument — which is a reason for extra care, not automatic dismissal.*
+
+
+---
+
+## ACT: THE CITIES
+
+### What They Built
+
+*c. 2600 – 1900 BC · 8 min*
+
+> Grid streets, covered sewers, standardised brick and a bath the size of a swimming pool, waterproofed with bitumen. And a textbook fact about granaries that turns out to be an excavator's guess.
+
+**The cities**
+
+**Mohenjo-daro** and **Harappa** are the two big ones, each perhaps 30,000 to 60,000 people — estimates, not counts, so treat them as orders of magnitude. Both are laid out on a rough grid, oriented to the compass, and divided into a raised western mound and a lower town.
+
+That raised mound is universally called the **citadel**, and you should know that the word is Mortimer Wheeler's, that it smuggles in a fortress, and that what the raised mound was actually for is not established. It is a good example of how a naming choice becomes a fact by repetition.
+
+**Dholavira**, in the salt desert of Kutch, is the one that changes how you think about them. It is built in dressed stone rather than brick, laid out in three parts rather than two, and something close to a *sixth of the walled area* is water storage: at least sixteen reservoirs, plus rock-cut cisterns, check dams and storm channels, in a place with almost no rainfall. That is not incidental engineering. That is a city designed outward from the problem of water.
+
+**Rakhigarhi** in Haryana may be larger than Mohenjo-daro — three hundred-odd hectares against two hundred and fifty — though the figure depends on whether scattered mounds are one settlement or several, and a modern village sits on top of it. **Contested**, and likely to stay that way.
+
+`KEY:` Indus cities were grid-planned and standardised; Dholavira devoted a large fraction of its walled area to water storage.
+
+**Drains, bricks and weights**
+
+The drainage is the thing everybody remembers, and it deserves to be. Covered brick drains run along the main streets, fed from bathing platforms and latrines inside houses, with inspection holes for clearing, soak pits and sediment traps. Mohenjo-daro had hundreds of brick-lined wells — some counts run to around seven hundred.
+
+Calling it the first urban sanitation system is fair. Saying "every house had a bathroom" is not — coverage varies by neighbourhood and the systems at Harappa and Mohenjo-daro are not the same. **Contested**, in the details.
+
+The bricks run at a consistent **1:2:4** ratio of thickness to width to length, from the Ravi Phase onward. The weights are cubes of banded chert, mostly unmarked, on a base unit of about 0.86 grams, doubling — 1, 2, 4, 8, 16, 32, 64 — and then switching to decimal multiples higher up. The commonest weight by a wide margin is the sixteenth ratio, around 13.7 grams.
+
+Now the nuance that gets left out, and it matters. Kenoyer's work shows the standardisation is of **proportions**, not absolute dimensions, and that there is considerable regional variation across the Indus world. Each major city ran its own internally consistent system, broadly comparable with the others.
+
+That is a different thing from a single bureau issuing a single standard, and it substantially weakens the usual argument that uniform weights prove a centralised state.
+
+`KEY:` Bricks kept a 1:2:4 ratio and weights a base unit of c. 0.86 g, but the standardisation was of proportions, with real regional variation.
+
+**The Great Bath**
+
+On the raised mound at Mohenjo-daro there is a sunken tank about twelve metres by seven and two and a half deep, with steps at each end. It is built of sawn brick laid on edge in gypsum plaster, with a layer of **bitumen** behind it for waterproofing, and a drain to empty it.
+
+As engineering, this is **Established** and genuinely impressive: a deliberately watertight public water tank, the earliest anyone has found.
+
+What it was *for* is **Interpretation**. The usual answer is ritual purification, and it is a reasonable one — the effort involved, the restricted access, and the enormous later importance of ritual bathing in South Asia all point that way. But there is no inscription, no depiction, no cult object, and no priesthood. The reading runs backwards from practices attested two thousand years later.
+
+It might have been exactly that. It might have been a reservoir, a civic amenity, or something we have no category for. We do not know, and the confidence with which "ritual purification" is usually stated is not earned by the evidence.
+
+`KEY:` The Great Bath is an established feat of waterproof engineering; the ritual-purification reading is a plausible interpretation, not a fact.
+
+**The granaries that were not granaries**
+
+Here is the best story in the chapter, and a lesson worth more than any individual fact in this Set.
+
+Mortimer Wheeler identified large pillared podium structures at Harappa and Mohenjo-daro as **state granaries** — centralised grain storage, implying taxation in kind, implying a redistributive state. It was a confident, coherent reading and it went into every textbook on earth. It is probably in whatever book you last read about the Indus.
+
+No grain has ever been found in them. No charred cereal, no storage jars, no residue, and none of the internal fittings a granary actually needs. Eighty years of excavation, nothing.
+
+Kenoyer and others now call the Mohenjo-daro structure the **Great Hall** and treat the granary label as unsupported. What the buildings were for is **Unknown**. Great halls, warehouses for something else, elite residences, some administrative function — all live, none demonstrated.
+
+And notice what the granary reading was doing while it stood. It was not just a label on a building; it was load-bearing evidence for a centralised redistributive state. Remove it and one of the main props under "the Indus had a strong central government" goes with it.
+
+That is how interpretation works when nobody checks it. One excavator's reasonable guess becomes a fact, the fact becomes evidence for a bigger claim, and the bigger claim gets taught for three generations.
+
+`KEY:` Wheeler's 'granaries' contained no grain and are now called great halls of unknown function — and their loss removes a main prop under the centralised-state argument.
+
+**Checkpoint**
+
+1. What is the problem with the word 'citadel' for the raised western mound?
+   - It is a mistranslation of a Harappan word
+   - **It is Wheeler's term and imports a fortress the evidence does not establish** ✓
+   - The mound is not raised
+   - It was coined in the 1990s
+   
+   *The description is accurate; the connotation is not evidenced. Naming choices become facts by repetition.*
+
+2. What was found inside the Indus 'granaries'?
+   - Large quantities of charred barley
+   - Storage jars and grain residue
+   - **Nothing indicating grain storage at all** ✓
+   - Tax records on clay
+   
+   *No grain, no residue, no fittings — in eighty years. The identification was an excavator's guess that became a textbook fact.*
+
+3. How does Kenoyer's work change the argument from standardised weights?
+   - It proves a central bureau of standards
+   - **It shows the standardisation was of proportions, with regional variation — weakening the centralised-state case** ✓
+   - It shows the weights are modern
+   - It shows weights were only used at Harappa
+   
+   *Comparable local systems are a different thing from one issuing authority, and the distinction matters for how the Indus was governed.*
+
+
+### Beads, Seals and a Man Called Shu-ilishu
+
+*c. 2500 – 1900 BC · 7 min*
+
+> What they made, who they sold it to, and the one named human being anywhere near this civilisation — who was an Akkadian, in Iraq, whose job was translating them.
+
+**The craft**
+
+The Harappans were extraordinary at making small hard things.
+
+**Carnelian** beads are the signature. Long barrel beads, sometimes over ten centimetres, drilled end to end through stone that is harder than the drill. They developed a tapered drill of a specially made synthetic material to do it, and a single bead could take days of continuous drilling. Then they etched white patterns onto the red with an alkali paste and heat.
+
+**Shell** bangles were cut from a heavy sea snail, sawn in standardised ways, at production sites on the Gujarat coast and shipped inland. **Faience** — a glazed ceramic — was made by a self-glazing high-firing method that is arguably more sophisticated than the Egyptian and Mesopotamian versions. Copper came from Rajasthan and Oman, alloyed with tin, and sometimes with arsenic and lead.
+
+What is most striking is not the skill but the stability. These techniques run for six or seven centuries with very little change. That is a craft world organised into specialist quarters, passing methods down intact, and evidently not under much pressure to innovate.
+
+`KEY:` Indus craft — carnelian drilling, shell bangles, self-glazing faience — was highly specialised and remarkably stable for centuries.
+
+**Seals**
+
+Around four to five thousand inscribed objects are known, mostly square steatite stamp seals two to four centimetres across, with a pierced boss on the back so they could be worn.
+
+The commonest image by a long way — something like sixty per cent of the figurative seals — is the so-called **unicorn**: a single-horned bovine standing in front of an object nobody can identify, usually called a "ritual filter" or a "standard" because those are polite ways of saying we do not know. Whether the animal is genuinely one-horned or just drawn in profile is **Contested**, though most specialists think it is deliberately mythical.
+
+Others show zebu bulls, elephants, rhinoceros, tigers, water buffalo, gharials, and occasional composite creatures.
+
+We know roughly what seals *did*: clay sealings have been found on bales and in gateways and storerooms, so at least some of them controlled goods and access. That is **Probable** — the sealing evidence is real but thin relative to the number of seals.
+
+What the animals *meant* — clans, gods, guilds, cities, ranks — is **Unknown**. Every one of those is a live proposal and not one is demonstrated. The most reproduced image this civilisation ever made, thousands of surviving copies, and it is completely opaque.
+
+`KEY:` Around 4,000–5,000 Indus seals survive; the unicorn is the commonest motif, and what any of the animals meant is unknown.
+
+**Meluhha**
+
+Mesopotamian texts talk about three places out to the east and south: **Dilmun** (Bahrain and the Gulf coast), **Magan** (Oman), and further away, **Meluhha**.
+
+Meluhha sent carnelian, ivory, timber, gold, pearls, shell inlay — and monkeys. That Meluhha is the Indus region is **Probable** rather than proven: it fits the goods, the direction and the distance, and Indus objects turn up in the right Mesopotamian levels, but there is no bilingual text that says so.
+
+And here is the man. In the Louvre there is an Akkadian cylinder seal of about 2200 BC whose owner's title reads, in cuneiform: **Shu-ilishu, interpreter of the Meluhhan language**.
+
+Think about what that one line does. It means Meluhhan was a real spoken language, different enough from Akkadian to need a full-time professional, and that there was enough traffic to keep him in work. For a civilisation whose writing nobody can read, a Mesopotamian job title is unexpectedly strong evidence that there was a language there to write down.
+
+Shu-ilishu is also, as far as I can tell, the closest thing we have to a named individual connected to the Indus world. And he is an Akkadian, in Iraq, and all we know about him is his job.
+
+`KEY:` An Akkadian seal names Shu-ilishu, 'interpreter of the Meluhhan language' — evidence that the Indus had a distinct spoken tongue.
+
+**How much trade, actually**
+
+This is where I want to push back on the usual telling, which tends toward Bronze Age globalisation.
+
+Total number of Indus seals ever found in Mesopotamia: about **twenty**. Not twenty thousand. Twenty.
+
+There are also etched carnelian beads, a Harappan cubical weight and a seal at Susa, and textual references to Meluhhan boats and possibly a Meluhhan settlement near Lagash. The contact is real, sustained over centuries, and mostly routed through Dilmun middlemen rather than sailed direct.
+
+But it was a modest trade in high-value goods, not a bulk economy. And notice the asymmetry in what we can say: the Mesopotamian side is documented in writing, so we know what went west. What came *east* in exchange — silver, tin, wool, oil, grain are the usual guesses — is inference, because most of it was perishable and the Indus kept no readable accounts. **Unknown**, honestly.
+
+There is also a Harappan outpost at **Shortugai** in north-eastern Afghanistan, a very long way from home, sitting next to the lapis lazuli sources. That one is not ambiguous. Somebody went and set up shop at the mine.
+
+`KEY:` Only about twenty Indus seals have been found in Mesopotamia; the trade was real, long-running and mediated, but modest.
+
+**Checkpoint**
+
+1. What does the Shu-ilishu seal tell us?
+   - That the Indus script is Akkadian
+   - **That Meluhhan was a distinct spoken language needing professional interpreters** ✓
+   - That Mesopotamia conquered the Indus
+   - That the Indus had no language
+   
+   *A job title in Iraq is unexpectedly good evidence about a civilisation whose own writing cannot be read.*
+
+2. How much Indus material has been found in Mesopotamia?
+   - Thousands of seals
+   - **About twenty seals, plus beads and a few other objects** ✓
+   - Nothing at all
+   - Only textual references
+   
+   *Real and sustained, but modest — and largely handled by Dilmun middlemen rather than direct sailing.*
+
+
+---
+
+## ACT: THE SILENCE
+
+### Ten Signs Above a Gate
+
+*c. 2600 – 1900 BC · 8 min*
+
+> Three metres of text, in letters a foot high, mounted over a city gate so that everyone entering could read it. We cannot read a single sign — and a serious minority argue there is nothing to read.
+
+**The signboard**
+
+At **Dholavira**, at the north gate of the citadel, there was a wooden board about three metres long carrying ten enormous signs, each around thirty-seven centimetres tall, inlaid in white gypsum. One of the ten repeats four times.
+
+The wood rotted and the board fell forward onto its face. The gypsum pieces stayed roughly where they were, which is why we have the sequence at all — a text that survived by falling over.
+
+It is the largest Indus inscription by physical scale, it was clearly meant to be read by everyone entering the city, and what it says is **Unknown**. Completely. Not partially, not approximately.
+
+Even calling it a "signboard" is an inference from its size and position. It might have been commemorative, dedicatory, protective, or something for which we have no category at all.
+
+`KEY:` The Dholavira signboard is ten gypsum signs up to 37 cm tall from a city gate — the largest Indus inscription, and entirely unread.
+
+**The numbers, and why they matter**
+
+Roughly five thousand inscribed objects are known. The average inscription is about **five signs long**. The longest on a single surface is usually given as seventeen; on one object, across three sides, twenty-six.
+
+The number of distinct signs is itself **Contested**, and not because anyone is bad at counting: Mahadevan gets about 417, Parpola about 400, Wells nearly 700. The disagreement is about whether a given mark is a separate sign or a variant or ligature of another one.
+
+That is not a footnote. If there are forty signs you are looking at an alphabet; four hundred and you are looking at a syllabary or a logosyllabic system; a thousand and something else again. The disagreement about counting is a disagreement about what kind of thing this is.
+
+Four conditions block decipherment, and all four hold:
+
+There is **no bilingual** — no Rosetta Stone, no Behistun. The **underlying language is unknown**, and no Harappan language is attested anywhere else. We do not know whether the signs are **words, syllables, sounds or a mix**. And there are **no known proper nouns** — no king, god or city name from outside to anchor a phonetic value to.
+
+Over a hundred mutually incompatible decipherments have been published since the 1920s. None has been accepted.
+
+`KEY:` Inscriptions average about five signs, the sign count is disputed between 400 and 700, and all four conditions needed for decipherment are absent.
+
+**Is it writing at all?**
+
+In 2004 **Farmer, Sproat and Witzel** published a paper arguing that the Indus signs are not writing. Their case: the inscriptions are far too short; a large and *increasing* proportion of signs occur only once, which is not how real scripts behave; the sign repetition you would expect inside a logosyllabic text is missing; and literacy simply vanishes afterwards, which is odd for a genuine writing system.
+
+On their reading, the signs are emblems — for families, clans, deities, offices — functionally more like heraldry or Near Eastern deity symbols than like Sumerian.
+
+**Parpola** answered each point: Chinese has plenty of rare signs; short seal legends in any system would not repeat signs much; and brevity may be a property of the surviving *media* — seals, tags, pottery — rather than of the writing itself. Perishable long texts on cloth, palm leaf or bark would leave nothing.
+
+Where does that leave it? The field's centre of gravity is against the non-linguistic thesis. Most specialists treat it as writing. But the argument has not been refuted, and its strongest point stands unanswered by evidence: in a century of digging at a thousand sites, **no long text has ever been found anywhere**, and the perishable-media answer is a hypothesis rather than a discovery.
+
+The honest framing: most scholars think it is writing, a serious minority think it is not, neither side has produced decisive evidence, and the dispute is over twenty years old.
+
+`KEY:` A 2004 paper argued the signs are non-linguistic emblems; most specialists disagree, but the argument is unrefuted and the dispute is live.
+
+**Entropy, computers, and a million-dollar prize**
+
+In 2009 **Rao and colleagues** published in *Science* a measurement of conditional entropy — roughly, how predictable the next sign is given the current one — showing Indus sequences fall inside the range of known languages and outside the range of their non-linguistic control sets.
+
+This was widely reported as proving the script is language. It does not, and **Sproat's** reply is methodologically serious: applied to genuinely non-linguistic systems, including Mesopotamian deity-symbol sequences, the same method returns similar values. The controls were the problem.
+
+The correct statement is narrow and still interesting: the sequences have statistical structure of the kind language has. Whether that distinguishes them from structured non-linguistic systems — **Contested**.
+
+On machine learning: current work does sign identification, corpus digitisation and image matching. It is useful. It is not decipherment, and any headline saying "AI deciphers the Indus script" is false.
+
+In January 2025 the Chief Minister of Tamil Nadu announced a **million-dollar prize** for a decipherment, on the centenary of the civilisation's announcement. Worth knowing the shape of that: Tamil-nationalist interest in a Dravidian Indus is the exact mirror of Hindu-nationalist interest in an Indo-Aryan one, and the script is undeciphered partly because it is genuinely hard and partly because everyone wants it to say something in particular.
+
+Meanwhile: the language, the sign inventory, any sign's value, the content of every inscription, whether long texts existed, and why writing stopped in 1900 BC are all **Unknown**.
+
+`KEY:` The 2009 entropy result shows language-like structure but does not settle the question; machine learning has not deciphered anything.
+
+**Checkpoint**
+
+1. What does the Dholavira signboard say?
+   - The city's name
+   - A king's titles
+   - A dedication to a god
+   - **Unknown — not one sign can be read** ✓
+   
+   *Three metres of public text at a city gate, and it is completely opaque. It is the Set's thesis in one object.*
+
+2. What did Rao et al.'s 2009 entropy study actually show?
+   - That the script is definitely language
+   - **That the sequences have language-like statistical structure — which Sproat showed some non-linguistic systems also have** ✓
+   - That the script is Dravidian
+   - That the script is not writing
+   
+   *It is a real result, narrower than the headlines. The controls did not separate language from structured non-language.*
+
+
+### The Missing King
+
+*c. 2600 – 1900 BC · 6 min*
+
+> No royal tomb. No palace. No temple. No king's face, no victory scene, no name. For a civilisation of maybe five million people across seven centuries, that is a very loud silence — and reading it is the hardest thing in this Set.
+
+**What is actually missing**
+
+Every item on this list is an accurate statement about the current evidence.
+
+**No securely identified royal tomb.** Nothing anywhere in the Indus world approaches the wealth gap of the Royal Cemetery at Ur, or an Egyptian royal burial, or even a middling Mesopotamian elite grave.
+
+**No securely identified palace.** Large non-residential buildings exist. None has the plan, the artefact assemblage or the administrative archive that identifies a palace everywhere else.
+
+**No securely identified temple.** No cult focus, no statue in place, no votive concentration, no priesthood.
+
+**No royal imagery of any kind.** No ruler portraits, no victory scenes, no king lists, no inscribed monuments — and not one personal name. Five million people, seven hundred years, and the civilisation is completely anonymous.
+
+**Almost no depiction of warfare.** No battle scenes, no massed weapon deposits, no clearly military architecture. Walls exist, but a wall is as consistent with flood defence or customs control as with siege.
+
+Set that beside Egypt and Mesopotamia at the same date, where kings are the loudest thing in the record, and the contrast is genuinely strange.
+
+`KEY:` The Indus record contains no identified royal tomb, palace, temple, ruler portrait or personal name of any kind.
+
+**Two sentences that are not the same**
+
+Now the methodological point, which is the reason this chapter exists.
+
+**"No royal tomb has been found"** is Established. **"There were no royal tombs"** is Unknown. Popular writing about the Indus runs those two together constantly, and once you notice it you will see it everywhere.
+
+Remember the excavation figure: under a tenth of sites, most partially. Mohenjo-daro's lowest levels are under the water table and have never been touched. Harappa was carted away for railway ballast. Fieldwork across Pakistan has been limited for decades.
+
+So the absences could easily be absences of digging.
+
+But — and this cuts the other way, so hold both — the absence is **patterned**, not random. We do not have three seals and no monuments. We have thousands of seals, hundreds of thousands of artefacts, two extensively exposed cities, dozens of excavated settlements and a burial record in the hundreds. In a comparable sample from Egypt or Sumer, kings would be unmissable.
+
+That does not prove there were no kings. It does mean the silence is doing something, and "we just haven't dug there yet" is not a complete answer either.
+
+`KEY:` 'No royal tomb has been found' is established; 'there were no royal tombs' is unknown — but the absence is patterned, not random.
+
+**Five ways to read it**
+
+Here are the live proposals. Every one is an **Interpretation**. Not one is established.
+
+**Heterarchy.** Power distributed among merchant, craft, landholding and possibly ritual groups rather than concentrated in a ruler; the shared standards reflect interlocking elite networks and common ideology rather than a bureaucracy. Currently the most influential reading, associated with Kenoyer, Possehl and Wright.
+
+**City-states.** Each major city an autonomous polity inside a shared culture, as in Early Dynastic Sumer.
+
+**A state that forbade personal display.** Rulers existed but were represented anonymously, or through the seal imagery. The trouble with this one is that in its current form nothing could disprove it.
+
+**A theocracy we have misidentified.** The bath and the raised mound *are* the temple complex and we simply do not recognise the form.
+
+**We have not dug in the right places.** Unglamorous, and not at all unlikely.
+
+So: how was the Indus civilisation governed? The honest classification is **Unknown**. Anyone who tells you confidently that it was a peaceful priest-led theocracy, or a merchant republic, or an empire, is telling you about themselves.
+
+`KEY:` Five competing models of Indus government exist; all are interpretations, and the honest answer to how it was governed is unknown.
+
+**Checkpoint**
+
+1. Which pair of statements is correctly classified?
+   - Both 'no royal tomb found' and 'there were no royal tombs' are Established
+   - **'No royal tomb found' is Established; 'there were no royal tombs' is Unknown** ✓
+   - Both are Unknown
+   - Both are Interpretation
+   
+   *The distinction between absence of evidence and evidence of absence is the whole methodological point of this Set.*
+
+2. What is the honest classification for how the Indus was governed?
+   - Established — a priestly theocracy
+   - Probable — a merchant republic
+   - **Unknown — five competing models, none demonstrated** ✓
+   - Established — a centralised empire
+   
+   *Heterarchy is currently the most discussed reading. Most discussed is not the same as demonstrated.*
+
+
+### Were They Peaceful?
+
+*c. 2600 – 1900 BC · 6 min*
+
+> The Indus is famous for being the nice civilisation — no armies, no kings, no slaves, everyone equal. Almost all of that is a modern invention, and the way it was built is worth understanding.
+
+**The rigged comparison**
+
+The peaceful reading rests on a comparison: Egypt and Mesopotamia are full of weapons and battle scenes, the Indus is not, therefore the Indus was peaceful.
+
+In 2005 **Edward Cork** published a paper in *Antiquity* taking that comparison apart, and the argument is beautiful because it is about where evidence comes from rather than about what it says.
+
+The elaborate weapons that make Mesopotamia and Egypt look warlike come overwhelmingly from **burials and votive deposits** — contexts where objects are deliberately placed to signal status. The Indus did not bury its dead with display goods on that scale. So the comparison is not measuring violence. It is measuring whether a society used weapons as status markers in graves.
+
+Control for that, Cork argued, and the proportion of weapons in the Indus assemblage is not obviously lower — in some categories it is higher.
+
+His conclusion is careful and worth copying: he did *not* argue the Harappans were warlike. He argued that the evidence cannot support the claim that they were peaceful. Those are different, and the second is the honest position.
+
+`KEY:` Cork (2005) showed the peaceful reading rests on a depositional artefact: Near Eastern weapons come from graves and votive deposits, which the Indus did not make.
+
+**The bones**
+
+There is also direct evidence, and it is not comfortable.
+
+Osteological work at Harappa, led by Gwen Robbins Schug, found cranial trauma and other signs of interpersonal violence in the skeletal population. More pointedly, it found the injuries were **unevenly distributed** — commoner among individuals from the less elaborate burial areas.
+
+That is a double result. It argues against the peaceful reading, and it argues against the egalitarian reading at the same time, because unequal exposure to violence is one of the sharpest signals of social stratification there is.
+
+Add the rest: differential grave goods, differential house sizes, differential access to the raised mound. "Less steeply stratified than Mesopotamia" is defensible. "Egalitarian" is not.
+
+So: **Established** — the Indus left little evidence of organised warfare. **Contested** — the Indus was peaceful. **Interpretation, and modern** — the Indus was egalitarian.
+
+`KEY:` Cranial trauma at Harappa is unequally distributed by burial area, arguing against both the peaceful and the egalitarian readings.
+
+**Where the picture came from**
+
+It is worth tracing, because it shows how a civilisation with no voice gets given one.
+
+It starts with **Marshall** in the 1920s and 30s, whose interpretive vocabulary — the priest-king, the proto-Shiva, the granaries — set the tone. Then mid-century enthusiasm. Then, from the 1960s and 70s, a counter-cultural and later New Age reading of the Indus as a peaceful, spiritual, ecologically wise alternative to the violent West. Then, more recently, two nationalist readings pulling in opposite directions but both wanting an Indus that was ancient, indigenous, advanced and admirable.
+
+Underneath all of it is one structural fact: **the Indus cannot contradict you.** The script is unread. There is no king boasting, no chronicle, no letter, no complaint. Egypt and Mesopotamia talk back — they tell you about taxes and lawsuits and bad harvests and massacres, and they spoil your theories. The Indus is silent, and silence takes any shape you press into it.
+
+That is the real reason this Set has to be so careful. Not because the archaeologists are unreliable, but because a mute civilisation is the most tempting surface for projection there is.
+
+`KEY:` The peaceful, egalitarian Indus is largely a modern projection, made possible by the fact that a civilisation with no readable text cannot contradict anyone.
+
+**Checkpoint**
+
+1. What was Cork's argument about Indus weapons?
+   - That the Harappans were warlike
+   - **That the comparison is skewed by depositional context — Near Eastern weapons come from graves the Indus did not make** ✓
+   - That no weapons have been found
+   - That the weapons are modern
+   
+   *He argued the evidence cannot support the peacefulness claim — which is a narrower and more defensible position than the reverse claim.*
+
+2. Why is the Indus especially prone to projection?
+   - It is very recently discovered
+   - **Its script is unread, so nothing in the record can contradict a reading** ✓
+   - It has no archaeology
+   - It was destroyed by invaders
+   
+   *Egypt and Mesopotamia talk back and spoil theories. A silent civilisation takes whatever shape is pressed into it.*
+
+
+---
+
+## ACT: THE ENDING
+
+### The Long Unravelling
+
+*c. 1900 – 1300 BC · 7 min*
+
+> No invasion, no massacre, no sudden fall. The cities emptied over two centuries while the population went on living — and the river everybody argues about was probably never the river they think.
+
+**What actually happened**
+
+Between roughly 1900 and 1700 BC the big cities were progressively abandoned or shrank drastically. The script disappears. The standardised weights disappear. Trade with Mesopotamia stops. The seal tradition ends. Craft specialisation falls away.
+
+But this was **de-urbanisation, not extinction**, and the distinction matters enormously. Population did not vanish. Late Harappan settlement continues in far greater *numbers* of far *smaller* sites, shifting eastward toward the Ganges-Yamuna region and into Gujarat. Farming continues. Many crafts continue.
+
+And the invasion story is dead. Mortimer Wheeler looked at scattered skeletons at Mohenjo-daro, remembered a Rigvedic epithet for Indra as "fort-destroyer", and wrote the line "Indra stands accused." It was vivid and it was wrong: the skeletons come from different stratigraphic levels and different periods, many show no perimortem injury at all, and there is no destruction layer anywhere.
+
+No conquest. No massacre. A two-hundred-year transformation that most of the population lived through.
+
+`KEY:` The Indus cities de-urbanised over roughly two centuries with population continuity; the invasion-and-massacre story is refuted.
+
+**The climate case, and its limits**
+
+Around 2200 BC there is a widespread northern-hemisphere arid episode — the **4.2 kiloyear event**, formally the start of the Meghalayan Age. The Indian summer monsoon weakened across the third millennium BC.
+
+A 2023 study of a stalagmite from **Dharamjali Cave** in the Himalaya sharpened the picture considerably: not one drought but **three distinct droughts of twenty-five to ninety years each**, spread across more than two centuries.
+
+That the drought record and the urban reorganisation overlap in time is **Established**. That the drought *caused* the collapse is **Contested**, and a 2024 critical review of the causal chain found it substantially weaker than it is usually asserted to be.
+
+Cameron Petrie's framing is the one I would take away: not a collapse but a **progressive transformation of environmental conditions**, met with adaptation — a shift from megacities to dispersed rural settlement, a switch toward drought-tolerant summer crops like millets, and a broader agricultural base.
+
+This has genuinely moved in the last decade. The field has gone from "climate change destroyed the Indus" to "climate stress was one driver among several in a centuries-long transformation that most people survived." If you read a single-cause climate story, it is out of date.
+
+`KEY:` Three droughts of 25–90 years fall in the right window, but the causal link to collapse is contested and the single-cause climate story is out of date.
+
+**The river argument**
+
+Many Harappan sites cluster along a now-dry channel in north-west India called the **Ghaggar-Hakra**. That much is **Established** and the site distribution is genuinely dense.
+
+The question is what that river was. A long series of studies — zircon provenance, fluvial geomorphology, optically stimulated luminescence dating, landscape reconstruction — converges on an answer: the Sutlej and the Yamuna had *already left* that system long before Harappan times, in some cases tens of thousands of years before. During the Harappan period the Ghaggar was a **monsoon-fed seasonal river**, not a glacier-fed perennial one.
+
+There is dissent, and it is published in real journals, but the weight of evidence is heavily on one side.
+
+Why does this matter enough to fight about? Because the Rigveda describes a mighty river called the **Sarasvati** descending from the mountains, and identifying the Ghaggar-Hakra as the Sarasvati would put Vedic composition alongside the Indus cities — which would make the Harappans Vedic, and make Indo-Aryan culture indigenous rather than arriving later. There is an active campaign to rename the civilisation "Sindhu-Sarasvati" on exactly that basis.
+
+The identification is **Contested** and getting harder to sustain, because the geology says the Ghaggar was a seasonal stream by the time it would need to have been a torrent.
+
+And there is a lovely irony in it. Singh and colleagues argue the Harappans settled that channel *because* it was a stable seasonal river rather than despite it — a violent glacier-fed river is a bad neighbour for dense settlement. On that reading the mighty-river version is not just probably wrong, it gets the attraction of the place backwards.
+
+`KEY:` Geology indicates the Ghaggar-Hakra was monsoon-fed and seasonal in Harappan times, making its identification as the Rigvedic Sarasvati contested.
+
+**Checkpoint**
+
+1. What is the status of Wheeler's 'Indra stands accused' invasion reading?
+   - Established
+   - Probable
+   - **Refuted — the skeletons are from different periods and there is no destruction layer** ✓
+   - Contested
+   
+   *It was a vivid line built on a misread deposit, and it has not survived contact with the stratigraphy.*
+
+2. What do the geological studies say the Ghaggar-Hakra was during Harappan times?
+   - A glacier-fed perennial river
+   - **A monsoon-fed seasonal river** ✓
+   - An artificial canal
+   - A sea inlet
+   
+   *The Sutlej and Yamuna had left the system long before. That is what makes the Sarasvati identification contested.*
+
+
+### What Came Next, and Who Owns It
+
+*c. 1900 – 1300 BC · 6 min*
+
+> One ancient genome from an entire civilisation, and an argument about it that reaches into modern politics. Here is what the DNA actually says, and — more importantly — what it does not.
+
+**Rakhigarhi, n = 1**
+
+In 2019 a team led by Vasant Shinde published the genome of a single individual from a Harappan cemetery at **Rakhigarhi**. It is, still, the only ancient genome from the Indus civilisation, and it is low-coverage.
+
+Start with that. Every population-level statement about Harappan genetics is an extrapolation from **one person**, plus eleven individuals from Iran and Central Asia who were genetic outliers and are argued to be Indus migrants. That sentence should come before every other sentence in this section.
+
+What the individual showed: ancestry from an **Iranian-related** lineage that separated from Iranian farmers *before* farming began — which undercuts the idea that agriculture arrived in South Asia with a population from the Fertile Crescent — mixed with **Ancient Ancestral South Indian** hunter-gatherer ancestry. And **no Steppe ancestry at all**.
+
+A companion study by Narasimhan and colleagues, sharing authors, placed the arrival of Steppe-derived ancestry in South Asia around and after 2000–1500 BC, spreading through the second millennium.
+
+`KEY:` The single Rakhigarhi genome shows Iranian-related and AASI ancestry and no Steppe ancestry; it is the only Indus genome yet sequenced.
+
+**What that argument is actually about**
+
+The Rakhigarhi paper was widely reported in India as refuting the "Aryan invasion".
+
+In a narrow sense, true — and uncontroversial, because nobody defends the invasion model any more. There is no destruction layer, no massacre, no intrusive military culture. Wheeler's version died decades ago.
+
+But it was widely received as refuting **migration**, which is a different claim, and one the paper's own data does not touch. Steppe ancestry arrives *after* this person lived. Finding none in a pre-2000 BC individual is precisely what the migration model predicts. The two papers share authors and are consistent with each other.
+
+So the honest statement is: the Rakhigarhi individual had no Steppe ancestry, this is what the migration model expects, and it refutes the discredited invasion theory rather than the migration one.
+
+What remains genuinely open: the **mechanism and character** of the second-millennium movement — elite dominance, slow pastoral infiltration, kin-group migration, something else — is **Contested to Unknown**. And what language the Harappans spoke is **Unknown**, which means we cannot even say whether there is linguistic continuity to argue about.
+
+One person's genome. It is worth being slow about it.
+
+`KEY:` The Rakhigarhi result refutes the invasion model, which nobody defends, but is fully consistent with the later Indo-Aryan migration model.
+
+**What actually survived**
+
+The cities ended. A great deal else did not, and the continuities are real rather than sentimental.
+
+Agricultural practice and crop packages carry forward. Craft traditions in shell, bead and metal continue and can be traced. Some elements of the weight and measurement systems persist. Water management practices, cattle keeping and settlement patterns carry on into later South Asian life. The population itself is ancestral to the population that is there now — that much the genetics does establish.
+
+What was lost was specific and urban: the script, the seals, the standardised weights, the long-distance trade, the cities themselves.
+
+That is a useful shape to hold on to, because it is a shape you will see again. What collapses in a collapse is usually the **apparatus** — the administration, the writing, the elite exchange, the monumental building — while the farming, the language and the people carry on underneath it, often for centuries, until somebody builds something new on top.
+
+You will watch the same thing happen in the Bronze Age Collapse, in Roman Britain, and in the Maya lowlands. Different continents, different centuries, same shape.
+
+And you will still not know the name of a single person who lived here.
+
+`KEY:` The urban apparatus — script, seals, weights, trade — was lost while farming, craft and population continued, a pattern repeated in other collapses.
+
+**Checkpoint**
+
+1. What does the Rakhigarhi genome refute?
+   - The Indo-Aryan migration model
+   - **The discredited Aryan invasion model — migration is unaffected** ✓
+   - The existence of the Indus civilisation
+   - The Steppe hypothesis entirely
+   
+   *Steppe ancestry arrives after this person lived. Finding none is exactly what the migration model predicts.*
+
+2. What is the recurring shape of a 'collapse' this chapter identifies?
+   - Everyone dies
+   - **The apparatus — writing, administration, elite trade — fails while farming and population continue** ✓
+   - Invaders replace the population
+   - Cities survive but farming ends
+   
+   *You will see the same shape in the Bronze Age Collapse, Roman Britain and the Maya lowlands.*
+

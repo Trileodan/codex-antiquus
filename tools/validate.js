@@ -33,6 +33,7 @@ const LOAD_ORDER = [
   "js/data/coastline.js",
   "js/data/places.js", "js/data/glossary.js", "js/data/world.js", "js/data/campaigns.js",
   "js/engine.js",
+  "js/data/recall.js",
   "js/data/quizgen.js",
 ];
 
@@ -71,7 +72,8 @@ const NAMES = ["CHAPTERS", "CHARACTERS", "SETS", "SOURCES", "WORLDS", "TIER_ORDE
   "PLACES", "COASTLINE", "PLACE_TONE", "COASTLINE_SOURCE",
   "actsOf", "actOpen", "chapterOpen", "CHAPTERS_BY_SET",
   "REGIONS", "ERAS", "CLASS_COLOR", "PLANNED_COLLISIONS",
-  "computeCards", "unlockedSets", "warGate", "setProgress", "buildProgress", "BLANK_SAVE",
+  "computeCards", "unlockedSets", "warGate", "setProgress", "buildProgress", "BLANK_SAVE", "TIER_AUTHORED",
+  "scoreRecall", "recallTokens", "RECALL_OVERRIDES",
   "coinChapters", "coinState", "readyToPromote", "buildQuiz", "COIN_KINDS", "CLASSIFICATIONS",
   "playableCoins", "allCoins", "tgNewGame", "tgPlace", "tgAiMove", "tgSlotOk", "tgCorrectSlot", "TG_COINS"];
 const data = vm.runInContext(`({ ${NAMES.map((n) => `${n}: typeof ${n} === "undefined" ? undefined : ${n}`).join(", ")} })`, sandbox);
@@ -84,7 +86,8 @@ const {
   PLACES, COASTLINE, PLACE_TONE, COASTLINE_SOURCE,
   actsOf, actOpen, chapterOpen, CHAPTERS_BY_SET, PLANNED_COLLISIONS,
   computeCards, unlockedSets, warGate, setProgress, buildProgress, BLANK_SAVE,
-  coinChapters, coinState, readyToPromote, buildQuiz, COIN_KINDS, CLASSIFICATIONS,
+  coinChapters, coinState, readyToPromote, buildQuiz, COIN_KINDS, CLASSIFICATIONS, TIER_AUTHORED,
+  scoreRecall, recallTokens, RECALL_OVERRIDES,
   playableCoins, allCoins, tgNewGame, tgPlace, tgAiMove, tgSlotOk, tgCorrectSlot, TG_COINS,
 } = data;
 
@@ -230,7 +233,8 @@ for (const [id, c] of Object.entries(CHARACTERS)) {
   /* Every coin needs all three tiers now. Under the proportional model a
      reader can reach any of them on any coin, so a missing tier is a
      blank screen waiting to happen rather than a design choice. */
-  const missingTiers = TIER_ORDER.filter((t) => !tiers.includes(t));
+  /* Diamond reuses Gold's text, so only the authored three are required. */
+  const missingTiers = TIER_AUTHORED.filter((t) => !tiers.includes(t));
   if (missingTiers.length) needTierText.push(`${id} (${missingTiers.join("+")})`);
 
   /* Teaching pool: either the new `teaches` list or the legacy per-tier

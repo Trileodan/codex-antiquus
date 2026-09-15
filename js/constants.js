@@ -7,11 +7,22 @@ const { useState, useEffect, useMemo, useRef, useCallback } = React;
    the Researcher/Sceptic/Adjudicator/Editor pipeline would produce.
    ===================================================================== */
 
-const TIER_ORDER = ["bronze", "silver", "gold"];
-const TIER_RANK = { bronze: 0, silver: 1, gold: 2 };
-const TIER_LABEL = { bronze: "Bronze", silver: "Silver", gold: "Gold" };
-const TIER_COLOR = { bronze: "var(--bronze)", silver: "var(--silver)", gold: "var(--gold)" };
-const TIER_GLOW = { bronze: "var(--bronze-glow)", silver: "var(--silver-glow)", gold: "var(--gold-glow)" };
+const TIER_ORDER = ["bronze", "silver", "gold", "diamond"];
+const TIER_RANK = { bronze: 0, silver: 1, gold: 2, diamond: 3 };
+const TIER_LABEL = { bronze: "Bronze", silver: "Silver", gold: "Gold", diamond: "Diamond" };
+const TIER_COLOR = { bronze: "var(--bronze)", silver: "var(--silver)", gold: "var(--gold)", diamond: "var(--verdigris)" };
+const TIER_GLOW = { bronze: "var(--bronze-glow)", silver: "var(--silver-glow)", gold: "var(--gold-glow)", diamond: "var(--verdigris)" };
+
+/* Diamond is not a fourth thing to study. It is the same Gold knowledge,
+   proved again later without warning, and it is the only tier that can
+   go DOWN. Master Brief v3 §1: "Diamond = retained recall after
+   meaningful delay. Diamond can later demote if the mental structure
+   genuinely fades."
+
+   Which makes it the only honest tier in the app. Bronze, Silver and
+   Gold all measure what you could do on the day you did it; a week later
+   nobody checks. Diamond is the one that asks whether it stuck. */
+const TIER_AUTHORED = ["bronze", "silver", "gold"];   /* tiers a coin must supply text for */
 /* What a tier actually claims — about the reader, not the subject.
    A coin is not a trophy for having met somebody; it is a statement
    about how well you know them, and the three grades are the three
@@ -20,8 +31,9 @@ const TIER_MEANS = {
   bronze: "You recognise the subject and can place it broadly.",
   silver: "You can explain what happened, why it matters, and place it exactly.",
   gold:   "You can recall it unprompted, reason about it, and connect it to other history.",
+  diamond: "You still had it weeks later, cold, with nothing in front of you.",
 };
-const TIER_SHORT = { bronze: "Recognise", silver: "Explain", gold: "Connect" };
+const TIER_SHORT = { bronze: "Recognise", silver: "Explain", gold: "Connect", diamond: "Retain" };
 /* The six labels every claim in the app carries. Kept as an ordered list
    as well as a colour map, because the promotion quiz needs to draw
    distractors from it. */

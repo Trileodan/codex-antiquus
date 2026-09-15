@@ -151,12 +151,16 @@ const DROP_PROMPTS = [
   "What would somebody here be worried about?",
 ];
 
-function YearDropScreen({ save, cards, onHome, onOpenChapter, onOpenChar }) {
+function YearDropScreen({ save, cards, onHome, onOpenChapter, onOpenChar, onRecall }) {
   const anchors = useMemo(() => anchorYears(save.chaptersDone), [save.chaptersDone]);
   const ranges  = useMemo(() => studiedRanges(save.chaptersDone), [save.chaptersDone]);
   const [seed, setSeed] = useState(0);
   const [shown, setShown] = useState(false);
   const [note, setNote] = useState("");
+  /* The scored answer, computed once when the reader commits. Held in
+     state rather than recomputed on render so the evidence panel cannot
+     change under them while they read it. */
+  const [result, setResult] = useState(null);
 
   const year = useMemo(() => {
     if (!ranges.length) return null;
@@ -169,7 +173,16 @@ function YearDropScreen({ save, cards, onHome, onOpenChapter, onOpenChar }) {
     return p;
   }, [seed]);
 
-  function next() { setShown(false); setNote(""); setSeed(seed + 1); }
+  function next() { setShown(false); setNote(""); setResult(null); setSeed(seed + 1); }
+
+  /* Commit the answer: score it, show the anchors, and record the
+     retrieval against every coin this year belongs to. */
+  function reveal() {
+    const r = note.trim() ? scoreRecall(note, year, save) : { score: 0, found: [], coins: [], passed: false, missed: [] };
+    setResult(r);
+    setShown(true);
+    if (r.passed && r.coins.length) onRecall(year, r);
+  }
 
   if (!anchors.length || year === null) return <div className="max-w-2xl mx-auto px-4 py-10 hcg-fade">
     <Crumbs items={[{ label: "Home", onClick: onHome }, { label: "Year Drop" }]} />
@@ -210,12 +223,47 @@ function YearDropScreen({ save, cards, onHome, onOpenChapter, onOpenChar }) {
           {prompts.map((p, i) => <li key={i}>{p}</li>)}
         </ul>
       </div>
-      <textarea value={note} onChange={(e) => setNote(e.target.value)} rows={4}
-        placeholder="Optional. Writing it down first makes it much harder to convince yourself afterwards that you knew."
+      <textarea value={note} onChange={(e) => setNote(e.target.value)} rows={5}
+        placeholder="Write anything you associate with this year — a name, a battle, a place, what was happening somewhere else. Fragments are fine; this is not a sentence test."
         style={{ width: "100%", background: "var(--panel-2)", border: "1px solid var(--hair)", borderRadius: 6,
                  color: "var(--parchment)", padding: 12, fontSize: 15, lineHeight: 1.6, fontFamily: "inherit" }} />
-      <button onClick={() => setShown(true)} className="hcg-btn mt-3 w-full px-4 py-3 rounded"
-        style={{ background: "var(--bronze)", color: "#1B1710", fontSize: 14 }}>Show me the anchors</button>
+      <button onClick={reveal} className="hcg-btn mt-3 w-full px-4 py-3 rounded"
+        style={{ background: "var(--bronze)", color: "#1B1710", fontSize: 14 }}>
+        {note.trim() ? "Check what I remembered" : "Show me the anchors"}</button>
+    </div>}
+
+    {shown && result && result.words > 0 && <div className="hcg-fade mt-5">
+      <div className="hcg-panel rounded-lg p-4" style={{ borderColor: result.passed ? "var(--verdigris)" : "var(--hair)" }}>
+        <div className="flex items-baseline justify-between gap-3 flex-wrap">
+          <div className="hcg-tab" style={{ color: result.passed ? "var(--verdigris)" : "var(--parchment-dim)" }}>
+            {result.passed ? "RECALLED" : "NOT ENOUGH TO COUNT"}
+          </div>
+          <div className="hcg-mono" style={{ fontSize: 11, color: "var(--parchment-dim)" }}>{result.score} points</div>
+        </div>
+
+        {result.found.length > 0 && <div className="flex flex-wrap gap-1.5 mt-2">
+          {result.found.map((f) => <span key={f.token} className="hcg-mono rounded px-2 py-0.5" style={{
+            fontSize: 11,
+            border: "1px solid " + (f.weight >= 3 ? "var(--gold-glow)" : f.weight === 2 ? "var(--bronze-glow)" : "var(--hair)"),
+            color: f.weight >= 3 ? "var(--gold-glow)" : f.weight === 2 ? "var(--bronze-glow)" : "var(--parchment-dim)" }}>
+            {f.token}{f.weight >= 3 ? " ···" : f.weight === 2 ? " ··" : " ·"}</span>)}
+        </div>}
+
+        <p style={{ fontSize: 13.5, lineHeight: 1.65, color: "var(--parchment-dim)", marginTop: 10 }}>
+          {result.passed
+            ? "That is a real retrieval — specific enough that you could not have written it without knowing the year. It counts toward retained recall on the coins below."
+            : result.found.length
+              ? "Close. What you wrote is on the right ground but not specific enough to prove you placed the year — a name, a battle or a place would do it."
+              : "Nothing in that could only have been written about this year. Generic words like a civilisation's name are deliberately worth almost nothing here."}
+        </p>
+
+        {result.missed.length > 0 && <div className="mt-2">
+          <div className="hcg-tab mb-1" style={{ color: "var(--parchment-dim)" }}>ALSO IN RANGE</div>
+          <div className="hcg-mono" style={{ fontSize: 11.5, color: "var(--parchment-dim)", lineHeight: 1.7 }}>
+            {result.missed.join(" · ")}
+          </div>
+        </div>}
+      </div>
     </div>}
 
     {shown && <div className="hcg-fade mt-5">

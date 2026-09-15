@@ -97,6 +97,11 @@ const BLANK_SAVE = {
   quiz: {},
   /* Results of timeline games, newest first. */
   games: [],
+  /* recall[coinId] = { hits, lastAt, best }
+     Written by Year Drop when a free-text answer scores highly enough to
+     count as a genuine retrieval. It is the only evidence Diamond
+     accepts, and the only thing that stops a Diamond fading. */
+  recall: {},
 };
 
 function loadSave() {
@@ -172,6 +177,15 @@ function chapterEra(c) {
    `teaches: [...]` instead, which is clearer. */
 
 const QUIZ_LOCK_MS = 24 * 60 * 60 * 1000;
+const DAY_MS = 24 * 60 * 60 * 1000;
+/* How long after taking Gold a recall has to wait before it counts as
+   RETAINED rather than merely remembered. Answering in the same week
+   proves you have not forgotten yet, which is a smaller claim. */
+const DIAMOND_DELAY_MS = 7 * DAY_MS;
+/* And how long a Diamond survives without being proved again. Past this
+   the coin drops quietly back to Gold: the knowledge may not be gone,
+   but the app can no longer honestly say it is retained. */
+const DIAMOND_FADE_MS = 60 * DAY_MS;
 const SILVER_AT = 0.5;
 
 /* Every chapter that teaches about this coin, from either declaration. */
@@ -226,13 +240,28 @@ function coinState(c, chaptersDone, save) {
      authored. Coverage is unaffected, so the moment the missing tier is
      written the coin moves up on its own with no migration. The validator
      lists every coin still in this state. */
+  /* Diamond: Gold, proved again cold, long enough afterwards to mean it.
+     Checked before the clamp because a coin reaches it only by already
+     holding Gold, which the clamp has therefore already allowed. */
+  let diamond = false, faded = false;
+  if (tier === "gold") {
+    const rec = (save && save.recall && save.recall[c.id]) || null;
+    const goldAt = (save && save.quiz && save.quiz[c.id] && save.quiz[c.id].passedAt) || 0;
+    if (rec && rec.lastAt && goldAt && rec.lastAt - goldAt >= DIAMOND_DELAY_MS) {
+      if (Date.now() - rec.lastAt <= DIAMOND_FADE_MS) { tier = "diamond"; diamond = true; }
+      else faded = true;
+    }
+  }
+
   const top = TIER_ORDER.filter((t) => c.tiers && c.tiers[t]).pop() || "bronze";
-  const capped = TIER_RANK[tier] > TIER_RANK[top];
+  /* Diamond needs no tier text of its own — it reuses Gold's — so the
+     clamp applies only to the three authored tiers. */
+  const capped = !diamond && TIER_RANK[tier] > TIER_RANK[top];
   if (capped) tier = top;
 
   return {
     tier, studied, total: chapters.length, pct,
-    full, capped,
+    full, capped, diamond, faded,
     /* No point offering a quiz whose reward has not been written yet. */
     ready: full && !passed && !!(c.tiers && c.tiers.gold),
     lockedUntil: full && !passed ? quizLockedUntil(save, c.id) : 0,

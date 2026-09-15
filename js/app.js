@@ -76,11 +76,34 @@ function App() {
     setSave((s) => {
       const prev = (s.quiz && s.quiz[coinId]) || {};
       const entry = passed
-        ? { passed: true, attempts: (prev.attempts || 0) + 1 }
+        ? { passed: true, passedAt: prev.passedAt || Date.now(), attempts: (prev.attempts || 0) + 1 }
         : { failedAt: Date.now(), attempts: (prev.attempts || 0) + 1 };
       return { ...s, quiz: { ...(s.quiz || {}), [coinId]: entry } };
     });
     if (passed) fireToast(`${CHARACTERS[coinId].name} promoted to Gold.`);
+  }
+
+  /* A Year Drop answer that scored highly enough to count. It is
+     recorded against every coin whose single-year statement sits near
+     that year, because naming Zama is evidence about Zama, Scipio and
+     Hannibal at once. Only coins already at Gold can use it, but the
+     evidence is stored for all of them so a later promotion inherits
+     the history rather than starting cold. */
+  function recordRecall(year, result) {
+    const now = Date.now();
+    setSave((s) => {
+      const rec = { ...(s.recall || {}) };
+      for (const id of result.coins) {
+        const prev = rec[id] || { hits: 0, best: 0 };
+        rec[id] = { hits: prev.hits + 1, lastAt: now, best: Math.max(prev.best, result.score) };
+      }
+      return { ...s, recall: rec };
+    });
+    const promoted = result.coins.filter((id) => {
+      const st = coinState(CHARACTERS[id], save.chaptersDone, save);
+      return st && st.tier === "gold";
+    });
+    if (promoted.length) fireToast(`Retained recall recorded on ${promoted.length} coin${promoted.length === 1 ? "" : "s"}.`);
   }
 
   function completeChapter(chapterId) {
@@ -198,7 +221,7 @@ function App() {
       onHome={() => setScreen("home")} onBack={() => setScreen("campaigns")} onOpenChapter={(ch) => openChapter(ch, true)} />}
 
     {screen === "yeardrop" && <YearDropScreen save={save} cards={cards} onHome={() => setScreen("home")}
-      onOpenChapter={openChapter} onOpenChar={setOpenChar} />}
+      onOpenChapter={openChapter} onOpenChar={setOpenChar} onRecall={recordRecall} />}
 
 
     {screen === "reader" && chapter && <Reader chapter={chapter} save={save} startBeat={startBeat}

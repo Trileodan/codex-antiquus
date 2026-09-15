@@ -203,7 +203,7 @@ function SetScreen({ setId, save, cards, onHome, onWorld, onOpenChapter, onResum
             <div className="flex-1 min-w-0">
               <div style={{ fontSize: 15.5 }}>{ch.title}</div>
               <div className="hcg-mono" style={{ fontSize: 10.5, color: "var(--parchment-dim)", marginTop: 2 }}>
-                {ch.era} · {ch.minutes} min{partway ? ` · part ${save.beatMax[ch.id] + 1} of ${ch.beats.length}` : ""}{ch.revealsSets ? " · points somewhere new" : ""}
+                {chapterEra(ch)}{chapterEra(ch) ? " · " : ""}{ch.minutes} min{partway ? ` · part ${save.beatMax[ch.id] + 1} of ${ch.beats.length}` : ""}{ch.revealsSets ? " · points somewhere new" : ""}
               </div>
             </div>
             {openAct ? <ChevRight size={16} color="var(--parchment-dim)" /> : <Lock size={14} color="var(--locked)" />}

@@ -47,26 +47,35 @@ const SET_ATLAS = {
   "mesopotamia":     { region: "west-asia",    from: -3500, to: -539 },
   "indus-valley":    { region: "south-asia",   from: -3300, to: -1300 },
   "ancient-india":   { region: "south-asia",   from: -1500, to: 550 },
-  "ancient-china":   { region: "east-asia",    from: -2070, to: 220 },
-  "mesoamerica":     { region: "americas",     from: -1500, to: 1521 },
+  "ancient-china":   { region: "east-asia",    from: -1600, to: 87 },
+  "mesoamerica":     { region: "americas",     from: -1400, to: 1521 },
 };
 
 /* Planned Sets are added to SETS so the Atlas and World screens can
    show the full shape of the product without pretending they are ready.
 
    A Set graduates by being defined in constants.js and deleted from here.
-   Leaving it in both means this file silently overwrites the real one with
-   a planned stub, which is exactly what happened to Ancient Britain. */
-Object.assign(SETS, {
+   Leaving it in both used to mean this file silently overwrote the real
+   one with a planned stub — which happened to Ancient Britain, then to
+   Ancient Egypt, and then to Ancient China and Mesoamerica when Master
+   Brief v3 promoted them. A comment warning about it three times did not
+   work, so the merge now refuses instead of warning. */
+const PLANNED_SETS = {
   "wars":            { id: "wars", world: null, name: "Wars", status: "system", tagline: "Shared conflicts, unlocked once both sides have been studied." },
   "hellenistic":     { id: "hellenistic", world: "ancient", name: "The Hellenistic World", status: "planned", tagline: "Alexander's successors and the kingdoms they carved out." },
   "mesopotamia":     { id: "mesopotamia", world: "ancient", name: "Mesopotamia", status: "planned", tagline: "Sumer, Akkad, Babylon, Assyria — where writing begins." },
   "indus-valley":    { id: "indus-valley", world: "ancient", name: "Indus Valley", status: "planned", tagline: "Harappa and Mohenjo-daro, and a script still unread." },
   "ancient-india":   { id: "ancient-india", world: "ancient", name: "Ancient India", status: "planned", tagline: "The Vedic period, the Mauryans and Ashoka." },
-  "ancient-china":   { id: "ancient-china", world: "ancient", name: "Ancient China", status: "planned", tagline: "Shang, Zhou, the Warring States and the first emperor." },
-  "mesoamerica":     { id: "mesoamerica", world: "ancient", name: "Mesoamerica", status: "planned", tagline: "Olmec, Maya, Zapotec and the cities of the valley." },
-});
+};
 
+/* A real Set always wins. The stub is dropped and the collision recorded,
+   so the validator can fail on it rather than letting a built Set quietly
+   revert to "planned" and become unreachable. */
+const PLANNED_COLLISIONS = [];
+for (const id of Object.keys(PLANNED_SETS)) {
+  if (SETS[id] && SETS[id].status !== "planned") { PLANNED_COLLISIONS.push(id); continue; }
+  SETS[id] = PLANNED_SETS[id];
+}
 /* Extend the Ancient World's set list with the planned ones. */
 WORLDS[0].sets = ["roman-republic", "carthage", "ancient-egypt", "ptolemaic-egypt", "ancient-greece", "ancient-britain",
   "roman-empire", "persia",

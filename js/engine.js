@@ -22,53 +22,67 @@ const STUDY_CHAPTERS = CHAPTERS.filter((c) => c.kind !== "war");
    screen. Kept as data rather than parsed out of the era strings, which
    are written for humans and not for regexes. */
 const CHAPTER_SPANS = {
-  "egy-predynastic": [-5000, -3100], "egy-menes": [-3150, -3050], "egy-writing": [-3200, -2600],
-  "egy-pyramids": [-2670, -2500], "egy-oldkingdom": [-2686, -2181], "egy-first-intermediate": [-2181, -2055],
-  "egy-middle-kingdom": [-2055, -1650], "egy-life": [-2000, -1100],
-  "egy-hyksos": [-1650, -1550], "egy-empire": [-1479, -1425], "egy-akhenaten": [-1353, -1323],
-  "egy-kadesh": [-1274, -1258], "egy-sea-peoples": [-1200, -1150], "egy-decline": [-1150, -1069],
-  "egy-kushites": [-1069, -656], "egy-saite": [-664, -525], "egy-persia": [-525, -332],
-  "grk-mycenae": [-1600, -800], "crisis-bronze-age": [-1200, -1150],
-  "emp-principate": [-27, 14], "emp-army": [-27, 200], "emp-cult": [-27, 250],
-  "emp-julio-claudians": [14, 68], "emp-69": [68, 69], "emp-flavians": [69, 96],
-  "emp-adoptive": [96, 180], "emp-trajan": [98, 117], "emp-hadrian": [117, 138],
-  "emp-life": [100, 200], "emp-marcus": [161, 192],
+  /* ---- Sets untouched by Master Brief v3 -------------------------- */
+  "crisis-bronze-age": [-1200, -1150], "emp-principate": [-27, 14], "emp-army": [-27, 200],
+  "emp-cult": [-27, 250], "emp-julio-claudians": [14, 68], "emp-69": [68, 69],
+  "emp-flavians": [69, 96], "emp-adoptive": [96, 180], "emp-trajan": [98, 117],
+  "emp-hadrian": [117, 138], "emp-life": [100, 200], "emp-marcus": [161, 192],
   "emp-severans": [193, 235], "emp-crisis": [235, 284], "emp-diocletian": [284, 305],
-  "emp-constantine": [306, 337], "emp-church": [337, 400],
-  "emp-barbarians": [370, 410], "emp-fall": [410, 476],
-  "war-britain": [43, 84],
-  founding: [-800, -750], kings: [-753, -509], "republic-born": [-509, -495],
-  "how-republic-worked": [-509, -49], "struggle-orders": [-494, -287],
-  "punic-1": [-264, -241], "punic-2": [-218, -216], "punic-3": [-209, -146],
-  greece: [-200, -146], gracchi: [-133, -121], "marius-sulla": [-107, -78],
-  "spartacus-pompey": [-73, -62], "caesar-rise": [-100, -62], triumvirate: [-60, -56],
-  gaul: [-58, -50], rubicon: [-49, -48], egypt: [-48, -46], dictator: [-46, -44],
-  "antony-octavian": [-44, -42], actium: [-41, -30], augustus: [-27, -27],
-  "carth-dido": [-814, -800], "carth-place": [-800, -264], "carth-sicily": [-580, -265],
-  "carth-hanno": [-520, -480], "carth-after-first": [-264, -237], "carth-truceless": [-241, -237],
-  "carth-spain": [-237, -218], "carth-italy": [-218, -206], "carth-zama": [-202, -151], "carth-end": [-149, -146],
-  "egy-alexander": [-332, -331], "egy-ptolemy1": [-323, -282], "egy-ptolemy2": [-282, -246],
-  "egy-syrian-wars": [-274, -168], "egy-canopus-rosetta": [-238, -196],
-  "egy-rome-protector": [-168, -51], "egy-cleopatra-caesar": [-51, -44], "egy-end": [-44, -30],
-  "grk-polis": [-800, -700], "grk-colonies": [-750, -580], "grk-sparta": [-700, -500],
-  "grk-athens-reform": [-594, -508], "grk-persia": [-499, -479], "grk-empire": [-478, -431],
-  "grk-pericles": [-461, -429], "grk-pelop": [-431, -404], "grk-socrates": [-399, -399],
-  "grk-philip": [-359, -338],
-  "per-cyrus": [-559, -530], "per-babylon": [-539, -539], "per-cambyses": [-530, -522],
-  "per-darius": [-522, -486], "per-empire": [-522, -486], "per-religion": [-550, -330],
-  "per-persepolis": [-518, -330], "per-west": [-499, -479], "per-after": [-479, -359],
-  "per-fall": [-334, -330],
-  "war-greco-persian": [-499, -449],
-  "war-punic-1": [-264, -241], "war-punic-2": [-218, -201], "war-punic-3": [-149, -146],
-  "war-actium": [-32, -30],
-  "brit-stones": [-4000, -1500], "brit-metal": [-2200, -700], "brit-hillforts": [-800, -100],
-  "brit-pytheas": [-450, -325], "brit-druids": [-300, 61],
-  "brit-tribes": [-150, 43], "brit-oppida": [-100, 43],
-  "brit-caesar": [-55, -54], "brit-claudius": [43, 47], "brit-caratacus": [43, 51],
-  "brit-boudica": [60, 61], "brit-agricola": [77, 84],
-  "brit-walls": [122, 211], "brit-life": [50, 400],
-  "brit-civil": [193, 212], "brit-breakaway": [260, 296],
-  "brit-constantine": [306, 383], "brit-end": [367, 450],
+  "emp-constantine": [306, 337], "emp-church": [337, 400], "emp-barbarians": [370, 410],
+  "emp-fall": [410, 476], "war-britain": [43, 84], "founding": [-800, -750],
+  "kings": [-753, -509], "republic-born": [-509, -495], "how-republic-worked": [-509, -49],
+  "struggle-orders": [-494, -287], "punic-1": [-264, -241], "punic-2": [-218, -216],
+  "punic-3": [-209, -146], "greece": [-200, -146], "gracchi": [-133, -121],
+  "marius-sulla": [-107, -78], "spartacus-pompey": [-73, -62], "caesar-rise": [-100, -62],
+  "triumvirate": [-60, -56], "gaul": [-58, -50], "rubicon": [-49, -48],
+  "egypt": [-48, -46], "dictator": [-46, -44], "antony-octavian": [-44, -42],
+  "actium": [-41, -30], "augustus": [-27, -27], "carth-dido": [-814, -800],
+  "carth-place": [-800, -264], "carth-sicily": [-580, -265], "carth-hanno": [-520, -480],
+  "carth-after-first": [-264, -237], "carth-truceless": [-241, -237], "carth-spain": [-237, -218],
+  "carth-italy": [-218, -206], "carth-zama": [-202, -151], "carth-end": [-149, -146],
+  "war-greco-persian": [-499, -449], "war-punic-1": [-264, -241], "war-punic-2": [-218, -201],
+  "war-punic-3": [-149, -146], "war-actium": [-32, -30],
+
+  /* ---- Master Brief v3 Sets ---------------------------------------
+     The brief supplies segment titles but no date ranges, and these
+     drive the Progress coverage bands and the Year Drop pool. So they
+     are inferred from each segment's subject: metadata, not prose. */
+  "brit-island-before-written-history": [-8000, -800], "brit-stonehenge-monument-world": [-3000, -1500],
+  "brit-bronze-gives-way-iron": [-800, -55], "brit-caesar-looks-across-channel": [-55, -54],
+  "brit-ad-43-claudius-invades": [43, 51], "brit-boudica-burns-roman-britain": [60, 61],
+  "brit-roads-towns-villas": [50, 400], "brit-hadrian-draws-line": [122, 211],
+  "brit-410-rome-leaves-sort": [383, 450], "grk-minoans-palaces-on-crete": [-2000, -1450],
+  "grk-mycenae-warrior-kings": [-1600, -1100], "grk-after-palaces": [-1100, -700],
+  "grk-sparta-builds-military-society": [-700, -500], "grk-athens-experiments-democracy": [-594, -508],
+  "grk-marathon": [-499, -490], "grk-thermopylae-salamis": [-480, -479],
+  "grk-athenian-empire": [-478, -431], "grk-peloponnesian-war": [-431, -404],
+  "grk-thebes-macedon": [-404, -338], "ptol-ptolemy-takes-egypt": [-323, -282],
+  "ptol-alexandria-new-kind-capital": [-331, -246], "ptol-greek-king-egyptian-pharaoh": [-305, -30],
+  "ptol-syrian-wars": [-274, -168], "ptol-rosetta-stone": [-196, -196],
+  "ptol-rome-enters-room": [-168, -80], "ptol-dynasty-at-war-itself": [-145, -51],
+  "ptol-cleopatra-caesar": [-51, -44], "ptol-actium-end": [-31, -30],
+  "egy-nile-before-egypt": [-5000, -3100], "egy-scorpion-narmer": [-3200, -3000],
+  "egy-djoser-first-great-pyramid": [-2670, -2650], "egy-sneferu-learns-how-build": [-2613, -2589],
+  "egy-giza": [-2589, -2500], "egy-when-old-kingdom-breaks": [-2181, -2055],
+  "egy-middle-kingdom": [-2055, -1650], "egy-hyksos": [-1650, -1550],
+  "egy-hatshepsut-king-queen": [-1479, -1458], "egy-akhenaten-breaks-pattern": [-1353, -1336],
+  "egy-tutankhamun-famous-because-he": [-1341, -1323], "egy-ramesses-ii-kadesh": [-1279, -1213],
+  "egy-ramesses-iii-sea-peoples": [-1186, -1155], "egy-from-libyans-persians": [-1069, -332],
+  "per-medes-persians-iranian-plateau": [-700, -559], "per-cyrus-great": [-559, -530],
+  "per-cambyses-takes-egypt": [-530, -522], "per-darius-organises-machine": [-522, -486],
+  "per-ionian-revolt-marathon": [-499, -490], "per-xerxes-invades-greece": [-486, -465],
+  "per-persia-after-xerxes": [-465, -359], "per-darius-iii-alexander": [-336, -330],
+  "per-persia-after-persia": [-330, -150], "chn-shang-kings-bronze-oracle": [-1600, -1046],
+  "chn-zhou-mandate-heaven": [-1046, -771], "chn-confucius": [-551, -479],
+  "chn-warring-states": [-475, -221], "chn-qin-becomes-war-machine": [-356, -221],
+  "chn-221-bc-first-emperor": [-221, -210], "chn-terracotta-army-immortality": [-246, -210],
+  "chn-qin-collapses": [-210, -206], "chn-202-bc-liu-bang": [-206, -195],
+  "chn-emperor-wu-looks-outward": [-141, -87], "mes-what-mesoamerica-means": [-2000, 1521],
+  "mes-olmec-centres": [-1400, -400], "mes-teotihuacan-city-gods": [1, 650],
+  "mes-maya-city-states": [250, 900], "mes-classic-maya-transformation": [750, 950],
+  "mes-toltec-tula-memory": [900, 1150], "mes-mexica-arrive": [1250, 1325],
+  "mes-aztec-empire": [1428, 1519], "mes-cortes-enters-political-world": [1519, 1520],
+  "mes-1521-tenochtitlan-falls": [1521, 1521],
 };
 
 /* ------------------------------ save --------------------------------- */
@@ -123,6 +137,18 @@ function seededOrder(seed, n) {
 function shuffledQuestion(chapterId, qi, q) {
   const order = seededOrder(`${chapterId}#${qi}`, q.options.length);
   return { ...q, options: order.map((o) => q.options[o]), correct: order.indexOf(q.correct) };
+}
+
+/* Master Brief v3 supplies segment titles but no era strings, and the
+   Set list and reader both print one. Rather than invent a date line per
+   segment, derive it from the span that already exists — same numbers,
+   one source of truth, and it stays correct if a span is edited. */
+function chapterEra(c) {
+  if (c.era) return c.era;
+  const sp = CHAPTER_SPANS[c.id];
+  if (!sp) return "";
+  const [a, b] = sp;
+  return a === b ? yearLabel(a) : `${yearLabel(a)} – ${yearLabel(b)}`;
 }
 
 /* ------------------------------ coins -------------------------------- */

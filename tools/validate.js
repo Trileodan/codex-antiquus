@@ -17,14 +17,15 @@ const LOAD_ORDER = [
   "js/constants.js",
   "js/data/chapters-rome.js",
   "js/data/chapters-carthage.js",
-  "js/data/chapters-egypt.js",
-  "js/data/chapters-greece.js",
-  "js/data/chapters-persia.js", "js/data/chapters-britain.js", "js/data/chapters-empire.js", "js/data/chapters-egypt-ancient.js",
+  "js/data/chapters-ptol.js",
+  "js/data/chapters-grk.js",
+  "js/data/chapters-per.js", "js/data/chapters-brit.js", "js/data/chapters-chn.js", "js/data/chapters-mes.js", "js/data/chapters-empire.js", "js/data/chapters-egy.js",
   "js/data/wars.js",
   "js/data/characters.js",
   "js/data/characters-extra.js",
   "js/data/characters-greece.js",
   "js/data/characters-persia.js", "js/data/characters-britain.js", "js/data/characters-empire.js", "js/data/characters-egypt-ancient.js",
+  "js/data/characters-v3.js",
   "js/data/coins-events.js",
   "js/data/timeline.js",
   "js/data/timeline-game.js",
@@ -69,7 +70,7 @@ const NAMES = ["CHAPTERS", "CHARACTERS", "SETS", "SOURCES", "WORLDS", "TIER_ORDE
   "GLOSSARY", "WORLD_EVENTS", "CAMPAIGNS", "CHAPTER_SPANS", "CHAPTER_BY_ID", "PENDING_WARS", "SET_ATLAS",
   "PLACES", "COASTLINE", "PLACE_TONE", "COASTLINE_SOURCE",
   "actsOf", "actOpen", "chapterOpen", "CHAPTERS_BY_SET",
-  "REGIONS", "ERAS", "CLASS_COLOR",
+  "REGIONS", "ERAS", "CLASS_COLOR", "PLANNED_COLLISIONS",
   "computeCards", "unlockedSets", "warGate", "setProgress", "buildProgress", "BLANK_SAVE",
   "coinChapters", "coinState", "readyToPromote", "buildQuiz", "COIN_KINDS", "CLASSIFICATIONS",
   "playableCoins", "allCoins", "tgNewGame", "tgPlace", "tgAiMove", "tgSlotOk", "tgCorrectSlot", "TG_COINS"];
@@ -81,7 +82,7 @@ const {
   CHAPTERS, CHARACTERS, SETS, SOURCES, WORLDS, TIER_ORDER, GLOSSARY, WORLD_EVENTS, CAMPAIGNS,
   CHAPTER_SPANS, CHAPTER_BY_ID, PENDING_WARS, SET_ATLAS, REGIONS, ERAS, CLASS_COLOR,
   PLACES, COASTLINE, PLACE_TONE, COASTLINE_SOURCE,
-  actsOf, actOpen, chapterOpen, CHAPTERS_BY_SET,
+  actsOf, actOpen, chapterOpen, CHAPTERS_BY_SET, PLANNED_COLLISIONS,
   computeCards, unlockedSets, warGate, setProgress, buildProgress, BLANK_SAVE,
   coinChapters, coinState, readyToPromote, buildQuiz, COIN_KINDS, CLASSIFICATIONS,
   playableCoins, allCoins, tgNewGame, tgPlace, tgAiMove, tgSlotOk, tgCorrectSlot, TG_COINS,
@@ -110,13 +111,22 @@ for (const c of CHAPTERS) {
 
   if (!c.title) fail(`${where}: no title`);
   if (!Array.isArray(c.beats) || !c.beats.length) fail(`${where}: no beats`);
+  /* Slide titles, key points and checkpoints are optional.
+
+     Master Brief v3 supplies bare numbered slides with no titles and no
+     questions, and §0 forbids putting Claude prose back in. Inventing a
+     heading for every slide and a quiz for every segment would do
+     exactly that through the side door, so the reader renders what the
+     brief gives and nothing more. Recall moved to Year Drop (§1).
+
+     Chapters that DO carry keys and checkpoints — Rome, Carthage, the
+     Wars — are still held to the old standard below. */
   else c.beats.forEach((b, i) => {
-    if (!b.key) warn(`${where}: beat ${i + 1} ("${b.title || "untitled"}") has no key point`);
     if (!Array.isArray(b.text) || !b.text.length) fail(`${where}: beat ${i + 1} has no text`);
   });
 
-  if (!Array.isArray(c.check) || !c.check.length) fail(`${where}: no checkpoint`);
-  else c.check.forEach((q, i) => {
+  if (c.check !== undefined && (!Array.isArray(c.check) || !c.check.length)) fail(`${where}: checkpoint is present but empty`);
+  else if (c.check) c.check.forEach((q, i) => {
     if (!Array.isArray(q.options) || q.options.length < 2)
       fail(`${where}: question ${i + 1} has fewer than two options`);
     else if (!Number.isInteger(q.correct) || q.correct < 0 || q.correct >= q.options.length)
@@ -178,7 +188,22 @@ for (const id of Object.keys(SETS)) {
   const req = SETS[id].requiresSets || [];
   for (const r of req) if (!SETS[r]) fail(`set "${id}": requiresSets names "${r}", which is not in SETS`);
 }
+/* Mirrors engine.js. Both live here because reachableChapters below
+   needs them, and the app's own copies are not exported to this sandbox. */
+const GATED_KINDS = ["war", "crisis"];
+/* Declared here rather than beside the war checks below: reachableChapters
+   calls it, and the old position only survived because the || in that
+   filter short-circuited for every chapter. The moment a Set became
+   unreachable it threw. */
+const isGated = (c) => GATED_KINDS.includes(c.kind);
 const reachableChapters = new Set(CHAPTERS.filter((c) => reachableSets.has(c.set) || isGated(c)).map((c) => c.id));
+
+/* atlas.js keeps planned-Set stubs for the Atlas to display. If one of
+   them shares an id with a Set that has actually been built, the stub is
+   dropped rather than merged — and that is a bug in the data, not a
+   recoverable condition, so it fails here. It has caught four Sets. */
+for (const id of PLANNED_COLLISIONS || [])
+  fail(`set "${id}" is built in constants.js and still has a planned stub in atlas.js — delete the stub`);
 
 for (const setId of Object.keys(SETS)) {
   if (SYSTEM_SETS.has(setId)) continue;
@@ -438,8 +463,6 @@ const SCREEN_MIN = 60, SCREEN_SOFT = 180, SCREEN_MAX = 300;
 /* Wars                                                                */
 /* ------------------------------------------------------------------ */
 
-const GATED_KINDS = ["war", "crisis"];
-const isGated = (c) => GATED_KINDS.includes(c.kind);
 
 for (const w of CHAPTERS.filter(isGated)) {
   const where = `${w.kind} "${w.id}"`;

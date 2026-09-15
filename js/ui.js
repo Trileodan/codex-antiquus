@@ -584,11 +584,13 @@ function Reader({ chapter, save, startBeat, onExit, onBookmark, onBeat, onComple
     : null, [chapter.id, i]);
   /* Shuffled once per chapter, not per render, so the options do not move
      under the reader's finger. */
-  const check = useMemo(() => chapter.check.map((q, n) => shuffledQuestion(chapter.id, n, q)), [chapter.id]);
+  const check = useMemo(() => (chapter.check || []).map((q, n) => shuffledQuestion(chapter.id, n, q)), [chapter.id]);
   const correctCount = check.reduce((a, q, n) => a + (answers[n] === q.correct ? 1 : 0), 0);
   const passed = correctCount >= Math.ceil(check.length * 0.67);
 
-  function advance() { if (i + 1 < total) setI(i + 1); else setPhase("check"); }
+  /* A chapter with no checkpoint goes straight to the finish. v3-sourced
+     segments have no questions, so there is nothing to sit. */
+  function advance() { if (i + 1 < total) setI(i + 1); else setPhase(check.length ? "check" : "done"); }
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6 hcg-fade">
@@ -601,7 +603,7 @@ function Reader({ chapter, save, startBeat, onExit, onBookmark, onBeat, onComple
       </div>
 
       <div className="hcg-mono mb-1" style={{ fontSize: 11, color: isGated(chapter) ? "var(--rust)" : "var(--bronze-glow)" }}>
-        {chapter.kind === "war" ? "WAR · " : chapter.kind === "crisis" ? "CRISIS · " : ""}{chapter.era} · {chapter.minutes} min read</div>
+        {chapter.kind === "war" ? "WAR · " : chapter.kind === "crisis" ? "CRISIS · " : ""}{chapterEra(chapter)}{chapterEra(chapter) ? " · " : ""}{chapter.minutes} min read</div>
       <h1 className="hcg-display" style={{ fontSize: 25, marginBottom: 6 }}>{chapter.title}</h1>
       {chapter.sides && <div className="hcg-mono mb-2" style={{ fontSize: 11.5, color: "var(--parchment-dim)" }}>
         {chapter.sides.map((s) => s.label).join("  vs  ")}</div>}
@@ -616,7 +618,9 @@ function Reader({ chapter, save, startBeat, onExit, onBookmark, onBeat, onComple
         <div className="hcg-tab mb-2" style={{ color: beat.name ? "var(--rust)" : "var(--parchment-dim)" }}>
           {beat.name ? `BATTLE · PART ${i + 1} OF ${total}` : `PART ${i + 1} OF ${total}`}
         </div>
-        <h2 className="hcg-display" style={{ fontSize: 18, color: "var(--gold-glow)", marginBottom: 12 }}>{beat.title}</h2>
+        {/* Master Brief v3 supplies numbered slides with no headings, so a
+            slide without a title simply does not render one. */}
+        {beat.title && <h2 className="hcg-display" style={{ fontSize: 18, color: "var(--gold-glow)", marginBottom: 12 }}>{beat.title}</h2>}
         {beat.name && <div className="hcg-panel-2 rounded p-3 mb-4" style={{ borderColor: "var(--rust)" }}>
           <div className="hcg-mono" style={{ fontSize: 10.5, color: "var(--rust)", marginBottom: 4 }}>{beat.year} · {beat.place}</div>
           <div style={{ fontSize: 13.5, color: "var(--parchment-dim)", lineHeight: 1.5 }}>{beat.forces}</div>

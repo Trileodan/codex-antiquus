@@ -125,7 +125,7 @@ const SOURCES = {
 const WORLDS = [
   { id: "ancient", name: "Ancient World", status: "active",
     blurb: "Rome, Carthage, Egypt and the empires that shaped the classical Mediterranean.",
-    sets: ["roman-republic", "carthage", "ancient-egypt", "ptolemaic-egypt", "ancient-greece", "ancient-britain", "roman-empire", "persia"] },
+    sets: ["roman-republic", "carthage", "ancient-egypt", "ptolemaic-egypt", "ancient-greece", "ancient-britain", "roman-empire", "persia", "ancient-china", "mesoamerica"] },
   { id: "discovery", name: "Age of Discovery", status: "future", blurb: "Exploration, contact and empire across the Atlantic world." },
   { id: "revolution", name: "Age of Revolution", status: "future", blurb: "Enlightenment ideas collide with old regimes." },
 ];
@@ -155,6 +155,12 @@ const SETS = {
   "ancient-britain": { id: "ancient-britain", world: "ancient", name: "Ancient Britain", status: "open",
     foundation: true, patron: "amesbury-archer",
     tagline: "c. 4000 BC – AD 410. An island with no voice of its own, described by the people who came to take it." },
+  "ancient-china": { id: "ancient-china", world: "ancient", name: "Ancient China", status: "open",
+    foundation: true, patron: "qin-shi-huang",
+    tagline: "c. 1600 BC – AD 87. Oracle bones, a mandate invented to justify one rebellion, and an empire assembled out of seven warring states." },
+  "mesoamerica": { id: "mesoamerica", world: "ancient", name: "Mesoamerica", status: "open",
+    foundation: true, patron: "pakal",
+    tagline: "c. 1400 BC – AD 1521. Olmec heads, a city whose rulers left no names, Maya dynasties we learned to read, and an empire that met Europe." },
   "persia": { id: "persia", world: "ancient", name: "Persia", status: "open",
     foundation: true, patron: "cyrus",
     tagline: "559 – 330 BC. The largest empire the world had yet seen, described almost entirely by its enemies." },

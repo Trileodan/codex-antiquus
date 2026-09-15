@@ -25,6 +25,7 @@ const LOAD_ORDER = [
   "js/data/characters-extra.js",
   "js/data/characters-greece.js",
   "js/data/characters-persia.js", "js/data/characters-britain.js", "js/data/characters-empire.js", "js/data/characters-egypt-ancient.js",
+  "js/data/coins-events.js",
   "js/data/timeline.js",
   "js/data/timeline-game.js",
   "js/data/atlas.js",
@@ -91,6 +92,8 @@ const chapterIds = new Set(CHAPTERS.map((c) => c.id));
    gold and so cannot yet be promoted. Collected rather than failed one
    by one, because the fix is an authoring job and the list is the brief. */
 const needTierText = [];
+/* subject -> the coin that owns it, so a second claim can be refused. */
+const subjectOwner = {};
 
 /* ------------------------------------------------------------------ */
 /* Chapters                                                            */
@@ -220,6 +223,14 @@ for (const [id, c] of Object.entries(CHARACTERS)) {
   /* The timeline statement the game plays with. */
   const kind = c.kind || "person";
   if (!COIN_KINDS.includes(kind)) fail(`${where}: unknown kind "${kind}"`);
+
+  /* One coin per subject. A non-person coin must declare what it is
+     about, and no two may claim the same thing. */
+  if (kind !== "person") {
+    if (!c.subject) fail(`${where}: a ${kind} coin must declare a subject`);
+    else if (subjectOwner[c.subject]) fail(`${where}: subject "${c.subject}" is already claimed by coin "${subjectOwner[c.subject]}" — one coin per subject`);
+    else subjectOwner[c.subject] = id;
+  }
   if (!c.timeline) warn(`${where}: no timeline{} — cannot be played in the timeline game`);
   else {
     if (typeof c.timeline.year !== "number" || !Number.isInteger(c.timeline.year))
@@ -557,8 +568,25 @@ for (const pl of PLACES) {
     if (pl.ref.char && !CHARACTERS[pl.ref.char]) fail(`${where}: refers to card "${pl.ref.char}", which does not exist`);
   }
 }
-for (const c of Object.keys(CHARACTERS))
-  if (!PLACES.some((p) => p.ref && p.ref.char === c)) warn(`card "${c}" has no hotspot on the globe`);
+/* People and places belong somewhere on the map, so a missing hotspot is
+   worth flagging. Wars, events and inventions do not have a single point
+   — the First Punic War happened across a sea and coined money happened
+   across three centuries — so they are exempt rather than pinned
+   dishonestly. Battles DO have locations and should get hotspots; that
+   is authoring still to do, so they warn as a group rather than
+   individually. */
+const HOTSPOT_KINDS = ["person", "place"];
+{
+  let battlesWithout = 0;
+  for (const c of Object.keys(CHARACTERS)) {
+    const kind = CHARACTERS[c].kind || "person";
+    const has = PLACES.some((p) => p.ref && p.ref.char === c);
+    if (has) continue;
+    if (kind === "battle") { battlesWithout++; continue; }
+    if (HOTSPOT_KINDS.includes(kind)) warn(`card "${c}" has no hotspot on the globe`);
+  }
+  if (battlesWithout) warn(`${battlesWithout} battle coins have no hotspot on the globe yet — battles have locations and should be mappable`);
+}
 for (const w of CHAPTERS.filter(isGated))
   if (!PLACES.some((p) => (p.kind === "war" || p.kind === "crisis") && p.ref && p.ref.chapter === w.id))
     fail(`${w.kind} "${w.id}" has no hotspot on the globe`);

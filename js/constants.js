@@ -28,8 +28,28 @@ const TIER_SHORT = { bronze: "Recognise", silver: "Explain", gold: "Connect" };
 /* What a coin can be about. A coin is no longer only a person: an event,
    a battle, a war or an invention is just as much a thing you can come to
    recognise, explain and finally reason about. */
-const COIN_KINDS = ["person", "event", "battle", "war", "invention"];
-const COIN_KIND_LABEL = { person: "Person", event: "Event", battle: "Battle", war: "War", invention: "Invention" };
+const COIN_KINDS = ["person", "event", "battle", "war", "place", "invention"];
+const COIN_KIND_LABEL = { person: "Person", event: "Event", battle: "Battle", war: "War", place: "Place", invention: "Invention" };
+
+/* ONE COIN PER SUBJECT.
+
+   A coin's `subject` is the thing it is about. Two coins may not share
+   one, because a medal is for knowing a subject and you cannot know
+   Zama twice.
+
+   The rule exists because the app broke it: "Scipio defeats Hannibal at
+   Zama" and "Masinissa's cavalry breaks Hannibal's flank at Zama" were
+   two separate coins asserting the same outcome, and both could be drawn
+   into the same hand in the Timeline game.
+
+   The line to hold is between an OUTCOME and an ACT. The battle coin
+   owns the outcome — who won, and what it decided. A person's coin may
+   take place at the same battle, but it must state what that person
+   did: "Leonidas stays with three hundred Spartans" is his act;
+   "Persia forces the pass at Thermopylae" is the battle's outcome.
+   Those are two different things worth knowing. "Scipio wins Zama" and
+   "Masinissa wins Zama" are one thing counted twice. */
+const COIN_SUBJECT_SEP = ":";
 
 const CLASSIFICATIONS = ["Established", "Probable", "Contested", "Interpretation", "Traditional / Legendary", "Unknown"];
 const CLASS_COLOR = {

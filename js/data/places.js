@@ -25,11 +25,11 @@ const PLACE_KIND_LABEL = {
 
 const PLACES = [
   /* --- Sets, at their principal city ------------------------------- */
-  { id: "pl-rome", name: "Rome", kind: "set", lon: 12.5, lat: 41.9, from: -800, to: -27, ref: { set: "roman-republic" } },
-  { id: "pl-carthage", name: "Carthage", kind: "set", lon: 10.32, lat: 36.85, from: -814, to: -146, ref: { set: "carthage" } },
-  { id: "pl-alexandria", name: "Alexandria", kind: "set", lon: 29.9, lat: 31.2, from: -331, to: -30, ref: { set: "ptolemaic-egypt" } },
+  { id: "pl-rome", name: "Rome", kind: "set", lon: 12.5, lat: 41.9, from: -800, to: -27, ref: { set: "roman-republic", char: "plc-rome"} },
+  { id: "pl-carthage", name: "Carthage", kind: "set", lon: 10.32, lat: 36.85, from: -814, to: -146, ref: { set: "carthage", char: "plc-carthage"} },
+  { id: "pl-alexandria", name: "Alexandria", kind: "set", lon: 29.9, lat: 31.2, from: -331, to: -30, ref: { set: "ptolemaic-egypt", char: "plc-alexandria"} },
   { id: "pl-athens", name: "Athens", kind: "set", lon: 23.73, lat: 37.98, from: -800, to: -338, ref: { set: "ancient-greece" } },
-  { id: "pl-persepolis-set", name: "Persepolis", kind: "set", lon: 52.89, lat: 29.94, from: -559, to: -330, ref: { set: "persia" } },
+  { id: "pl-persepolis-set", name: "Persepolis", kind: "set", lon: 52.89, lat: 29.94, from: -559, to: -330, ref: { set: "persia", char: "plc-persepolis" } },
 
   /* --- Wars ---------------------------------------------------------- */
   { id: "pl-w-punic1", name: "First Punic War", kind: "war", lon: 14.0, lat: 37.6, from: -264, to: -241, ref: { chapter: "war-punic-1" } },
@@ -191,7 +191,7 @@ const PLACES = [
     set: "ancient-greece", ref: { chapter: "grk-colonies" } },
   { id: "pl-x-sparta", name: "Sparta", kind: "place", lon: 22.43, lat: 37.07, from: -800, to: -338,
     blurb: "The polis that enslaved its neighbour Messenia and turned itself into an army to hold them down.",
-    set: "ancient-greece", ref: { chapter: "grk-sparta" } },
+    set: "ancient-greece", ref: { chapter: "grk-sparta", char: "plc-sparta" } },
   { id: "pl-x-corinth", name: "Corinth", kind: "place", lon: 22.93, lat: 37.94, from: -800, to: -146,
     blurb: "A wealthy trading city on the isthmus, mother city to Syracuse and much of the western Greek world.",
     set: "ancient-greece", ref: { chapter: "grk-colonies" } },

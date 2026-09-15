@@ -19,7 +19,19 @@
 
    Kept in one file rather than scattered through the character files so
    the whole playable set can be read down in one column and checked for
-   clashes and gaps.
+   clashes and gaps. That is how the Zama duplication was found.
+
+   FOURTH RULE, added after that: a person's statement is their ACT, not
+   a battle's OUTCOME. The battle coin owns who won. So Scipio is pinned
+   to taking New Carthage in a day rather than to winning Zama, and
+   Themistokles to persuading Athens to build the fleet rather than to
+   the victory that fleet went on to win. Both are better history anyway:
+   they are decisions those men actually made, rather than results they
+   are merely remembered by.
+
+   Leonidas and Philip II keep their battles, because staying to die at
+   Thermopylae and winning at Chaeronea ARE their acts, and no other coin
+   states those outcomes.
    ===================================================================== */
 
 const COIN_TIMELINE = {
@@ -40,15 +52,15 @@ const COIN_TIMELINE = {
   "m-brutus":        { year: -42, label: "Brutus dies after defeat at Philippi" },
   antony:            { year: -30, label: "Mark Antony kills himself in Alexandria" },
   octavian:          { year: -27, label: "Octavian takes the name Augustus" },
-  agrippa:           { year: -31, label: "Agrippa commands the fleet at Actium" },
+  agrippa:           { year: -37, label: "Agrippa digs a harbour through a lake to train Octavian's fleet" },
 
   /* ---- Carthage --------------------------------------------------- */
   dido:              { year: -814, label: "The traditional founding of Carthage" },
   hanno:             { year: -500, label: "Hanno sails down the Atlantic coast of Africa" },
   hamilcar:          { year: -237, label: "Hamilcar Barca takes his army to Spain" },
   hannibal:          { year: -218, label: "Hannibal crosses the Alps into Italy" },
-  scipio:            { year: -202, label: "Scipio defeats Hannibal at Zama" },
-  masinissa:         { year: -202, label: "Masinissa's cavalry breaks Hannibal's flank at Zama" },
+  scipio:            { year: -209, label: "Scipio takes New Carthage in a single day" },
+  masinissa:         { year: -206, label: "Masinissa changes sides and brings his cavalry to Rome" },
 
   /* ---- Egypt: Ptolemaic ------------------------------------------- */
   alexander:         { year: -323, label: "Alexander the Great dies at Babylon" },
@@ -60,7 +72,7 @@ const COIN_TIMELINE = {
   /* ---- Greece ----------------------------------------------------- */
   solon:             { year: -594, label: "Solon cancels the debts of Athens" },
   kleisthenes:       { year: -508, label: "Kleisthenes reorganises Athens into demes" },
-  themistokles:      { year: -480, label: "Themistokles wins the sea battle at Salamis" },
+  themistokles:      { year: -483, label: "Themistokles persuades Athens to spend its silver on a fleet" },
   leonidas:          { year: -480, label: "Leonidas dies holding the pass at Thermopylae" },
   herodotos:         { year: -440, label: "Herodotus writes the first work of history" },
   perikles:          { year: -429, label: "Perikles dies of plague in Athens" },
@@ -74,7 +86,7 @@ const COIN_TIMELINE = {
   darius1:           { year: -518, label: "Darius I begins building Persepolis" },
   atossa:            { year: -486, label: "Atossa's son Xerxes takes the Persian throne" },
   xerxes:            { year: -480, label: "Xerxes invades Greece" },
-  artemisia:         { year: -480, label: "Artemisia commands ships for Persia at Salamis" },
+  artemisia:         { year: -480, label: "Artemisia advises Xerxes against fighting at sea, and is overruled" },
   artaxerxes2:       { year: -401, label: "Artaxerxes II defeats his brother's Greek mercenaries" },
   darius3:           { year: -330, label: "Darius III is killed and the Persian Empire ends" },
 

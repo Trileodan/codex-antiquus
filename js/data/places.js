@@ -415,4 +415,57 @@ const PLACES = [
   { id: "pl-x-mycenae", name: "Mycenae", kind: "place", lon: 22.756, lat: 37.731, from: -1600, to: -1100,
     blurb: "Walls of blocks so large that later Greeks assumed giants built them, and had no idea their own ancestors had.",
     set: "ancient-greece", ref: { chapter: "grk-mycenae-warrior-kings" } },
+
+  /* ---- East Asia -------------------------------------------------
+     Added after Master Brief v3 promoted Ancient China to a built Set.
+     Until then the globe had 177 pins and not one of them east of
+     longitude 90, so spinning to China showed an empty hemisphere with
+     a full Set list underneath it. */
+  { id: "pl-china-set", name: "Ancient China", kind: "set", lon: 112.4, lat: 34.6, from: -1600, to: 87,
+    ref: { set: "ancient-china" } },
+  { id: "pl-anyang", name: "Anyang (Yinxu)", kind: "place", lon: 114.35, lat: 36.1, from: -1300, to: -1046,
+    blurb: "The last Shang capital, and the source of the oracle bones — the earliest substantial body of Chinese writing.",
+    set: "ancient-china", ref: { chapter: "chn-shang-kings-bronze-oracle" } },
+  { id: "pl-haojing", name: "Haojing", kind: "place", lon: 108.8, lat: 34.2, from: -1046, to: -771,
+    blurb: "The Western Zhou capital in the Wei valley, abandoned when the court fled east in 770 BC.",
+    set: "ancient-china", ref: { chapter: "chn-zhou-mandate-heaven" } },
+  { id: "pl-qufu", name: "Qufu", kind: "place", lon: 116.99, lat: 35.6, from: -551, to: -479,
+    blurb: "Confucius's home state of Lu, where he taught after failing to find a ruler who would employ him.",
+    set: "ancient-china", ref: { chapter: "chn-confucius" } },
+  { id: "pl-xianyang", name: "Xianyang", kind: "place", lon: 108.7, lat: 34.33, from: -350, to: -206,
+    blurb: "The Qin capital, from which the six rival states were conquered and the empire standardised.",
+    set: "ancient-china", ref: { chapter: "chn-221-bc-first-emperor" } },
+  { id: "pl-qin-tomb", name: "The First Emperor's Tomb", kind: "person", lon: 109.25, lat: 34.38, from: -246, to: -210,
+    blurb: "The terracotta army guards the approaches. The tomb mound itself has never been opened.",
+    set: "ancient-china", ref: { char: "qin-shi-huang" } },
+  { id: "pl-changan", name: "Chang'an", kind: "place", lon: 108.94, lat: 34.34, from: -202, to: 87,
+    blurb: "The Han capital, and the eastern end of the routes Zhang Qian's reports opened to Chinese policy.",
+    set: "ancient-china", ref: { chapter: "chn-emperor-wu-looks-outward" } },
+
+  /* ---- The Americas ----------------------------------------------
+     Same problem, same fix: Mesoamerica was a built Set with no pins. */
+  { id: "pl-meso-set", name: "Mesoamerica", kind: "set", lon: -99.13, lat: 19.43, from: -1400, to: 1521,
+    ref: { set: "mesoamerica" } },
+  { id: "pl-san-lorenzo", name: "San Lorenzo", kind: "place", lon: -94.77, lat: 17.75, from: -1400, to: -1000,
+    blurb: "The earliest great Olmec centre, and the source of ten of the seventeen known colossal heads.",
+    set: "mesoamerica", ref: { chapter: "mes-olmec-centres" } },
+  { id: "pl-la-venta", name: "La Venta", kind: "place", lon: -94.03, lat: 18.1, from: -900, to: -400,
+    blurb: "The Olmec centre that followed San Lorenzo, with massive buried offerings of serpentine.",
+    set: "mesoamerica", ref: { chapter: "mes-olmec-centres" } },
+  { id: "pl-teotihuacan", name: "Teotihuacan", kind: "place", lon: -98.84, lat: 19.69, from: 1, to: 650,
+    blurb: "A city of perhaps 100,000 people that dominated Mesoamerica — and whose rulers, language and own name for itself are all unknown.",
+    set: "mesoamerica", ref: { chapter: "mes-teotihuacan-city-gods" } },
+  { id: "pl-tikal", name: "Tikal", kind: "place", lon: -89.62, lat: 17.22, from: 250, to: 900,
+    blurb: "One of the great Classic Maya city-states, and half of the long rivalry with Calakmul.",
+    set: "mesoamerica", ref: { chapter: "mes-maya-city-states" } },
+  { id: "pl-palenque", name: "Palenque", kind: "person", lon: -92.05, lat: 17.48, from: 603, to: 683,
+    blurb: "Pakal's city, whose inscriptions became readable once Maya glyphs were shown to record dynastic history.",
+    set: "mesoamerica", ref: { char: "pakal" } },
+  { id: "pl-tula", name: "Tula", kind: "place", lon: -99.34, lat: 20.06, from: 900, to: 1150,
+    blurb: "The Toltec capital, remembered by later Mesoamerican states as the source of legitimate rule.",
+    set: "mesoamerica", ref: { chapter: "mes-toltec-tula-memory" } },
+  { id: "pl-tenochtitlan", name: "Tenochtitlan", kind: "place", lon: -99.13, lat: 19.43, from: 1325, to: 1521,
+    blurb: "The Mexica capital on an island in Lake Texcoco, and the centre of the Aztec empire until 1521.",
+    set: "mesoamerica", ref: { chapter: "mes-aztec-empire" } },
+
 ];

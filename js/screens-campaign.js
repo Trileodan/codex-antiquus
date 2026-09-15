@@ -10,7 +10,7 @@
    because it is the part doing the work.
    ===================================================================== */
 
-function CampaignsScreen({ save, onHome, onOpenCampaign }) {
+function CampaignsScreen({ save, onHome, onOpenCampaign, onOpenChapter, onOpenWars }) {
   const done = save.chaptersDone || {};
   return <div className="max-w-3xl mx-auto px-4 py-8 hcg-fade">
     <Crumbs items={[{ label: "Home", onClick: onHome }, { label: "Campaigns" }]} />
@@ -44,6 +44,32 @@ function CampaignsScreen({ save, onHome, onOpenCampaign }) {
           <div style={{ marginTop: 12 }}><Bar pct={p.pct} /></div>
         </button>;
       })}
+    </div>
+    {/* Crossings live here now. §1 caps primary navigation at six items,
+        and a war that only opens once both sides have been studied is a
+        Campaign by the brief's own definition: a narrative that crosses
+        Sets because the history crossed borders. */}
+    <div className="mt-8">
+      <div className="hcg-tab mb-2" style={{ color: "var(--rust, var(--bronze-glow))" }}>CROSSINGS</div>
+      <p style={{ color: "var(--parchment-dim)", fontSize: 13.5, marginBottom: 10, lineHeight: 1.6 }}>
+        Shared events that belong to no single Set. Each opens only once you have studied both sides up to the year it starts.
+      </p>
+      <div className="flex flex-col gap-1.5">
+        {CHAPTERS.filter(isGated).map((w) => {
+          const g = warGate(w, save.chaptersDone);
+          return <button key={w.id} onClick={() => g.open && onOpenChapter && onOpenChapter(w)} disabled={!g.open}
+            className="rounded px-3 py-2.5 text-left flex items-center gap-3"
+            style={{ border: "1px solid var(--hair)", background: g.open ? "var(--panel-2)" : "transparent",
+                     opacity: g.open ? 1 : .55, cursor: g.open ? "pointer" : "default" }}>
+            <span className="flex-1 min-w-0">
+              <span style={{ fontSize: 14.5 }}>{w.title}</span>
+              <span className="hcg-mono" style={{ fontSize: 10.5, color: "var(--parchment-dim)", marginLeft: 8 }}>{w.era}</span>
+            </span>
+            <span className="hcg-mono" style={{ fontSize: 9.5, color: g.open ? "var(--verdigris)" : "var(--parchment-dim)" }}>
+              {g.open ? "OPEN" : "SEALED"}</span>
+          </button>;
+        })}
+      </div>
     </div>
   </div>;
 }

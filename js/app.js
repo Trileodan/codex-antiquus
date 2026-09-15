@@ -16,6 +16,8 @@ function App() {
   const [mints, setMints] = useState([]);
   const [quizCoin, setQuizCoin] = useState(null);
   const [game, setGame] = useState(null);
+  const [studyTab, setStudyTab] = useState("empires");
+  const [personId, setPersonId] = useState(null);
   const [toast, setToast] = useState(null);
   const toastT = useRef(null);
   const cameFromCampaign = useRef(false);
@@ -138,15 +140,20 @@ function App() {
     setSave({ ...BLANK_SAVE }); setScreen("begin"); fireToast("Progress cleared.");
   }
 
+  /* Master Brief v3 §1 fixes the primary navigation at six items:
+     Study, Atlas, Progress, Collection, Year Drop, Time Line.
+
+     Campaigns and Crossings used to be top-level and are now libraries
+     inside Study, which is what §1 asks for — Study holds exactly three,
+     Empires, Campaigns and People. Eight tabs also never fitted across a
+     phone; the strip has been horizontally scrolling since it was six. */
   const NAV = [
-    { id: "campaigns", label: "Campaigns", icon: SwordsIcon },
-    { id: "world", label: "Study", icon: ScrollIcon },
-    { id: "wars", label: "Crossings", icon: SwordsIcon },
+    { id: "study", label: "Study", icon: ScrollIcon },
     { id: "atlas", label: "Atlas", icon: MapIcon },
     { id: "progress", label: "Progress", icon: ChartIcon },
-    { id: "collection", label: "Coins", icon: LayersIcon },
+    { id: "collection", label: "Collection", icon: LayersIcon },
     { id: "yeardrop", label: "Year Drop", icon: ClockIcon },
-    { id: "timeline", label: "Timeline", icon: SwordsIcon },
+    { id: "timeline", label: "Time Line", icon: SwordsIcon },
   ];
 
   return <div className="hcg-root">
@@ -179,7 +186,7 @@ function App() {
     </div>
 
     {screen === "home" && <HomeScreen save={save} cards={cards}
-      onEnterWorld={() => setScreen("world")} onResume={() => setScreen("resume")}
+      onEnterWorld={() => { setStudyTab("empires"); setScreen("study"); }} onResume={() => setScreen("resume")}
       onCollection={() => setScreen("collection")} onWars={() => setScreen("wars")}
       onAtlas={() => setScreen("atlas")} onProgress={() => setScreen("progress")} />}
 
@@ -189,14 +196,39 @@ function App() {
       fireToast(`${CHARACTERS[SETS[id].patron].name} joins your collection.`);
     }} />}
 
-    {screen === "world" && <WorldScreen save={save} onHome={() => setScreen("home")} onResume={() => setScreen("resume")}
-      onEnterSet={(id) => { setSetId(id); setScreen("set"); }} />}
+    {screen === "study" && <div className="hcg-fade">
+      {/* Study holds exactly the three libraries §1 specifies. They are
+          lenses over one library of entries, not three copies of it. */}
+      <div className="max-w-2xl mx-auto px-4 pt-6">
+        <div className="flex gap-1">
+          {[{ id: "empires", label: "Empires" }, { id: "campaigns", label: "Campaigns" }, { id: "people", label: "People" }]
+            .map((t) => <button key={t.id} onClick={() => setStudyTab(t.id)}
+              className="hcg-tab flex-1 px-3 py-2 rounded"
+              style={{ color: studyTab === t.id ? "#1B1710" : "var(--parchment-dim)",
+                       background: studyTab === t.id ? "var(--bronze-glow)" : "transparent",
+                       border: "1px solid var(--hair)" }}>{t.label}</button>)}
+        </div>
+      </div>
+      {studyTab === "empires" && <WorldScreen save={save} onHome={() => setScreen("home")} onResume={() => setScreen("resume")}
+        onEnterSet={(id) => { setSetId(id); setScreen("set"); }} />}
+      {studyTab === "campaigns" && <CampaignsScreen save={save} onHome={() => setScreen("home")}
+        onOpenCampaign={(id) => { setCampaignId(id); setScreen("campaign"); }}
+        onOpenChapter={openChapter} />}
+      {studyTab === "people" && <PeopleScreen save={save} cards={cards} onHome={() => setScreen("home")}
+        onOpenPerson={(id) => { setPersonId(id); setScreen("person"); }} />}
+    </div>}
+
+    {screen === "person" && personId && <PersonScreen personId={personId} save={save} cards={cards}
+      onBack={() => setScreen("study")} onOpenChapter={openChapter} onOpenChar={setOpenChar} />}
 
     {screen === "set" && setId && CHAPTERS_BY_SET[setId] && <SetScreen setId={setId} save={save} cards={cards}
-      onHome={() => setScreen("home")} onWorld={() => setScreen("world")}
+      onHome={() => setScreen("home")} onWorld={() => { setStudyTab("empires"); setScreen("study"); }}
       onOpenChapter={openChapter} onResume={() => setScreen("resume")} onOpenChar={setOpenChar} />}
 
-    {screen === "wars" && <WarsScreen save={save} onHome={() => setScreen("home")} onOpenChapter={openChapter} />}
+    {/* Crossings is no longer a nav item — §1 allows six — but the screen
+        stays, because finishing a war chapter returns here and the
+        Campaigns tab links into it. */}
+    {screen === "wars" && <WarsScreen save={save} onHome={() => { setStudyTab("campaigns"); setScreen("study"); }} onOpenChapter={openChapter} />}
 
     {screen === "atlas" && <AtlasScreen save={save} cards={cards} onHome={() => setScreen("home")}
       onEnterSet={(id) => { setSetId(id); setScreen("set"); }}
@@ -214,11 +246,10 @@ function App() {
 
     {screen === "collection" && <CollectionScreen save={save} cards={cards} onHome={() => setScreen("home")} onOpenChar={setOpenChar} />}
 
-    {screen === "campaigns" && <CampaignsScreen save={save} onHome={() => setScreen("home")}
-      onOpenCampaign={(id) => { setCampaignId(id); setScreen("campaign"); }} />}
+
 
     {screen === "campaign" && campaignId && <CampaignScreen campaignId={campaignId} save={save}
-      onHome={() => setScreen("home")} onBack={() => setScreen("campaigns")} onOpenChapter={(ch) => openChapter(ch, true)} />}
+      onHome={() => setScreen("home")} onBack={() => { setStudyTab("campaigns"); setScreen("study"); }} onOpenChapter={(ch) => openChapter(ch, true)} />}
 
     {screen === "yeardrop" && <YearDropScreen save={save} cards={cards} onHome={() => setScreen("home")}
       onOpenChapter={openChapter} onOpenChar={setOpenChar} onRecall={recordRecall} />}

@@ -13,7 +13,7 @@ Object.assign(CHARACTERS, {
 "amesbury-archer": {
   id: "amesbury-archer", name: "The Amesbury Archer", years: "d. c. 2380 – 2290 BC",
   sets: ["ancient-britain"],
-  requires: { bronze: ["brit-stones"], silver: ["brit-stones", "brit-metal"] },
+  requires: { bronze: ["brit-stonehenge-monument-world"], silver: ["brit-stonehenge-monument-world", "brit-bronze-gives-way-iron"] },
   tiers: {
     bronze: { label: "The Man From the Alps", when: "c. 2300 BC",
       blurb: "Buried three miles from Stonehenge with the richest grave goods of his age in Britain — and the isotopes in his teeth say he grew up somewhere with Alpine winters. He arrived on a badly damaged knee, having crossed a continent, and was buried with the earliest gold yet found in this country." },
@@ -32,7 +32,7 @@ Object.assign(CHARACTERS, {
 
 "pytheas": {
   id: "pytheas", name: "Pytheas of Massalia", years: "fl. c. 325 BC", sets: ["ancient-britain"],
-  requires: { bronze: ["brit-pytheas"], silver: ["brit-pytheas", "brit-hillforts"] },
+  requires: { bronze: ["brit-island-before-written-history"], silver: ["brit-island-before-written-history", "brit-bronze-gives-way-iron"] },
   tiers: {
     bronze: { label: "The Man Who Went and Looked", when: "c. 325 BC",
       blurb: "Sailed from Marseille past the Pillars of Heracles and around Britain, measured his latitudes with a shadow-stick, and wrote the first description of this island by anyone who had seen it. His book is lost. Every surviving word of it is a quotation by someone explaining why he was a liar." },
@@ -52,7 +52,7 @@ Object.assign(CHARACTERS, {
 
 "lindow-man": {
   id: "lindow-man", name: "Lindow Man", years: "d. c. AD 1 – 100", sets: ["ancient-britain"],
-  requires: { bronze: ["brit-hillforts", "brit-druids"] },
+  requires: { bronze: ["brit-bronze-gives-way-iron", "brit-bronze-gives-way-iron"] },
   tiers: {
     bronze: { label: "Three Ways to Die", when: "1st c. AD",
       blurb: "A well-fed man in his mid-twenties with trimmed nails and no calluses, struck twice on the head, garrotted and with his throat cut, laid face-down in a Cheshire bog. The triple death is read as ritual sacrifice, and it is read as an execution, and it is read as a murder. The body is superbly preserved and the reason for it is not recoverable." },
@@ -68,7 +68,7 @@ Object.assign(CHARACTERS, {
 
 "cassivellaunus": {
   id: "cassivellaunus", name: "Cassivellaunus", years: "fl. 54 BC", sets: ["ancient-britain"],
-  requires: { bronze: ["brit-caesar"], silver: ["brit-caesar", "brit-tribes"] },
+  requires: { bronze: ["brit-caesar-looks-across-channel"], silver: ["brit-caesar-looks-across-channel", "brit-bronze-gives-way-iron"] },
   tiers: {
     bronze: { label: "The First Briton With a Name", when: "54 BC",
       blurb: "Given supreme command over the usual rivalries when Caesar came back in force, and fought the campaign correctly by refusing the one Caesar wanted — disbanding his infantry, keeping four thousand chariots, and bleeding the column from the flanks. His is the earliest name of an inhabitant of this island that anyone can read." },
@@ -87,7 +87,7 @@ Object.assign(CHARACTERS, {
 
 "cunobelinus": {
   id: "cunobelinus", name: "Cunobelinus", years: "r. c. AD 9 – 40", sets: ["ancient-britain"],
-  requires: { bronze: ["brit-oppida"], silver: ["brit-oppida", "brit-tribes"] },
+  requires: { bronze: ["brit-bronze-gives-way-iron"], silver: ["brit-bronze-gives-way-iron", "brit-bronze-gives-way-iron"] },
   tiers: {
     bronze: { label: "King of the Britons", when: "c. AD 9 – 40",
       blurb: "Ruled thirty years from Camulodunum over a territory that had swallowed its neighbours, with a mint, a treasury and coins carrying an ear of barley on one face and a vine leaf on the other — what the kingdom grew, and what it bought. Suetonius calls him king of the Britons, which flattens a paramount kingship into something simpler." },
@@ -106,7 +106,7 @@ Object.assign(CHARACTERS, {
 
 "caratacus": {
   id: "caratacus", name: "Caratacus", years: "fl. AD 40 – 51", sets: ["ancient-britain"],
-  requires: { bronze: ["brit-claudius", "brit-caratacus"], silver: ["brit-caratacus", "brit-oppida"] },
+  requires: { bronze: ["brit-ad-43-claudius-invades", "brit-ad-43-claudius-invades"], silver: ["brit-ad-43-claudius-invades", "brit-bronze-gives-way-iron"] },
   tiers: {
     bronze: { label: "Nine Years", when: "AD 43 – 51",
       blurb: "Lost his kingdom in the first summer and kept fighting for nine years anyway, moving west and commanding other people's wars — the Silures first, then the Ordovices. Tacitus says the escapes made him the most famous man in Britain, which was itself the weapon: a leader who had survived Rome was worth following." },
@@ -126,7 +126,7 @@ Object.assign(CHARACTERS, {
 
 "cartimandua": {
   id: "cartimandua", name: "Cartimandua", years: "r. c. AD 43 – 69", sets: ["ancient-britain"],
-  requires: { bronze: ["brit-caratacus"], silver: ["brit-caratacus", "brit-claudius"] },
+  requires: { bronze: ["brit-ad-43-claudius-invades"], silver: ["brit-ad-43-claudius-invades", "brit-ad-43-claudius-invades"] },
   tiers: {
     bronze: { label: "Queen of the Brigantes", when: "c. AD 43 – 69",
       blurb: "Ruled the largest territory in Britain for a quarter of a century by treaty with Rome, which is longer than any British ruler managed by fighting it. Handing Caratacus over was the treaty working: sheltering the empire's most wanted man would have brought four legions into her country." },
@@ -146,7 +146,7 @@ Object.assign(CHARACTERS, {
 
 "boudica": {
   id: "boudica", name: "Boudica", years: "d. c. AD 61", sets: ["ancient-britain"],
-  requires: { bronze: ["brit-boudica"], silver: ["brit-boudica", "brit-claudius"], gold: ["brit-boudica", "brit-life", "brit-agricola"] },
+  requires: { bronze: ["brit-boudica-burns-roman-britain"], silver: ["brit-boudica-burns-roman-britain", "brit-ad-43-claudius-invades"], gold: ["brit-boudica-burns-roman-britain", "brit-roads-towns-villas", "brit-hadrian-draws-line"] },
   tiers: {
     bronze: { label: "Queen of the Iceni", when: "AD 60",
       blurb: "Her husband left half his kingdom to Nero to protect the other half, and Rome took all of it. She was flogged and her daughters raped by the staff of a procurator collecting an inheritance. Everything that follows was a response to an administrative decision about property." },
@@ -171,7 +171,7 @@ Object.assign(CHARACTERS, {
 
 "agricola": {
   id: "agricola", name: "Gnaeus Julius Agricola", years: "AD 40 – 93", sets: ["ancient-britain"],
-  requires: { bronze: ["brit-agricola"], silver: ["brit-agricola", "brit-walls"] },
+  requires: { bronze: ["brit-hadrian-draws-line"], silver: ["brit-hadrian-draws-line", "brit-hadrian-draws-line"] },
   tiers: {
     bronze: { label: "Seven Years and a Biographer", when: "AD 77 – 84",
       blurb: "Governed longer than anyone and is documented better than anyone, because his daughter married Tacitus. Took the army further north than it ever went again, won at a place nobody can find, and sent the fleet round the top of Britain to establish by observation that it was an island — which Pytheas had reported four centuries earlier and been disbelieved for." },
@@ -192,7 +192,7 @@ Object.assign(CHARACTERS, {
 
 "claudia-severa": {
   id: "claudia-severa", name: "Claudia Severa", years: "fl. c. AD 100", sets: ["ancient-britain"],
-  requires: { bronze: ["brit-walls"] },
+  requires: { bronze: ["brit-hadrian-draws-line"] },
   tiers: {
     bronze: { label: "The Birthday Invitation", when: "c. AD 100",
       blurb: "The wife of a fort commander near Hadrian's Wall, inviting a friend to her birthday and promising the day will be more enjoyable if she comes. A scribe wrote most of it; the closing line — sister, dearest soul, farewell — is in her own less practised hand. It is the earliest known writing in Latin by a woman anywhere in the Roman world, and it is about a party." },
@@ -208,7 +208,7 @@ Object.assign(CHARACTERS, {
 
 "carausius": {
   id: "carausius", name: "Carausius", years: "r. AD 286 – 293", sets: ["ancient-britain"],
-  requires: { bronze: ["brit-breakaway"], silver: ["brit-breakaway", "brit-civil"] },
+  requires: { bronze: ["brit-410-rome-leaves-sort"], silver: ["brit-410-rome-leaves-sort", "brit-roads-towns-villas"] },
   tiers: {
     bronze: { label: "Emperor of Britain", when: "AD 286 – 293",
       blurb: "Commanded the Channel fleet, was accused of letting raiders through and pocketing the loot afterwards, and on being sentenced to death took the fleet to Britain and declared himself emperor. He held the island and a strip of Gaul for seven years, and struck better silver than the empire he had left." },
@@ -228,7 +228,7 @@ Object.assign(CHARACTERS, {
 
 "patrick": {
   id: "patrick", name: "Patrick", years: "5th c. AD", sets: ["ancient-britain"],
-  requires: { bronze: ["brit-end"], silver: ["brit-end", "brit-constantine"] },
+  requires: { bronze: ["brit-410-rome-leaves-sort"], silver: ["brit-410-rome-leaves-sort", "brit-410-rome-leaves-sort"] },
   tiers: {
     bronze: { label: "Taken at Sixteen", when: "5th c. AD",
       blurb: "Born into a Romanised, Christian, tax-paying British family with a deacon father and a decurion grandfather. Irish raiders took him at sixteen and he spent six years herding animals before escaping. He went back voluntarily, to the people who had enslaved him." },

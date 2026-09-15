@@ -291,7 +291,7 @@ const CHARACTERS = {
 
 "cleopatra": {
   id: "cleopatra", name: "Cleopatra", years: "69 – 30 BC", sets: ["roman-republic", "ptolemaic-egypt"],
-  requires: { bronze: ["egypt"], silver: ["egy-ptolemy1", "egy-cleopatra-caesar"], gold: ["egy-end", "war-actium"] },
+  requires: { bronze: ["egypt"], silver: ["ptol-ptolemy-takes-egypt", "ptol-cleopatra-caesar"], gold: ["ptol-actium-end", "war-actium"] },
   tiers: {
     bronze: { label: "A Throne in Dispute", when: "48 BC",
       blurb: "Twenty-one, co-ruler with a brother trying to kill her, and losing a civil war outside her own capital. She got herself smuggled past his guards to reach Caesar first, because she understood that Egypt's throne would be decided by one Roman and she needed to be in the room." },
@@ -317,7 +317,7 @@ const CHARACTERS = {
 
 "ptolemy13": {
   id: "ptolemy13", name: "Ptolemy XIII", years: "62 – 47 BC", sets: ["ptolemaic-egypt"],
-  requires: { bronze: ["egy-cleopatra-caesar"] },
+  requires: { bronze: ["ptol-cleopatra-caesar"] },
   tiers: { bronze: { label: "The Boy King", when: "48 BC",
     blurb: "Barely a teenager, ruling through advisors who made the single worst diplomatic decision of the century: murdering Pompey on a beach to please Caesar. Caesar was appalled, backed his sister instead, and Ptolemy drowned in the Nile fleeing the war that followed." } },
   claims: [

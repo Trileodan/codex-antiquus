@@ -55,7 +55,7 @@ Object.assign(CHARACTERS, {
 "alexander": {
   id: "alexander", name: "Alexander the Great", years: "356 – 323 BC", sets: ["ptolemaic-egypt"],
   note: "Encountered here through Egypt only. A fuller card, covering the Macedonian and Persian campaigns, arrives with the Macedon and Persia Sets.",
-  requires: { bronze: ["egy-alexander"] },
+  requires: { bronze: ["ptol-ptolemy-takes-egypt"] },
   tiers: { bronze: { label: "Pharaoh of Egypt", when: "332 BC",
     blurb: "Took Egypt from Persia without a battle at twenty-four, sacrificed to Apis, was accepted as pharaoh, and marked out a Greek city on the coast before marching east. He never saw Alexandria built. It outlasted his empire by three hundred years and his dynasty by two thousand." } },
   claims: [
@@ -69,7 +69,7 @@ Object.assign(CHARACTERS, {
 
 "ptolemy1": {
   id: "ptolemy1", name: "Ptolemy I Soter", years: "c. 367 – 282 BC", sets: ["ptolemaic-egypt"],
-  requires: { bronze: ["egy-ptolemy1"] },
+  requires: { bronze: ["ptol-ptolemy-takes-egypt"] },
   tiers: { bronze: { label: "The Successor Who Chose Well", when: "305 BC",
     blurb: "Alexander's bodyguard and, later, his historian. While the other Successors bled each other trying to hold the whole empire, he asked for the one province that could feed and defend itself — then hijacked Alexander's funeral cortege to give his regime a legitimacy no rival could buy. He died in bed, which almost none of them managed." } },
   claims: [
@@ -84,7 +84,7 @@ Object.assign(CHARACTERS, {
 
 "ptolemy2": {
   id: "ptolemy2", name: "Ptolemy II Philadelphus", years: "308 – 246 BC", sets: ["ptolemaic-egypt"],
-  requires: { bronze: ["egy-ptolemy2"] },
+  requires: { bronze: ["ptol-alexandria-new-kind-capital"] },
   tiers: { bronze: { label: "Library and Lighthouse", when: "c. 270 BC",
     blurb: "Spent Egypt's grain surplus on making Alexandria the intellectual capital of the world, and got value for money: Euclid, Eratosthenes, Aristarchus, the Septuagint, and a lighthouse that stood fifteen centuries. He also married his own sister, which scandalised Greeks, reassured Egyptians, and set a dynastic pattern that ended with Cleopatra." } },
   claims: [

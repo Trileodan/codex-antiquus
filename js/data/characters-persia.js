@@ -14,7 +14,7 @@ Object.assign(CHARACTERS, {
 
 "cyrus": {
   id: "cyrus", name: "Cyrus the Great", years: "c. 600 – 530 BC", sets: ["persia"],
-  requires: { bronze: ["per-cyrus", "per-babylon"], silver: ["per-empire", "per-religion"], gold: ["per-fall", "grk-persia"] },
+  requires: { bronze: ["per-cyrus-great", "per-cyrus-great"], silver: ["per-darius-organises-machine", "per-medes-persians-iranian-plateau"], gold: ["per-darius-iii-alexander", "grk-thermopylae-salamis"] },
   tiers: {
     bronze: { label: "The Vassal Who Took the World", when: "539 BC",
       blurb: "Revolted against his Median overlords, and within twenty years held more of the earth than anyone before him — Anatolia to the Indus, the Nile eventually, Babylon without a fight. He arrived in conquered cities speaking their language and funding their gods, which was cheaper than garrisons and worked better." },
@@ -37,7 +37,7 @@ Object.assign(CHARACTERS, {
 
 "cambyses": {
   id: "cambyses", name: "Cambyses II", years: "d. 522 BC", sets: ["persia"],
-  requires: { bronze: ["per-cambyses", "per-cyrus"] },
+  requires: { bronze: ["per-cambyses-takes-egypt", "per-cyrus-great"] },
   tiers: { bronze: { label: "The Libelled King", when: "525 BC",
     blurb: "Conquered Egypt and completed his father's empire, then acquired a Greek reputation as a sacrilegious madman who stabbed the sacred Apis bull and laughed. The Apis burial from his reign sits at Saqqara, conducted with full honours, its stela showing Cambyses himself making the offering in proper pharaonic form. He is the app's clearest case of a hostile source caught by the evidence on the ground." } },
   claims: [
@@ -52,7 +52,7 @@ Object.assign(CHARACTERS, {
 
 "darius1": {
   id: "darius1", name: "Darius I", years: "c. 550 – 486 BC", sets: ["persia"],
-  requires: { bronze: ["per-darius", "per-empire"], silver: ["per-persepolis", "per-religion"], gold: ["per-west", "grk-persia"] },
+  requires: { bronze: ["per-darius-organises-machine", "per-darius-organises-machine"], silver: ["per-darius-organises-machine", "per-medes-persians-iranian-plateau"], gold: ["per-xerxes-invades-greece", "grk-thermopylae-salamis"] },
   tiers: {
     bronze: { label: "The Man Who Said He Was Not Lying", when: "522 BC",
       blurb: "Took the throne by killing the man sitting on it, then carved his justification a hundred metres up a cliff at Behistun in three languages, insisting nineteen times that he was telling the truth. Whether the man he killed was an impostor or the rightful king has been argued for over a century, and the convenience of his version is hard to miss." },
@@ -74,7 +74,7 @@ Object.assign(CHARACTERS, {
 
 "atossa": {
   id: "atossa", name: "Atossa", years: "c. 550 – c. 475 BC", sets: ["persia"],
-  requires: { bronze: ["per-darius", "per-empire"], silver: ["per-persepolis", "per-west"] },
+  requires: { bronze: ["per-darius-organises-machine", "per-darius-organises-machine"], silver: ["per-darius-organises-machine", "per-xerxes-invades-greece"] },
   tiers: {
     bronze: { label: "Daughter, Wife, Mother of Kings", when: "c. 522 BC",
       blurb: "Daughter of Cyrus, married to Darius, mother of Xerxes — the join between the two Achaemenid lines, and the reason Darius's claim to the throne looked less like a coup. Herodotus gives her real influence at court, including over the succession. He is a Greek writing decades later about the private conversations of a Persian queen, which is worth remembering before quoting him." },
@@ -94,7 +94,7 @@ Object.assign(CHARACTERS, {
 
 "xerxes": {
   id: "xerxes", name: "Xerxes I", years: "c. 518 – 465 BC", sets: ["persia"],
-  requires: { bronze: ["per-west", "per-darius"], silver: ["per-persepolis", "per-religion"] },
+  requires: { bronze: ["per-xerxes-invades-greece", "per-darius-organises-machine"], silver: ["per-darius-organises-machine", "per-medes-persians-iranian-plateau"] },
   tiers: {
     bronze: { label: "The Greek Villain", when: "480 BC",
       blurb: "In Greek writing he is the archetype of the eastern despot — whipping the sea for wrecking his bridge, throned above Salamis to watch his defeat, ruined by luxury and rage. Aeschylus put him on stage eight years after the invasion, in a play performed for the men who had beaten him. That is the portrait that survived, and it was made by the winners for an audience that wanted it." },
@@ -114,7 +114,7 @@ Object.assign(CHARACTERS, {
 
 "artaxerxes2": {
   id: "artaxerxes2", name: "Artaxerxes II", years: "d. 358 BC", sets: ["persia"],
-  requires: { bronze: ["per-after"], silver: ["per-after", "grk-pelop", "per-empire"] },
+  requires: { bronze: ["per-persia-after-xerxes"], silver: ["per-persia-after-xerxes", "grk-peloponnesian-war", "per-darius-organises-machine"] },
   tiers: {
     bronze: { label: "The King's Peace", when: "387 BC",
       blurb: "Stopped trying to conquer Greece and started arbitrating it. In 387 BC the exhausted Greek states accepted terms dictated from Susa: the cities of Asia were his, everyone else was autonomous, and he was the guarantor. They called it the King's Peace, which is an admission in the name." },
@@ -134,7 +134,7 @@ Object.assign(CHARACTERS, {
 "artemisia": {
   id: "artemisia", name: "Artemisia I of Halicarnassus", years: "fl. 480 BC", sets: ["persia", "ancient-greece"],
   note: "Also withheld until the war entry existed. She sits in the Persia Set rather than the Greek one because that is where she fought — which is the most interesting fact about her.",
-  requires: { bronze: ["war-greco-persian", "per-west"], silver: ["war-greco-persian", "per-west", "grk-persia"] },
+  requires: { bronze: ["war-greco-persian", "per-xerxes-invades-greece"], silver: ["war-greco-persian", "per-xerxes-invades-greece", "grk-thermopylae-salamis"] },
   tiers: {
     bronze: { label: "The Greek Who Fought for Persia", when: "480 BC",
       blurb: "Ruler of Halicarnassus, a Greek city that was a Persian subject, and commander of her own squadron in Xerxes' fleet. She advised against fighting at Salamis, was overruled, fought anyway, and got out. Xerxes is said to have remarked that his men had become women and his women men." },
@@ -153,7 +153,7 @@ Object.assign(CHARACTERS, {
 
 "darius3": {
   id: "darius3", name: "Darius III", years: "c. 380 – 330 BC", sets: ["persia"],
-  requires: { bronze: ["per-fall"], silver: ["per-fall", "per-after", "grk-philip"] },
+  requires: { bronze: ["per-darius-iii-alexander"], silver: ["per-darius-iii-alexander", "per-persia-after-xerxes", "grk-thebes-macedon"] },
   tiers: {
     bronze: { label: "The King Who Lost", when: "330 BC",
       blurb: "Beaten at Issus and Gaugamela, fled east, and was murdered by his own satrap Bessus before Alexander could catch him. His reputation as a coward and an incompetent rests almost entirely on Greek and Roman writers, who had every reason for the man Alexander beat to look beatable." },

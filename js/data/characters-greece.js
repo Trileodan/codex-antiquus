@@ -11,7 +11,7 @@ Object.assign(CHARACTERS, {
 
 "solon": {
   id: "solon", name: "Solon", years: "c. 630 – c. 560 BC", sets: ["ancient-greece"],
-  requires: { bronze: ["grk-athens-reform", "grk-polis"] },
+  requires: { bronze: ["grk-athens-experiments-democracy", "grk-after-palaces"] },
   tiers: { bronze: { label: "The Arbitrator", when: "594 BC",
     blurb: "Given power by both sides of a class war to rewrite Athens' laws, cancelled the debts that were turning citizens into slaves, graded political rights by income instead of birth — then left the city for ten years so nobody could make him amend it. He wrote poetry defending the settlement, some of which survives, and it is mostly a complaint that neither side thanked him." } },
   claims: [
@@ -25,7 +25,7 @@ Object.assign(CHARACTERS, {
 
 "kleisthenes": {
   id: "kleisthenes", name: "Kleisthenes", years: "c. 570 – c. 508 BC", sets: ["ancient-greece"],
-  requires: { bronze: ["grk-athens-reform", "grk-polis"], silver: ["grk-pericles", "grk-empire"] },
+  requires: { bronze: ["grk-athens-experiments-democracy", "grk-after-palaces"], silver: ["grk-athenian-empire", "grk-athenian-empire"] },
   tiers: {
     bronze: { label: "The Rewirer", when: "508 BC",
       blurb: "Rebuilt Athens from the village up. Registered citizens where they lived rather than by ancestry, then assembled ten new tribes each deliberately stitched from coast, city and inland — so that no tribe was any family's territory. A council of 500 chosen by lot prepared business for an assembly of everyone. He engineered a constitution the way one designs a machine." },
@@ -43,7 +43,7 @@ Object.assign(CHARACTERS, {
 
 "herodotos": {
   id: "herodotos", name: "Herodotus", years: "c. 484 – c. 425 BC", sets: ["ancient-greece"],
-  requires: { bronze: ["grk-persia"], silver: ["grk-persia", "grk-empire", "grk-colonies"] },
+  requires: { bronze: ["grk-thermopylae-salamis"], silver: ["grk-thermopylae-salamis", "grk-athenian-empire", "grk-after-palaces"] },
   tiers: {
     bronze: { label: "The Enquirer", when: "c. 440 BC",
       blurb: "Set out to record what happened in the Persian wars before it faded, and invented a method doing it: naming his informants, giving rival versions, and marking where he is reporting rather than believing. His word for the enquiry was historia. He is also credulous, fond of a good story, and wrong about numbers by an order of magnitude." },
@@ -61,7 +61,7 @@ Object.assign(CHARACTERS, {
 
 "themistokles": {
   id: "themistokles", name: "Themistokles", years: "c. 524 – c. 459 BC", sets: ["ancient-greece"],
-  requires: { bronze: ["grk-persia", "grk-athens-reform"], silver: ["grk-empire"] },
+  requires: { bronze: ["grk-thermopylae-salamis", "grk-athens-experiments-democracy"], silver: ["grk-athenian-empire"] },
   tiers: {
     bronze: { label: "The Man Who Built the Fleet", when: "483 BC",
       blurb: "Persuaded Athens to spend a windfall from a new silver strike at Laurion on 200 warships instead of distributing it to citizens as cash. It was an unpopular argument for a fleet against an enemy that had already been beaten once. Three years later that fleet was the only thing standing between Greece and Xerxes." },
@@ -79,7 +79,7 @@ Object.assign(CHARACTERS, {
 
 "perikles": {
   id: "perikles", name: "Perikles", years: "c. 495 – 429 BC", sets: ["ancient-greece"],
-  requires: { bronze: ["grk-pericles", "grk-empire"], silver: ["grk-pelop"], gold: ["grk-socrates", "grk-philip"] },
+  requires: { bronze: ["grk-athenian-empire", "grk-athenian-empire"], silver: ["grk-peloponnesian-war"], gold: ["grk-peloponnesian-war", "grk-thebes-macedon"] },
   tiers: {
     bronze: { label: "First Citizen", when: "The 440s BC",
       blurb: "Held no special power. He was one of ten generals, elected annually, and led by winning the argument in front of several thousand people over and over for thirty years. Introduced pay for public office, which is what turned a democracy of the leisured into a democracy of the poor, and rebuilt the Acropolis with money his allies had paid for defence." },
@@ -101,7 +101,7 @@ Object.assign(CHARACTERS, {
 
 "thucydides": {
   id: "thucydides", name: "Thucydides", years: "c. 460 – c. 400 BC", sets: ["ancient-greece"],
-  requires: { bronze: ["grk-pelop"], silver: ["grk-pelop", "grk-pericles", "grk-empire"] },
+  requires: { bronze: ["grk-peloponnesian-war"], silver: ["grk-peloponnesian-war", "grk-athenian-empire", "grk-athenian-empire"] },
   tiers: {
     bronze: { label: "The Failed General", when: "424 BC",
       blurb: "Commanded an Athenian squadron, arrived too late to save Amphipolis, and was exiled for it. The exile gave him twenty years and access to both sides, and he spent them writing the war down. He caught the plague and survived, and described its symptoms so precisely that it could be recognised if it came again." },
@@ -120,7 +120,7 @@ Object.assign(CHARACTERS, {
 
 "sokrates": {
   id: "sokrates", name: "Socrates", years: "c. 470 – 399 BC", sets: ["ancient-greece"],
-  requires: { bronze: ["grk-socrates"], silver: ["grk-socrates", "grk-pelop", "grk-pericles"] },
+  requires: { bronze: ["grk-peloponnesian-war"], silver: ["grk-peloponnesian-war", "grk-peloponnesian-war", "grk-athenian-empire"] },
   tiers: {
     bronze: { label: "The Man Who Wrote Nothing", when: "399 BC",
       blurb: "Left not one written word. Everything about him arrives through pupils defending his memory and a comedian mocking him twenty-four years before the trial. Convicted of impiety and corrupting the young by a jury of 500, he proposed free meals at public expense as his sentence, declined an arranged escape, and drank the hemlock." },
@@ -140,7 +140,7 @@ Object.assign(CHARACTERS, {
 "leonidas": {
   id: "leonidas", name: "Leonidas", years: "d. 480 BC", sets: ["ancient-greece"],
   note: "Deliberately withheld from the Greece Set until the Greco-Persian Wars entry existed. His substance is a battle, and battles live in war entries — a card for him before that would have been a famous name with nothing behind it.",
-  requires: { bronze: ["war-greco-persian", "grk-sparta"], silver: ["war-greco-persian", "grk-sparta", "per-west"] },
+  requires: { bronze: ["war-greco-persian", "grk-sparta-builds-military-society"], silver: ["war-greco-persian", "grk-sparta-builds-military-society", "per-xerxes-invades-greece"] },
   tiers: {
     bronze: { label: "The Rearguard", when: "480 BC",
       blurb: "Held a defile between mountain and sea for two days against an army of a size nobody can agree on, then — once a mountain path had been betrayed and the position was lost — sent most of the allied army away and stayed with a rearguard to cover its withdrawal. The Thespians stayed too, in comparable numbers, and are almost never mentioned." },
@@ -159,7 +159,7 @@ Object.assign(CHARACTERS, {
 
 "philip2": {
   id: "philip2", name: "Philip II of Macedon", years: "382 – 336 BC", sets: ["ancient-greece"],
-  requires: { bronze: ["grk-philip"], silver: ["grk-philip", "grk-sparta", "grk-pelop"] },
+  requires: { bronze: ["grk-thebes-macedon"], silver: ["grk-thebes-macedon", "grk-sparta-builds-military-society", "grk-peloponnesian-war"] },
   tiers: {
     bronze: { label: "The Hostage Who Watched", when: "359 BC",
       blurb: "Spent his youth as a hostage in Thebes learning how Epaminondas had beaten Sparta, then went home and built the army that answer implied: a longer pike, a deeper formation, and heavy cavalry to break what the infantry had pinned. He paid it all year, so it trained all year, while Greek citizen soldiers went home for the harvest." },

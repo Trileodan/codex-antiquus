@@ -224,7 +224,7 @@ Object.assign(CHARACTERS, {
 "bat-marathon": {
   id: "bat-marathon", name: "Marathon", kind: "battle", subject: "battle:marathon",
   years: "490 BC", sets: ["ancient-greece", "persia"],
-  teaches: ["war-greco-persian", "grk-persia"],
+  teaches: ["war-greco-persian", "grk-thermopylae-salamis"],
   timeline: { year: -490, label: "Athens defeats a Persian landing at Marathon" },
   tiers: {
     bronze: { label: "The Landing That Failed", when: "490 BC",
@@ -245,7 +245,7 @@ Object.assign(CHARACTERS, {
 "bat-thermopylae": {
   id: "bat-thermopylae", name: "Thermopylae", kind: "battle", subject: "battle:thermopylae",
   years: "480 BC", sets: ["ancient-greece", "persia"],
-  teaches: ["war-greco-persian", "grk-persia"],
+  teaches: ["war-greco-persian", "grk-thermopylae-salamis"],
   timeline: { year: -480, label: "Persia forces the pass at Thermopylae" },
   tiers: {
     bronze: { label: "A Defeat", when: "480 BC",
@@ -267,7 +267,7 @@ Object.assign(CHARACTERS, {
 "bat-salamis": {
   id: "bat-salamis", name: "Salamis", kind: "battle", subject: "battle:salamis",
   years: "480 BC", sets: ["ancient-greece", "persia"],
-  teaches: ["war-greco-persian", "grk-persia"],
+  teaches: ["war-greco-persian", "grk-thermopylae-salamis"],
   timeline: { year: -480, label: "The Persian fleet is broken in the straits of Salamis" },
   tiers: {
     bronze: { label: "The Battle That Mattered", when: "480 BC",
@@ -289,7 +289,7 @@ Object.assign(CHARACTERS, {
 "bat-plataea": {
   id: "bat-plataea", name: "Plataea", kind: "battle", subject: "battle:plataea",
   years: "479 BC", sets: ["ancient-greece", "persia"],
-  teaches: ["war-greco-persian", "grk-persia"],
+  teaches: ["war-greco-persian", "grk-thermopylae-salamis"],
   timeline: { year: -479, label: "The Persian army in Greece is destroyed at Plataea" },
   tiers: {
     bronze: { label: "The Land Decision", when: "479 BC",
@@ -310,7 +310,7 @@ Object.assign(CHARACTERS, {
 "bat-medway": {
   id: "bat-medway", name: "The Medway", kind: "battle", subject: "battle:medway",
   years: "AD 43", sets: ["ancient-britain", "roman-empire"],
-  teaches: ["war-britain", "brit-claudius"],
+  teaches: ["war-britain", "brit-ad-43-claudius-invades"],
   timeline: { year: 43, label: "Rome forces the Medway and opens southern Britain" },
   tiers: {
     bronze: { label: "The Invasion Lands", when: "AD 43",
@@ -331,7 +331,7 @@ Object.assign(CHARACTERS, {
 "bat-chaeronea": {
   id: "bat-chaeronea", name: "Chaeronea", kind: "battle", subject: "battle:chaeronea",
   years: "338 BC", sets: ["ancient-greece"],
-  teaches: ["grk-philip"],
+  teaches: ["grk-thebes-macedon"],
   timeline: { year: -338, label: "Macedon defeats the Greek cities at Chaeronea" },
   tiers: {
     bronze: { label: "The End of Greek Independence", when: "338 BC",
@@ -445,7 +445,7 @@ Object.assign(CHARACTERS, {
 "w-greco-persian": {
   id: "w-greco-persian", name: "The Greco-Persian Wars", kind: "war", subject: "war:greco-persian",
   years: "499 – 449 BC", sets: ["ancient-greece", "persia"],
-  teaches: ["war-greco-persian", "grk-persia", "per-west"],
+  teaches: ["war-greco-persian", "grk-thermopylae-salamis", "per-xerxes-invades-greece"],
   timeline: { year: -480, label: "Xerxes invades Greece and is turned back" },
   tiers: {
     bronze: { label: "Two Invasions", when: "490 and 480 BC",
@@ -466,7 +466,7 @@ Object.assign(CHARACTERS, {
 "w-actium": {
   id: "w-actium", name: "The War of Actium", kind: "war", subject: "war:actium",
   years: "32 – 30 BC", sets: ["roman-republic", "ptolemaic-egypt"],
-  teaches: ["war-actium", "actium", "egy-end"],
+  teaches: ["war-actium", "actium", "ptol-actium-end"],
   timeline: { year: -30, label: "Egypt falls and the Roman civil wars end" },
   tiers: {
     bronze: { label: "The Last Civil War", when: "32 – 30 BC",
@@ -487,7 +487,7 @@ Object.assign(CHARACTERS, {
 "w-britain": {
   id: "w-britain", name: "The Conquest of Britain", kind: "war", subject: "war:britain",
   years: "AD 43 – 84", sets: ["ancient-britain", "roman-empire"],
-  teaches: ["war-britain", "brit-claudius", "brit-agricola"],
+  teaches: ["war-britain", "brit-ad-43-claudius-invades", "brit-hadrian-draws-line"],
   timeline: { year: 43, label: "Claudius invades Britain" },
   tiers: {
     bronze: { label: "Forty Years", when: "AD 43 – 84",
@@ -508,7 +508,7 @@ Object.assign(CHARACTERS, {
 "w-bronze-collapse": {
   id: "w-bronze-collapse", name: "The Bronze Age Collapse", kind: "event", subject: "event:bronze-age-collapse",
   years: "c. 1200 – 1150 BC", sets: ["ancient-egypt", "ancient-greece"],
-  teaches: ["crisis-bronze-age", "egy-sea-peoples", "grk-mycenae"],
+  teaches: ["crisis-bronze-age", "egy-ramesses-iii-sea-peoples", "grk-mycenae-warrior-kings"],
   timeline: { year: -1177, label: "The Bronze Age palace world collapses across the eastern Mediterranean" },
   tiers: {
     bronze: { label: "Everything at Once", when: "c. 1200 – 1150 BC",
@@ -580,7 +580,7 @@ Object.assign(CHARACTERS, {
 "plc-sparta": {
   id: "plc-sparta", name: "Sparta", kind: "place", subject: "place:sparta",
   years: "c. 700 – 371 BC", sets: ["ancient-greece"],
-  teaches: ["grk-sparta"],
+  teaches: ["grk-sparta-builds-military-society"],
   timeline: { year: -700, label: "Sparta reorganises itself around holding down Messenia" },
   tiers: {
     bronze: { label: "A State Built on One Problem", when: "c. 700 BC",
@@ -601,7 +601,7 @@ Object.assign(CHARACTERS, {
 "plc-persepolis": {
   id: "plc-persepolis", name: "Persepolis", kind: "place", subject: "place:persepolis",
   years: "518 – 330 BC", sets: ["persia"],
-  teaches: ["per-persepolis", "per-darius"],
+  teaches: ["per-darius-organises-machine", "per-darius-organises-machine"],
   timeline: { year: -518, label: "Darius begins building Persepolis" },
   tiers: {
     bronze: { label: "A Capital for Show", when: "518 BC",
@@ -623,7 +623,7 @@ Object.assign(CHARACTERS, {
 "plc-alexandria": {
   id: "plc-alexandria", name: "Alexandria", kind: "place", subject: "place:alexandria",
   years: "331 – 30 BC", sets: ["ptolemaic-egypt"],
-  teaches: ["egy-ptolemy1", "egy-ptolemy2"],
+  teaches: ["ptol-ptolemy-takes-egypt", "ptol-alexandria-new-kind-capital"],
   timeline: { year: -331, label: "Alexander founds Alexandria on the Egyptian coast" },
   tiers: {
     bronze: { label: "A Greek City in Egypt", when: "331 BC",
@@ -653,7 +653,7 @@ Object.assign(CHARACTERS, {
 "inv-coinage": {
   id: "inv-coinage", name: "Coined Money", kind: "invention", subject: "invention:coinage",
   years: "from c. 600 BC", sets: ["ancient-greece", "persia"],
-  teaches: ["grk-polis", "grk-athens-reform", "per-empire"],
+  teaches: ["grk-after-palaces", "grk-athens-experiments-democracy", "per-darius-organises-machine"],
   timeline: { year: -600, label: "Coined money appears in Lydia and western Anatolia" },
   tiers: {
     bronze: { label: "A Lump of Metal With a Stamp", when: "c. 600 BC",
@@ -674,7 +674,7 @@ Object.assign(CHARACTERS, {
 "inv-alphabet": {
   id: "inv-alphabet", name: "The Alphabet", kind: "invention", subject: "invention:alphabet",
   years: "from c. 800 BC in Greece", sets: ["ancient-greece"],
-  teaches: ["grk-colonies", "grk-mycenae"],
+  teaches: ["grk-after-palaces", "grk-mycenae-warrior-kings"],
   timeline: { year: -800, label: "Greeks adapt the Phoenician script and add vowels" },
   tiers: {
     bronze: { label: "Borrowed and Altered", when: "c. 800 BC",

@@ -16,7 +16,7 @@ Object.assign(CHARACTERS, {
 
 "narmer": {
   id: "narmer", name: "Narmer", years: "fl. c. 3100 BC", sets: ["ancient-egypt"],
-  requires: { bronze: ["egy-menes"], silver: ["egy-menes", "egy-predynastic"] },
+  requires: { bronze: ["egy-scorpion-narmer"], silver: ["egy-scorpion-narmer", "egy-nile-before-egypt"] },
   tiers: {
     bronze: { label: "The Man on the Palette", when: "c. 3100 BC",
       blurb: "Shown on a ceremonial palette wearing the crown of Upper Egypt on one face and the crown of Lower Egypt on the other, mace raised over a kneeling captive. It is the founding image of Egyptian kingship and it is not a battle report — the same pose was still being carved for Roman emperors three thousand years later." },
@@ -36,7 +36,7 @@ Object.assign(CHARACTERS, {
 
 "imhotep": {
   id: "imhotep", name: "Imhotep", years: "fl. c. 2670 BC", sets: ["ancient-egypt"],
-  requires: { bronze: ["egy-pyramids"] },
+  requires: { bronze: ["egy-djoser-first-great-pyramid"] },
   tiers: {
     bronze: { label: "The First Architect With a Name", when: "c. 2670 BC",
       blurb: "Djoser's chief official, credited by Egyptian tradition with the Step Pyramid at Saqqara — the first monumental stone building anywhere. He is one of very few architects in history whose name outlived his building, and Egypt eventually worshipped him as a god of medicine two thousand years after his death." },
@@ -53,7 +53,7 @@ Object.assign(CHARACTERS, {
 
 "khufu": {
   id: "khufu", name: "Khufu", years: "r. c. 2589 – 2566 BC", sets: ["ancient-egypt"],
-  requires: { bronze: ["egy-pyramids"], silver: ["egy-pyramids", "egy-oldkingdom"] },
+  requires: { bronze: ["egy-djoser-first-great-pyramid"], silver: ["egy-djoser-first-great-pyramid", "egy-giza"] },
   tiers: {
     bronze: { label: "The Great Pyramid", when: "c. 2560 BC",
       blurb: "Built the largest building in the world and held the record for nearly four thousand years. Two and a half million blocks, sides level to a few centimetres, aligned to true north within a fraction of a degree — and the only certain likeness of him is an ivory figurine three inches high." },
@@ -73,7 +73,7 @@ Object.assign(CHARACTERS, {
 
 "merer": {
   id: "merer", name: "Merer", years: "fl. c. 2562 BC", sets: ["ancient-egypt"],
-  requires: { bronze: ["egy-pyramids"] },
+  requires: { bronze: ["egy-djoser-first-great-pyramid"] },
   tiers: {
     bronze: { label: "The Inspector's Logbook", when: "c. 2562 BC",
       blurb: "Commanded about forty men and kept a diary. Sail to Tura, load limestone, sail to Giza, unload, repeat — with rations issued and officials met. Found at Wadi al-Jarf in 2013, it is the oldest inscribed papyrus in existence and the only contemporary account of building the Great Pyramid, written by a middle manager who had no idea anyone would read it." },
@@ -105,7 +105,7 @@ Object.assign(CHARACTERS, {
 
 "hatshepsut": {
   id: "hatshepsut", name: "Hatshepsut", years: "r. c. 1479 – 1458 BC", sets: ["ancient-egypt"],
-  requires: { bronze: ["egy-empire"], silver: ["egy-empire", "egy-akhenaten"] },
+  requires: { bronze: ["egy-hatshepsut-king-queen"], silver: ["egy-hatshepsut-king-queen", "egy-akhenaten-breaks-pattern"] },
   tiers: {
     bronze: { label: "King, Not Queen", when: "c. 1473 BC",
       blurb: "Took the full royal titulary at a time when Egyptian had no word, image or ritual for a female king. Her monuments improvise: the kilt, the false beard and the male body of a pharaoh, with feminine grammar in the text beside them, so the same statue can be visually male and textually female. Two decades of prosperity, a trading fleet to Punt, and a temple that quotes the architecture of the king who last reunified Egypt." },
@@ -125,7 +125,7 @@ Object.assign(CHARACTERS, {
 
 "thutmose3": {
   id: "thutmose3", name: "Thutmose III", years: "r. c. 1479 – 1425 BC", sets: ["ancient-egypt"],
-  requires: { bronze: ["egy-empire"] },
+  requires: { bronze: ["egy-hatshepsut-king-queen"] },
   tiers: {
     bronze: { label: "Megiddo", when: "c. 1457 BC",
       blurb: "Campaigned in the Levant seventeen times in twenty years and built the largest empire Egypt ever held. His annals at Karnak, copied from an army scribe's day-book, are the earliest detailed battle account in human history — and they record his own army throwing away the pursuit by stopping to loot, which royal inscriptions do not normally do." },
@@ -141,7 +141,7 @@ Object.assign(CHARACTERS, {
 
 "akhenaten": {
   id: "akhenaten", name: "Akhenaten", years: "r. c. 1353 – 1336 BC", sets: ["ancient-egypt"],
-  requires: { bronze: ["egy-akhenaten"], silver: ["egy-akhenaten", "egy-empire"] },
+  requires: { bronze: ["egy-akhenaten-breaks-pattern"], silver: ["egy-akhenaten-breaks-pattern", "egy-hatshepsut-king-queen"] },
   tiers: {
     bronze: { label: "The Aten Alone", when: "c. 1348 BC",
       blurb: "Closed the temples, suppressed Amun — hacking the name out of his own father's cartouche — moved the capital to virgin desert and worshipped the visible disc of the sun. Whether it counts as monotheism is arguable, since access to the god ran through him: at Amarna, people are shown worshipping the royal family, who worship the Aten." },
@@ -162,7 +162,7 @@ Object.assign(CHARACTERS, {
 
 "ramesses2": {
   id: "ramesses2", name: "Ramesses II", years: "r. 1279 – 1213 BC", sets: ["ancient-egypt"],
-  requires: { bronze: ["egy-kadesh"], silver: ["egy-kadesh", "egy-sea-peoples"] },
+  requires: { bronze: ["egy-ramesses-ii-kadesh"], silver: ["egy-ramesses-ii-kadesh", "egy-ramesses-iii-sea-peoples"] },
   tiers: {
     bronze: { label: "Kadesh, As He Told It", when: "1274 BC",
       blurb: "Walked into an ambush at Kadesh on the word of two planted scouts, nearly lost his army, and had the battle carved on five temples as a personal triumph. The account admits the ambush and the collapse, because the story needs them — the king alone against the odds. What it cannot admit is the draw, and the Hittite records and the map both say draw." },
@@ -182,7 +182,7 @@ Object.assign(CHARACTERS, {
 
 "ramesses3": {
   id: "ramesses3", name: "Ramesses III", years: "r. 1186 – 1155 BC", sets: ["ancient-egypt"],
-  requires: { bronze: ["egy-sea-peoples"], silver: ["egy-sea-peoples", "egy-decline"] },
+  requires: { bronze: ["egy-ramesses-iii-sea-peoples"], silver: ["egy-ramesses-iii-sea-peoples", "egy-from-libyans-persians"] },
   tiers: {
     bronze: { label: "The Last Great Pharaoh", when: "c. 1177 BC",
       blurb: "Beat off a land and sea invasion in the Delta and carved it at Medinet Habu, listing the countries already destroyed — Hatti, Carchemish, Alashiya — in what turns out to be an accurate casualty list for the collapse of the Bronze Age, written while it was happening by the only major power that survived it." },
@@ -202,7 +202,7 @@ Object.assign(CHARACTERS, {
 
 "piye": {
   id: "piye", name: "Piye", years: "r. c. 744 – 714 BC", sets: ["ancient-egypt"],
-  requires: { bronze: ["egy-kushites"] },
+  requires: { bronze: ["egy-from-libyans-persians"] },
   tiers: {
     bronze: { label: "The King From Napata", when: "c. 727 BC",
       blurb: "Came north from Kush and took Egypt, and the stela describing it is one of the great Egyptian documents — he pauses for festivals, makes his troops purify themselves, and rebukes an officer for letting captured horses go hungry, saying it distresses him more than anything else the man did. His dynasty ruled sixty years and revived Old Kingdom art and language on purpose." },
@@ -219,7 +219,7 @@ Object.assign(CHARACTERS, {
 
 "udjahorresnet": {
   id: "udjahorresnet", name: "Udjahorresnet", years: "fl. 525 BC", sets: ["ancient-egypt"],
-  requires: { bronze: ["egy-persia"] },
+  requires: { bronze: ["egy-from-libyans-persians"] },
   tiers: {
     bronze: { label: "The Man Who Served Both", when: "525 BC",
       blurb: "An Egyptian naval commander who went over to the Persians and wrote his own account of it on a statue. He says he instructed Cambyses in the proper reverence for the goddess Neith and had foreigners cleared from her temple — and his testimony, with an Apis burial paid for by Cambyses, is what overturns Herodotus' story of a mad king desecrating Egypt." },

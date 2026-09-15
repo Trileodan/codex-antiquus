@@ -457,7 +457,7 @@ CHAPTERS.push(
 {
   id: "war-actium", set: "wars", kind: "war", act: "The Roman Civil Wars", title: "The War of Actium", era: "32 – 30 BC", minutes: 10,
   sides: [{ set: "roman-republic", label: "Rome / Octavian" }, { set: "ptolemaic-egypt", label: "Egypt / Antony" }],
-  gate: [{ chapter: "antony-octavian", side: "Rome" }, { chapter: "egy-cleopatra-caesar", side: "Egypt" }],
+  gate: [{ chapter: "antony-octavian", side: "Rome" }, { chapter: "ptol-cleopatra-caesar", side: "Egypt" }],
   intro: "The war was largely decided before the battle, by propaganda and by supply. The battle itself confirmed it.",
   beats: [
     { title: "Winning the argument first",
@@ -544,7 +544,7 @@ CHAPTERS.push(
 {
   id: "war-greco-persian", set: "wars", kind: "war", act: "Greece vs Persia", title: "The Greco-Persian Wars", era: "499 – 449 BC", minutes: 13,
   sides: [{ set: "ancient-greece", label: "Greece" }, { set: "persia", label: "Persia" }],
-  gate: [{ chapter: "grk-persia", side: "Greece" }, { chapter: "per-west", side: "Persia" }],
+  gate: [{ chapter: "grk-thermopylae-salamis", side: "Greece" }, { chapter: "per-xerxes-invades-greece", side: "Persia" }],
   intro: "You have now read the run-up from both sides, and they barely look like the same event. Here is the war itself.",
   beats: [
     { title: "Two accounts of one quarrel",
@@ -740,7 +740,7 @@ CHAPTERS.push(
 {
   id: "war-britain", set: "wars", kind: "war", act: "Rome and the Provinces", title: "The Conquest of Britain", era: "AD 43 – 84", minutes: 10,
   sides: [{ set: "roman-empire", label: "Rome" }, { set: "ancient-britain", label: "Britain" }],
-  gate: [{ chapter: "emp-julio-claudians", side: "Rome" }, { chapter: "brit-claudius", side: "Britain" }],
+  gate: [{ chapter: "emp-julio-claudians", side: "Rome" }, { chapter: "brit-ad-43-claudius-invades", side: "Britain" }],
   intro: "Rome took the south-east of Britain in about four years and spent the next forty failing to take the rest. The difference is the whole subject.",
   beats: [
     { title: "Why AD 43, and why an emperor came in person",
@@ -820,7 +820,7 @@ CHAPTERS.push(
 {
   id: "crisis-bronze-age", set: "wars", kind: "crisis", act: "The Great Crises", title: "The Bronze Age Collapse", era: "c. 1200 – 1150 BC", minutes: 10,
   sides: [{ set: "ancient-egypt", label: "Egypt" }, { set: "ancient-greece", label: "Mycenaean Greece" }],
-  gate: [{ chapter: "egy-sea-peoples", side: "Egypt" }, { chapter: "grk-mycenae", side: "Greece" }],
+  gate: [{ chapter: "egy-ramesses-iii-sea-peoples", side: "Egypt" }, { chapter: "grk-mycenae-warrior-kings", side: "Greece" }],
   intro: "Within about fifty years every major state in the eastern Mediterranean fell except one. This entry is gated on the survivor and on the civilisation that vanished, because neither can tell you what happened on its own.",
   beats: [
     { title: "The world that fell",

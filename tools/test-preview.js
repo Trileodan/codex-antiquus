@@ -1,0 +1,10 @@
+const fs=require("node:fs");const vm=require("node:vm");const assert=require("node:assert/strict");
+const html=fs.readFileSync("preview/index.html","utf8");
+const scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(m=>m[1]);
+assert.equal(scripts.length,1,"preview should be self-contained with one script");
+new vm.Script(scripts[0],{filename:"preview/index.html"});
+assert.match(html,/<meta name="viewport"/);
+assert.match(html,/codex-antiquus-v1-preview-only/);
+assert.match(html,/env\(safe-area-inset-bottom\)/);
+assert.match(html,/Export save/);
+console.log("Mobile preview HTML script syntax and isolation checks passed");

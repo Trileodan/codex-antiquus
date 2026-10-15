@@ -28,6 +28,7 @@ function App() {
   function fireToast(msg) { setToast(msg); clearTimeout(toastT.current); toastT.current = setTimeout(() => setToast(null), 3000); }
 
   function openChapter(ch, fromCampaign) {
+    if (ch.id === "war-punic-2") { setScreen("punic-hub"); return; }
     cameFromCampaign.current = !!fromCampaign;
     const bm = save.bookmark && save.bookmark.chapterId === ch.id ? save.bookmark.beatIndex : 0;
     setChapter(ch); setStartBeat(bm); setSetId(ch.set); setScreen("reader");
@@ -51,6 +52,7 @@ function App() {
 
   function backTarget(ch) {
     if (!ch) return "home";
+    if (ch.kind === "punic-lesson") return "punic-hub";
     /* If you came in from a campaign, that is where you want to be put
        back — the next reason is the thing worth reading. */
     if (cameFromCampaign.current) return "campaign";
@@ -184,6 +186,24 @@ function App() {
           <n.icon size={12} /> {n.label}</button>)}
       </div>}
     </div>
+
+    {screen === "punic-hub" && <div className="max-w-2xl mx-auto px-4 py-8 hcg-fade">
+      <button className="hcg-mono hcg-link mb-5" onClick={() => { setStudyTab("campaigns"); setScreen("study"); }}>← Campaigns</button>
+      <div className="hcg-tab mb-2" style={{color:"var(--bronze-glow)"}}>218–201 BC · NINE CHAPTERS</div>
+      <h1 className="hcg-display mb-3" style={{fontSize:28}}>The Second Punic War</h1>
+      <p className="hcg-prose mb-5">From Hannibal’s invasion of Italy to Rome’s victory in Africa. Read at your own pace; each chapter saves its own progress.</p>
+      <div className="flex flex-col gap-3">{PUNIC_LESSONS.map((lesson,n) => {
+        const done = !!save.chaptersDone[lesson.id];
+        const bookmark = save.bookmark && save.bookmark.chapterId === lesson.id;
+        const begun = save.beatMax && save.beatMax[lesson.id] !== undefined;
+        return <button key={lesson.id} onClick={() => openChapter(CHAPTER_BY_ID[lesson.id],false)} className="hcg-panel rounded-lg p-4 text-left hover:brightness-110" style={{borderColor:bookmark?"var(--gold-glow)":undefined}}>
+          <div className="hcg-mono mb-1" style={{fontSize:11,color:"var(--parchment-dim)"}}>CHAPTER {n+1} · {lesson.era} · ABOUT {lesson.minutes} MIN</div>
+          <div className="hcg-display" style={{fontSize:18}}>{lesson.title}</div>
+          <p style={{color:"var(--parchment-dim)",fontSize:13,marginTop:5}}>{lesson.intro}</p>
+          <div className="hcg-mono mt-2" style={{fontSize:11,color:"var(--gold-glow)"}}>{done?"✓ COMPLETED":bookmark?"CONTINUE WHERE YOU LEFT OFF":begun?"IN PROGRESS":"START CHAPTER"}</div>
+        </button>;
+      })}</div>
+    </div>}
 
     {screen === "home" && <HomeScreen save={save} cards={cards}
       onEnterWorld={() => { setStudyTab("empires"); setScreen("study"); }} onResume={() => setScreen("resume")}

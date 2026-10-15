@@ -1,0 +1,16 @@
+name: Codex V1 preview checks
+on:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Knowledge mastery tests
+        run: node tools/test-knowledge-v1.js
+      - name: Mobile preview syntax and isolation
+        run: node tools/test-preview.js

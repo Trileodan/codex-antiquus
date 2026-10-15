@@ -360,7 +360,7 @@ function setProgress(setId, chaptersDone) {
    applied without exception — including where it seals content already
    written. The name is historical; it governs crises too. */
 function warGate(war, chaptersDone) {
-  if (war.id === "war-punic-2") return { open: true, items: [] }; // Review-only: let readers inspect Cannae without prerequisite study.
+  if (war.id === "war-punic-2" || war.id === "war-punic-1") return { open: true, items: [] }; // Review-only: let readers inspect Cannae without prerequisite study.
   const items = (war.gate || []).map((g) => {
     const ch = CHAPTER_BY_ID[g.chapter];
     return { ...g, chapterTitle: ch ? ch.title : g.chapter, setName: ch ? SETS[ch.set].name : "", done: !!chaptersDone[g.chapter] };

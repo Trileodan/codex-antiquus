@@ -30,6 +30,10 @@ function App() {
   function openChapter(ch, fromCampaign) {
     if (ch.id === "war-punic-2") { setScreen("punic-hub"); return; }
     cameFromCampaign.current = !!fromCampaign;
+    if (ch.kind === "punic-lesson") {
+      const n = PUNIC_LESSONS.findIndex((lesson) => lesson.id === ch.id);
+      if (n > 0 && !save.chaptersDone[PUNIC_LESSONS[n - 1].id]) { fireToast("Finish the previous chapter to unlock this one."); setScreen("punic-hub"); return; }
+    }
     const bm = save.bookmark && save.bookmark.chapterId === ch.id ? save.bookmark.beatIndex : 0;
     setChapter(ch); setStartBeat(bm); setSetId(ch.set); setScreen("reader");
   }
@@ -196,11 +200,12 @@ function App() {
         const done = !!save.chaptersDone[lesson.id];
         const bookmark = save.bookmark && save.bookmark.chapterId === lesson.id;
         const begun = save.beatMax && save.beatMax[lesson.id] !== undefined;
-        return <button key={lesson.id} onClick={() => openChapter(CHAPTER_BY_ID[lesson.id],false)} className="hcg-panel rounded-lg p-4 text-left hover:brightness-110" style={{borderColor:bookmark?"var(--gold-glow)":undefined}}>
+        const unlocked = n === 0 || !!save.chaptersDone[PUNIC_LESSONS[n-1].id];
+        return <button key={lesson.id} disabled={!unlocked} onClick={() => openChapter(CHAPTER_BY_ID[lesson.id],false)} className="hcg-panel rounded-lg p-4 text-left hover:brightness-110" style={{borderColor:bookmark?"var(--gold-glow)":undefined,opacity:unlocked?1:0.48,cursor:unlocked?"pointer":"not-allowed"}}>
           <div className="hcg-mono mb-1" style={{fontSize:11,color:"var(--parchment-dim)"}}>CHAPTER {n+1} · {lesson.era} · ABOUT {lesson.minutes} MIN</div>
           <div className="hcg-display" style={{fontSize:18}}>{lesson.title}</div>
           <p style={{color:"var(--parchment-dim)",fontSize:13,marginTop:5}}>{lesson.intro}</p>
-          <div className="hcg-mono mt-2" style={{fontSize:11,color:"var(--gold-glow)"}}>{done?"✓ COMPLETED":bookmark?"CONTINUE WHERE YOU LEFT OFF":begun?"IN PROGRESS":"START CHAPTER"}</div>
+          <div className="hcg-mono mt-2" style={{fontSize:11,color:"var(--gold-glow)"}}>{done?"✓ COMPLETED":!unlocked?"🔒 COMPLETE PREVIOUS CHAPTER":bookmark?"CONTINUE WHERE YOU LEFT OFF":begun?"IN PROGRESS":"START CHAPTER"}</div>
         </button>;
       })}</div>
     </div>}

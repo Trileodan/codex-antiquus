@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Codex Antiquus · Cannae Preview</title>
+<style>
+:root{color-scheme:dark;--bg:#171510;--panel:#252017;--line:#554630;--ink:#f0e5d0;--muted:#b5a68b;--gold:#e4bd70}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,serif}button,input{font:inherit}button{cursor:pointer}header{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}header strong{font:700 19px Georgia;color:var(--gold)}header small{display:block;color:var(--muted);font:12px system-ui}main{max-width:780px;margin:auto;padding:20px 18px 110px}h1{font-size:32px;line-height:1.18;color:var(--gold);margin:18px 0 10px}h2{font-size:24px;color:var(--gold);margin:8px 0}h3{font-size:20px;margin:10px 0}p{margin:10px 0 18px}.sub{color:var(--muted)}.tag{font:12px system-ui;text-transform:uppercase;letter-spacing:.12em;color:var(--gold)}.card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:20px;margin:15px 0}.btn{border:1px solid #9d7c47;border-radius:9px;background:#6d4c23;color:#fff1d3;padding:12px 16px;min-height:48px}.btn:disabled{opacity:.45;cursor:default}.ghost{background:transparent}.choice{display:block;text-align:left;width:100%;margin:10px 0}.choice.selected{border-color:#f1ce87;background:#5a4628}.bar{height:8px;background:#3a3228;border-radius:10px;overflow:hidden}.fill{height:100%;background:var(--gold)}nav{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;gap:4px;padding:8px 5px calc(8px + env(safe-area-inset-bottom));background:#171510f5;border-top:1px solid var(--line)}nav button{background:none;color:var(--muted);border:0;font:12px system-ui;padding:10px 6px;min-width:65px}nav button.active{color:var(--gold)}.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1}.meter{font:13px system-ui;color:var(--muted)}.hidden{display:none}.question{font-size:21px}.badge{display:inline-block;border:1px solid #927445;padding:5px 10px;border-radius:30px;color:var(--gold);font:12px system-ui;margin:3px}input{width:100%;padding:12px;background:#18150f;color:var(--ink);border:1px solid var(--line);border-radius:8px}#notice{color:#f5d18e;font:14px system-ui}footer{margin:20px 0;color:var(--muted);font:12px system-ui}
+</style></head><body>
+<header><div><strong>CODEX ANTIQUUS</strong><small>V1 · Cannae mobile preview</small></div><button class="btn ghost" id="export">Export save</button></header>
+<main id="view"></main><nav id="nav"></nav>
+<script>
+"use strict";
+const STORE="codex-antiquus-v1-preview-only";
+const SECTIONS=[
+{id:"cannae-context",level:"bronze",title:"The road to Cannae",body:"In 218 BC Hannibal crossed the Alps into Italy. He defeated Roman armies at the Trebia and Lake Trasimene, yet Rome refused to surrender. By 216 BC, the Republic assembled a much larger force to confront him near Cannae, in Apulia. The battle was not simply a clash of numbers: Hannibal's understanding of Roman expectations mattered.",fact:"216 BC"},
+{id:"cannae-command",level:"silver",title:"Two Roman consuls",body:"The Roman army was commanded by the consuls Lucius Aemilius Paullus and Gaius Terentius Varro. Ancient accounts disagree over how much blame belongs to Varro. The traditional story of one rash commander and one cautious commander is too tidy to accept without qualification.",fact:"Two consuls"},
+{id:"cannae-formation",level:"silver",title:"A center designed to yield",body:"Hannibal placed his Iberian and Gallic infantry in a forward-bulging center, with experienced African infantry on the flanks. As the Romans pushed inward, the center fell back, gradually drawing the Roman mass into a pocket. This was controlled pressure, not simply a sudden retreat.",fact:"Flexible center"},
+{id:"cannae-cavalry",level:"gold",title:"The cavalry completes the trap",body:"Carthaginian cavalry defeated Roman cavalry on the wings and then attacked the Roman infantry from behind. Meanwhile, the African infantry pressed inward from the sides. The Roman formation became surrounded. The exact troop and casualty figures remain debated, but the scale of the defeat is not.",fact:"Double envelopment"},
+{id:"cannae-aftermath",level:"gold",title:"Victory without surrender",body:"Cannae shattered a Roman field army but did not end the war. Rome raised new forces and avoided offering Hannibal another decisive pitched battle on his terms. The Roman political system proved resilient even after catastrophic losses.",fact:"Rome endured"}
+];
+const PATHS=[
+{id:"rome",name:"Roman Republic",type:"Empire",intro:"What Cannae meant for the Republic",sections:["cannae-context","cannae-command","cannae-aftermath"]},
+{id:"punic",name:"Second Punic War",type:"Campaign",intro:"The battle, tactics and consequences",sections:SECTIONS.map(s=>s.id)},
+{id:"hannibal",name:"Hannibal Barca",type:"Person",intro:"The commander who nearly broke Rome",sections:["cannae-context","cannae-formation","cannae-cavalry","cannae-aftermath"]}
+];
+const QUESTIONS={
+bronze:{q:"In what year did the Battle of Cannae take place?",options:["218 BC","216 BC","202 BC"],correct:1,why:"Cannae was fought in 216 BC."},
+silver:{q:"Which statement best describes the Roman command?",options:["One king commanded the army","Two consuls shared command","Scipio Africanus led the Romans"],correct:1,why:"The consuls were Paullus and Varro."},
+gold:{q:"What made Hannibal's double envelopment work?",options:["An immediate frontal cavalry charge","A yielding center, flank pressure and cavalry behind","A surprise naval landing"],correct:1,why:"The center yielded while infantry and cavalry closed the trap."}
+};
+const DAY=86400000;
+const blank=()=>({studied:{},passed:{},reviews:[],yearDrops:{},bookmark:null});
+let save;try{save={...blank(),...JSON.parse(localStorage.getItem(STORE)||"{}")}}catch{save=blank()}
+let page="home",reading=null,step=0,exam=null,answer=null,feedback="";
+const view=document.getElementById("view");
+function persist(){try{localStorage.setItem(STORE,JSON.stringify(save))}catch{}}
+function studied(id){return !!save.studied[id]}
+function sectionsThrough(t){const levels=["bronze","silver","gold"];return SECTIONS.filter(s=>levels.indexOf(s.level)<=levels.indexOf(t))}
+function earned(t){const levels=["bronze","silver","gold"];const ix=levels.indexOf(t);return levels.slice(0,ix+1).every(l=>sectionsThrough(l).every(s=>studied(s.id))&&save.passed[l]&&save.passed[l].ok)}
+function diamond(){return earned("gold")&&save.reviews.some(r=>r.ok&&r.at>=save.passed.gold.at+7*DAY)}
+function badge(t){return earned(t)?"Earned":"Locked"}
+function el(s){view.innerHTML=s}
+function button(label,fn,cls="btn"){return '<button class="'+cls+'" data-action="'+fn+'">'+label+"</button>"}
+function home(){page="home";reading=null;render()}
+function begin(id){reading=PATHS.find(p=>p.id===id);step=0;if(save.bookmark&&save.bookmark.path===id)step=save.bookmark.step;page="read";render()}
+function mark(){save.studied[reading.sections[step]]=true;save.bookmark={path:reading.id,step:Math.min(step+1,reading.sections.length-1)};persist();if(step<reading.sections.length-1)step++;else{page="home";reading=null}render()}
+function render(){
+let out="";
+if(page==="home"){out='<span class="tag">Choose your path</span><h1>One battle. Three perspectives.</h1><p class="sub">A real, self-contained mobile vertical slice. Study the same historical knowledge through different paths without receiving duplicate credit.</p>';
+for(const p of PATHS){const done=p.sections.filter(studied).length;out+='<article class="card"><span class="tag">'+p.type+'</span><h2>'+p.name+'</h2><p>'+p.intro+'</p><div class="bar"><div class="fill" style="width:'+(100*done/p.sections.length)+'%"></div></div><p class="meter">'+done+' / '+p.sections.length+' sections studied</p>'+button(done?"Continue reading":"Start reading","open:"+p.id)+'</article>'}}
+if(page==="read"){const id=reading.sections[step],s=SECTIONS.find(x=>x.id===id);out='<span class="tag">'+reading.type+' · '+reading.name+'</span><h1>'+s.title+'</h1><p class="sub">Section '+(step+1)+' of '+reading.sections.length+' · '+s.fact+'</p><article class="card"><p>'+s.body+'</p></article><p class="meter">'+(studied(id)?"Already studied in another path — no duplicate credit.":"New knowledge section")+'</p><div class="row">'+button("Back","previous","btn ghost")+button(step===reading.sections.length-1?"Finish path":"Mark studied & continue","next")+'</div>'}
+if(page==="progress"){const count=SECTIONS.filter(s=>studied(s.id)).length;out='<span class="tag">Shared subject</span><h1>Cannae · Knowledge</h1><p>'+count+' of '+SECTIONS.length+' unique sections studied. Reading the same section in another pathway does not increase this count.</p><div class="bar"><div class="fill" style="width:'+(count/SECTIONS.length*100)+'%"></div></div>';
+for(const t of ["bronze","silver","gold"]){const relevant=sectionsThrough(t),read=relevant.filter(s=>studied(s.id)).length,pass=save.passed[t]&&save.passed[t].ok;out+='<article class="card"><h2>'+t[0].toUpperCase()+t.slice(1)+' · '+badge(t)+'</h2><p>'+read+' / '+relevant.length+' required knowledge sections · '+(pass?"Assessment passed":"Assessment not passed")+'</p>'+button("Take "+t+" assessment","exam:"+t,"btn"+(read===relevant.length?"":" ghost"))+'</article>'}
+const eligible=save.passed.gold&&save.passed.gold.at+7*DAY;out+='<article class="card"><h2>Diamond · '+(diamond()?"Earned":"Locked")+'</h2><p>Requires Gold plus a successful independent recall at least seven days later.</p><p class="meter">'+(eligible?"Eligible from "+new Date(eligible).toLocaleDateString():"Earn Gold to start the seven-day interval.")+'</p>'+button("Attempt delayed recall","recall")+'</article>'}
+if(page==="quiz"){const q=QUESTIONS[exam];out='<span class="tag">'+exam+' assessment</span><h1>Show what you know</h1><p class="question">'+q.q+'</p>'+q.options.map((v,i)=>button(v,"answer:"+i,"btn choice"+(answer===i?" selected":""))).join("")+'<p id="notice">'+feedback+'</p>'+button("Submit answer","submit")+' '+button("Back","progress","btn ghost")}
+if(page==="recall"){out='<span class="tag">Independent recall</span><h1>Diamond review</h1><p>Without looking back at the lesson, what year was Cannae fought?</p><input id="recallInput" type="text" inputmode="text" placeholder="e.g. 216 BC" autocomplete="off"><p id="notice">'+feedback+'</p>'+button("Check recall","checkRecall")+' '+button("Back","progress","btn ghost")}
+if(page==="year"){const today=new Date().toLocaleDateString("en-CA"),daily=save.yearDrops[today]||{attempts:0,completed:false};out='<span class="tag">Year Drop</span><h1>One date. No hints.</h1><p>From the history you have studied: which year saw the Battle of Cannae?</p><p class="meter">'+daily.attempts+' / 5 attempts today · '+(daily.completed?"Daily completion recorded":"Complete one to count today")+'</p>';if(!studied("cannae-context"))out+='<p>Study the Cannae introduction to unlock this question.</p>';else if(daily.attempts>=5)out+='<p>Daily limit reached. Return tomorrow.</p>';else out+='<input id="dropInput" placeholder="Year and BC/AD" autocomplete="off"><p id="notice">'+feedback+'</p>'+button("Submit Year Drop","checkDrop")}
+if(page==="atlas"){out='<span class="tag">Atlas · 216 BC</span><h1>The Mediterranean world</h1><p class="sub">A simple geographic locator for this first slice; the existing rotatable globe remains in the main app and will be connected to the new content model.</p><article class="card"><svg viewBox="0 0 330 175" style="width:100%;background:#18282a;border-radius:10px" aria-label="Schematic Mediterranean locator"><path d="M0 0H330V30L290 34 260 22 226 36 192 29 157 45 125 37 99 60 60 49 32 70 0 57Z" fill="#6c7858"/><path d="M0 175V123L60 120 108 129 166 110 230 120 286 105 330 124V175Z" fill="#8b7857"/><path d="M175 41L186 66 183 91 200 105 193 109 177 93 170 72Z" fill="#6c7858"/><circle cx="190" cy="94" r="5" fill="#f4ce80"/><text x="202" y="94" fill="#fff0c6" font-size="12">Cannae</text><circle cx="181" cy="77" r="4" fill="#f4ce80"/><text x="198" y="72" fill="#fff0c6" font-size="12">Rome</text><circle cx="126" cy="122" r="4" fill="#f4ce80"/><text x="65" y="146" fill="#fff0c6" font-size="12">Carthage</text></svg><p class="meter">Schematic, not a historical borders map.</p></article>'}
+out+='<footer>Preview saves only to this browser under a separate key. It does not alter your existing Codex Antiquus save.</footer>';
+el(out);document.querySelectorAll("[data-action]").forEach(b=>b.onclick=()=>act(b.dataset.action));document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===page))}
+function act(action){
+if(action==="previous"){step=Math.max(0,step-1);render()}
+else if(action==="next")mark();
+else if(action.startsWith("open:"))begin(action.slice(5));
+else if(action.startsWith("exam:")){exam=action.slice(5);answer=null;feedback="";page="quiz";render()}
+else if(action.startsWith("answer:")){answer=Number(action.slice(7));render()}
+else if(action==="submit"){const q=QUESTIONS[exam];if(answer===null){feedback="Choose an answer first.";render();return}if(!sectionsThrough(exam).every(s=>studied(s.id))){feedback="Read the required knowledge sections before earning this medal.";render();return}const ok=answer===q.correct;save.passed[exam]={ok,at:Date.now()};persist();feedback=ok?"Correct. "+q.why:"Not quite. "+q.why;page="progress";render();alert(feedback)}
+else if(action==="recall"){feedback="";page="recall";render()}
+else if(action==="checkRecall"){const value=document.getElementById("recallInput").value.trim().toLowerCase();const ok=/\b216\b/.test(value)&&!/(ad|ce)(?!\w)/.test(value);save.reviews.push({ok,at:Date.now()});persist();feedback=ok?"Correct: 216 BC.":"The answer is 216 BC.";render();document.getElementById("notice").textContent=feedback}
+else if(action==="checkDrop"){const v=document.getElementById("dropInput").value.trim().toLowerCase(),ok=/\b216\b/.test(v)&&!/(ad|ce)(?!\w)/.test(v),today=new Date().toLocaleDateString("en-CA");const daily=save.yearDrops[today]||{attempts:0,completed:false};daily.attempts++;daily.completed=true;daily.lastCorrect=ok;save.yearDrops[today]=daily;persist();feedback=ok?"Correct — 216 BC.":"Cannae was fought in 216 BC.";render();document.getElementById("notice").textContent=feedback}
+else{page=action;feedback="";render()}
+}
+document.getElementById("nav").innerHTML=[["home","Read"],["progress","Medals"],["year","Year Drop"],["atlas","Atlas"]].map(([id,name])=>'<button data-page="'+id+'">'+name+'</button>').join("");
+document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>{page=b.dataset.page;reading=null;feedback="";render()});
+document.getElementById("export").onclick=()=>{const blob=new Blob([JSON.stringify({version:1,exportedAt:new Date().toISOString(),progress:save},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="codex-cannae-preview-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+render();
+</script></body></html>
